@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aftin Gerald — Head of Housekeeping Training Plan</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 13px;
+    color: #1a1a1a;
+    background: #fff;
+    padding: 32px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  h1 {
+    font-size: 22px;
+    font-weight: bold;
+    color: #003366;
+    border-bottom: 3px solid #003366;
+    padding-bottom: 8px;
+    margin-bottom: 4px;
+  }
+
+  .subtitle {
+    font-size: 12px;
+    color: #555;
+    margin-bottom: 24px;
+    font-style: italic;
+  }
+
+  h2 {
+    font-size: 15px;
+    font-weight: bold;
+    color: #003366;
+    margin-top: 28px;
+    margin-bottom: 6px;
+    border-left: 4px solid #003366;
+    padding-left: 8px;
+  }
+
+  h3 {
+    font-size: 13px;
+    font-weight: bold;
+    color: #1a1a1a;
+    margin-top: 16px;
+    margin-bottom: 4px;
+  }
+
+  h4 {
+    font-size: 12px;
+    font-weight: bold;
+    color: #444;
+    margin-top: 12px;
+    margin-bottom: 2px;
+  }
+
+  p {
+    line-height: 1.6;
+    margin-bottom: 8px;
+  }
+
+  ul, ol {
+    margin-left: 20px;
+    margin-bottom: 8px;
+    line-height: 1.7;
+  }
+
+  li { margin-bottom: 2px; }
+
+  .phase-block {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    overflow: hidden;
+  }
+
+  .phase-header {
+    background: #003366;
+    color: #fff;
+    padding: 8px 14px;
+    font-size: 14px;
+    font-weight: bold;
+  }
+
+  .phase-header span {
+    font-size: 11px;
+    font-weight: normal;
+    opacity: 0.85;
+    margin-left: 10px;
+  }
+
+  .phase-body {
+    padding: 12px 14px;
+  }
+
+  .week-header {
+    background: #1a5276;
+    color: #fff;
+    padding: 8px 14px;
+    font-size: 14px;
+    font-weight: bold;
+  }
+
+  .week-header span {
+    font-size: 11px;
+    font-weight: normal;
+    opacity: 0.85;
+    margin-left: 10px;
+  }
+
+  .day-block {
+    margin-bottom: 14px;
+  }
+
+  .day-label {
+    display: inline-block;
+    background: #e8eef5;
+    color: #003366;
+    font-weight: bold;
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 3px;
+    margin-bottom: 4px;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 10px 0 14px 0;
+    font-size: 12px;
+  }
+
+  th {
+    background: #003366;
+    color: #fff;
+    padding: 6px 10px;
+    text-align: left;
+    font-weight: bold;
+  }
+
+  td {
+    padding: 5px 10px;
+    border-bottom: 1px solid #e0e0e0;
+    vertical-align: top;
+    line-height: 1.5;
+  }
+
+  tr:nth-child(even) td { background: #f7f9fc; }
+
+  .callout {
+    background: #fff8e1;
+    border-left: 4px solid #e6a817;
+    padding: 10px 14px;
+    margin: 10px 0;
+    font-size: 12px;
+    border-radius: 0 4px 4px 0;
+  }
+
+  .callout strong { color: #b07800; }
+
+  .red-callout {
+    background: #fdecea;
+    border-left: 4px solid #c0392b;
+    padding: 10px 14px;
+    margin: 10px 0;
+    font-size: 12px;
+    border-radius: 0 4px 4px 0;
+  }
+
+  .green-callout {
+    background: #e8f5e9;
+    border-left: 4px solid #2e7d32;
+    padding: 10px 14px;
+    margin: 10px 0;
+    font-size: 12px;
+    border-radius: 0 4px 4px 0;
+  }
+
+  .tech-block {
+    background: #f0f4f8;
+    border: 1px solid #b0c4de;
+    border-radius: 4px;
+    padding: 12px 14px;
+    margin: 10px 0;
+  }
+
+  .tech-name {
+    font-weight: bold;
+    font-size: 13px;
+    color: #003366;
+    margin-bottom: 4px;
+  }
+
+  .tech-badge {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: bold;
+    padding: 1px 6px;
+    border-radius: 10px;
+    margin-left: 6px;
+    vertical-align: middle;
+  }
+
+  .badge-primary { background: #003366; color: #fff; }
+  .badge-minimal { background: #e0e0e0; color: #555; }
+
+  .metric-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+    margin: 10px 0;
+  }
+
+  .metric-box {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 8px 10px;
+    text-align: center;
+  }
+
+  .metric-box .metric-number {
+    font-size: 22px;
+    font-weight: bold;
+    color: #003366;
+    display: block;
+  }
+
+  .metric-box .metric-label {
+    font-size: 11px;
+    color: #555;
+  }
+
+  .checklist li {
+    list-style: none;
+    padding-left: 20px;
+    position: relative;
+    margin-bottom: 4px;
+  }
+
+  .checklist li::before {
+    content: '☐';
+    position: absolute;
+    left: 0;
+    color: #003366;
+  }
+
+  .section-divider {
+    border: none;
+    border-top: 1px solid #ddd;
+    margin: 20px 0;
+  }
+
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .col-box {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 10px 12px;
+  }
+
+  .col-box h4 {
+    margin-bottom: 6px;
+    color: #003366;
+  }
+
+  .email-example {
+    background: #f5f5f5;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 10px 14px;
+    font-family: 'Courier New', monospace;
+    font-size: 11px;
+    line-height: 1.7;
+    margin: 8px 0;
+  }
+
+  @media print {
+    body { padding: 0; font-size: 12px; }
+    .phase-block { page-break-inside: avoid; }
+    h2 { page-break-after: avoid; }
+    .tech-block { page-break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<h1>Aftin Gerald — Head of Housekeeping Training Plan</h1>
+<div class="subtitle">Unwind Vacation Rentals &nbsp;|&nbsp; Start Date: April 14, 2026 &nbsp;|&nbsp; Owner: John Watson &amp; Matt Meetre</div>
+
+<h2>Before Day One — Things to Have Ready</h2>
+<ul>
+  <li>Printed property list with address, bedroom count, and assigned cleaner (one page, hand her this on Day 1)</li>
+  <li>Current cleaner roster with name, phone number, and typical assignments</li>
+  <li>Breezeway account created and login credentials ready on a phone or tablet she will carry</li>
+  <li>OwnerRez read-only access created</li>
+  <li>HappyGuest / HostBuddy account access</li>
+  <li>Notion access (read-only)</li>
+  <li>Schedule of which properties have check-ins/check-outs in her first week — print this, don't send it</li>
+  <li>Google Translate app on her phone (brief her that this is how the team communicates)</li>
+  <li>Breezeway Staff training session booked for Day 4 (Friday, April 17) at 11am</li>
+</ul>
+
+<hr class="section-divider">
+
+<!-- WEEK 1 -->
+<div class="phase-block">
+  <div class="week-header">WEEK 1 — Orientation, Systems Introduction &amp; First Inspections <span>April 14–18</span></div>
+  <div class="phase-body">
+
+    <!-- DAY 1 -->
+    <div class="day-block">
+      <div class="day-label">DAY 1 — Tuesday, April 14 &nbsp;|&nbsp; Orientation</div>
+
+      <h4>Who We Are</h4>
+      <ul>
+        <li>55 properties now, growing to 90+ by end of 2026. Every new property adds to her operation.</li>
+        <li>Properties are owned by individuals — investors, families, vacation home owners. We manage on their behalf. If a property is dirty, it directly affects public reviews.</li>
+        <li>Two booking platforms: Airbnb and VRBO. Both post public cleanliness scores. <strong>Target: 4.8+ stars on cleanliness.</strong> A 4.8 out of 5 means 96% of guests give 5 stars — it all starts with the condition of the property when the guest walks in.</li>
+        <li>The cleaning operation is completely decentralized: different locations, different layouts, different owner standards.</li>
+      </ul>
+
+      <h4>About the Cleaning Team</h4>
+      <ul>
+        <li>All cleaners are 1099 contractors — independent, not employees. Contractors choose their jobs. If they don't want to do a property, they can say no.</li>
+        <li>Most cleaners speak Spanish or Portuguese. Google Translate is standard — she should be comfortable using it immediately.</li>
+        <li>The cleaners have been under a manager who was burned out and negative. Build relationships first, set standards second.</li>
+        <li>Some cleaners may have complaints or loyalty to the previous manager. Listen, don't react. Don't draw conclusions about a cleaner's reliability for at least 30 days.</li>
+      </ul>
+
+      <div class="green-callout">
+        <strong>The message to communicate to every cleaner she meets:</strong> "I'm not here to change everything. I'm here to make this easier for all of us. I want clean communication, fair work, and for you to know that when you show up, you'll be treated well. Tell me what you need."
+      </div>
+
+      <h4>Portfolio Walk</h4>
+      <p>Hand her the printed property list. Walk through it together:</p>
+      <ul>
+        <li>Flag easy/straightforward properties vs. complex or difficult ones</li>
+        <li>Show which properties have consistent cleaners and which are a problem right now</li>
+        <li>Identify which 5 properties she will personally clean each week as player-coach</li>
+      </ul>
+
+      <h4>End-of-Day Email — Required Every Day</h4>
+      <p>Every day, Aftin sends a brief email to John and Matt covering three things: what she accomplished, what is unfinished, and any problems she's running into. This is not optional and should take no more than 5 minutes to write.</p>
+      <div class="email-example">
+        I started around 8:30am and packed the bags for the cleaners at the storage unit.<br>
+        I cleaned Palms 902.<br>
+        I inspected the following properties: [list]<br>
+        I ordered more supplies from Lighthouse.<br><br>
+        There is nothing left unfinished.<br><br>
+        Elem's cleans have been less than standard during the last three inspections. I am working with her on __________ so she improves.
+      </div>
+
+      <h4>Confirm All Access Is Set Up</h4>
+      <ul>
+        <li>Breezeway — logged in on her phone</li>
+        <li>OwnerRez — read-only access confirmed</li>
+        <li>HappyGuest / HostBuddy — access confirmed</li>
+        <li>Notion — read-only access confirmed</li>
+        <li>Google Translate — on her phone</li>
+      </ul>
+    </div>
+
+    <!-- DAY 2 -->
+    <div class="day-block">
+      <div class="day-label">DAY 2 — Wednesday, April 15 &nbsp;|&nbsp; Breezeway + Scheduling + Inventory</div>
+
+      <div class="tech-block">
+        <div class="tech-name">Breezeway <span class="tech-badge badge-primary">PRIMARY TOOL</span> — Inspection Checklist</div>
+        <p style="margin-top:6px;">Walk her through the Breezeway Inspection Checklist in person, on her phone. Review each section together and refine it to reflect actual Unwind standards.</p>
+      </div>
+
+      <div class="tech-block">
+        <div class="tech-name">OwnerRez <span class="tech-badge badge-minimal">SCHEDULING ONLY</span></div>
+        <p style="margin-top:6px;"><strong>One thing she needs to know:</strong> How to find upcoming check-in and check-out dates for any property. She will use this to verify a turnover window when she can't see it in Breezeway. Walk through the scheduling view only.</p>
+        <p><strong>Important:</strong> Always check for same-day extensions before finalizing the schedule. A guest can extend their stay the morning of check-out — if she doesn't catch it, a cleaner will show up to an occupied unit.</p>
+      </div>
+
+      <h4>Supply Inventory</h4>
+      <p>Walk through supply inventory with her — what is stocked at each unit, what runs out fastest, and how she identifies when an order is needed. The actual ordering happens through Lighthouse (covered on Day 4).</p>
+    </div>
+
+    <!-- DAY 3 -->
+    <div class="day-block">
+      <div class="day-label">DAY 3 — Thursday, April 16 &nbsp;|&nbsp; Coverage Assessment + HostBuddy + Notion</div>
+
+      <h4>Coverage Gap Assessment</h4>
+      <p>Begin mapping coverage across the portfolio. The questions to answer:</p>
+      <ul>
+        <li>Which properties have no reliable cleaner assigned right now?</li>
+        <li>Which cleaners are overloaded vs. underutilized?</li>
+        <li>Are there geographic clusters (MB vs. NMB) where coverage is thin?</li>
+      </ul>
+      <div class="red-callout">
+        <strong>Peak Season Warning:</strong> June–August is when this business makes most of its annual revenue. She needs her cleaner team fully staffed and tested <em>before June 1.</em> Starting April 14, she has roughly 6 weeks to identify and close every gap.
+      </div>
+
+      <div class="tech-block">
+        <div class="tech-name">HostBuddy <span class="tech-badge badge-minimal">ACTION ITEMS</span></div>
+        <p style="margin-top:6px;">Walk through HostBuddy action items — how to see and respond to flagged items. One 20-minute in-person session is enough. She should not need to use this daily, but needs to know what it is when someone references it.</p>
+      </div>
+
+      <div class="tech-block">
+        <div class="tech-name">OwnerRez <span class="tech-badge badge-minimal">BRUSH-UP</span> &amp; Notion <span class="tech-badge badge-minimal">REFERENCE ONLY</span></div>
+        <p style="margin-top:6px;"><strong>OwnerRez brush-up:</strong> Quick review of anything from Day 2 that wasn't clear.</p>
+        <p style="margin-top:6px;"><strong>Notion:</strong> The property database. Every property has a page with sleeping accommodations, access codes, parking, WiFi, and owner notes. Show her how to open Notion on her phone, search a property by name, and find the key details. One example property walk-through. She does not edit anything — reference only.</p>
+      </div>
+
+      <p>She should send an end-of-day email tonight.</p>
+    </div>
+
+    <!-- DAY 4 -->
+    <div class="day-block">
+      <div class="day-label">DAY 4 — Friday, April 17–18 &nbsp;|&nbsp; Breezeway Staff Training + First Property Inspections</div>
+
+      <div class="callout">
+        <strong>Breezeway Training at 11am — with Breezeway Staff (remote/phone).</strong> This is the official Breezeway onboarding session. The Breezeway team will walk her through the platform in depth.
+      </div>
+
+      <h4>Property Inspections — 3 Properties with John</h4>
+      <p>After the Breezeway session, do 3 property walkthroughs together. For each property:</p>
+      <ul>
+        <li>Walk every room — note layout, bed count, linen storage, supply closet</li>
+        <li>Check linen inventory: how many sets are in the unit?</li>
+        <li>Look at the property as a guest: what would a guest complain about if missed?</li>
+        <li>Identify the hardest parts of turning this specific property</li>
+      </ul>
+
+      <div class="tech-block">
+        <div class="tech-name">Lighthouse <span class="tech-badge badge-minimal">SUPPLY ORDERS</span></div>
+        <p style="margin-top:6px;">Show her how to submit a supply order through Lighthouse. Walk through one real order during the property visits. Keep it simple — one action: find the item, submit the order.</p>
+      </div>
+
+      <h4>What She Does at Each Property</h4>
+      <ul>
+        <li>Check linen inventory and note any shortages</li>
+        <li>Check supply inventory and note anything running low</li>
+        <li>Note layout and hard spots — the things that require extra time or attention</li>
+      </ul>
+
+      <p>She should send an end-of-day email after the inspections.</p>
+    </div>
+
+  </div>
+</div>
+
+<!-- WEEK 2 -->
+<div class="phase-block">
+  <div class="week-header">WEEK 2 — More Inspections, Breezeway Confirmation &amp; Personal Cleans Begin <span>April 21–25</span></div>
+  <div class="phase-body">
+
+    <!-- DAYS 5-6 -->
+    <div class="day-block">
+      <div class="day-label">DAYS 5–6 — Monday–Tuesday, April 21–22 &nbsp;|&nbsp; 3 More Inspections + Breezeway Confirmation</div>
+      <ul>
+        <li>Continue property inspections — 3 more properties (6 total across Days 4–6)</li>
+        <li>At each property: confirm linen counts, supply levels, note anything needing attention</li>
+        <li>Confirm Breezeway training is complete and she is working in it independently</li>
+      </ul>
+      <p>Send end-of-day emails both days.</p>
+    </div>
+
+    <!-- DAYS 7-8 -->
+    <div class="day-block">
+      <div class="day-label">DAYS 7–8 — Wednesday–Thursday, April 23–24 &nbsp;|&nbsp; 1:1 + Personal Cleans Begin</div>
+
+      <h4>Breezeway Brush-Up</h4>
+      <p>Check in on anything she still needs help with in Breezeway. Address gaps. By end of this week she should be operating independently — assigning tasks, checking completions, flagging issues — without asking for help.</p>
+
+      <h4>Weekly 1:1 — Set the Recurring Time</h4>
+      <p>Hold the first official weekly 1:1 and confirm the standing time going forward. Agenda every week:</p>
+      <ul>
+        <li>Cleaner coverage status — who is reliable, who is at risk, what gaps remain</li>
+        <li>Open problems and anything needing escalation</li>
+        <li>Upcoming high-volume days or weeks</li>
+        <li>Cleaner recruitment progress</li>
+      </ul>
+
+      <h4>Personal Cleans Begin</h4>
+      <p>She starts doing 5 personal cleans per week — she is a player-coach, not a manager only. These model the standard she expects from contractors.</p>
+      <p><strong>Monday EOD email format going forward:</strong> The Monday end-of-day email should list the 5 specific properties she plans to personally clean that week, so John and Matt know her schedule.</p>
+    </div>
+
+  </div>
+</div>
+
+<!-- INSPECTION STANDARDS -->
+<div class="phase-block">
+  <div class="phase-header">INSPECTION STANDARDS — What Every Clean Must Include</div>
+  <div class="phase-body">
+
+    <p>Review the Breezeway Inspection Checklist together. Every inspection requires photos — these are non-negotiable. Walk through each area and the specific photos required.</p>
+
+    <table>
+      <tr><th>Area</th><th>What Gets Checked</th><th>Required Photos</th></tr>
+      <tr>
+        <td>Beds</td>
+        <td>Sheets tight and smooth, correct number of pillows, no visible stains, mattress protector in place</td>
+        <td>Picture of bed with pillow arrangement</td>
+      </tr>
+      <tr>
+        <td>Bathrooms</td>
+        <td>Toilet scrubbed, mirror spotless, shower/tub clean, floor mopped, towels folded and stacked, amenities restocked</td>
+        <td>Picture of bathtub (close enough to see tub clearly); picture of all sinks (just the sink)</td>
+      </tr>
+      <tr>
+        <td>Kitchen</td>
+        <td>Dishes away, counters wiped, stovetop clean, microwave clean inside, fridge cleared, floor mopped</td>
+        <td>Picture of kitchen sink; confirm Welcome Bag is on kitchen counter</td>
+      </tr>
+      <tr>
+        <td>Living areas</td>
+        <td>Furniture wiped, floor vacuumed, remotes wiped, trash emptied and bags replaced</td>
+        <td>Picture of all couches and sofa chairs</td>
+      </tr>
+      <tr>
+        <td>Entry/door</td>
+        <td>Parking passes and pool bands in holder on back of door</td>
+        <td>Picture of the door holder with passes and bands in place</td>
+      </tr>
+      <tr>
+        <td>Balcony/patio</td>
+        <td>Furniture wiped, floor swept, no leftover guest items</td>
+        <td>—</td>
+      </tr>
+      <tr>
+        <td>Final check</td>
+        <td>Walk every room as if you're the arriving guest. Does anything look wrong?</td>
+        <td>—</td>
+      </tr>
+    </table>
+
+  </div>
+</div>
+
+<!-- DAILY RHYTHM -->
+<div class="phase-block">
+  <div class="phase-header">HER DAILY ROUTINE — Every Day, Ongoing</div>
+  <div class="phase-body">
+
+    <table>
+      <tr><th>Time</th><th>Action</th></tr>
+      <tr><td>7–8am</td><td>Check Breezeway — all check-outs assigned to a cleaner. Call any gaps directly.</td></tr>
+      <tr><td>Midday</td><td>Check Breezeway completion — morning cleans marked done? Any problems reported?</td></tr>
+      <tr><td>3–4pm</td><td>Review tomorrow's Breezeway schedule — assign any unassigned tasks</td></tr>
+      <tr><td>End of day</td><td>Send daily email to John &amp; Matt (accomplished / unfinished / problems)</td></tr>
+      <tr><td>Friday morning</td><td>Review full next week in Breezeway — flag high-volume days needing extra coverage</td></tr>
+    </table>
+
+    <h4>Contractor Issue Response Guide</h4>
+    <table>
+      <tr><th>Situation</th><th>What To Do</th></tr>
+      <tr><td>Cleaner no-show</td><td>Call immediately. Find a replacement. Notify Unwind Leadership text group only if a clean is at risk of being missed.</td></tr>
+      <tr><td>Clean completed below standard</td><td>Call the cleaner same day. Describe specifically what was wrong. Log it in Breezeway.</td></tr>
+      <tr><td>Guest complaint about cleanliness</td><td>Notify John and Matt immediately. Do not handle Airbnb/VRBO responses — that goes through the VA team. Her job is to investigate and correct on the property side.</td></tr>
+      <tr><td>Cleaner wants to quit or reduce work</td><td>Have the conversation directly. Understand the reason. Don't lose a reliable cleaner to a fixable problem. Report to John if a departure will affect coverage.</td></tr>
+    </table>
+
+  </div>
+</div>
+
+<!-- CLEANER COVERAGE -->
+<div class="phase-block">
+  <div class="phase-header">CLEANER COVERAGE ASSESSMENT — What to Deliver to John &amp; Matt</div>
+  <div class="phase-body">
+
+    <div class="callout">
+      <strong>By end of Week 2, she should be able to answer:</strong> How many cleaners do we have? How many do we need? Where are the gaps?
+    </div>
+
+    <h4>How to Assess Each Cleaner's Capacity</h4>
+    <p>Work with each cleaner individually to understand how many properties they can realistically handle per day while keeping quality high. There is no universal number — it depends on property size, drive time, and the individual. Find the right load for each person.</p>
+
+    <div class="red-callout">
+      <strong>Peak Season Reality:</strong> During June–August, every property may turn 2–3 times per week. She needs enough cleaners to handle that load — not just today's volume. Build the team now, not in June.
+    </div>
+
+    <h4>How to Find New Cleaners (When Needed)</h4>
+    <ul>
+      <li>Ask existing cleaners — word of mouth in the Spanish/Portuguese-speaking community is the most reliable channel</li>
+      <li>Facebook groups for local cleaning services</li>
+      <li>Ask John what channels have worked in the past</li>
+    </ul>
+
+    <h4>What to Report to John &amp; Matt (End of Week 2)</h4>
+    <ul class="checklist">
+      <li>Number of active contractors currently reliable and assigned</li>
+      <li>Number of properties without reliable coverage right now</li>
+      <li>Number of additional cleaners needed before peak season</li>
+      <li>Any contractor relationships that feel unstable or at risk</li>
+      <li>Her plan to recruit the new cleaners she's identified as needed</li>
+    </ul>
+
+  </div>
+</div>
+
+<!-- 30-DAY MILESTONES -->
+<h2>30-Day Success Milestones</h2>
+
+<div class="metric-grid">
+  <div class="metric-box">
+    <span class="metric-number">All</span>
+    <span class="metric-label">Active contractors in her phone</span>
+  </div>
+  <div class="metric-box">
+    <span class="metric-number">15+</span>
+    <span class="metric-label">Properties personally walked and familiar with</span>
+  </div>
+  <div class="metric-box">
+    <span class="metric-number">Zero</span>
+    <span class="metric-label">Missed cleans due to a gap she didn't know about</span>
+  </div>
+</div>
+
+<ul class="checklist" style="margin-top:12px;">
+  <li>Can use Breezeway independently — no help needed for daily tasks</li>
+  <li>Knows which properties have no reliable cleaner assigned right now</li>
+  <li>Has delivered a written cleaner gap report to John: how many more needed and where</li>
+  <li>Has identified the top 3 operational problems and communicated them to John and Matt</li>
+  <li>Has personally completed her 5-property-per-week clean schedule at least twice</li>
+  <li>Knows where to find the Guest Ready links for each property</li>
+  <li>Daily end-of-day email rhythm is established — no surprises to John or Matt</li>
+  <li>Peak season cleaner coverage plan confirmed and in place</li>
+</ul>
+
+<hr class="section-divider">
+
+<!-- WHAT NOT TO TRAIN -->
+<h2>What NOT to Spend Training Time On</h2>
+<div class="two-col">
+  <div class="col-box">
+    <h4>She Already Knows This</h4>
+    <ul>
+      <li>How to inspect a property to professional standards</li>
+      <li>How to give performance feedback to staff</li>
+      <li>How to build a cleaning checklist</li>
+      <li>How to manage linen and supply inventory</li>
+      <li>How to organize a multi-person cleaning schedule</li>
+    </ul>
+  </div>
+  <div class="col-box">
+    <h4>Not Her Responsibility</h4>
+    <ul>
+      <li>Responding to guest complaints on Airbnb/VRBO (VA team)</li>
+      <li>Adding or editing property listings (John)</li>
+      <li>Setting pricing or minimum stays (John/Beyond Pricing)</li>
+      <li>Owner billing or payment processing (Matt)</li>
+      <li>Photography or property setup (Joshua/transition)</li>
+    </ul>
+  </div>
+</div>
+
+<hr class="section-divider">
+<p style="font-size:11px;color:#888;text-align:center;">Unwind Vacation Rentals &nbsp;|&nbsp; Updated April 2026 &nbsp;|&nbsp; Internal Use Only</p>
+
+</body>
+</html>

@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aftin Gerald — Training Checklist</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    color: #111;
+    background: #fff;
+    padding: 24px 30px;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    border-bottom: 3px solid #003366;
+    padding-bottom: 8px;
+    margin-bottom: 14px;
+  }
+
+  .page-header h1 {
+    font-size: 17px;
+    font-weight: bold;
+    color: #003366;
+    line-height: 1.3;
+  }
+
+  .page-header .meta {
+    font-size: 10px;
+    color: #555;
+    text-align: right;
+    line-height: 1.6;
+  }
+
+  .legend {
+    display: flex;
+    gap: 18px;
+    margin-bottom: 12px;
+    font-size: 10.5px;
+    color: #444;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .legend strong { color: #111; }
+  .legend-item { display: flex; align-items: center; gap: 4px; }
+
+  .badge {
+    font-size: 9px;
+    font-weight: bold;
+    padding: 1px 6px;
+    border-radius: 8px;
+    white-space: nowrap;
+  }
+  .badge-aftin  { background: #dce8f5; color: #003366; }
+  .badge-jm     { background: #e8f5e9; color: #1b5e20; }
+  .badge-both   { background: #fff8e1; color: #7a5200; }
+
+  .week-header {
+    background: #003366;
+    color: #fff;
+    font-size: 11.5px;
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 3px 3px 0 0;
+    margin-top: 14px;
+  }
+
+  .week-body {
+    border: 1px solid #ccc;
+    border-top: none;
+    border-radius: 0 0 3px 3px;
+    overflow: hidden;
+    margin-bottom: 2px;
+  }
+
+  .day-row {
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    border-bottom: 1px solid #e4e4e4;
+  }
+
+  .day-row:last-child { border-bottom: none; }
+
+  .day-label {
+    background: #f0f4f8;
+    padding: 6px 8px;
+    font-weight: bold;
+    font-size: 10.5px;
+    color: #003366;
+    border-right: 1px solid #ddd;
+    line-height: 1.4;
+  }
+
+  .day-label .date {
+    font-size: 9.5px;
+    font-weight: normal;
+    color: #777;
+    margin-top: 1px;
+    display: block;
+  }
+
+  .day-tasks { padding: 4px 8px; }
+
+  .task {
+    display: flex;
+    align-items: flex-start;
+    gap: 6px;
+    padding: 3px 0;
+    border-bottom: 1px dotted #e8e8e8;
+    line-height: 1.45;
+  }
+
+  .task:last-child { border-bottom: none; }
+
+  .checkbox {
+    width: 13px;
+    height: 13px;
+    border: 1.5px solid #999;
+    border-radius: 2px;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .task-text { flex: 1; font-size: 11.5px; }
+
+  .task-sub {
+    display: flex;
+    align-items: flex-start;
+    gap: 6px;
+    padding: 2px 0 2px 18px;
+    border-bottom: 1px dotted #efefef;
+    line-height: 1.4;
+  }
+
+  .task-sub:last-child { border-bottom: none; }
+  .task-sub .task-text { font-size: 11px; color: #333; }
+
+  .owner-col {
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .section-label {
+    font-size: 10px;
+    font-weight: bold;
+    color: #888;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    padding: 4px 0 1px 0;
+    display: block;
+  }
+
+  .note-row {
+    background: #fffbf0;
+    border-left: 3px solid #e6a817;
+    padding: 4px 8px;
+    font-size: 11px;
+    color: #555;
+    font-style: italic;
+  }
+
+  /* Ongoing + Quick Ref */
+  .bottom-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 14px;
+  }
+
+  .bottom-box {
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    overflow: hidden;
+  }
+
+  .bottom-box-header {
+    background: #003366;
+    color: #fff;
+    font-weight: bold;
+    font-size: 10.5px;
+    padding: 4px 10px;
+  }
+
+  .bottom-box-body { padding: 5px 8px; }
+
+  .bottom-task {
+    display: flex;
+    align-items: flex-start;
+    gap: 6px;
+    padding: 3px 0;
+    border-bottom: 1px dotted #e4e4e4;
+    font-size: 11px;
+    line-height: 1.4;
+  }
+
+  .bottom-task:last-child { border-bottom: none; }
+
+  /* Milestones */
+  .milestone-box {
+    border: 2px solid #003366;
+    border-radius: 4px;
+    margin-top: 14px;
+    overflow: hidden;
+  }
+
+  .milestone-header {
+    background: #003366;
+    color: #fff;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 5px 12px;
+  }
+
+  .milestone-body {
+    padding: 6px 12px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0 20px;
+  }
+
+  .m-task {
+    display: flex;
+    align-items: flex-start;
+    gap: 6px;
+    padding: 3px 0;
+    border-bottom: 1px dotted #ddd;
+    font-size: 11.5px;
+    line-height: 1.4;
+  }
+
+  .m-task:last-child { border-bottom: none; }
+
+  /* Sign-off */
+  .signoff {
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    padding: 10px 14px;
+    margin-top: 12px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+    font-size: 11px;
+  }
+
+  .signoff-field label {
+    display: block;
+    font-weight: bold;
+    color: #003366;
+    margin-bottom: 14px;
+  }
+
+  .signoff-line {
+    border-bottom: 1px solid #555;
+    margin-bottom: 3px;
+  }
+
+  .signoff-sublabel { font-size: 10px; color: #777; }
+
+  @media print {
+    body {
+      padding: 8px 12px;
+      font-size: 11px;
+      max-width: 100%;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    .page-header { margin-bottom: 10px; }
+    .page-header h1 { font-size: 15px; }
+    .week-header { margin-top: 6px; }
+    .week-body { page-break-inside: avoid; }
+    .day-row { page-break-inside: avoid; }
+    .bottom-grid { page-break-inside: avoid; margin-top: 10px; }
+    .milestone-box { page-break-inside: avoid; }
+    .signoff { page-break-inside: avoid; }
+    .note-row { background: #fffbf0 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .week-header { background: #003366 !important; color: #fff !important; }
+    .bottom-box-header { background: #003366 !important; color: #fff !important; }
+    .milestone-header { background: #003366 !important; color: #fff !important; }
+    .day-label { background: #f0f4f8 !important; }
+    .badge-aftin { background: #dce8f5 !important; }
+    .badge-jm { background: #e8f5e9 !important; }
+    .badge-both { background: #fff8e1 !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <div>
+    <h1>Aftin Gerald — Head of Housekeeping<br>Day-by-Day Training Checklist</h1>
+  </div>
+  <div class="meta">
+    Start Date: April 14, 2026<br>
+    Reports to: John Watson &amp; Matt Meetre<br>
+    Unwind Vacation Rentals
+  </div>
+</div>
+
+<div class="legend">
+  <strong>Owner key:</strong>
+  <div class="legend-item"><span class="badge badge-both">Together</span> John/Matt leads with Aftin</div>
+  <div class="legend-item"><span class="badge badge-aftin">Aftin</span> Aftin does independently</div>
+  <div class="legend-item"><span class="badge badge-jm">John/Matt</span> Leadership action item</div>
+</div>
+
+<!-- WEEK 1 -->
+<div class="week-header">WEEK 1 — Orientation, Systems Training &amp; First Inspections &nbsp;|&nbsp; April 14–18</div>
+<div class="week-body">
+
+  <div class="day-row">
+    <div class="day-label">Day 1 — Tuesday<span class="date">April 14</span></div>
+    <div class="day-tasks">
+      <span class="section-label">Together</span>
+      <div class="task"><div class="checkbox"></div><div class="task-text">Review printed property list — flag easy, hard, and problem properties</div><div class="owner-col"><span class="badge badge-both">Together</span></div></div>
+      <div class="task"><div class="checkbox"></div><div class="task-text">Go over End of Day Report Email format and expectations</div><div class="owner-col"><span class="badge badge-both">Together</span></div></div>
+      <div class="task"><div class="checkbox"></div><div class="task-text">Go over training outline document</div><div class="owner-col"><span class="badge badge-both">Together</span></div></div>
+      <div class="task"><div class="checkbox"></div><div class="task-text">Confirm all access is set up: Breezeway, OwnerRez, HappyGuest, Notion, Google Translate</div><div class="owner-col"><span class="badge badge-jm">John/Matt</span></div></div>
+      <span class="section-label">Aftin</span>
+      <div class="task"><div class="checkbox"></div><div class="task-text">Send first end-of-day email to John &amp; Matt</div><div class="owner-col"><span class="badge badge-aftin">Aftin</span></div></div>
+    </div>
+  </div>
+
+  <div class="day-row">
+    <div class="day-label">Day 2 — Wednesday<span class="date">April 15</span></div>
+    <div class="day-tasks">
+      <span class="section-label">Aftin</span>
+      <div class="task"><div class="checkbox"></div><div class="task-text">Breezeway training — go over Inspection Checklist and refine</div><div class="owner-col"><span class="badge badge-aftin">Aftin</span></div></div>
+      <div class="task"><div class="checkbox"></div><div class="task-text">Cleaner scheduling — finding and managing this in OwnerRez</div><div class="owner-col"><span class="badge badge-aftin">Aftin</span></div></div>
+      <div class="task-sub"><div class="checkbox"></div><div class="task-text">Make sure to check for booking extensions the day of</div></div>
+      <div class="task"><div class="checkbox"></div><div class="task-text">Do inventory to assess if a new amenities order is needed</div><div class="owner-col"><span class="badge badge-aftin">Aftin</span></div></div>
+    </div>
+  </div>
+
+  <div class="day-row">
+    <div class="day-label">Day 3 — Thursday<span class="date">April 16</span></div>
+    <div class="day-tasks">
+      <span class="section-label">Aftin</span>
+      <div class="task"><div class="checkbox"></div><div class="task-text">Begin identifying: coverage gaps, overloaded cleaners, geographic clusters (MB vs. NMB)</div><div class="owner-col"><span class="badge badge-aftin">Aftin</span></div></div>
+      <div class="task"><div class="checkbox"></div><div class="task-text">HostBuddy action item training, OwnerRez brush-up, Notion walkthrough</div><div class="owner-col"><span class="badge badge-aftin">Aftin</span></div></div>
+      <div class="task"><div class="checkbox"></div><div class="task-text">Send end-of-day email</div><div class="owner-col"><span class="badge badge-aftin">Aftin</span></div></div>
+    </div>
+  </div>
+
+  <div class="day-row">
+    <div class="day-label">Day 4 — Friday<span class="date">April 17</span></div>
+    <div class="day-tasks">
+      <span class="section-label">Together</span>
+      <div class="task"><div class="checkbox"></div><div class="task-text"><strong>Breezeway training with Breezeway Staff — 11am</strong></div><div class="owner-col"><span class="badge badge-both">Together</span></div></div>
+      <div class="task"><div class="checkbox"></div><div class="task-text">Property inspections with John — inspect 3 properties</div><div class="owner-col"><span class="badge badge-both">Together</span></div></div>
+      <div class="task"><div class="checkbox"></div><div class="task-text">Learn how to submit a supply order through Lighthouse</div><div class="owner-col"><span class="badge badge-both">Together</span></div></div>
+      <span class="section-label">Aftin</span>
+      <div class="task"><div class="checkbox"></div><div class="task-text">At each property: check linen inventory, supply inventory, note layout and hard spots</div><div class="owner-col"><span class="badge badge-aftin">Aftin</span></div></div>
+      <div class="task"><div class="checkbox"></div><div class="task-text">Send end-of-day email</div><div class="owner-col"><span class="badge badge-aftin">Aftin</span></div></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- WEEK 2 -->
+<div class="week-header">WEEK 2 — Property Inspections, Breezeway Confirmation &amp; Daily Cleans Begin &nbsp;|&nbsp; April 21–25</div>
+<div class="week-body">
+
+  <div class="day-row">
+    <div class="day-label">Days 5–6<span class="date">Mon–Tue, Apr 21–22</span></div>
+    <div class="day-tasks">
+      <span class="section-label">Aftin</span>
+      <div class="task"><div class="checkbox"></div><div class="task-text">Continue property inspections — 3 more properties</div><div class="owner-col"><span class="badge badge-aftin">Aftin</span></div></div>
+      <div class="task"><div class="checkbox"></div><div class="task-text">Breezeway training — confirm all knowledge is complete</div><div class="owner-col"><span class="badge badge-aftin">Aftin</span></div></div>
+      <div class="task"><div class="checkbox"></div><div class="task-text">At each property: confirm linen counts, supply levels, note anything needing attention</div><div class="owner-col"><span class="badge badge-aftin">Aftin</span></div></div>
+      <div class="task"><div class="checkbox"></div><div class="task-text">Send end-of-day emails</div><div class="owner-col"><span class="badge badge-aftin">Aftin</span></div></div>
+    </div>
+  </div>
+
+  <div class="day-row">
+    <div class="day-label">Days 7–8<span class="date">Wed–Thu, Apr 23–24</span></div>
+    <div class="day-tasks">
+      <div class="note-row">Determine where Aftin still needs assistance or brush-ups on Breezeway before going fully independent.</div>
+      <span class="section-label">Together</span>
+      <div class="task"><div class="checkbox"></div><div class="task-text">Weekly 1:1 — confirm standing recurring day/time going forward</div><div class="owner-col"><span class="badge badge-both">Together</span></div></div>
+      <span class="section-label">Aftin</span>
+      <div class="task"><div class="checkbox"></div><div class="task-text">Begin daily personal cleans (5 properties/week)</div><div class="owner-col"><span class="badge badge-aftin">Aftin</span></div></div>
+      <div class="task"><div class="checkbox"></div><div class="task-text">Every Monday EOD email: list which 5 properties you will personally clean that week</div><div class="owner-col"><span class="badge badge-aftin">Aftin</span></div></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ONGOING + QUICK REF -->
+<div class="bottom-grid">
+
+  <div class="bottom-box">
+    <div class="bottom-box-header">Aftin's Daily Routine (Every Day, Ongoing)</div>
+    <div class="bottom-box-body">
+      <div class="bottom-task"><div class="checkbox"></div><div>7–8am: Check Breezeway — all check-outs assigned to a cleaner. Call any gaps directly.</div></div>
+      <div class="bottom-task"><div class="checkbox"></div><div>Midday: Check Breezeway — morning cleans marked done? Any problems reported?</div></div>
+      <div class="bottom-task"><div class="checkbox"></div><div>3–4pm: Review tomorrow's Breezeway schedule — assign any unassigned tasks</div></div>
+      <div class="bottom-task"><div class="checkbox"></div><div>End of day: Send daily email to John &amp; Matt (accomplished / unfinished / problems)</div></div>
+      <div class="bottom-task"><div class="checkbox"></div><div>Friday morning: Review full next week in Breezeway — flag high-volume days</div></div>
+      <div class="bottom-task"><div class="checkbox"></div><div>Every Monday EOD email: list 5 properties for personal cleans that week</div></div>
+    </div>
+  </div>
+
+  <div class="bottom-box">
+    <div class="bottom-box-header">Contractor Issue Quick Reference</div>
+    <div class="bottom-box-body">
+      <div class="bottom-task"><div class="checkbox"></div><div><strong>No-show:</strong> Call immediately → find replacement → notify Leadership text group only if clean is at risk</div></div>
+      <div class="bottom-task"><div class="checkbox"></div><div><strong>Below standard:</strong> Call cleaner same day, describe what was wrong, log in Breezeway</div></div>
+      <div class="bottom-task"><div class="checkbox"></div><div><strong>Guest complaint:</strong> Notify John &amp; Matt immediately — VA team handles Airbnb/VRBO response</div></div>
+      <div class="bottom-task"><div class="checkbox"></div><div><strong>Cleaner wants to quit:</strong> Talk directly, understand reason — report to John if coverage is affected</div></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- MILESTONES -->
+<div class="milestone-box">
+  <div class="milestone-header">Training Milestones</div>
+  <div class="milestone-body">
+    <div class="m-task"><div class="checkbox"></div><div>All active contractors introduced and in her phone</div></div>
+    <div class="m-task"><div class="checkbox"></div><div>15+ properties personally walked and familiar with</div></div>
+    <div class="m-task"><div class="checkbox"></div><div>Zero missed cleans due to a gap she didn't know about</div></div>
+    <div class="m-task"><div class="checkbox"></div><div>Can use Breezeway independently — no help needed</div></div>
+    <div class="m-task"><div class="checkbox"></div><div>Knows which properties have no reliable cleaner right now</div></div>
+    <div class="m-task"><div class="checkbox"></div><div>Delivered written cleaner gap report to John &amp; Matt</div></div>
+    <div class="m-task"><div class="checkbox"></div><div>Top 3 operational problems identified and communicated</div></div>
+    <div class="m-task"><div class="checkbox"></div><div>5 personal cleans/week communicated and begun</div></div>
+    <div class="m-task"><div class="checkbox"></div><div>Knows where to find Guest Ready links for each property</div></div>
+    <div class="m-task"><div class="checkbox"></div><div>Daily end-of-day email rhythm established</div></div>
+    <div class="m-task"><div class="checkbox"></div><div>Peak season cleaner coverage plan confirmed and in place</div></div>
+  </div>
+</div>
+
+<!-- SIGN-OFF -->
+<div class="signoff">
+  <div class="signoff-field">
+    <label>Aftin Gerald</label>
+    <div class="signoff-line">&nbsp;</div>
+    <div class="signoff-sublabel">Signature &amp; Date</div>
+  </div>
+  <div class="signoff-field">
+    <label>John Watson</label>
+    <div class="signoff-line">&nbsp;</div>
+    <div class="signoff-sublabel">Signature &amp; Date</div>
+  </div>
+  <div class="signoff-field">
+    <label>Matt Meetre</label>
+    <div class="signoff-line">&nbsp;</div>
+    <div class="signoff-sublabel">Signature &amp; Date</div>
+  </div>
+</div>
+
+<p style="font-size:10px;color:#aaa;text-align:center;margin-top:10px;">Unwind Vacation Rentals &nbsp;|&nbsp; April 2026 &nbsp;|&nbsp; Internal Use Only</p>
+
+</body>
+</html>

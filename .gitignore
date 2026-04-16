@@ -1,0 +1,26 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Claude Code local settings
+.claude/
+
+# Raw financial data — keep off GitHub (bank statements, transactions, customer PII)
+beyond-pricing-data/
+
+# Excel working files
+*.xlsx
+*.xls
+
+# Sensitive documents
+*.pdf
+
+# Internal business docs — keep off public repo
+CLAUDE.md
+unwind-overview.md
+
+# Editor / OS
+*.swp
+*.swo
+Thumbs.db

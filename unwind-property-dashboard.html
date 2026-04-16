@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unwind Vacation Rentals — Property Performance Dashboard</title>
+  <style>
+    :root {
+      --bg: #f4f6f9;
+      --card: #ffffff;
+      --border: #e2e8f0;
+      --text: #1a202c;
+      --muted: #718096;
+      --accent: #2b6cb0;
+      --accent-light: #ebf4ff;
+      --green: #276749;
+      --green-bg: #f0fff4;
+      --green-border: #9ae6b4;
+      --red: #9b2c2c;
+      --red-bg: #fff5f5;
+      --red-border: #fc8181;
+      --yellow: #7b341e;
+      --yellow-bg: #fffbeb;
+      --yellow-border: #f6e05e;
+      --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--text);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    /* ── Header ───────────────────────────────────────────── */
+    .page-header {
+      background: var(--accent);
+      color: #fff;
+      padding: 18px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .page-header h1 { font-size: 20px; font-weight: 700; letter-spacing: -.3px; }
+    .page-header .subtitle { font-size: 13px; opacity: .75; margin-top: 2px; }
+    .page-header .meta { font-size: 12px; opacity: .65; text-align: right; }
+
+    /* ── Layout ───────────────────────────────────────────── */
+    .wrapper { max-width: 1300px; margin: 0 auto; padding: 28px 24px; }
+    .section { margin-bottom: 28px; }
+    .section-title {
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .6px;
+      color: var(--muted);
+      margin-bottom: 14px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* ── Stat cards ───────────────────────────────────────── */
+    .summary-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; }
+    .stat-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 18px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+    .stat-card.highlight { border-top: 3px solid var(--accent); }
+    .stat-card .label {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .5px;
+      color: var(--muted);
+    }
+    .stat-card .value {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: -1px;
+      line-height: 1.1;
+    }
+    .stat-card .sub { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+    /* ── Filter bar ───────────────────────────────────────── */
+    .filter-bar {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .filter-label { font-size: 12px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .5px; margin-right: 4px; }
+    .filter-btn {
+      padding: 5px 16px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      background: var(--bg);
+      color: var(--text);
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all .15s;
+    }
+    .filter-btn:hover { background: var(--accent-light); border-color: var(--accent); color: var(--accent); }
+    .filter-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+    /* ── Table card ───────────────────────────────────────── */
+    .table-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    /* ── Table ────────────────────────────────────────────── */
+    table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+
+    thead th {
+      background: #2d3748;
+      color: #fff;
+      padding: 9px 10px;
+      text-align: left;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .4px;
+      white-space: nowrap;
+      cursor: pointer;
+      user-select: none;
+    }
+    thead th:hover { background: #4a5568; }
+    thead th .sort-icon { margin-left: 4px; opacity: .5; font-style: normal; }
+    thead th.sort-asc .sort-icon::after { content: ' ▲'; opacity: 1; }
+    thead th.sort-desc .sort-icon::after { content: ' ▼'; opacity: 1; }
+    thead th:not(.sort-asc):not(.sort-desc) .sort-icon::after { content: ' ⇅'; }
+
+    tbody tr { border-bottom: 1px solid #edf2f7; }
+    tbody tr:last-child { border-bottom: none; }
+    tbody tr.row-green { background: #f0fff4; }
+    tbody tr.row-yellow { background: #fffbeb; }
+    tbody tr.row-red { background: #fff5f5; }
+    tbody tr:hover { filter: brightness(.97); }
+
+    td { padding: 7px 10px; vertical-align: middle; }
+
+    .td-num { text-align: right; font-variant-numeric: tabular-nums; }
+    .td-name { font-weight: 600; max-width: 220px; }
+    .td-br { text-align: center; }
+
+    .td-revenue { font-weight: 700; }
+    .row-green .td-revenue { color: var(--green); }
+    .row-red .td-revenue { color: var(--red); }
+    .row-yellow .td-revenue { color: #92400e; }
+
+    /* Late rate cell coloring */
+    .late-high { color: #c53030; font-weight: 700; }
+    .late-med  { color: #c05621; font-weight: 600; }
+
+    /* ── Flag badges ──────────────────────────────────────── */
+    .flag {
+      display: inline-block;
+      padding: 2px 7px;
+      border-radius: 10px;
+      font-size: 10.5px;
+      font-weight: 700;
+      line-height: 1.5;
+      white-space: normal;
+      max-width: 220px;
+    }
+    .flag-red    { background: var(--red-bg); color: var(--red); border: 1px solid var(--red-border); }
+    .flag-warn   { background: var(--yellow-bg); color: #92400e; border: 1px solid var(--yellow-border); }
+    .flag-new    { background: #ebf8ff; color: #2c5282; border: 1px solid #bee3f8; }
+    .flag-info   { background: #f7fafc; color: var(--muted); border: 1px solid var(--border); }
+
+    /* ── Summary row ──────────────────────────────────────── */
+    .summary-row td {
+      background: #edf2f7;
+      font-weight: 700;
+      font-size: 12px;
+      border-top: 2px solid #cbd5e0;
+      color: #2d3748;
+    }
+
+    /* ── Legend ───────────────────────────────────────────── */
+    .legend {
+      display: flex;
+      gap: 18px;
+      align-items: center;
+      flex-wrap: wrap;
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .legend-item { display: flex; align-items: center; gap: 6px; }
+    .legend-swatch {
+      width: 14px; height: 14px;
+      border-radius: 3px;
+      border: 1px solid rgba(0,0,0,.1);
+      flex-shrink: 0;
+    }
+
+    /* ── Print ────────────────────────────────────────────── */
+    @media print {
+      body { background: #fff; font-size: 11px; }
+      .page-header { background: #2b6cb0 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; padding: 12px 20px; }
+      .wrapper { padding: 12px 16px; }
+      .filter-bar { display: none; }
+      .summary-grid { grid-template-columns: repeat(5, 1fr); gap: 8px; }
+      .stat-card { padding: 10px 12px; border-radius: 6px; }
+      .stat-card .value { font-size: 20px; }
+      .table-card { border-radius: 6px; }
+      table { font-size: 10.5px; }
+      td, th { padding: 5px 7px; }
+      tbody tr.row-green { background: #f0fff4 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      tbody tr.row-yellow { background: #fffbeb !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      tbody tr.row-red { background: #fff5f5 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      thead th { background: #2d3748 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .summary-row td { background: #edf2f7 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .flag-red { background: #fff5f5 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .flag-warn { background: #fffbeb !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .flag-new { background: #ebf8ff !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .section-title { padding-bottom: 4px; margin-bottom: 8px; }
+      .section { margin-bottom: 16px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="page-header">
+  <div>
+    <h1>Unwind Vacation Rentals — Property Performance Dashboard</h1>
+    <div class="subtitle">2025 Full-Year · 40 Properties · Source: Beyond Pricing Export + April 2026 Audit</div>
+  </div>
+  <div class="meta">Generated April 2026<br>Internal Use Only</div>
+</div>
+
+<div class="wrapper">
+
+  <!-- SUMMARY CARDS -->
+  <div class="section">
+    <div class="section-title">Portfolio Summary — 2025</div>
+    <div class="summary-grid" id="summaryCards"></div>
+  </div>
+
+  <!-- LEGEND + FILTER -->
+  <div class="section">
+    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:14px;">
+      <div class="legend">
+        <span style="font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;">Row Color:</span>
+        <div class="legend-item"><div class="legend-swatch" style="background:#f0fff4;border-color:#9ae6b4;"></div>Above portfolio avg revenue</div>
+        <div class="legend-item"><div class="legend-swatch" style="background:#fffbeb;border-color:#f6e05e;"></div>Within 25% below avg</div>
+        <div class="legend-item"><div class="legend-swatch" style="background:#fff5f5;border-color:#fc8181;"></div>More than 25% below avg</div>
+      </div>
+    </div>
+    <div class="filter-bar">
+      <span class="filter-label">Filter by bedrooms:</span>
+      <button class="filter-btn active" onclick="setFilter('all', this)">All</button>
+      <button class="filter-btn" onclick="setFilter(1, this)">1 BR</button>
+      <button class="filter-btn" onclick="setFilter(2, this)">2 BR</button>
+      <button class="filter-btn" onclick="setFilter(3, this)">3 BR</button>
+      <button class="filter-btn" onclick="setFilter(4, this)">4 BR</button>
+      <button class="filter-btn" onclick="setFilter(6, this)">6 BR</button>
+      <button class="filter-btn" onclick="setFilter('flagged', this)" style="margin-left:12px;">⚑ Flagged Only</button>
+    </div>
+  </div>
+
+  <!-- TABLE -->
+  <div class="section">
+    <div class="table-card">
+      <table id="propTable">
+        <thead>
+          <tr>
+            <th style="width:28px;">#</th>
+            <th onclick="sortBy('name')" data-col="name">Property<i class="sort-icon"></i></th>
+            <th onclick="sortBy('br')" data-col="br" style="width:46px;">BR<i class="sort-icon"></i></th>
+            <th onclick="sortBy('revenue')" data-col="revenue" class="sort-desc" style="width:110px;">2025 Revenue<i class="sort-icon"></i></th>
+            <th onclick="sortBy('bookings')" data-col="bookings" style="width:72px;">Bookings<i class="sort-icon"></i></th>
+            <th onclick="sortBy('adr')" data-col="adr" style="width:66px;">ADR<i class="sort-icon"></i></th>
+            <th onclick="sortBy('avgStay')" data-col="avgStay" style="width:76px;">Avg Stay<i class="sort-icon"></i></th>
+            <th onclick="sortBy('lateRate')" data-col="lateRate" style="width:80px;">Late Rate<i class="sort-icon"></i></th>
+            <th style="width:230px;">Audit Flag</th>
+          </tr>
+        </thead>
+        <tbody id="tableBody"></tbody>
+        <tfoot id="tableFoot"></tfoot>
+      </table>
+    </div>
+  </div>
+
+  <p style="font-size:11px;color:var(--muted);text-align:center;margin-top:8px;">
+    Late Rate = bookings with ≤7 days lead time. Revenue = Rental Amount from BP export, accepted non-owner bookings, 2025 check-ins only.
+    Portfolio avg revenue = $20,085/property. Color thresholds: green ≥ avg, yellow within 25% below, red &gt;25% below.
+  </p>
+
+</div>
+
+<script>
+const AVG_REVENUE = 20085;
+
+const properties = [
+  { name: 'Madison Drive 4BR Beach House',      br: 4, revenue: 73230, bookings: 51, adr: 355, avgStay: 4.0, lateRate: 20, flagType: 'warn', flagText: 'MinLOS — 3 peak violations 100+ days out' },
+  { name: 'Coconut Grove #204',                  br: 6, revenue: 55726, bookings: 39, adr: 421, avgStay: 3.5, lateRate: 18, flagType: 'red',  flagText: 'Critical MinLOS — est. $18K+ revenue forfeited' },
+  { name: 'Prince Resort 1205',                  br: 3, revenue: 54139, bookings: 52, adr: 230, avgStay: 5.0, lateRate:  4, flagType: '',     flagText: '' },
+  { name: 'Palms Resort #902',                   br: 3, revenue: 47787, bookings: 52, adr: 208, avgStay: 4.3, lateRate: 17, flagType: 'info', flagText: '1-night booked in shoulder — MinLOS check' },
+  { name: 'Ocean Reef #518',                     br: 3, revenue: 44511, bookings: 51, adr: 217, avgStay: 4.2, lateRate: 20, flagType: '',     flagText: '' },
+  { name: 'Grande Cayman Resort #1253',          br: 3, revenue: 38062, bookings: 35, adr: 252, avgStay: 4.7, lateRate: 23, flagType: '',     flagText: '' },
+  { name: 'Anderson Ocean Club',                 br: 3, revenue: 37287, bookings: 20, adr: 401, avgStay: 4.5, lateRate: 25, flagType: '',     flagText: '' },
+  { name: 'Sanabel Towers #303',                 br: 2, revenue: 26035, bookings: 43, adr: 128, avgStay: 5.5, lateRate: 21, flagType: '',     flagText: '' },
+  { name: 'Spinaker #703',                       br: 2, revenue: 25174, bookings: 38, adr: 120, avgStay: 6.1, lateRate: 29, flagType: 'warn', flagText: 'Floor concern — 29% late rate, -26% ADR drop' },
+  { name: 'Brigadune 14a',                       br: 3, revenue: 23353, bookings: 15, adr: 339, avgStay: 4.3, lateRate: 27, flagType: 'warn', flagText: '1-night booking on July 5 peak weekend' },
+  { name: 'Beach Cove #412',                     br: 1, revenue: 23155, bookings: 34, adr: 119, avgStay: 7.5, lateRate: 32, flagType: 'warn', flagText: '3 same-day violations — block needed' },
+  { name: 'Tilgham #241',                        br: 3, revenue: 23137, bookings: 28, adr: 153, avgStay: 6.8, lateRate: 46, flagType: 'red',  flagText: 'ADR + floor + same-day — full BP audit needed' },
+  { name: 'Beach Cove #507',                     br: 1, revenue: 22682, bookings: 38, adr: 116, avgStay: 5.6, lateRate: 34, flagType: 'info', flagText: '1-night in slow season — minor cleanup' },
+  { name: 'Barefoot #1222 Havens',               br: 2, revenue: 22150, bookings: 39, adr: 100, avgStay: 6.2, lateRate: 31, flagType: 'warn', flagText: 'Low ADR (-17% vs 2BR) + 5 same-day violations' },
+  { name: 'Ocean Villas #G2',                    br: 2, revenue: 20452, bookings: 30, adr: 134, avgStay: 4.9, lateRate: 33, flagType: 'warn', flagText: '2× 1-night bookings in peak season' },
+  { name: 'A Place at the Beach #123',           br: 2, revenue: 19143, bookings: 33, adr: 133, avgStay: 4.4, lateRate: 33, flagType: 'warn', flagText: '33% late rate — floor concern' },
+  { name: 'Sand Dunes Resort 2527',              br: 1, revenue: 18798, bookings: 26, adr: 113, avgStay:11.6, lateRate: 58, flagType: 'warn', flagText: '58% late rate — review price floor' },
+  { name: 'Barefoot #1635 Havens',               br: 3, revenue: 17855, bookings: 25, adr: 166, avgStay: 4.9, lateRate: 24, flagType: 'warn', flagText: 'ADR -33% vs 3BR peak benchmark' },
+  { name: 'A Place at the Beach 3L',             br: 2, revenue: 17744, bookings: 28, adr: 132, avgStay: 5.7, lateRate: 36, flagType: 'red',  flagText: 'Floor dangerously low — min ADR $13 in BP' },
+  { name: 'Barefoot #1225 Willow Bend',          br: 3, revenue: 17625, bookings: 31, adr: 113, avgStay: 5.2, lateRate: 29, flagType: 'warn', flagText: '3BR priced like 2BR — ADR -41% vs benchmark' },
+  { name: 'A Place at the Beach #3G',            br: 2, revenue: 15818, bookings: 30, adr: 122, avgStay: 5.0, lateRate: 47, flagType: 'warn', flagText: '47% late rate + 4 same-day violations' },
+  { name: 'Robbers Roost Villas 909',            br: 2, revenue: 15457, bookings: 18, adr: 115, avgStay:10.7, lateRate: 83, flagType: 'red',  flagText: '83% late rate — most late-dependent property' },
+  { name: 'Barefoot #811 Ironwood',              br: 2, revenue: 14951, bookings: 21, adr:  99, avgStay: 8.8, lateRate: 48, flagType: 'warn', flagText: 'Low ADR (-29% vs 2BR peak) + 48% late rate' },
+  { name: 'Beach Club II 4E',                    br: 4, revenue: 14841, bookings: 20, adr: 203, avgStay: 4.0, lateRate: 30, flagType: 'red',  flagText: '4BR priced like 2BR — ADR + MinLOS both off' },
+  { name: 'Caravelle Resort #125',               br: 1, revenue: 14697, bookings: 28, adr: 103, avgStay: 7.1, lateRate: 68, flagType: 'warn', flagText: '68% late rate — worst same-day rate per booking' },
+  { name: 'Barefoot #731 Willow Bend',           br: 3, revenue: 14151, bookings: 25, adr: 127, avgStay: 5.2, lateRate: 48, flagType: 'red',  flagText: 'Most violations in portfolio — full BP audit' },
+  { name: 'Hillside Beach House',                br: 3, revenue: 14063, bookings: 17, adr: 190, avgStay: 5.4, lateRate: 59, flagType: 'warn', flagText: '59% late dependency — occupancy concern' },
+  { name: 'Monterey Bay #1205',                  br: 1, revenue: 13101, bookings: 24, adr: 114, avgStay: 5.2, lateRate: 58, flagType: 'warn', flagText: '58% late rate — review price floor' },
+  { name: 'Myrtle Beach Resort #431B',           br: 1, revenue: 11312, bookings: 24, adr:  90, avgStay: 5.6, lateRate: 25, flagType: 'red',  flagText: 'Confirmed pricing issue — BP floor too low' },
+  { name: 'MB Resort 4216',                      br: 2, revenue: 10387, bookings: 18, adr: 154, avgStay: 4.3, lateRate: 39, flagType: 'info', flagText: '39% late rate — monitor occupancy' },
+  { name: 'Cypress Bay #101',                    br: 2, revenue:  9449, bookings: 24, adr:  73, avgStay: 6.7, lateRate: 54, flagType: 'info', flagText: 'Intentionally restricted — structural exclusion' },
+  { name: 'Sand Castle #707',                    br: 1, revenue:  8783, bookings: 16, adr: 150, avgStay: 3.8, lateRate: 75, flagType: 'warn', flagText: '75% late rate despite high floor — unusual pattern' },
+  { name: 'Kingston #215',                       br: 2, revenue:  7547, bookings: 15, adr: 146, avgStay: 3.7, lateRate: 67, flagType: 'warn', flagText: '67% late rate — occupancy problem' },
+  { name: 'Emerald Pointe #3B',                  br: 2, revenue:  6961, bookings: 15, adr: 139, avgStay: 4.1, lateRate: 67, flagType: 'warn', flagText: '67% late rate — occupancy problem' },
+  { name: 'Luster Leaf 104',                     br: 3, revenue:   943, bookings:  4, adr:  44, avgStay: 5.5, lateRate: 50, flagType: 'new',  flagText: 'New property — needs full BP setup' },
+  { name: 'Covewind 1518',                       br: 4, revenue:   829, bookings:  2, adr:  61, avgStay: 6.5, lateRate:100, flagType: 'new',  flagText: 'New — pre-season setup required' },
+  { name: 'Covewind 1522',                       br: 4, revenue:   713, bookings:  2, adr:  60, avgStay: 6.0, lateRate: 50, flagType: 'new',  flagText: 'New — pre-season setup required' },
+  { name: 'Holiday Pavilion #210',               br: 1, revenue:   591, bookings:  2, adr:  28, avgStay:12.5, lateRate: 50, flagType: 'new',  flagText: 'New — only 2 bookings, not auditable' },
+  { name: 'Covewind 1535',                       br: 4, revenue:   385, bookings:  2, adr:  69, avgStay: 3.0, lateRate:100, flagType: 'new',  flagText: 'New — pre-season setup required' },
+  { name: 'Barefoot #1532 Willow Bend',          br: 2, revenue:   360, bookings:  1, adr:  45, avgStay: 8.0, lateRate:100, flagType: 'new',  flagText: 'New — only 1 booking, not auditable' },
+];
+
+let sortCol = 'revenue';
+let sortDir = -1; // -1 = desc
+let activeFilter = 'all';
+
+function rowClass(rev) {
+  if (rev >= AVG_REVENUE) return 'row-green';
+  if (rev >= AVG_REVENUE * 0.75) return 'row-yellow';
+  return 'row-red';
+}
+
+function fmt$(n) { return '$' + Math.round(n).toLocaleString(); }
+function fmtPct(n) { return Math.round(n) + '%'; }
+
+function lateClass(r) {
+  if (r >= 60) return 'late-high';
+  if (r >= 40) return 'late-med';
+  return '';
+}
+
+function flagHTML(type, text) {
+  if (!type || !text) return '—';
+  const cls = { red: 'flag-red', warn: 'flag-warn', new: 'flag-new', info: 'flag-info' }[type] || 'flag-info';
+  return `<span class="flag ${cls}">${text}</span>`;
+}
+
+function getFiltered() {
+  return properties.filter(p => {
+    if (activeFilter === 'all') return true;
+    if (activeFilter === 'flagged') return p.flagType === 'red' || p.flagType === 'warn' || p.flagType === 'new';
+    return p.br === activeFilter;
+  });
+}
+
+function renderTable() {
+  const data = getFiltered().slice().sort((a, b) => {
+    const av = typeof a[sortCol] === 'string' ? a[sortCol].toLowerCase() : a[sortCol];
+    const bv = typeof b[sortCol] === 'string' ? b[sortCol].toLowerCase() : b[sortCol];
+    if (av < bv) return sortDir;
+    if (av > bv) return -sortDir;
+    return 0;
+  });
+
+  const tbody = document.getElementById('tableBody');
+  tbody.innerHTML = data.map((p, i) => {
+    const rc = rowClass(p.revenue);
+    const lc = lateClass(p.lateRate);
+    return `<tr class="${rc}">
+      <td class="td-num" style="color:var(--muted);font-size:11px;">${i + 1}</td>
+      <td class="td-name">${p.name}</td>
+      <td class="td-br">${p.br}</td>
+      <td class="td-num td-revenue">${fmt$(p.revenue)}</td>
+      <td class="td-num">${p.bookings}</td>
+      <td class="td-num">$${p.adr}</td>
+      <td class="td-num">${p.avgStay.toFixed(1)}n</td>
+      <td class="td-num ${lc}">${fmtPct(p.lateRate)}</td>
+      <td>${flagHTML(p.flagType, p.flagText)}</td>
+    </tr>`;
+  }).join('');
+
+  // Summary row
+  const totRev = data.reduce((s, p) => s + p.revenue, 0);
+  const totBks = data.reduce((s, p) => s + p.bookings, 0);
+  const wADR   = data.reduce((s, p) => s + p.adr * p.bookings, 0) / totBks;
+  const wStay  = data.reduce((s, p) => s + p.avgStay * p.bookings, 0) / totBks;
+  const wLate  = data.reduce((s, p) => s + (p.lateRate / 100) * p.bookings, 0) / totBks * 100;
+  const flagCount = data.filter(p => p.flagType === 'red' || p.flagType === 'warn').length;
+
+  document.getElementById('tableFoot').innerHTML = `<tr class="summary-row">
+    <td></td>
+    <td>Portfolio Total / Avg (${data.length} properties)</td>
+    <td class="td-br">—</td>
+    <td class="td-num">${fmt$(totRev)}</td>
+    <td class="td-num">${totBks}</td>
+    <td class="td-num">$${Math.round(wADR)}</td>
+    <td class="td-num">${wStay.toFixed(1)}n</td>
+    <td class="td-num">${Math.round(wLate)}%</td>
+    <td style="font-size:11px;color:var(--muted);">${flagCount} properties flagged</td>
+  </tr>`;
+
+  // Update sort indicators
+  document.querySelectorAll('thead th[data-col]').forEach(th => {
+    th.classList.remove('sort-asc', 'sort-desc');
+    if (th.dataset.col === sortCol) {
+      th.classList.add(sortDir === -1 ? 'sort-desc' : 'sort-asc');
+    }
+  });
+}
+
+function sortBy(col) {
+  if (sortCol === col) { sortDir *= -1; }
+  else { sortCol = col; sortDir = col === 'name' ? 1 : -1; }
+  renderTable();
+}
+
+function setFilter(val, btn) {
+  activeFilter = val;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderTable();
+}
+
+function renderSummaryCards() {
+  const totRev  = properties.reduce((s, p) => s + p.revenue, 0);
+  const totBks  = properties.reduce((s, p) => s + p.bookings, 0);
+  const wADR    = properties.reduce((s, p) => s + p.adr * p.bookings, 0) / totBks;
+  const wLate   = properties.reduce((s, p) => s + (p.lateRate / 100) * p.bookings, 0) / totBks * 100;
+  const redCount = properties.filter(p => p.flagType === 'red').length;
+  const warnCount = properties.filter(p => p.flagType === 'warn').length;
+
+  document.getElementById('summaryCards').innerHTML = `
+    <div class="stat-card highlight">
+      <div class="label">Total 2025 Revenue</div>
+      <div class="value">${fmt$(totRev)}</div>
+      <div class="sub">1,016 accepted bookings</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">Properties</div>
+      <div class="value">40</div>
+      <div class="sub">Incl. 6 new / partial year</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">Portfolio Avg ADR</div>
+      <div class="value">$${Math.round(wADR)}</div>
+      <div class="sub">Weighted by booking count</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">Avg Late Booking Rate</div>
+      <div class="value">${Math.round(wLate)}%</div>
+      <div class="sub">≤7 days lead time</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">Properties Flagged</div>
+      <div class="value">${redCount + warnCount}</div>
+      <div class="sub">${redCount} critical · ${warnCount} warnings</div>
+    </div>`;
+}
+
+renderSummaryCards();
+renderTable();
+</script>
+</body>
+</html>

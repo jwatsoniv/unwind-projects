@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unwind — 2026 Full Year + Peak Season Pacing</title>
+<style>
+  :root {
+    --accent: #2b6cb0;
+    --accent-dark: #1a4a80;
+    --bg: #f4f6f9;
+    --card: #ffffff;
+    --border: #e2e8f0;
+    --text: #1a202c;
+    --muted: #718096;
+    --green: #276749;
+    --green-bg: #c6f6d5;
+    --yellow: #7b6c00;
+    --yellow-bg: #fefcbf;
+    --red: #9b2335;
+    --red-bg: #fed7d7;
+    --orange: #c05621;
+    --orange-bg: #feebc8;
+    --blue-bg: #bee3f8;
+    --gray-bg: #e2e8f0;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); font-size: 14px; }
+
+  /* HEADER */
+  .page-header { background: linear-gradient(135deg, #1a365d 0%, #2b6cb0 100%); color: white; padding: 28px 32px 24px; }
+  .page-header h1 { font-size: 22px; font-weight: 700; letter-spacing: -0.3px; }
+  .page-header .subtitle { font-size: 13px; opacity: 0.75; margin-top: 4px; }
+
+  .main { padding: 24px 28px; max-width: 1240px; }
+
+  /* SECTION TITLES */
+  .section-title { font-size: 15px; font-weight: 700; color: var(--accent-dark); margin-bottom: 12px; padding-bottom: 6px; border-bottom: 2px solid var(--border); display: flex; align-items: center; gap: 8px; }
+  .section-badge { font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 10px; text-transform: uppercase; letter-spacing: 0.4px; }
+  .sb-full { background: var(--accent); color: white; }
+  .sb-peak { background: #e53e3e; color: white; }
+
+  /* STAT CARDS */
+  .stat-row { display: grid; grid-template-columns: repeat(5,1fr); gap: 12px; margin-bottom: 12px; }
+  .stat-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; }
+  .stat-card .label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: var(--muted); margin-bottom: 5px; }
+  .stat-card .value { font-size: 24px; font-weight: 700; color: var(--accent-dark); line-height: 1; }
+  .stat-card .sub { font-size: 11px; color: var(--muted); margin-top: 4px; }
+  .stat-card.green .value { color: var(--green); }
+  .stat-card.red .value { color: var(--red); }
+  .stat-card.orange .value { color: var(--orange); }
+  .stat-card.peak { border-left: 3px solid #e53e3e; }
+  .stat-row-label { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; margin-top: 16px; }
+
+  /* 12-MONTH CHART */
+  .year-chart-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 20px; margin-bottom: 28px; }
+  .year-chart-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 32px; }
+  .month-row { display: grid; grid-template-columns: 42px 1fr 90px; align-items: center; gap: 8px; padding: 5px 0; border-bottom: 1px solid #f0f4f8; }
+  .month-row:last-child { border-bottom: none; }
+  .month-name { font-size: 12px; font-weight: 700; color: var(--text); }
+  .month-name.past { color: var(--muted); }
+  .month-name.current { color: var(--accent); }
+  .month-name.peak-m { color: #c05621; }
+  .month-bars { display: flex; flex-direction: column; gap: 3px; }
+  .bar-track { height: 8px; background: #edf2f7; border-radius: 4px; overflow: hidden; }
+  .bar-fill { height: 100%; border-radius: 4px; }
+  .bar-fill.b26 { background: var(--accent); }
+  .bar-fill.b25s { background: #a0aec0; }
+  .bar-fill.b25f { background: #cbd5e0; }
+  .month-stats { font-size: 10px; text-align: right; line-height: 1.6; }
+  .month-stats .v26 { color: var(--accent); font-weight: 700; }
+  .month-stats .v25f { color: var(--muted); }
+  .month-stats .pace-good { color: var(--green); font-weight: 600; }
+  .month-stats .pace-warn { color: var(--orange); font-weight: 600; }
+  .month-stats .pace-na { color: var(--muted); }
+  .year-chart-legend { display: flex; gap: 16px; margin-bottom: 14px; flex-wrap: wrap; }
+  .leg-item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--muted); }
+  .leg-dot { width: 12px; height: 8px; border-radius: 3px; flex-shrink: 0; }
+  .year-divider { display: flex; align-items: center; gap: 8px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.4px; margin: 4px 0 4px; }
+  .year-divider span { color: var(--muted); }
+  .year-divider .line { flex: 1; height: 1px; background: var(--border); }
+  .season-tag { display: inline-block; font-size: 9px; font-weight: 700; padding: 1px 5px; border-radius: 3px; margin-left: 4px; vertical-align: middle; text-transform: uppercase; }
+  .st-slow { background: #edf2f7; color: #718096; }
+  .st-shoulder { background: #fefcbf; color: #7b6c00; }
+  .st-peak { background: #fed7d7; color: #c05621; }
+  .completed-tag { font-size: 9px; font-weight: 600; color: var(--green); margin-left: 3px; }
+
+  /* PEAK MONTHLY CARDS */
+  .monthly-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 14px; margin-bottom: 28px; }
+  .month-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
+  .month-card h3 { font-size: 14px; font-weight: 700; color: var(--accent-dark); margin-bottom: 12px; }
+  .bar-group { margin-bottom: 8px; }
+  .bar-label { display: flex; justify-content: space-between; font-size: 11px; color: var(--muted); margin-bottom: 3px; }
+  .bar-label span:last-child { font-weight: 600; color: var(--text); }
+  .bar-track-lg { height: 10px; background: #edf2f7; border-radius: 5px; overflow: hidden; }
+  .bar-fill-lg { height: 100%; border-radius: 5px; }
+  .bar-fill-lg.b2026 { background: var(--accent); }
+  .bar-fill-lg.b2025same { background: #a0aec0; }
+  .bar-fill-lg.b2025final { background: #cbd5e0; }
+  .month-pace { margin-top: 10px; font-size: 11px; text-align: center; font-weight: 600; padding: 4px 8px; border-radius: 5px; background: var(--green-bg); color: var(--green); }
+  .month-legend { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 6px; }
+  .leg-sm { display: flex; align-items: center; gap: 4px; font-size: 10px; color: var(--muted); }
+
+  /* TABLE */
+  .table-wrap { background: var(--card); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin-bottom: 28px; }
+  .view-toggle { padding: 12px 16px; border-bottom: 1px solid var(--border); display: flex; gap: 8px; align-items: center; }
+  .view-toggle span { font-size: 12px; color: var(--muted); font-weight: 600; margin-right: 4px; }
+  .toggle-btn { padding: 5px 14px; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; border: 1px solid var(--border); background: white; color: var(--muted); }
+  .toggle-btn.active { background: var(--accent); color: white; border-color: var(--accent); }
+  table { width: 100%; border-collapse: collapse; }
+  thead th { background: #1a365d; color: white; padding: 9px 11px; text-align: left; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.4px; cursor: pointer; user-select: none; white-space: nowrap; }
+  thead th:hover { background: #2a4a7a; }
+  thead th .sa::after { content: ' ↑'; opacity: 0.6; }
+  thead th .sd::after { content: ' ↓'; opacity: 0.6; }
+  tbody tr:nth-child(even) { background: #f8fafc; }
+  tbody tr:hover { background: #ebf4ff; }
+  tbody td { padding: 8px 11px; border-top: 1px solid var(--border); font-size: 12px; vertical-align: middle; }
+  tbody td.num { text-align: right; font-variant-numeric: tabular-nums; }
+  tbody tr.row-green td { background: #f0fff4; }
+  tbody tr.row-green:nth-child(even) td { background: #e8faf0; }
+  tbody tr.row-green:hover td { background: #c6f6d5; }
+  tbody tr.row-red td { background: #fff5f5; }
+  tbody tr.row-red:nth-child(even) td { background: #ffeaea; }
+  tbody tr.row-red:hover td { background: #fed7d7; }
+  tbody tr.row-summary td { background: #1a365d !important; color: white; font-weight: 700; }
+
+  /* BADGES */
+  .badge { display: inline-block; padding: 2px 7px; border-radius: 10px; font-size: 10px; font-weight: 600; white-space: nowrap; }
+  .badge-ahead { background: var(--green-bg); color: var(--green); }
+  .badge-normal { background: var(--yellow-bg); color: var(--yellow); }
+  .badge-attention { background: var(--orange-bg); color: var(--orange); }
+  .badge-zero { background: var(--red-bg); color: var(--red); }
+  .badge-late { background: var(--gray-bg); color: #4a5568; }
+  .badge-new { background: var(--blue-bg); color: #1a365d; }
+
+  /* ACTIONS */
+  .actions-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
+  .action-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
+  .action-card h4 { font-size: 13px; font-weight: 700; margin-bottom: 10px; padding-bottom: 6px; border-bottom: 1px solid var(--border); }
+  .action-card.red h4 { color: var(--red); border-color: var(--red-bg); }
+  .action-card.orange h4 { color: var(--orange); border-color: var(--orange-bg); }
+  .action-card.blue h4 { color: var(--accent); border-color: var(--blue-bg); }
+  .action-card.green h4 { color: var(--green); border-color: var(--green-bg); }
+  .action-item { display: flex; align-items: flex-start; gap: 8px; margin-bottom: 7px; font-size: 12px; line-height: 1.4; }
+  .action-item .dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; margin-top: 4px; }
+  .action-card.red .dot { background: var(--red); }
+  .action-card.orange .dot { background: var(--orange); }
+  .action-card.blue .dot { background: var(--accent); }
+  .action-card.green .dot { background: var(--green); }
+  .action-item strong { font-weight: 600; }
+  .action-full { grid-column: 1 / -1; }
+  .wins-inner { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin-top: 4px; }
+
+  .footer { font-size: 11px; color: var(--muted); text-align: center; padding: 16px 0 24px; }
+
+  @media print {
+    body { background: white; font-size: 10px; }
+    .page-header { background: #1a365d !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .main { padding: 8px 14px; max-width: 100%; }
+    .stat-row { gap: 6px; margin-bottom: 8px; }
+    .monthly-row { gap: 8px; }
+    thead th { background: #1a365d !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    tbody tr.row-green td { background: #f0fff4 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    tbody tr.row-red td { background: #fff5f5 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    tbody tr.row-summary td { background: #1a365d !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .actions-grid { page-break-inside: avoid; }
+    .badge { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <h1>Unwind — 2026 Full Year &amp; Peak Season Pacing</h1>
+  <div class="subtitle">As of April 14, 2026 &nbsp;·&nbsp; Data: Beyond Pricing export (Apr 11) &nbsp;·&nbsp; Jan–Mar actuals · Apr in progress · May–Dec forward bookings</div>
+</div>
+
+<div class="main">
+
+<!-- FULL YEAR STATS -->
+<div class="stat-row-label">Full Year 2026</div>
+<div class="stat-row">
+  <div class="stat-card green">
+    <div class="label">On Books (Full Year)</div>
+    <div class="value">$514K</div>
+    <div class="sub">Rental revenue booked or completed YTD</div>
+  </div>
+  <div class="stat-card green">
+    <div class="label">vs Same Point 2025</div>
+    <div class="value">+85%</div>
+    <div class="sub">$278K was on books Apr 14, 2025 → 185% pacing</div>
+  </div>
+  <div class="stat-card">
+    <div class="label">2025 Full Year Final</div>
+    <div class="value">$803K</div>
+    <div class="sub">Total rental revenue for all of 2025</div>
+  </div>
+  <div class="stat-card orange">
+    <div class="label">Still to Book</div>
+    <div class="value">$290K</div>
+    <div class="sub">Gap to match 2025 full year (64% there)</div>
+  </div>
+  <div class="stat-card green">
+    <div class="label">Jan–Mar Completed</div>
+    <div class="value">$110K</div>
+    <div class="sub">vs $57K in 2025 → +93% in off-peak</div>
+  </div>
+</div>
+
+<!-- PEAK STATS -->
+<div class="stat-row-label">Peak Season Only (May–Aug)</div>
+<div class="stat-row">
+  <div class="stat-card peak green">
+    <div class="label">Peak On Books</div>
+    <div class="value">$320K</div>
+    <div class="sub">May–Aug rental revenue currently booked</div>
+  </div>
+  <div class="stat-card peak green">
+    <div class="label">vs Same Point 2025</div>
+    <div class="value">+86%</div>
+    <div class="sub">$172K was on books Apr 14, 2025 → 186% pacing</div>
+  </div>
+  <div class="stat-card peak">
+    <div class="label">2025 Peak Final</div>
+    <div class="value">$569K</div>
+    <div class="sub">Full May–Aug 2025 actuals</div>
+  </div>
+  <div class="stat-card peak orange">
+    <div class="label">Peak Still to Book</div>
+    <div class="value">$249K</div>
+    <div class="sub">56% of 2025 peak final already secured</div>
+  </div>
+  <div class="stat-card peak red">
+    <div class="label">Zero Peak Bookings</div>
+    <div class="value">7</div>
+    <div class="sub">Properties with $0 May–Aug booked</div>
+  </div>
+</div>
+
+<!-- 12-MONTH CHART -->
+<div class="section-title" style="margin-top:24px">
+  Full Year Monthly View
+  <span class="section-badge sb-full">All 12 Months</span>
+</div>
+<div class="year-chart-card">
+  <div class="year-chart-legend">
+    <div class="leg-item"><div class="leg-dot" style="background:#2b6cb0"></div>2026 on books / completed</div>
+    <div class="leg-item"><div class="leg-dot" style="background:#a0aec0"></div>2025 same-point (booked by Apr 14, 2025)</div>
+    <div class="leg-item"><div class="leg-dot" style="background:#cbd5e0"></div>2025 full year final</div>
+    <div class="leg-item"><span class="season-tag st-slow">slow</span> Jan–Feb, Nov–Dec</div>
+    <div class="leg-item"><span class="season-tag st-shoulder">shoulder</span> Mar–May, Sep–Oct</div>
+    <div class="leg-item"><span class="season-tag st-peak">peak</span> Jun–Aug</div>
+  </div>
+  <div class="year-chart-grid" id="yearChartGrid"></div>
+</div>
+
+<!-- PEAK MONTHLY DETAIL -->
+<div class="section-title">
+  Peak Season Monthly Detail
+  <span class="section-badge sb-peak">May–Aug</span>
+</div>
+<div class="monthly-row">
+  <div class="month-card">
+    <h3>May 2026 <span class="season-tag st-shoulder">shoulder→peak</span></h3>
+    <div class="bar-group">
+      <div class="bar-label"><span>2026 On Books</span><span>$58,903</span></div>
+      <div class="bar-track-lg"><div class="bar-fill-lg b2026" style="width:81%"></div></div>
+    </div>
+    <div class="bar-group">
+      <div class="bar-label"><span>2025 Same Point</span><span>$34,627</span></div>
+      <div class="bar-track-lg"><div class="bar-fill-lg b2025same" style="width:48%"></div></div>
+    </div>
+    <div class="bar-group">
+      <div class="bar-label"><span>2025 Final</span><span>$72,606</span></div>
+      <div class="bar-track-lg"><div class="bar-fill-lg b2025final" style="width:100%"></div></div>
+    </div>
+    <div class="month-legend">
+      <div class="leg-sm"><div class="leg-dot" style="background:#2b6cb0;width:10px;height:8px;border-radius:2px"></div>2026</div>
+      <div class="leg-sm"><div class="leg-dot" style="background:#a0aec0;width:10px;height:8px;border-radius:2px"></div>2025 same pt</div>
+      <div class="leg-sm"><div class="leg-dot" style="background:#cbd5e0;width:10px;height:8px;border-radius:2px"></div>2025 final</div>
+    </div>
+    <div class="month-pace">170% vs same-point &nbsp;·&nbsp; 81% of 2025 final</div>
+  </div>
+  <div class="month-card">
+    <h3>June 2026 <span class="season-tag st-peak">peak</span></h3>
+    <div class="bar-group">
+      <div class="bar-label"><span>2026 On Books</span><span>$133,897</span></div>
+      <div class="bar-track-lg"><div class="bar-fill-lg b2026" style="width:77%"></div></div>
+    </div>
+    <div class="bar-group">
+      <div class="bar-label"><span>2025 Same Point</span><span>$74,548</span></div>
+      <div class="bar-track-lg"><div class="bar-fill-lg b2025same" style="width:43%"></div></div>
+    </div>
+    <div class="bar-group">
+      <div class="bar-label"><span>2025 Final</span><span>$173,579</span></div>
+      <div class="bar-track-lg"><div class="bar-fill-lg b2025final" style="width:100%"></div></div>
+    </div>
+    <div class="month-legend">
+      <div class="leg-sm"><div class="leg-dot" style="background:#2b6cb0;width:10px;height:8px;border-radius:2px"></div>2026</div>
+      <div class="leg-sm"><div class="leg-dot" style="background:#a0aec0;width:10px;height:8px;border-radius:2px"></div>2025 same pt</div>
+      <div class="leg-sm"><div class="leg-dot" style="background:#cbd5e0;width:10px;height:8px;border-radius:2px"></div>2025 final</div>
+    </div>
+    <div class="month-pace">180% vs same-point &nbsp;·&nbsp; 77% of 2025 final</div>
+  </div>
+  <div class="month-card">
+    <h3>July 2026 <span class="season-tag st-peak">peak</span></h3>
+    <div class="bar-group">
+      <div class="bar-label"><span>2026 On Books</span><span>$86,797</span></div>
+      <div class="bar-track-lg"><div class="bar-fill-lg b2026" style="width:43%"></div></div>
+    </div>
+    <div class="bar-group">
+      <div class="bar-label"><span>2025 Same Point</span><span>$43,810</span></div>
+      <div class="bar-track-lg"><div class="bar-fill-lg b2025same" style="width:22%"></div></div>
+    </div>
+    <div class="bar-group">
+      <div class="bar-label"><span>2025 Final</span><span>$203,030</span></div>
+      <div class="bar-track-lg"><div class="bar-fill-lg b2025final" style="width:100%"></div></div>
+    </div>
+    <div class="month-legend">
+      <div class="leg-sm"><div class="leg-dot" style="background:#2b6cb0;width:10px;height:8px;border-radius:2px"></div>2026</div>
+      <div class="leg-sm"><div class="leg-dot" style="background:#a0aec0;width:10px;height:8px;border-radius:2px"></div>2025 same pt</div>
+      <div class="leg-sm"><div class="leg-dot" style="background:#cbd5e0;width:10px;height:8px;border-radius:2px"></div>2025 final</div>
+    </div>
+    <div class="month-pace">198% vs same-point &nbsp;·&nbsp; 43% of 2025 final</div>
+  </div>
+  <div class="month-card">
+    <h3>August 2026 <span class="season-tag st-peak">peak</span></h3>
+    <div class="bar-group">
+      <div class="bar-label"><span>2026 On Books</span><span>$40,402</span></div>
+      <div class="bar-track-lg"><div class="bar-fill-lg b2026" style="width:34%"></div></div>
+    </div>
+    <div class="bar-group">
+      <div class="bar-label"><span>2025 Same Point</span><span>$18,776</span></div>
+      <div class="bar-track-lg"><div class="bar-fill-lg b2025same" style="width:16%"></div></div>
+    </div>
+    <div class="bar-group">
+      <div class="bar-label"><span>2025 Final</span><span>$119,916</span></div>
+      <div class="bar-track-lg"><div class="bar-fill-lg b2025final" style="width:100%"></div></div>
+    </div>
+    <div class="month-legend">
+      <div class="leg-sm"><div class="leg-dot" style="background:#2b6cb0;width:10px;height:8px;border-radius:2px"></div>2026</div>
+      <div class="leg-sm"><div class="leg-dot" style="background:#a0aec0;width:10px;height:8px;border-radius:2px"></div>2025 same pt</div>
+      <div class="leg-sm"><div class="leg-dot" style="background:#cbd5e0;width:10px;height:8px;border-radius:2px"></div>2025 final</div>
+    </div>
+    <div class="month-pace">215% vs same-point &nbsp;·&nbsp; 34% of 2025 final</div>
+  </div>
+</div>
+
+<!-- PROPERTY TABLE -->
+<div class="section-title">Property Pacing Table — 42 Properties</div>
+<div class="table-wrap">
+  <div class="view-toggle">
+    <span>View:</span>
+    <button class="toggle-btn active" id="btnFY" onclick="setView('fy')">Full Year</button>
+    <button class="toggle-btn" id="btnPeak" onclick="setView('peak')">Peak Season Only</button>
+  </div>
+  <table id="propTable">
+    <thead><tr id="tblHead"></tr></thead>
+    <tbody id="propBody"></tbody>
+  </table>
+</div>
+
+<!-- ACTIONS -->
+<div class="section-title">Actions for the Next 30 Days</div>
+<div class="actions-grid">
+  <div class="action-card red">
+    <h4>🚨 Immediate — Zero Peak Bookings, Not Excused by Late Pattern</h4>
+    <div class="action-item"><div class="dot"></div>
+      <div><strong>Tilgham #241</strong> (3BR) — $0 peak booked, $16,638 peak last year. 46% late-rate is moderate — not enough to explain $0. Has $5,610 off-peak already. Check pricing, MinLOS, and availability blocks for May–Aug immediately.</div>
+    </div>
+    <div class="action-item"><div class="dot"></div>
+      <div><strong>A Place at the Beach #3G</strong> (2BR) — $0 peak, $12,085 peak last year. 47% late-rate borderline. Only $2,623 full-year on books. Confirm listing is live and priced correctly across all channels.</div>
+    </div>
+    <div class="action-item"><div class="dot"></div>
+      <div><strong>Cypress Bay #101</strong> (2BR) — $0 peak, $5,385 peak last year. 54% late-rate — some excuse, but with $766 full-year this listing is significantly underperforming at all periods.</div>
+    </div>
+  </div>
+
+  <div class="action-card orange">
+    <h4>⚠️ Significantly Behind Pace — Low Late-Rate History</h4>
+    <div class="action-item"><div class="dot"></div>
+      <div><strong>Ocean Reef #518</strong> (3BR) — 18% full-year paced, $36,591 behind. 20% late-rate. Worst full-year gap in portfolio. Check MinLOS, pricing tier, and availability windows.</div>
+    </div>
+    <div class="action-item"><div class="dot"></div>
+      <div><strong>Sanabel Towers #303</strong> (2BR) — 27% full-year paced, $18,926 behind. 21% late-rate. April audit flagged pricing concerns on this one.</div>
+    </div>
+    <div class="action-item"><div class="dot"></div>
+      <div><strong>Beach Cove #507 + #412</strong> (1BR each) — 15% and 16% full-year paced, combined $38K behind. 32–34% late-rate. Both need MinLOS and rate floor review.</div>
+    </div>
+    <div class="action-item"><div class="dot"></div>
+      <div><strong>Prince Resort 1205</strong> (3BR) — 47% full-year paced, $28,425 behind. 4% late-rate — historically books months in advance. No excuse for this level of underperformance.</div>
+    </div>
+    <div class="action-item"><div class="dot"></div>
+      <div><strong>Palms Resort #902</strong> (3BR) — 47% full-year paced, $25,400 behind. 17% late-rate. Confirm no owner blocks or listing issues.</div>
+    </div>
+    <div class="action-item"><div class="dot"></div>
+      <div><strong>Barefoot #1635 + #1222 Havens</strong> (3BR/2BR) — 21% and 22% paced, combined $31,356 behind. Low late-rates. Review Barefoot Havens cluster pricing uniformly.</div>
+    </div>
+  </div>
+
+  <div class="action-card blue">
+    <h4>👁 Monitor — Typical Late Bookers (Currently $0 Peak)</h4>
+    <div class="action-item"><div class="dot"></div>
+      <div><strong>Sand Castle #707</strong> — $0 peak now, 75% late-rate. $8,155 peak last year. Expect June–July bookings. Revisit May 15 if still empty.</div>
+    </div>
+    <div class="action-item"><div class="dot"></div>
+      <div><strong>Robbers Roost Villas 909</strong> — $0 peak now, 83% late-rate. $7,600 peak last year. Has $3,897 full-year (off-peak bookings). Very likely to fill late.</div>
+    </div>
+    <div class="action-item"><div class="dot"></div>
+      <div><strong>Caravelle Resort #125</strong> — $0 peak now, 68% late-rate. $10,171 peak last year. Monitor.</div>
+    </div>
+    <div class="action-item"><div class="dot"></div>
+      <div><strong>Monterey Bay #1205</strong> — $0 peak now, 58% late-rate. $10,936 peak last year. Revisit April 28 if still empty.</div>
+    </div>
+  </div>
+
+  <div class="action-card blue">
+    <h4>🆕 New Properties — First Full Year</h4>
+    <div class="action-item"><div class="dot"></div>
+      <div><strong>Covewind 1518, 1522, 1535</strong> (4BR each) — all have bookings ($8.5K–$12K full year). Strong first-year performance. Confirm pricing is competitive with Barefoot cluster.</div>
+    </div>
+    <div class="action-item"><div class="dot"></div>
+      <div><strong>Luster Leaf 104</strong> (3BR) — $17,754 full-year on books. Very strong new-property start.</div>
+    </div>
+    <div class="action-item"><div class="dot"></div>
+      <div><strong>Barefoot #1532 Willow Bend</strong> (2BR) — $9,588 full-year. Good start for new Barefoot addition.</div>
+    </div>
+    <div class="action-item"><div class="dot"></div>
+      <div><strong>Holiday Pavilion #210</strong> (1BR) — $7,051 full-year. First peak season exposure — watch closely.</div>
+    </div>
+    <div class="action-item"><div class="dot"></div>
+      <div><strong>Shipwatch Pointe E109</strong> (2BR) and <strong>A Place At The Beach II 3-B</strong> (2BR) — early stage. Verify both are fully optimized in BP.</div>
+    </div>
+  </div>
+
+  <div class="action-card green action-full">
+    <h4>✅ Full-Year Wins — Properties Tracking Well or Ahead of 2025</h4>
+    <div class="wins-inner">
+      <div class="action-item"><div class="dot"></div>
+        <div><strong>Anderson Ocean Club</strong> (3BR) — $57,121 full-year vs $37,287 in all of 2025 (153%). Peak already above last year's full peak total. Portfolio's top performer.</div>
+      </div>
+      <div class="action-item"><div class="dot"></div>
+        <div><strong>Beach Club II 4E</strong> (4BR) — $30,803 vs $14,841 all of 2025 (208%). This property has been repriced into a higher tier and it's working.</div>
+      </div>
+      <div class="action-item"><div class="dot"></div>
+        <div><strong>Coconut Grove #204</strong> (6BR) — $55,535 vs $55,726 2025 final (100%). Tracking to match last year with peak still mostly ahead.</div>
+      </div>
+      <div class="action-item"><div class="dot"></div>
+        <div><strong>Brigadune 14a</strong> (3BR) — $26,189 full-year, already at 112% of full 2025. Entire revenue is from peak — on track to finish well above last year.</div>
+      </div>
+      <div class="action-item"><div class="dot"></div>
+        <div><strong>Off-peak performance</strong> — Jan–Mar 2026 completed at $110K vs $57K same period in 2025 (+93%). Growing the shoulder season is paying off.</div>
+      </div>
+      <div class="action-item"><div class="dot"></div>
+        <div><strong>April 2026</strong> (in progress) — $79,567 already booked for April vs $46,203 full April 2025 final. Already 172% of last April with weeks to go.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="footer">Unwind Vacation Rentals &nbsp;·&nbsp; Full Year + Peak Season Pacing &nbsp;·&nbsp; Generated April 14, 2026 &nbsp;·&nbsp; Data: Beyond Pricing export (Apr 11, 2026)</div>
+
+</div><!-- /main -->
+
+<script>
+// ---- DATA ----
+const propData = [
+  ["Anderson Ocean Club",3,57121,37287,44271,31316,25,"ahead"],
+  ["Coconut Grove #204",6,55535,55726,39256,41559,18,"ahead"],
+  ["Madison Drive 4BR Beach House",4,37721,73230,28485,53094,20,"attention"],
+  ["Beach Club II 4E",4,30803,14841,22814,5082,30,"ahead"],
+  ["Brigadune 14a",3,26189,23353,26189,23353,27,"ahead"],
+  ["Prince Resort 1205",3,25714,54139,14284,37518,4,"attention"],
+  ["Palms Resort #902",3,22387,47787,10359,30100,17,"attention"],
+  ["Grande Cayman Resort #1253",3,18869,38062,10001,26748,23,"attention"],
+  ["Luster Leaf 104",3,17754,943,9578,0,50,"new"],
+  ["Spinaker #703",2,17639,25174,10344,13655,29,"normal"],
+  ["Ocean villas #G2",2,15345,20452,12099,16901,33,"normal"],
+  ["Barefoot #1225 Willow Bend",3,15070,17625,8599,12678,29,"ahead"],
+  ["Covewind 1535",4,12059,385,8354,0,100,"new"],
+  ["MB Resort 4216",2,11853,10387,8114,9189,39,"ahead"],
+  ["Covewind 1522",4,11437,713,5894,0,50,"new"],
+  ["Hillside Beach House",3,10779,14063,5662,10899,59,"normal"],
+  ["A Place at the beach 3L 5001",2,10314,17744,7808,13873,36,"attention"],
+  ["Barefoot #1532 Willow Bend",2,9588,360,5236,0,100,"new"],
+  ["A Place at the Beach #123",2,9174,19143,4838,14940,33,"attention"],
+  ["Covewind 1518",4,8561,829,4528,0,100,"new"],
+  ["Ocean Reef #518",3,7920,44511,4822,31674,20,"attention"],
+  ["Emerald Pointe #3B",2,7129,6961,3976,5431,67,"ahead"],
+  ["Sanabel Towers #303",2,7109,26035,2744,16659,21,"attention"],
+  ["Holiday Pavilion #210",1,7051,591,3849,0,50,"new"],
+  ["Kingston - Arrow Head Court #215",2,6044,7547,3452,6670,67,"normal"],
+  ["Tilgham #241",3,5610,23137,0,16638,46,"zero"],
+  ["Barefoot #811 Ironwood",2,5186,14951,1765,8770,48,"attention"],
+  ["Barefoot #1222 Havens",2,4924,22150,985,12267,31,"attention"],
+  ["Barefoot #731 Willow Bend",3,4857,14151,1945,10627,48,"attention"],
+  ["Sand Dunes Resort 2527",1,4637,18798,3384,10681,58,"attention"],
+  ["Shipwatch Pointe E109",2,4268,0,1852,0,0,"new"],
+  ["Robbers Roost Villas 909",2,3897,15457,0,7600,83,"late"],
+  ["Beach Cove #412",1,3730,23155,799,14614,32,"attention"],
+  ["Barefoot #1635 Havens",3,3724,17855,1102,14276,24,"attention"],
+  ["Beach Cove #507",1,3493,22682,1495,15862,34,"attention"],
+  ["A Place at the Beach #3G",2,2623,15818,0,12085,47,"zero"],
+  ["Myrtle Beach Resort #431B",1,2092,11312,1116,9724,25,"attention"],
+  ["Monterey Bay #1205",1,1622,13101,0,10936,58,"late"],
+  ["A Place At The Beach II 3-B",2,1506,0,0,0,0,"new"],
+  ["Caravelle Resort #125",1,1323,14697,0,10171,68,"late"],
+  ["Cypress Bay #101",2,766,9449,0,5385,54,"zero"],
+  ["Sand Castle #707",1,190,8783,0,8155,75,"late"],
+];
+// cols: [0]name [1]br [2]fy26 [3]fy25 [4]pk26 [5]pk25 [6]late [7]status
+
+const monthData = [
+  {m:"Jan",v26:26071,v25s:11281,v25f:11281,season:"slow",past:true},
+  {m:"Feb",v26:20671,v25s:14383,v25f:14383,season:"slow",past:true},
+  {m:"Mar",v26:63193,v25s:31787,v25f:31787,season:"shoulder",past:true},
+  {m:"Apr",v26:79567,v25s:39479,v25f:46203,season:"shoulder",current:true},
+  {m:"May",v26:58903,v25s:34627,v25f:72606,season:"shoulder"},
+  {m:"Jun",v26:133897,v25s:74548,v25f:173579,season:"peak"},
+  {m:"Jul",v26:86797,v25s:43810,v25f:203030,season:"peak"},
+  {m:"Aug",v26:40402,v25s:18776,v25f:119916,season:"peak"},
+  {m:"Sep",v26:3017,v25s:903,v25f:45127,season:"shoulder"},
+  {m:"Oct",v26:773,v25s:5972,v25f:39436,season:"shoulder"},
+  {m:"Nov",v26:0,v25s:1533,v25f:18595,season:"slow"},
+  {m:"Dec",v26:323,v25s:1203,v25f:27440,season:"slow"},
+];
+
+// ---- 12-MONTH CHART ----
+const maxVal = 203030;
+function pct(v) { return Math.min(100, Math.round(v / maxVal * 100)); }
+
+const seasonTag = {
+  slow:     '<span class="season-tag st-slow">Slow</span>',
+  shoulder: '<span class="season-tag st-shoulder">Shoulder</span>',
+  peak:     '<span class="season-tag st-peak">Peak</span>',
+};
+
+function buildYearChart() {
+  const left = monthData.slice(0, 6);
+  const right = monthData.slice(6);
+  let html = '<div>';
+  [left, right].forEach((half, hi) => {
+    html += '<div>';
+    half.forEach(d => {
+      const nameClass = d.past ? 'past' : d.current ? 'current' : (d.season === 'peak' ? 'peak-m' : '');
+      const completedTag = d.past ? '<span class="completed-tag">✓ Completed</span>' : (d.current ? '<span style="font-size:9px;color:#2b6cb0;font-weight:600"> In Progress</span>' : '');
+      const pace = d.v25f > 0 ? Math.round(d.v26 / d.v25f * 100) : null;
+      const paceStr = pace === null ? '<span class="pace-na">—</span>'
+        : pace >= 90 ? `<span class="pace-good">${pace}%</span>`
+        : pace >= 50 ? `<span class="pace-warn">${pace}%</span>`
+        : `<span class="pace-warn">${pace}%</span>`;
+      html += `<div class="month-row">
+        <div class="month-name ${nameClass}">${d.m}${completedTag}${seasonTag[d.season]}</div>
+        <div class="month-bars">
+          <div class="bar-track"><div class="bar-fill b26" style="width:${pct(d.v26)}%"></div></div>
+          <div class="bar-track"><div class="bar-fill b25s" style="width:${pct(d.v25s)}%"></div></div>
+          <div class="bar-track"><div class="bar-fill b25f" style="width:${pct(d.v25f)}%"></div></div>
+        </div>
+        <div class="month-stats">
+          <div class="v26">$${Math.round(d.v26).toLocaleString()}</div>
+          <div class="v25f">$${Math.round(d.v25f).toLocaleString()} '25</div>
+          <div>${paceStr}</div>
+        </div>
+      </div>`;
+    });
+    html += '</div>';
+  });
+  html += '</div>';
+  document.getElementById('yearChartGrid').innerHTML = html;
+}
+buildYearChart();
+
+// ---- PROPERTY TABLE ----
+const statusLabel = {
+  ahead:     '<span class="badge badge-ahead">Pacing Ahead</span>',
+  normal:    '<span class="badge badge-normal">Filling Normally</span>',
+  attention: '<span class="badge badge-attention">Needs Attention</span>',
+  zero:      '<span class="badge badge-zero">⚠ Zero Peak</span>',
+  late:      '<span class="badge badge-late">Typically Late</span>',
+  new:       '<span class="badge badge-new">New Property</span>',
+};
+
+const rowClass = s => s === 'ahead' || s === 'new' ? 'row-green' : (s === 'zero' || s === 'late') ? 'row-red' : '';
+
+function fmt(n) { return n === 0 ? '—' : '$' + Math.round(n).toLocaleString(); }
+function fmtGap(a, b) {
+  if (b === 0) return '<span style="color:#718096">New</span>';
+  const g = a - b;
+  return `<span style="color:${g >= 0 ? '#276749' : '#9b2335'}">${g >= 0 ? '+' : ''}$${Math.abs(Math.round(g)).toLocaleString()}</span>`;
+}
+function fmtPace(a, b) {
+  if (b === 0) return '<span style="color:#718096">—</span>';
+  const p = Math.round(a / b * 100);
+  const c = p >= 80 ? '#276749' : p >= 40 ? '#c05621' : '#9b2335';
+  return `<span style="color:${c};font-weight:600">${p}%</span>`;
+}
+function fmtLate(n) {
+  if (n === 0) return '<span style="color:#718096">0%</span>';
+  const c = n >= 60 ? '#276749' : n >= 40 ? '#7b6c00' : '#9b2335';
+  return `<span style="color:${c}">${n}%</span>`;
+}
+
+let currentView = 'fy';
+let sortCol = 2, sortDir = -1;
+
+const views = {
+  fy: {
+    heads: ['Property','BR','2026 Full Year','2025 Full Year','Gap','% of 2025','2026 Peak','2025 Peak','Late %','Status'],
+    sortIdx: [0,1,2,3,4,5,4,5,6,7], // which data index each col sorts on
+    row: r => [
+      r[0],
+      r[1] || '—',
+      fmt(r[2]),
+      fmt(r[3]),
+      fmtGap(r[2],r[3]),
+      fmtPace(r[2],r[3]),
+      fmt(r[4]),
+      fmt(r[5]),
+      fmtLate(r[6]),
+      statusLabel[r[7]],
+    ],
+    sortVals: r => [r[0], r[1], r[2], r[3], r[2]-r[3], r[3]>0?r[2]/r[3]:0, r[4], r[5], r[6], r[7]],
+  },
+  peak: {
+    heads: ['Property','BR','2026 Peak','2025 Peak','Gap','% of 2025','Late %','Status'],
+    sortIdx: [0,1,4,5,4,5,6,7],
+    row: r => [
+      r[0],
+      r[1] || '—',
+      fmt(r[4]),
+      fmt(r[5]),
+      fmtGap(r[4],r[5]),
+      fmtPace(r[4],r[5]),
+      fmtLate(r[6]),
+      statusLabel[r[7]],
+    ],
+    sortVals: r => [r[0], r[1], r[4], r[5], r[4]-r[5], r[5]>0?r[4]/r[5]:0, r[6], r[7]],
+  },
+};
+
+function setView(v) {
+  currentView = v;
+  sortCol = v === 'fy' ? 2 : 2;
+  sortDir = -1;
+  document.getElementById('btnFY').className = 'toggle-btn' + (v === 'fy' ? ' active' : '');
+  document.getElementById('btnPeak').className = 'toggle-btn' + (v === 'peak' ? ' active' : '');
+  renderTable([...propData].sort((a, b) => {
+    const av = views[v].sortVals(b)[sortCol];
+    const bv = views[v].sortVals(a)[sortCol];
+    return av < bv ? -1 : av > bv ? 1 : 0;
+  }));
+}
+
+function sortTable(colIdx) {
+  if (sortCol === colIdx) sortDir *= -1;
+  else { sortCol = colIdx; sortDir = -1; }
+  const heads = document.querySelectorAll('#tblHead th span');
+  heads.forEach((th, i) => th.className = i === colIdx ? (sortDir === 1 ? 'sa' : 'sd') : '');
+  const v = views[currentView];
+  const sorted = [...propData].sort((a, b) => {
+    const av = v.sortVals(a)[colIdx];
+    const bv = v.sortVals(b)[colIdx];
+    if (typeof av === 'string') return av < bv ? -sortDir : av > bv ? sortDir : 0;
+    return (av - bv) * sortDir;
+  });
+  renderTable(sorted);
+}
+
+function renderTable(data) {
+  const v = views[currentView];
+  // Build header
+  const thead = document.getElementById('tblHead');
+  thead.innerHTML = v.heads.map((h, i) => `<th onclick="sortTable(${i})"><span${i === sortCol ? ` class="${sortDir === 1 ? 'sa' : 'sd'}"` : ''}>${h}</span></th>`).join('');
+
+  // Build body
+  let html = '';
+  let totFY26=0, totFY25=0, totPk26=0, totPk25=0;
+  data.forEach(r => {
+    totFY26 += r[2]; totFY25 += r[3]; totPk26 += r[4]; totPk25 += r[5];
+    const cells = v.row(r);
+    const numCols = new Set([2,3,4,5,6,7]);
+    html += `<tr class="${rowClass(r[7])}">` +
+      cells.map((c, i) => `<td${i > 0 && i < cells.length-1 ? ' class="num"' : ''}>${c}</td>`).join('') +
+      '</tr>';
+  });
+
+  // Summary row
+  let sumCells;
+  if (currentView === 'fy') {
+    const fyGap = totFY26 - totFY25; const fyPs = Math.round(totFY26/totFY25*100);
+    const pkGap = totPk26 - totPk25; const pkPs = Math.round(totPk26/totPk25*100);
+    sumCells = [
+      `<strong>Portfolio Total (${data.length})</strong>`, '',
+      `$${Math.round(totFY26).toLocaleString()}`, `$${Math.round(totFY25).toLocaleString()}`,
+      `${fyGap>=0?'+':''}$${Math.abs(Math.round(fyGap)).toLocaleString()}`, `${fyPs}%`,
+      `$${Math.round(totPk26).toLocaleString()}`, `$${Math.round(totPk25).toLocaleString()}`,
+      '', '',
+    ];
+  } else {
+    const pkGap = totPk26 - totPk25; const pkPs = Math.round(totPk26/totPk25*100);
+    sumCells = [
+      `<strong>Portfolio Total (${data.length})</strong>`, '',
+      `$${Math.round(totPk26).toLocaleString()}`, `$${Math.round(totPk25).toLocaleString()}`,
+      `${pkGap>=0?'+':''}$${Math.abs(Math.round(pkGap)).toLocaleString()}`, `${pkPs}%`,
+      '', '',
+    ];
+  }
+  html += '<tr class="row-summary">' + sumCells.map((c,i) => `<td${i>0&&i<sumCells.length-1?' class="num"':''}>${c}</td>`).join('') + '</tr>';
+  document.getElementById('propBody').innerHTML = html;
+}
+
+// Initial render
+setView('fy');
+</script>
+</body>
+</html>

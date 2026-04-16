@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unwind — 2026 Owner Income Projection Model</title>
+<style>
+  :root {
+    --accent: #2b6cb0;
+    --accent-dark: #1a365d;
+    --bg: #f4f6f9;
+    --card: #ffffff;
+    --border: #e2e8f0;
+    --text: #1a202c;
+    --muted: #718096;
+    --green: #276749;
+    --green-bg: #c6f6d5;
+    --green-light: #f0fff4;
+    --yellow: #7b6c00;
+    --yellow-bg: #fefcbf;
+    --red: #9b2335;
+    --red-bg: #fed7d7;
+    --orange: #c05621;
+    --orange-bg: #feebc8;
+    --blue-bg: #bee3f8;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); font-size: 14px; }
+
+  .page-header { background: linear-gradient(135deg, #1a365d 0%, #2b6cb0 100%); color: white; padding: 28px 32px 24px; }
+  .page-header h1 { font-size: 22px; font-weight: 700; }
+  .page-header .subtitle { font-size: 13px; opacity: 0.75; margin-top: 5px; }
+
+  .main { padding: 24px 28px; max-width: 1280px; }
+
+  .section-title { font-size: 14px; font-weight: 700; color: var(--accent-dark); margin: 24px 0 12px; padding-bottom: 6px; border-bottom: 2px solid var(--border); display: flex; align-items: center; gap: 8px; }
+
+  /* SCENARIO CARDS */
+  .scenario-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-bottom: 24px; }
+  .scenario-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 18px 16px; position: relative; overflow: hidden; cursor: pointer; transition: box-shadow 0.15s; }
+  .scenario-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.1); }
+  .scenario-card.active { border-width: 2px; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(43,108,176,0.15); }
+  .scenario-card .sc-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 6px; }
+  .scenario-card .sc-value { font-size: 28px; font-weight: 800; line-height: 1; margin-bottom: 4px; }
+  .scenario-card .sc-sub { font-size: 11px; color: var(--muted); margin-top: 4px; }
+  .scenario-card .sc-badge { position: absolute; top: 10px; right: 10px; font-size: 9px; font-weight: 700; padding: 2px 6px; border-radius: 10px; text-transform: uppercase; }
+
+  .sc-flat { border-top: 4px solid #718096; }
+  .sc-flat .sc-label { color: #718096; }
+  .sc-flat .sc-value { color: #4a5568; }
+
+  .sc-bp { border-top: 4px solid var(--accent); }
+  .sc-bp .sc-label { color: var(--accent); }
+  .sc-bp .sc-value { color: var(--accent-dark); }
+  .sc-bp .sc-badge { background: var(--blue-bg); color: var(--accent-dark); }
+
+  .sc-5 { border-top: 4px solid #38a169; }
+  .sc-5 .sc-label { color: #276749; }
+  .sc-5 .sc-value { color: #276749; }
+
+  .sc-10 { border-top: 4px solid #276749; }
+  .sc-10 .sc-label { color: #1c4532; }
+  .sc-10 .sc-value { color: #1c4532; }
+
+  .sc-15 { border-top: 4px solid #1a365d; }
+  .sc-15 .sc-label { color: #1a365d; }
+  .sc-15 .sc-value { color: #1a365d; }
+
+  .sc-active-badge { display: none; }
+  .scenario-card.active .sc-active-badge { display: inline-block; }
+
+  /* SUMMARY TABLE */
+  .summary-table-wrap { background: var(--card); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin-bottom: 24px; }
+  .summary-table { width: 100%; border-collapse: collapse; }
+  .summary-table thead th { background: var(--accent-dark); color: white; padding: 10px 14px; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.4px; text-align: right; }
+  .summary-table thead th:first-child { text-align: left; }
+  .summary-table tbody td { padding: 9px 14px; border-top: 1px solid var(--border); font-size: 12px; text-align: right; font-variant-numeric: tabular-nums; }
+  .summary-table tbody td:first-child { text-align: left; font-weight: 600; color: var(--muted); font-size: 11px; }
+  .summary-table tbody tr:hover { background: #f8fafc; }
+  .summary-table .highlight-row td { background: #ebf4ff; font-weight: 700; font-size: 13px; }
+  .summary-table .highlight-row td:first-child { color: var(--accent-dark); }
+  .col-flat { color: #718096; }
+  .col-bp { color: var(--accent); font-weight: 600; }
+  .col-5 { color: #38a169; font-weight: 600; }
+  .col-10 { color: #276749; font-weight: 600; }
+  .col-15 { color: #1a365d; font-weight: 600; }
+
+  /* MONTHLY CHART */
+  .chart-wrap { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 20px; margin-bottom: 24px; }
+  .chart-legend { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 16px; }
+  .leg-item { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--muted); }
+  .leg-dot { width: 12px; height: 12px; border-radius: 3px; }
+
+  .month-chart-grid { display: grid; grid-template-columns: 36px 1fr; gap: 0 8px; align-items: center; }
+  .month-lbl { font-size: 11px; font-weight: 700; color: var(--muted); text-align: right; }
+  .bar-row { display: flex; flex-direction: column; gap: 3px; border-bottom: 1px solid #f0f4f8; padding: 6px 0; }
+  .bar-line { display: flex; align-items: center; gap: 6px; height: 14px; }
+  .bar-outer { flex: 1; height: 12px; background: #edf2f7; border-radius: 6px; overflow: hidden; }
+  .bar-inner { height: 100%; border-radius: 6px; transition: width 0.3s; }
+  .bar-val { font-size: 10px; font-variant-numeric: tabular-nums; width: 56px; text-align: right; font-weight: 600; }
+
+  /* MONTHLY DETAIL TABLE */
+  .detail-wrap { background: var(--card); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin-bottom: 24px; }
+  .detail-tabs { display: flex; border-bottom: 1px solid var(--border); padding: 0 16px; gap: 4px; }
+  .detail-tab { padding: 10px 14px; font-size: 12px; font-weight: 600; cursor: pointer; color: var(--muted); border-bottom: 3px solid transparent; margin-bottom: -1px; }
+  .detail-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+  .detail-table { width: 100%; border-collapse: collapse; }
+  .detail-table th { background: #f8fafc; color: var(--muted); padding: 8px 12px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.4px; text-align: right; border-bottom: 1px solid var(--border); }
+  .detail-table th:first-child { text-align: left; }
+  .detail-table td { padding: 8px 12px; font-size: 12px; text-align: right; border-top: 1px solid var(--border); font-variant-numeric: tabular-nums; }
+  .detail-table td:first-child { text-align: left; font-weight: 600; }
+  .detail-table .peak-row td { background: #fff9f0; }
+  .detail-table .total-row td { background: var(--accent-dark); color: white; font-weight: 700; font-size: 13px; }
+  .pos { color: var(--green); }
+  .neg { color: var(--red); }
+
+  /* ASSUMPTIONS */
+  .assumptions-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 24px; }
+  .assume-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
+  .assume-card h4 { font-size: 12px; font-weight: 700; color: var(--accent-dark); margin-bottom: 10px; padding-bottom: 6px; border-bottom: 1px solid var(--border); text-transform: uppercase; letter-spacing: 0.4px; }
+  .assume-row { display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 5px; }
+  .assume-row .assume-key { color: var(--muted); }
+  .assume-row .assume-val { font-weight: 600; }
+
+  /* CALLOUT */
+  .callout { background: var(--yellow-bg); border: 1px solid #f6e05e; border-radius: 10px; padding: 14px 16px; margin-bottom: 24px; font-size: 12px; line-height: 1.6; }
+  .callout strong { color: var(--yellow); }
+
+  .footer { font-size: 11px; color: var(--muted); text-align: center; padding: 16px 0 24px; }
+
+  @media print {
+    body { background: white; font-size: 10px; }
+    .page-header { background: var(--accent-dark) !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .main { padding: 8px 12px; max-width: 100%; }
+    .scenario-grid { gap: 6px; }
+    .summary-table thead th { background: var(--accent-dark) !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .detail-table .total-row td { background: var(--accent-dark) !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .detail-tabs { display: none; }
+    .detail-panel { display: block !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <h1>Unwind — 2026 Owner Income Projection Model</h1>
+  <div class="subtitle">John Watson IV · 42.5% equity · $2,500/mo salary · Distribution from net profit · As of April 14, 2026</div>
+</div>
+
+<div class="main">
+
+<!-- SCENARIO CARDS -->
+<div class="section-title">What You Keep — 5 Revenue Scenarios</div>
+<div class="scenario-grid">
+
+  <div class="scenario-card sc-flat" onclick="setScenario(0)" id="card0">
+    <div class="sc-badge sc-active-badge" style="background:#e2e8f0;color:#4a5568;">Selected</div>
+    <div class="sc-label">Flat 2025</div>
+    <div class="sc-value">$102,409</div>
+    <div class="sc-sub">Same revenue as 2025<br>Full-year take-home</div>
+    <div class="sc-sub" style="margin-top:8px;font-size:10px;border-top:1px solid var(--border);padding-top:6px;">
+      Gross Rev: $1.63M<br>
+      Unwind Rev: $446K<br>
+      Net Income: $111K<br>
+      Your Dist: $72K + $30K salary
+    </div>
+  </div>
+
+  <div class="scenario-card sc-bp active" onclick="setScenario(1)" id="card1">
+    <div class="sc-badge sc-active-badge" style="background:var(--blue-bg);color:var(--accent-dark);">Selected</div>
+    <div class="sc-label">BP Trajectory</div>
+    <div class="sc-value">$107,753</div>
+    <div class="sc-sub">Based on current bookings<br>+ 2025 late-fill pattern</div>
+    <div class="sc-sub" style="margin-top:8px;font-size:10px;border-top:1px solid var(--border);padding-top:6px;">
+      Gross Rev: $1.68M<br>
+      Unwind Rev: $460K<br>
+      Net Income: $124K<br>
+      Your Dist: $78K + $30K salary
+    </div>
+  </div>
+
+  <div class="scenario-card sc-5" onclick="setScenario(2)" id="card2">
+    <div class="sc-badge sc-active-badge" style="background:#c6f6d5;color:#276749;">Selected</div>
+    <div class="sc-label">+5% Growth</div>
+    <div class="sc-value">$111,205</div>
+    <div class="sc-sub">5% above base projection<br>Full-year take-home</div>
+    <div class="sc-sub" style="margin-top:8px;font-size:10px;border-top:1px solid var(--border);padding-top:6px;">
+      Gross Rev: $1.74M<br>
+      Unwind Rev: $471K<br>
+      Net Income: $134K<br>
+      Your Dist: $81K + $30K salary
+    </div>
+  </div>
+
+  <div class="scenario-card sc-10" onclick="setScenario(3)" id="card3">
+    <div class="sc-badge sc-active-badge" style="background:#9ae6b4;color:#1c4532;">Selected</div>
+    <div class="sc-label">+10% Growth</div>
+    <div class="sc-value">$118,409</div>
+    <div class="sc-sub">10% above base projection<br>Full-year take-home</div>
+    <div class="sc-sub" style="margin-top:8px;font-size:10px;border-top:1px solid var(--border);padding-top:6px;">
+      Gross Rev: $1.81M<br>
+      Unwind Rev: $490K<br>
+      Net Income: $153K<br>
+      Your Dist: $88K + $30K salary
+    </div>
+  </div>
+
+  <div class="scenario-card sc-15" onclick="setScenario(4)" id="card4">
+    <div class="sc-badge sc-active-badge" style="background:#bee3f8;color:#1a365d;">Selected</div>
+    <div class="sc-label">+15% Growth</div>
+    <div class="sc-value">$124,537</div>
+    <div class="sc-sub">15% above base projection<br>Full-year take-home</div>
+    <div class="sc-sub" style="margin-top:8px;font-size:10px;border-top:1px solid var(--border);padding-top:6px;">
+      Gross Rev: $1.86M<br>
+      Unwind Rev: $506K<br>
+      Net Income: $169K<br>
+      Your Dist: $95K + $30K salary
+    </div>
+  </div>
+
+</div>
+
+<!-- CALLOUT -->
+<div class="callout">
+  <strong>BP Trajectory Note:</strong> Uses Jan–Apr actuals + projects May–Aug final by applying 2025's late-booking fill rate to current on-books. This is a <strong>conservative floor</strong> — portfolio has grown to 63–72 units in peak season vs ~40 in 2025. If the late-booking period scales with the larger portfolio, results track toward the <strong>+10% to +15% scenarios.</strong> June and July pacing is already running 2–2.3× ahead of same-point 2025.
+</div>
+
+<!-- FULL P&L COMPARISON TABLE -->
+<div class="section-title">Full P&amp;L Comparison — All 5 Scenarios</div>
+<div class="summary-table-wrap">
+  <table class="summary-table">
+    <thead>
+      <tr>
+        <th>Metric</th>
+        <th class="col-flat">Flat 2025</th>
+        <th class="col-bp">BP Trajectory</th>
+        <th class="col-5">+5% Growth</th>
+        <th class="col-10">+10% Growth</th>
+        <th class="col-15">+15% Growth</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Guest Gross Revenue</td>
+        <td class="col-flat">$1,631,403</td>
+        <td class="col-bp">$1,684,270</td>
+        <td class="col-5">$1,739,236</td>
+        <td class="col-10">$1,807,096</td>
+        <td class="col-15">$1,864,355</td>
+      </tr>
+      <tr>
+        <td>Mgmt Commission (16.5% of rent)</td>
+        <td class="col-flat">$198,118</td>
+        <td class="col-bp">$204,447</td>
+        <td class="col-5">$211,213</td>
+        <td class="col-10">$219,454</td>
+        <td class="col-15">$226,407</td>
+      </tr>
+      <tr>
+        <td>Booking Mgmt Fees ($65/booking)</td>
+        <td class="col-flat">$111,020</td>
+        <td class="col-bp">$113,620</td>
+        <td class="col-5">$116,025</td>
+        <td class="col-10">$120,835</td>
+        <td class="col-15">$125,060</td>
+      </tr>
+      <tr>
+        <td>Cleaning Profit ($80.50/booking)</td>
+        <td class="col-flat">$137,494</td>
+        <td class="col-bp">$141,534</td>
+        <td class="col-5">$143,693</td>
+        <td class="col-10">$149,650</td>
+        <td class="col-15">$154,882</td>
+      </tr>
+      <tr>
+        <td><strong>Total Unwind Revenue</strong></td>
+        <td class="col-flat"><strong>$446,632</strong></td>
+        <td class="col-bp"><strong>$459,601</strong></td>
+        <td class="col-5"><strong>$470,930</strong></td>
+        <td class="col-10"><strong>$489,938</strong></td>
+        <td class="col-15"><strong>$506,349</strong></td>
+      </tr>
+      <tr>
+        <td>Annual Payroll (2025 actual, flat)</td>
+        <td>$210,634</td>
+        <td>$210,634</td>
+        <td>$210,634</td>
+        <td>$210,634</td>
+        <td>$210,634</td>
+      </tr>
+      <tr>
+        <td>Fixed Software & Services</td>
+        <td>$97,332</td>
+        <td>$97,332</td>
+        <td>$97,332</td>
+        <td>$97,332</td>
+        <td>$97,332</td>
+      </tr>
+      <tr>
+        <td>Per-Property Software (Breezeway + HostBuddy)</td>
+        <td>$15,686</td>
+        <td>$15,686</td>
+        <td>$15,686</td>
+        <td>$15,686</td>
+        <td>$15,686</td>
+      </tr>
+      <tr>
+        <td>Beyond Pricing (1% of rent)</td>
+        <td>$12,007</td>
+        <td>$12,396</td>
+        <td>$12,801</td>
+        <td>$13,300</td>
+        <td>$13,722</td>
+      </tr>
+      <tr>
+        <td><strong>Total Operating Expenses</strong></td>
+        <td class="col-flat"><strong>$335,661</strong></td>
+        <td class="col-bp"><strong>$336,050</strong></td>
+        <td class="col-5"><strong>$336,455</strong></td>
+        <td class="col-10"><strong>$336,954</strong></td>
+        <td class="col-15"><strong>$337,375</strong></td>
+      </tr>
+      <tr class="highlight-row">
+        <td>Net Income (Before Dist.)</td>
+        <td class="col-flat">$110,971</td>
+        <td class="col-bp">$123,551</td>
+        <td class="col-5">$134,475</td>
+        <td class="col-10">$152,984</td>
+        <td class="col-15">$168,974</td>
+      </tr>
+      <tr>
+        <td>John's Distribution (42.5% of profitable months)</td>
+        <td class="col-flat">$72,409</td>
+        <td class="col-bp">$77,753</td>
+        <td class="col-5">$81,205</td>
+        <td class="col-10">$88,409</td>
+        <td class="col-15">$94,537</td>
+      </tr>
+      <tr>
+        <td>John's Annual Salary</td>
+        <td>$30,000</td>
+        <td>$30,000</td>
+        <td>$30,000</td>
+        <td>$30,000</td>
+        <td>$30,000</td>
+      </tr>
+      <tr class="highlight-row">
+        <td>John's Total Take-Home</td>
+        <td class="col-flat">$102,409</td>
+        <td class="col-bp">$107,753</td>
+        <td class="col-5">$111,205</td>
+        <td class="col-10">$118,409</td>
+        <td class="col-15">$124,537</td>
+      </tr>
+      <tr>
+        <td>John's % of Gross Revenue</td>
+        <td class="col-flat">6.3%</td>
+        <td class="col-bp">6.4%</td>
+        <td class="col-5">6.4%</td>
+        <td class="col-10">6.6%</td>
+        <td class="col-15">6.7%</td>
+      </tr>
+      <tr>
+        <td>John's % of Unwind Revenue</td>
+        <td class="col-flat">22.9%</td>
+        <td class="col-bp">23.4%</td>
+        <td class="col-5">23.6%</td>
+        <td class="col-10">24.2%</td>
+        <td class="col-15">24.6%</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- MONTHLY INCOME CHART -->
+<div class="section-title">Monthly Income to John — By Scenario</div>
+<div class="chart-wrap">
+  <div class="chart-legend">
+    <div class="leg-item"><div class="leg-dot" style="background:#718096"></div>Flat 2025</div>
+    <div class="leg-item"><div class="leg-dot" style="background:#2b6cb0"></div>BP Trajectory</div>
+    <div class="leg-item"><div class="leg-dot" style="background:#38a169"></div>+5% Growth</div>
+    <div class="leg-item"><div class="leg-dot" style="background:#276749"></div>+10% Growth</div>
+    <div class="leg-item"><div class="leg-dot" style="background:#1a365d"></div>+15% Growth</div>
+    <div class="leg-item" style="margin-left:auto;font-size:11px;color:var(--muted)">Max bar = $29,697 (Jul BP Traj)</div>
+  </div>
+  <div id="monthlyChart"></div>
+</div>
+
+<!-- CUMULATIVE INCOME CHART -->
+<div class="section-title">Cumulative Income to John — Year-to-Date</div>
+<div class="chart-wrap">
+  <div style="font-size:11px;color:var(--muted);margin-bottom:14px;">Running total of John's salary + distributions month by month</div>
+  <div id="cumulChart"></div>
+</div>
+
+<!-- MONTHLY DETAIL BY SCENARIO -->
+<div class="section-title">Monthly Detail — Select Scenario</div>
+<div class="detail-wrap">
+  <div class="detail-tabs">
+    <div class="detail-tab active" onclick="setTab(0)">Flat 2025</div>
+    <div class="detail-tab" onclick="setTab(1)">BP Trajectory</div>
+    <div class="detail-tab" onclick="setTab(2)">+5% Growth</div>
+    <div class="detail-tab" onclick="setTab(3)">+10% Growth</div>
+    <div class="detail-tab" onclick="setTab(4)">+15% Growth</div>
+  </div>
+  <div id="detailPanel"></div>
+</div>
+
+<!-- SLOW SEASON CASH PLANNING -->
+<div class="section-title">Slow Season Cash Planning &amp; Reserve Strategy</div>
+
+<!-- Current cash position status -->
+<div style="background:#fff;border:1px solid var(--border);border-radius:10px;padding:20px 22px;margin-bottom:18px;">
+  <div style="display:flex;gap:20px;flex-wrap:wrap;align-items:flex-start;">
+
+    <!-- Cash boxes -->
+    <div style="flex:2;min-width:280px;">
+      <div style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px;">Current Cash Position — April 14, 2026</div>
+      <div style="display:flex;gap:12px;margin-bottom:14px;">
+        <div style="flex:1;background:#f7fafc;border:1px solid var(--border);border-radius:8px;padding:12px 14px;">
+          <div style="font-size:10px;color:var(--muted);margin-bottom:3px;">Operating Account</div>
+          <div style="font-size:24px;font-weight:800;color:#2b6cb0;line-height:1;">$26,887</div>
+          <div style="font-size:10px;color:var(--muted);margin-top:2px;">Available now</div>
+        </div>
+        <div style="flex:1;background:#fff5f5;border:1px solid #feb2b2;border-radius:8px;padding:12px 14px;">
+          <div style="font-size:10px;color:var(--muted);margin-bottom:3px;">HYSA Balance</div>
+          <div style="font-size:24px;font-weight:800;color:var(--red);line-height:1;">$0</div>
+          <div style="font-size:10px;color:var(--muted);margin-top:2px;">Fully drawn down</div>
+        </div>
+        <div style="flex:1;background:#f7fafc;border:1px solid var(--border);border-radius:8px;padding:12px 14px;">
+          <div style="font-size:10px;color:var(--muted);margin-bottom:3px;">Total Liquid</div>
+          <div style="font-size:24px;font-weight:800;color:#4a5568;line-height:1;">$26,887</div>
+          <div style="font-size:10px;color:var(--muted);margin-top:2px;">vs. ~$74K target</div>
+        </div>
+      </div>
+      <!-- Progress bar -->
+      <div style="font-size:11px;color:var(--muted);margin-bottom:5px;">Reserve funded — target <strong>$74,253</strong> (Flat scenario + 25% buffer)</div>
+      <div style="background:#e2e8f0;border-radius:6px;height:20px;position:relative;overflow:hidden;">
+        <div style="background:linear-gradient(90deg,#2b6cb0,#4299e1);width:36.2%;height:100%;border-radius:6px;"></div>
+        <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#1a365d;mix-blend-mode:multiply;">36% funded &nbsp;·&nbsp; $47,366 gap</div>
+      </div>
+    </div>
+
+    <!-- Warning callout -->
+    <div style="flex:1.4;min-width:240px;background:var(--yellow-bg);border:1px solid #ecc94b;border-radius:8px;padding:14px 16px;">
+      <div style="font-weight:700;color:var(--yellow);font-size:13px;margin-bottom:8px;">2025 Lesson Learned</div>
+      <div style="font-size:12px;line-height:1.75;color:#744210;">
+        You saved <strong>$80,000</strong> heading into the 2025 slow season and burned through all of it — barely making it to March. This model shows the true structural deficit is <strong>$53K–$59K</strong>, meaning $80K gave you only a thin cushion (<strong>$21–27K buffer</strong>). Starting 2026 with just <strong>$26,887 total</strong> means you must rebuild the entire reserve from this summer's peak season profits.
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Slow season deficit table + savings plan side by side -->
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:18px;">
+
+  <!-- LEFT: Slow season deficit by scenario -->
+  <div style="background:#fff;border:1px solid var(--border);border-radius:10px;padding:18px;">
+    <div style="font-size:13px;font-weight:700;color:var(--accent-dark);margin-bottom:12px;">Slow Season Cash Deficit — By Scenario</div>
+    <div style="font-size:11px;color:var(--muted);margin-bottom:10px;">Company-level net income loss in deficit months (what must be funded from reserves)</div>
+    <table style="width:100%;border-collapse:collapse;font-size:12px;">
+      <thead>
+        <tr style="background:#f7fafc;">
+          <th style="padding:6px 8px;text-align:left;font-weight:600;color:var(--muted);border-bottom:1px solid var(--border);">Month</th>
+          <th style="padding:6px 4px;text-align:right;font-weight:600;color:#718096;border-bottom:1px solid var(--border);">Flat</th>
+          <th style="padding:6px 4px;text-align:right;font-weight:600;color:#2b6cb0;border-bottom:1px solid var(--border);">BP</th>
+          <th style="padding:6px 4px;text-align:right;font-weight:600;color:#38a169;border-bottom:1px solid var(--border);">+5%</th>
+          <th style="padding:6px 4px;text-align:right;font-weight:600;color:#276749;border-bottom:1px solid var(--border);">+10%</th>
+          <th style="padding:6px 4px;text-align:right;font-weight:600;color:#1a365d;border-bottom:1px solid var(--border);">+15%</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="border-bottom:1px solid var(--border);">
+          <td style="padding:5px 8px;color:var(--red);font-weight:600;">Jan</td>
+          <td style="padding:5px 4px;text-align:right;color:var(--red);">(16,218)</td>
+          <td style="padding:5px 4px;text-align:right;color:var(--red);">(16,218)</td>
+          <td style="padding:5px 4px;text-align:right;color:var(--red);">(16,218)</td>
+          <td style="padding:5px 4px;text-align:right;color:var(--red);">(16,218)</td>
+          <td style="padding:5px 4px;text-align:right;color:var(--red);">(16,218)</td>
+        </tr>
+        <tr style="border-bottom:1px solid var(--border);">
+          <td style="padding:5px 8px;color:var(--red);font-weight:600;">Feb</td>
+          <td style="padding:5px 4px;text-align:right;color:var(--red);">(16,888)</td>
+          <td style="padding:5px 4px;text-align:right;color:var(--red);">(16,888)</td>
+          <td style="padding:5px 4px;text-align:right;color:var(--red);">(16,888)</td>
+          <td style="padding:5px 4px;text-align:right;color:var(--red);">(16,888)</td>
+          <td style="padding:5px 4px;text-align:right;color:var(--red);">(16,888)</td>
+        </tr>
+        <tr style="border-bottom:1px solid var(--border);">
+          <td style="padding:5px 8px;font-weight:600;">Oct</td>
+          <td style="padding:5px 4px;text-align:right;color:var(--red);">(1,367)</td>
+          <td style="padding:5px 4px;text-align:right;color:var(--red);">(1,367)</td>
+          <td style="padding:5px 4px;text-align:right;color:var(--red);">(132)</td>
+          <td style="padding:5px 4px;text-align:right;color:var(--green);">+1,248</td>
+          <td style="padding:5px 4px;text-align:right;color:var(--green);">+2,482</td>
+        </tr>
+        <tr style="border-bottom:1px solid var(--border);">
+          <td style="padding:5px 8px;color:var(--red);font-weight:600;">Nov</td>
+          <td style="padding:5px 4px;text-align:right;color:var(--red);">(15,420)</td>
+          <td style="padding:5px 4px;text-align:right;color:var(--red);">(15,420)</td>
+          <td style="padding:5px 4px;text-align:right;color:var(--red);">(14,751)</td>
+          <td style="padding:5px 4px;text-align:right;color:var(--red);">(14,228)</td>
+          <td style="padding:5px 4px;text-align:right;color:var(--red);">(13,560)</td>
+        </tr>
+        <tr style="border-bottom:2px solid var(--border);">
+          <td style="padding:5px 8px;color:var(--red);font-weight:600;">Dec</td>
+          <td style="padding:5px 4px;text-align:right;color:var(--red);">(9,509)</td>
+          <td style="padding:5px 4px;text-align:right;color:var(--red);">(9,509)</td>
+          <td style="padding:5px 4px;text-align:right;color:var(--red);">(8,606)</td>
+          <td style="padding:5px 4px;text-align:right;color:var(--red);">(7,704)</td>
+          <td style="padding:5px 4px;text-align:right;color:var(--red);">(6,801)</td>
+        </tr>
+        <tr style="background:#fff5f5;font-weight:700;border-bottom:1px solid var(--border);">
+          <td style="padding:6px 8px;color:var(--red);">Total Deficit</td>
+          <td style="padding:6px 4px;text-align:right;color:var(--red);">(59,402)</td>
+          <td style="padding:6px 4px;text-align:right;color:var(--red);">(59,402)</td>
+          <td style="padding:6px 4px;text-align:right;color:var(--red);">(56,595)</td>
+          <td style="padding:6px 4px;text-align:right;color:var(--red);">(55,038)</td>
+          <td style="padding:6px 4px;text-align:right;color:var(--red);">(53,467)</td>
+        </tr>
+        <tr style="background:var(--yellow-bg);font-weight:700;">
+          <td style="padding:6px 8px;color:var(--yellow);font-size:11px;">Target Reserve<br><span style="font-weight:400;font-size:10px;">(deficit + 25% buffer)</span></td>
+          <td style="padding:6px 4px;text-align:right;color:var(--yellow);">$74,253</td>
+          <td style="padding:6px 4px;text-align:right;color:var(--yellow);">$74,253</td>
+          <td style="padding:6px 4px;text-align:right;color:var(--yellow);">$70,744</td>
+          <td style="padding:6px 4px;text-align:right;color:var(--yellow);">$68,798</td>
+          <td style="padding:6px 4px;text-align:right;color:var(--yellow);">$66,834</td>
+        </tr>
+      </tbody>
+    </table>
+    <div style="font-size:10px;color:var(--muted);margin-top:8px;">25% buffer added over 2025 actual because $80K "barely made it" — gives ~$15–21K cushion for unexpected expenses.</div>
+  </div>
+
+  <!-- RIGHT: 2026 Savings Plan -->
+  <div style="background:#fff;border:1px solid var(--border);border-radius:10px;padding:18px;">
+    <div style="font-size:13px;font-weight:700;color:var(--accent-dark);margin-bottom:4px;">2026 HYSA Savings Plan</div>
+    <div style="font-size:11px;color:var(--muted);margin-bottom:12px;">Transfer 30% of company monthly net profit to HYSA — starting May. Based on Flat 2025 scenario.</div>
+
+    <table style="width:100%;border-collapse:collapse;font-size:12px;">
+      <thead>
+        <tr style="background:#f7fafc;">
+          <th style="padding:6px 8px;text-align:left;font-weight:600;color:var(--muted);border-bottom:1px solid var(--border);">Month</th>
+          <th style="padding:6px 6px;text-align:right;font-weight:600;color:var(--muted);border-bottom:1px solid var(--border);">Co. Net</th>
+          <th style="padding:6px 6px;text-align:right;font-weight:600;color:var(--muted);border-bottom:1px solid var(--border);">Save 30%</th>
+          <th style="padding:6px 6px;text-align:right;font-weight:600;color:var(--muted);border-bottom:1px solid var(--border);">HYSA Balance</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="background:#f0fff4;border-bottom:1px solid var(--border);">
+          <td style="padding:5px 8px;font-weight:600;">Apr (now)</td>
+          <td style="padding:5px 6px;text-align:right;">$12,577</td>
+          <td style="padding:5px 6px;text-align:right;color:var(--green);">$3,773</td>
+          <td style="padding:5px 6px;text-align:right;font-weight:700;">$30,660</td>
+        </tr>
+        <tr style="border-bottom:1px solid var(--border);">
+          <td style="padding:5px 8px;font-weight:600;">May</td>
+          <td style="padding:5px 6px;text-align:right;">$22,513</td>
+          <td style="padding:5px 6px;text-align:right;color:var(--green);">$6,754</td>
+          <td style="padding:5px 6px;text-align:right;font-weight:700;">$37,414</td>
+        </tr>
+        <tr style="background:var(--green-light);border-bottom:1px solid var(--border);">
+          <td style="padding:5px 8px;font-weight:600;">Jun &#9733;</td>
+          <td style="padding:5px 6px;text-align:right;">$40,910</td>
+          <td style="padding:5px 6px;text-align:right;color:var(--green);font-weight:700;">$12,273</td>
+          <td style="padding:5px 6px;text-align:right;font-weight:700;">$49,687</td>
+        </tr>
+        <tr style="background:var(--green-light);border-bottom:1px solid var(--border);">
+          <td style="padding:5px 8px;font-weight:600;">Jul &#9733;</td>
+          <td style="padding:5px 6px;text-align:right;">$51,094</td>
+          <td style="padding:5px 6px;text-align:right;color:var(--green);font-weight:700;">$15,328</td>
+          <td style="padding:5px 6px;text-align:right;font-weight:700;">$65,015</td>
+        </tr>
+        <tr style="background:var(--green-light);border-bottom:1px solid var(--border);">
+          <td style="padding:5px 8px;font-weight:600;">Aug &#9733;</td>
+          <td style="padding:5px 6px;text-align:right;">$30,544</td>
+          <td style="padding:5px 6px;text-align:right;color:var(--green);font-weight:700;">$9,163</td>
+          <td style="padding:5px 6px;text-align:right;font-weight:700;">$74,178</td>
+        </tr>
+        <tr style="border-bottom:2px solid var(--border);">
+          <td style="padding:5px 8px;font-weight:600;">Sep</td>
+          <td style="padding:5px 6px;text-align:right;">$9,689</td>
+          <td style="padding:5px 6px;text-align:right;color:var(--green);">$2,907</td>
+          <td style="padding:5px 6px;text-align:right;font-weight:700;">$77,085</td>
+        </tr>
+        <tr style="background:var(--green-bg);">
+          <td colspan="3" style="padding:7px 8px;font-weight:700;color:var(--green);">HYSA at Oct 1 (target: $74,253)</td>
+          <td style="padding:7px 6px;text-align:right;font-weight:800;color:var(--green);font-size:14px;">$77,085 ✓</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div style="margin-top:12px;background:#ebf8ff;border:1px solid #90cdf4;border-radius:6px;padding:10px 12px;font-size:11px;line-height:1.7;color:#2c5282;">
+      <strong>How it works:</strong> At the start of each month, transfer 30% of the prior month's net profit into the HYSA. Jun–Aug are the critical months — those three months alone contribute <strong>$36,764</strong> of the needed gap. At 4.5% APY, $77K earns ~$870 in interest during the Oct–Feb draw period as a small bonus.
+    </div>
+  </div>
+</div>
+
+<!-- Funding source comparison -->
+<div style="font-size:13px;font-weight:700;color:var(--accent-dark);margin:4px 0 12px;padding-bottom:6px;border-bottom:2px solid var(--border);">Funding Options: Self-Funded HYSA vs. Line of Credit</div>
+
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:20px;">
+
+  <!-- Option 1: HYSA -->
+  <div style="background:#fff;border:1px solid var(--border);border-top:4px solid var(--green);border-radius:10px;padding:18px;">
+    <div style="font-size:12px;font-weight:800;color:var(--green);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">Option 1 — Self-Funded HYSA</div>
+    <div style="font-size:22px;font-weight:800;color:var(--text);margin-bottom:4px;">$0 cost</div>
+    <div style="font-size:11px;color:var(--muted);margin-bottom:12px;">Earns ~$870 interest while parked (Oct–Feb)</div>
+    <div style="font-size:12px;line-height:1.8;">
+      <div style="color:var(--green);">&#10003; No application, no debt</div>
+      <div style="color:var(--green);">&#10003; Earns 4.5% APY in HYSA</div>
+      <div style="color:var(--green);">&#10003; Builds financial discipline</div>
+      <div style="color:var(--green);">&#10003; No lender covenants</div>
+      <div style="color:var(--red);margin-top:6px;">&#10007; Requires saving $47K in 5 months</div>
+      <div style="color:var(--red);">&#10007; No safety net if summer underperforms</div>
+      <div style="color:var(--red);">&#10007; Cash not available for opportunities</div>
+    </div>
+    <div style="margin-top:12px;background:var(--green-light);border-radius:6px;padding:8px 10px;font-size:11px;color:var(--green);">
+      <strong>Best if:</strong> Summer performs at or above flat 2025. You can mechanically transfer 30% of net each month without fail.
+    </div>
+  </div>
+
+  <!-- Option 2: Bank LOC -->
+  <div style="background:#fff;border:1px solid var(--border);border-top:4px solid var(--accent);border-radius:10px;padding:18px;">
+    <div style="font-size:12px;font-weight:800;color:var(--accent);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">Option 2 — Business Line of Credit</div>
+    <div style="font-size:22px;font-weight:800;color:var(--text);margin-bottom:4px;">~$2,200–2,800</div>
+    <div style="font-size:11px;color:var(--muted);margin-bottom:12px;">Estimated interest cost (5 mo. avg draw of ~$45K at 9.5%)</div>
+    <div style="font-size:12px;line-height:1.8;">
+      <div style="color:var(--green);">&#10003; No cash tied up all summer</div>
+      <div style="color:var(--green);">&#10003; Draw only what you need, when needed</div>
+      <div style="color:var(--green);">&#10003; Revolving — resets each summer</div>
+      <div style="color:var(--green);">&#10003; Safety net if summer underperforms</div>
+      <div style="color:var(--red);margin-top:6px;">&#10007; Interest expense (~$2,500/yr)</div>
+      <div style="color:var(--red);">&#10007; Qualification requires 2+ yrs, financials</div>
+      <div style="color:var(--red);">&#10007; Lender may restrict or call line</div>
+    </div>
+    <div style="margin-top:12px;background:var(--blue-bg);border-radius:6px;padding:8px 10px;font-size:11px;color:#2c5282;">
+      <strong>Best sources:</strong> Local community bank or credit union (best rates). SBA CAPLine (gov-backed working capital). Avoid Bluevine/Fundbox — rates 12–18%+.
+    </div>
+  </div>
+
+  <!-- Option 3: Hybrid (recommended) -->
+  <div style="background:#fff;border:2px solid var(--yellow);border-top:4px solid var(--yellow);border-radius:10px;padding:18px;position:relative;">
+    <div style="position:absolute;top:-1px;right:12px;background:var(--yellow);color:white;font-size:9px;font-weight:800;padding:3px 8px;border-radius:0 0 6px 6px;text-transform:uppercase;letter-spacing:0.5px;">Recommended</div>
+    <div style="font-size:12px;font-weight:800;color:var(--yellow);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">Option 3 — Hybrid Strategy</div>
+    <div style="font-size:22px;font-weight:800;color:var(--text);margin-bottom:4px;">Best of both</div>
+    <div style="font-size:11px;color:var(--muted);margin-bottom:12px;">Save aggressively + open LOC as backstop only</div>
+    <div style="font-size:12px;line-height:1.8;">
+      <div style="color:var(--green);">&#10003; Save 30% of net Apr–Sep into HYSA</div>
+      <div style="color:var(--green);">&#10003; Target $75K+ in HYSA by Oct 1</div>
+      <div style="color:var(--green);">&#10003; Open $50K–75K LOC now (before you need it)</div>
+      <div style="color:var(--green);">&#10003; LOC sits unused = $0 cost most years</div>
+      <div style="color:var(--green);">&#10003; Draw LOC only if HYSA falls short</div>
+    </div>
+    <div style="margin-top:12px;background:var(--yellow-bg);border-radius:6px;padding:8px 10px;font-size:11px;color:var(--yellow);line-height:1.7;">
+      <strong>Key insight:</strong> Apply for the LOC <em>before</em> you need it — banks lend when you don't need the money. With a profitable 2026 summer, you may never draw it. But it protects against a slow July or unexpected expense spike.
+    </div>
+  </div>
+
+</div>
+
+<!-- LOC lender comparison -->
+<div style="background:#fff;border:1px solid var(--border);border-radius:10px;padding:18px;margin-bottom:18px;">
+  <div style="font-size:13px;font-weight:700;color:var(--accent-dark);margin-bottom:12px;">Line of Credit — Lender Comparison</div>
+  <table style="width:100%;border-collapse:collapse;font-size:12px;">
+    <thead>
+      <tr style="background:#f7fafc;">
+        <th style="padding:7px 10px;text-align:left;font-weight:600;color:var(--muted);border-bottom:1px solid var(--border);">Source</th>
+        <th style="padding:7px 8px;text-align:center;font-weight:600;color:var(--muted);border-bottom:1px solid var(--border);">Typical Rate</th>
+        <th style="padding:7px 8px;text-align:center;font-weight:600;color:var(--muted);border-bottom:1px solid var(--border);">Limit</th>
+        <th style="padding:7px 8px;text-align:center;font-weight:600;color:var(--muted);border-bottom:1px solid var(--border);">Speed</th>
+        <th style="padding:7px 10px;text-align:left;font-weight:600;color:var(--muted);border-bottom:1px solid var(--border);">Notes</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr style="background:var(--green-light);border-bottom:1px solid var(--border);">
+        <td style="padding:7px 10px;font-weight:700;">Local Community Bank / CU</td>
+        <td style="padding:7px 8px;text-align:center;font-weight:700;color:var(--green);">8–10%</td>
+        <td style="padding:7px 8px;text-align:center;">$50–250K</td>
+        <td style="padding:7px 8px;text-align:center;">2–4 wks</td>
+        <td style="padding:7px 10px;">Best rates. Relationship-based. Will want 2 yrs of financials + P&L. Grand Strand area banks familiar with STR seasonality.</td>
+      </tr>
+      <tr style="border-bottom:1px solid var(--border);">
+        <td style="padding:7px 10px;font-weight:700;">SBA CAPLine</td>
+        <td style="padding:7px 8px;text-align:center;font-weight:700;color:var(--green);">8.5–10.5%</td>
+        <td style="padding:7px 8px;text-align:center;">Up to $5M</td>
+        <td style="padding:7px 8px;text-align:center;">6–8 wks</td>
+        <td style="padding:7px 10px;">Specifically designed for seasonal working capital cycles. SBA guarantees 75% — easier to qualify. Requires SBA paperwork.</td>
+      </tr>
+      <tr style="border-bottom:1px solid var(--border);">
+        <td style="padding:7px 10px;font-weight:700;">HELOC (personal property)</td>
+        <td style="padding:7px 8px;text-align:center;font-weight:700;color:var(--yellow);">7.5–9%</td>
+        <td style="padding:7px 8px;text-align:center;">Varies</td>
+        <td style="padding:7px 8px;text-align:center;">3–5 wks</td>
+        <td style="padding:7px 10px;">Often cheapest option if you own property with equity. Puts personal collateral at risk — use with caution for business operating needs.</td>
+      </tr>
+      <tr style="border-bottom:1px solid var(--border);">
+        <td style="padding:7px 10px;font-weight:700;">Bluevine / Fundbox</td>
+        <td style="padding:7px 8px;text-align:center;font-weight:700;color:var(--red);">14–24%</td>
+        <td style="padding:7px 8px;text-align:center;">$10–250K</td>
+        <td style="padding:7px 8px;text-align:center;">1–3 days</td>
+        <td style="padding:7px 10px;">Fast approval, no collateral. Very expensive for seasonal draws. At $60K draw for 5 months — interest could hit $5,000–7,500. Last resort only.</td>
+      </tr>
+      <tr>
+        <td style="padding:7px 10px;font-weight:700;">American Express Business</td>
+        <td style="padding:7px 8px;text-align:center;font-weight:700;color:var(--orange);">12–18%</td>
+        <td style="padding:7px 8px;text-align:center;">$5–50K</td>
+        <td style="padding:7px 8px;text-align:center;">Instant</td>
+        <td style="padding:7px 10px;">If you have an Amex business card, their flex line is quick. OK for partial coverage ($10–20K gap), not as primary solution.</td>
+      </tr>
+    </tbody>
+  </table>
+  <div style="margin-top:10px;background:#f0fff4;border:1px solid #9ae6b4;border-radius:6px;padding:10px 12px;font-size:11px;line-height:1.7;color:#276749;">
+    <strong>Recommended action:</strong> Walk into a local Myrtle Beach community bank (Conway National, First Reliance, South Atlantic Bank) with your 2025 P&amp;L and 2026 projections in hand. Ask for a <strong>$75,000 seasonal working capital line</strong>. Having 53+ managed properties and a clean P&L from 2025 should qualify you. Apply in April or May — before you need it and while summer revenue is starting to come in.
+  </div>
+</div>
+
+<!-- ASSUMPTIONS -->
+<div class="section-title">Model Assumptions</div>
+<div class="assumptions-grid">
+  <div class="assume-card">
+    <h4>Revenue Structure</h4>
+    <div class="assume-row"><span class="assume-key">Mgmt commission</span><span class="assume-val">16.5% of rent</span></div>
+    <div class="assume-row"><span class="assume-key">Booking mgmt fee</span><span class="assume-val">$65/reservation</span></div>
+    <div class="assume-row"><span class="assume-key">Avg cleaning fee billed</span><span class="assume-val">$230/booking</span></div>
+    <div class="assume-row"><span class="assume-key">Cleaning fee profit margin</span><span class="assume-val">35% = $80.50/bkg</span></div>
+    <div class="assume-row"><span class="assume-key">Rent as % of gross</span><span class="assume-val">73.6% (2025 actuals)</span></div>
+  </div>
+  <div class="assume-card">
+    <h4>Operating Expenses (Monthly)</h4>
+    <div class="assume-row"><span class="assume-key">Total payroll</span><span class="assume-val">$17,553/mo (2025 actual, flat)</span></div>
+    <div class="assume-row"><span class="assume-key">Fixed software (15 tools)</span><span class="assume-val">$8,111/mo fixed</span></div>
+    <div class="assume-row"><span class="assume-key">Breezeway + HostBuddy</span><span class="assume-val">$18.99/property/mo</span></div>
+    <div class="assume-row"><span class="assume-key">Beyond Pricing</span><span class="assume-val">1% of rent collected</span></div>
+    <div class="assume-row"><span class="assume-key">Property count growth</span><span class="assume-val">53→92 Jan→Dec</span></div>
+  </div>
+  <div class="assume-card">
+    <h4>Ownership &amp; Distributions</h4>
+    <div class="assume-row"><span class="assume-key">John Watson IV</span><span class="assume-val">42.5%</span></div>
+    <div class="assume-row"><span class="assume-key">Matt Meetre</span><span class="assume-val">42.5%</span></div>
+    <div class="assume-row"><span class="assume-key">John Watson III</span><span class="assume-val">7.5%</span></div>
+    <div class="assume-row"><span class="assume-key">Mike Chittum</span><span class="assume-val">7.5%</span></div>
+    <div class="assume-row"><span class="assume-key">Loss months</span><span class="assume-val">$0 distribution</span></div>
+    <div class="assume-row"><span class="assume-key">Salary paid always</span><span class="assume-val">$2,500/mo each</span></div>
+  </div>
+</div>
+
+<div class="section-title">Scenario Methodology</div>
+<div class="assumptions-grid" style="grid-template-columns: repeat(2,1fr)">
+  <div class="assume-card">
+    <h4>Flat 2025 &amp; Growth Scenarios</h4>
+    <div style="font-size:12px;line-height:1.7;color:var(--muted)">
+      <b style="color:var(--text)">Jan–Mar:</b> 2026 OwnerRez actuals.<br>
+      <b style="color:var(--text)">Apr:</b> Already-confirmed bookings as of early April.<br>
+      <b style="color:var(--text)">May–Dec (Flat 2025):</b> 2025 per-property revenue rates applied to 2026's growing property count (53→92 units). This baseline already bakes in portfolio growth.<br>
+      <b style="color:var(--text)">+5% / +10% / +15%:</b> Applied multiplicatively on top of the Flat 2025 baseline — representing ADR improvements, higher occupancy, or better channel mix.<br>
+      Source: <em>Unwind_2026_Distribution_Model_fixed.xlsx</em>
+    </div>
+  </div>
+  <div class="assume-card">
+    <h4>BP Trajectory Scenario</h4>
+    <div style="font-size:12px;line-height:1.7;color:var(--muted)">
+      <b style="color:var(--text)">Jan–Apr:</b> Same actuals as all other scenarios.<br>
+      <b style="color:var(--text)">May–Aug:</b> Starts with current Beyond Pricing on-books (Apr 14 snapshot), then adds 2025's late-booking fill amount (the revenue that came in <em>after</em> Apr 14 in 2025) <em>without</em> a portfolio growth premium.<br>
+      <b style="color:var(--yellow)">Conservative floor:</b> Doesn't adjust late-booking fill upward for the 63–72 unit peak portfolio vs ~40 units in 2025. Portfolio growth impact likely pushes actual results toward +10–15% scenarios.<br>
+      <b style="color:var(--text)">Sep–Dec:</b> Same as Flat 2025 baseline.
+    </div>
+  </div>
+</div>
+
+<div class="footer">Unwind Vacation Rentals &nbsp;·&nbsp; Owner Income Model &nbsp;·&nbsp; Generated April 14, 2026 &nbsp;·&nbsp; Source: Distribution Model v2 + Beyond Pricing Apr 14 export</div>
+</div><!-- /main -->
+
+<script>
+// ─── DATA ────────────────────────────────────────────────────────────────────
+const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const peakMonths = new Set([4,5,6,7]); // 0-indexed May=4, Jun=5, Jul=6, Aug=7
+
+// John's monthly take-home for each scenario [0..4]
+// Payroll corrected to 2025 actual: $210,634/yr = $17,553/mo (was $21,000/mo)
+const johnMonthly = [
+  // [0] Flat 2025 — corrected payroll; Mar now profitable, Oct still slight loss
+  [2500, 2500, 3795, 7845, 12068, 19887, 24215, 15481, 6618, 2500, 2500, 2500],
+  // [1] BP Trajectory — corrected payroll
+  [2500, 2500, 3795, 7845, 8153, 27863, 29697, 11282, 6618, 2500, 2500, 2500],
+  // [2] +5% Growth — corrected payroll; Oct borderline ($-132 net, still loss)
+  [2500, 2500, 4990, 9283, 13123, 21300, 25880, 16732, 7397, 2500, 2500, 2500],
+  // [3] +10% Growth — corrected payroll; Oct now profitable
+  [2500, 2500, 4990, 9792, 14179, 22775, 27545, 17922, 8176, 3030, 2500, 2500],
+  // [4] +15% Growth — corrected payroll; Oct profitable
+  [2500, 2500, 4990, 9231, 15234, 24189, 29210, 19173, 8955, 3555, 2500, 2500],
+];
+
+// Full monthly P&L data per scenario
+// cols: [gross, unwindRev, expenses, net, johnDist, johnTotal]
+// Payroll corrected: $17,553/mo (2025 actual). Expenses = orig - $3,447. Net = orig + $3,447.
+const monthlyPL = [
+  // Flat 2025 (corrected payroll)
+  [
+    [39330,  10742, 26960, -16218,     0,  2500],
+    [36006,  10047, 26935, -16888,     0,  2500],
+    [93422,  30406, 27358,   3048,  1295,  3795],
+    [136976, 40351, 27774,  12577,  5345,  7845],
+    [180260, 50700, 28187,  22513,  9568, 12068],
+    [276976, 69866, 28956,  40910, 17387, 19887],
+    [304250, 80307, 29214,  51094, 21715, 24215],
+    [235577, 59309, 28765,  30544, 12981, 15481],
+    [142877, 37866, 28178,   9689,  4118,  6618],
+    [88890,  26509, 27875,  -1367,     0,  2500],
+    [40672,  12214, 27634, -15420,     0,  2500],
+    [56168,  18315, 27824,  -9509,     0,  2500],
+  ],
+  // BP Trajectory (corrected payroll)
+  [
+    [39330,  10742, 26960, -16218,     0,  2500],
+    [36006,  10047, 26935, -16888,     0,  2500],
+    [93422,  30406, 27358,   3048,  1295,  3795],
+    [136976, 40351, 27774,  12577,  5345,  7845],
+    [146701, 41242, 27940,  13302,  5653,  8153],
+    [353500, 89198, 29519,  59679, 25363, 27863],
+    [354837, 93580, 29586,  63994, 27197, 29697],
+    [194891, 49131, 28466,  20665,  8782, 11282],
+    [142877, 37866, 28178,   9689,  4118,  6618],
+    [88890,  26509, 27875,  -1367,     0,  2500],
+    [40672,  12214, 27634, -15420,     0,  2500],
+    [56168,  18315, 27824,  -9509,     0,  2500],
+  ],
+  // +5% Growth (corrected payroll: expenses - $3,447/mo)
+  [
+    [39330,  10742, 26960, -16218,     0,  2500],
+    [36006,  10047, 26935, -16888,     0,  2500],
+    [115523, 33381, 27521,   5860,  2490,  4990],
+    [156424, 43877, 27917,  15960,  6783,  9283],
+    [189273, 53249, 28253,  24996, 10623, 13123],
+    [290825, 73293, 29058,  44235, 18800, 21300],
+    [319463, 84337, 29326,  55011, 23380, 25880],
+    [247356, 62340, 28852,  33488, 14232, 16732],
+    [150021, 39753, 28230,  11523,  4897,  7397],
+    [93334,  27776, 27908,   -132,     0,  2500],
+    [42706,  12898, 27649, -14751,     0,  2500],
+    [58976,  19239, 27845,  -8606,     0,  2500],
+  ],
+  // +10% Growth (corrected payroll: expenses - $3,447/mo)
+  [
+    [39330,  10742, 26960, -16218,     0,  2500],
+    [36006,  10047, 26935, -16888,     0,  2500],
+    [115523, 33381, 27521,   5860,  2490,  4990],
+    [158000, 45087, 27928,  17159,  7293,  9793],
+    [198286, 55799, 28320,  27479, 11679, 14179],
+    [304674, 76867, 29160,  47707, 20275, 22775],
+    [334675, 88367, 29438,  58929, 25045, 27545],
+    [259135, 65225, 28939,  36286, 15422, 17922],
+    [157165, 41639, 28283,  13356,  5676,  8176],
+    [97779,  29189, 27941,   1248,   530,  3030],
+    [44739,  13436, 27664, -14228,     0,  2500],
+    [61784,  20162, 27866,  -7704,     0,  2500],
+  ],
+  // +15% Growth (corrected payroll: expenses - $3,447/mo)
+  [
+    [39330,  10742, 26960, -16218,     0,  2500],
+    [36006,  10047, 26935, -16888,     0,  2500],
+    [115523, 33381, 27521,   5860,  2490,  4990],
+    [148976, 43700, 27862,  15838,  6731,  9231],
+    [207299, 58348, 28386,  29962, 12734, 15234],
+    [318523, 80294, 29262,  51032, 21689, 24189],
+    [349888, 92397, 29549,  62848, 26710, 29210],
+    [270914, 68256, 29025,  39231, 16673, 19173],
+    [164309, 43525, 28336,  15189,  6455,  8955],
+    [102223, 30456, 27974,   2482,  1055,  3555],
+    [46773,  14119, 27679, -13560,     0,  2500],
+    [64593,  21085, 27886,  -6801,     0,  2500],
+  ],
+];
+
+const scColors = ['#718096','#2b6cb0','#38a169','#276749','#1a365d'];
+const scNames  = ['Flat 2025','BP Trajectory','+5% Growth','+10% Growth','+15% Growth'];
+const scAnnual = [102409, 107753, 111205, 118409, 124537];
+
+// ─── MONTHLY BAR CHART ───────────────────────────────────────────────────────
+const maxMonthly = Math.max(...johnMonthly.flat()); // 28232
+
+function buildMonthlyChart() {
+  let html = '<div class="month-chart-grid">';
+  months.forEach((m, mi) => {
+    html += `<div class="month-lbl">${m}</div><div class="bar-row">`;
+    johnMonthly.forEach((sc, si) => {
+      const v = sc[mi];
+      const pct = Math.round(v / maxMonthly * 100);
+      html += `<div class="bar-line">
+        <div class="bar-outer"><div class="bar-inner" style="width:${pct}%;background:${scColors[si]}"></div></div>
+        <div class="bar-val" style="color:${scColors[si]}">$${v.toLocaleString()}</div>
+      </div>`;
+    });
+    html += '</div>';
+  });
+  html += '</div>';
+  document.getElementById('monthlyChart').innerHTML = html;
+}
+
+// ─── CUMULATIVE CHART ────────────────────────────────────────────────────────
+function buildCumulChart() {
+  // Build cumulative arrays
+  const cumuls = johnMonthly.map(sc => {
+    let running = 0;
+    return sc.map(v => { running += v; return running; });
+  });
+  const maxCumul = Math.max(...cumuls.map(sc => sc[sc.length-1]));
+
+  let html = '<div class="month-chart-grid">';
+  months.forEach((m, mi) => {
+    html += `<div class="month-lbl">${m}</div><div class="bar-row">`;
+    cumuls.forEach((sc, si) => {
+      const v = sc[mi];
+      const pct = Math.round(v / maxCumul * 100);
+      html += `<div class="bar-line">
+        <div class="bar-outer"><div class="bar-inner" style="width:${pct}%;background:${scColors[si]}"></div></div>
+        <div class="bar-val" style="color:${scColors[si]}">$${Math.round(v/1000)}K</div>
+      </div>`;
+    });
+    html += '</div>';
+  });
+  html += '</div>';
+  document.getElementById('cumulChart').innerHTML = html;
+}
+
+// ─── DETAIL TABLE ────────────────────────────────────────────────────────────
+let activeTab = 0;
+
+function setTab(i) {
+  activeTab = i;
+  document.querySelectorAll('.detail-tab').forEach((t,ti) => t.className = 'detail-tab' + (ti===i?' active':''));
+  buildDetailTable(i);
+}
+
+function fmt(n) { return '$' + Math.round(n).toLocaleString(); }
+function fmtNet(n) {
+  if (n < 0) return `<span class="neg">(${fmt(-n)})</span>`;
+  return `<span class="pos">${fmt(n)}</span>`;
+}
+
+function buildDetailTable(si) {
+  const data = monthlyPL[si];
+  const color = scColors[si];
+  let html = `<table class="detail-table">
+    <thead>
+      <tr>
+        <th>Month</th>
+        <th>Gross Guest Rev</th>
+        <th>Unwind Revenue</th>
+        <th>Total Expenses</th>
+        <th>Net Income</th>
+        <th>John Dist (42.5%)</th>
+        <th>John Salary</th>
+        <th style="color:${color}">John Total</th>
+      </tr>
+    </thead>
+    <tbody>`;
+
+  let totG=0, totR=0, totE=0, totN=0, totD=0, totT=0;
+  data.forEach((r,mi) => {
+    const [gross, rev, exp, net, dist, total] = r;
+    totG+=gross; totR+=rev; totE+=exp; totN+=net; totD+=dist; totT+=total;
+    const rowCls = peakMonths.has(mi) ? ' class="peak-row"' : '';
+    html += `<tr${rowCls}>
+      <td>${months[mi]}${peakMonths.has(mi)?'<span style="font-size:9px;color:#c05621;margin-left:4px;font-weight:700">PEAK</span>':''}</td>
+      <td>${fmt(gross)}</td>
+      <td>${fmt(rev)}</td>
+      <td>${fmt(exp)}</td>
+      <td>${fmtNet(net)}</td>
+      <td>${dist > 0 ? fmt(dist) : '—'}</td>
+      <td>$2,500</td>
+      <td style="color:${color};font-weight:700">${fmt(total)}</td>
+    </tr>`;
+  });
+
+  html += `<tr class="total-row">
+    <td>Full Year 2026</td>
+    <td>${fmt(totG)}</td>
+    <td>${fmt(totR)}</td>
+    <td>${fmt(totE)}</td>
+    <td>${fmtNet(totN)}</td>
+    <td>${fmt(totD)}</td>
+    <td>$30,000</td>
+    <td>${fmt(totT)}</td>
+  </tr>`;
+
+  html += '</tbody></table>';
+  document.getElementById('detailPanel').innerHTML = html;
+}
+
+// ─── SCENARIO CARDS ──────────────────────────────────────────────────────────
+let activeScenario = 1;
+function setScenario(i) {
+  activeScenario = i;
+  for (let j = 0; j < 5; j++) {
+    document.getElementById('card'+j).classList.toggle('active', j===i);
+  }
+  setTab(i);
+}
+
+// ─── INIT ─────────────────────────────────────────────────────────────────────
+buildMonthlyChart();
+buildCumulChart();
+buildDetailTable(1);  // default to BP Trajectory
+</script>
+</body>
+</html>

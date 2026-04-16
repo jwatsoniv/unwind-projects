@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unwind Vacation Rentals — Revenue Dashboard</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --bg: #f4f6f9;
+      --card: #ffffff;
+      --border: #e2e8f0;
+      --text: #1a202c;
+      --muted: #718096;
+      --accent: #2b6cb0;
+      --accent-light: #ebf4ff;
+      --green: #276749;
+      --green-bg: #f0fff4;
+      --green-border: #9ae6b4;
+      --red: #9b2c2c;
+      --red-bg: #fff5f5;
+      --red-border: #fc8181;
+      --yellow: #7b341e;
+      --yellow-bg: #fffbeb;
+      --yellow-border: #f6e05e;
+      --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--text);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    /* ── Header ─────────────────────────────────────────── */
+    .page-header {
+      background: var(--accent);
+      color: #fff;
+      padding: 18px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .page-header h1 { font-size: 20px; font-weight: 700; letter-spacing: -.3px; }
+    .page-header .subtitle { font-size: 13px; opacity: .75; margin-top: 2px; }
+    .page-header .meta { font-size: 12px; opacity: .65; text-align: right; }
+
+    /* ── Main layout ─────────────────────────────────────── */
+    .wrapper { max-width: 1200px; margin: 0 auto; padding: 28px 24px; }
+
+    .section { margin-bottom: 32px; }
+    .section-title {
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .6px;
+      color: var(--muted);
+      margin-bottom: 14px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* ── Summary bar ─────────────────────────────────────── */
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+    .stat-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 20px 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .stat-card .label {
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .5px;
+      color: var(--muted);
+    }
+    .stat-card .value {
+      font-size: 30px;
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: -1px;
+      line-height: 1.1;
+    }
+    .stat-card .sub {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+    .stat-card.highlight { border-top: 3px solid var(--accent); }
+    .stat-card .badge-green {
+      display: inline-block;
+      background: var(--green-bg);
+      color: var(--green);
+      border: 1px solid var(--green-border);
+      border-radius: 12px;
+      padding: 2px 10px;
+      font-size: 12px;
+      font-weight: 700;
+      margin-top: 4px;
+    }
+
+    /* ── Two-column grid for charts / tables ─────────────── */
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+
+    /* ── Card ────────────────────────────────────────────── */
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 22px 24px;
+    }
+    .card-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 16px;
+    }
+    .card-title span {
+      font-size: 12px;
+      font-weight: 400;
+      color: var(--muted);
+      margin-left: 6px;
+    }
+
+    /* ── Chart container ─────────────────────────────────── */
+    .chart-wrap { position: relative; height: 260px; }
+
+    /* ── Table ───────────────────────────────────────────── */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    thead th {
+      text-align: left;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .5px;
+      color: var(--muted);
+      padding: 0 10px 10px;
+      border-bottom: 1px solid var(--border);
+    }
+    thead th.right, tbody td.right { text-align: right; }
+    tbody tr:hover { background: #f7fafc; }
+    tbody td {
+      padding: 10px 10px;
+      border-bottom: 1px solid #f0f4f8;
+      color: var(--text);
+    }
+    tbody tr:last-child td { border-bottom: none; }
+    .rank {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 22px; height: 22px;
+      border-radius: 50%;
+      background: var(--accent-light);
+      color: var(--accent);
+      font-size: 11px;
+      font-weight: 700;
+    }
+    .rank.gold { background: #fffbeb; color: #b7791f; }
+    .rank.silver { background: #f7fafc; color: #4a5568; }
+    .rank.bronze { background: #fffaf0; color: #c05621; }
+
+    .prop-name { font-weight: 600; color: var(--text); }
+    .prop-note { font-size: 11px; color: var(--muted); font-style: italic; }
+
+    /* ── Pacing table ────────────────────────────────────── */
+    .pacing-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+    .pacing-month {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px 16px;
+      background: var(--card);
+    }
+    .pacing-month .month-name {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: .4px;
+      margin-bottom: 8px;
+    }
+    .pacing-month .pace-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 6px;
+    }
+    .pacing-month .pace-label { font-size: 11px; color: var(--muted); }
+    .pacing-month .pace-val { font-size: 14px; font-weight: 700; color: var(--text); }
+    .pacing-month .pace-delta {
+      font-size: 12px;
+      font-weight: 700;
+      margin-top: 4px;
+    }
+    .pacing-month .status-pill {
+      display: inline-block;
+      border-radius: 10px;
+      padding: 2px 9px;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .4px;
+    }
+    .status-complete { background: #ebf4ff; color: #2b6cb0; }
+    .status-ahead   { background: var(--green-bg); color: var(--green); }
+    .status-inprog  { background: #fff3cd; color: #856404; }
+    .status-open    { background: #f7fafc; color: var(--muted); }
+    .status-early   { background: #f0f4ff; color: #553c9a; }
+
+    .delta-up   { color: var(--green); }
+    .delta-down { color: #e53e3e; }
+
+    .progress-bar-wrap {
+      height: 6px;
+      background: #edf2f7;
+      border-radius: 3px;
+      margin-top: 8px;
+      overflow: hidden;
+    }
+    .progress-bar-fill {
+      height: 100%;
+      border-radius: 3px;
+      background: var(--accent);
+      transition: width .3s;
+    }
+    .progress-bar-fill.over { background: #38a169; }
+    .progress-bar-fill.warn { background: #e53e3e; }
+
+    /* ── Flagged properties ──────────────────────────────── */
+    .flagged-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+    .flag-card {
+      border-radius: 8px;
+      border: 1px solid;
+      padding: 16px 18px;
+    }
+    .flag-card.urgent {
+      background: var(--red-bg);
+      border-color: var(--red-border);
+    }
+    .flag-card.watch {
+      background: var(--yellow-bg);
+      border-color: var(--yellow-border);
+    }
+    .flag-card .flag-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+    .flag-card .flag-icon {
+      font-size: 16px;
+      line-height: 1;
+    }
+    .flag-card .flag-name {
+      font-weight: 700;
+      font-size: 13px;
+    }
+    .flag-card.urgent .flag-name { color: var(--red); }
+    .flag-card.watch .flag-name  { color: var(--yellow); }
+    .flag-card .flag-stats {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 8px;
+    }
+    .flag-card .fstat { display: flex; flex-direction: column; gap: 1px; }
+    .flag-card .fstat .fl { font-size: 10px; text-transform: uppercase; color: var(--muted); font-weight: 600; letter-spacing: .4px; }
+    .flag-card .fstat .fv { font-size: 15px; font-weight: 700; color: var(--text); }
+    .flag-card .flag-issue {
+      font-size: 12px;
+      line-height: 1.5;
+    }
+    .flag-card.urgent .flag-issue { color: var(--red); }
+    .flag-card.watch .flag-issue  { color: var(--yellow); }
+    .flag-card .flag-action {
+      margin-top: 8px;
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.4;
+    }
+    .flag-card .vs-avg {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      background: var(--red-bg);
+      border: 1px solid var(--red-border);
+      color: var(--red);
+      border-radius: 10px;
+      padding: 1px 8px;
+      margin-left: 6px;
+    }
+    .flag-card.watch .vs-avg {
+      background: var(--yellow-bg);
+      border-color: var(--yellow-border);
+      color: var(--yellow);
+    }
+
+    /* ── Exclusion note ──────────────────────────────────── */
+    .exclusion-note {
+      background: #f7fafc;
+      border: 1px solid var(--border);
+      border-left: 3px solid #a0aec0;
+      border-radius: 6px;
+      padding: 12px 16px;
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 14px;
+      line-height: 1.6;
+    }
+    .exclusion-note strong { color: var(--text); }
+
+    /* ── Coverage note ───────────────────────────────────── */
+    .coverage-note {
+      background: var(--accent-light);
+      border: 1px solid #bee3f8;
+      border-radius: 6px;
+      padding: 10px 16px;
+      font-size: 12px;
+      color: #2c5282;
+      margin-top: 20px;
+    }
+
+    /* ── Footer ──────────────────────────────────────────── */
+    .page-footer {
+      text-align: center;
+      font-size: 11px;
+      color: var(--muted);
+      padding: 24px;
+      border-top: 1px solid var(--border);
+      margin-top: 12px;
+    }
+
+    /* ── Responsive ──────────────────────────────────────── */
+    @media (max-width: 900px) {
+      .summary-grid { grid-template-columns: repeat(2, 1fr); }
+      .two-col { grid-template-columns: 1fr; }
+      .pacing-grid { grid-template-columns: repeat(2, 1fr); }
+      .flagged-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 600px) {
+      .summary-grid { grid-template-columns: 1fr 1fr; }
+      .pacing-grid { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════ Header -->
+<div class="page-header">
+  <div>
+    <h1>Unwind Vacation Rentals</h1>
+    <div class="subtitle">Revenue Dashboard &mdash; 2025 Performance &amp; 2026 Pacing</div>
+  </div>
+  <div class="meta">
+    Updated April 11, 2026<br>
+    Source: Beyond Pricing / OwnerRez
+  </div>
+</div>
+
+<div class="wrapper">
+
+  <!-- ══════════════════════════════════════════════ 1. Summary -->
+  <div class="section">
+    <div class="section-title">2025 Annual Summary</div>
+    <div class="summary-grid">
+
+      <div class="stat-card highlight">
+        <div class="label">Total Revenue (BP-tracked)</div>
+        <div class="value">$803K</div>
+        <div class="sub">$803,383 across all properties</div>
+      </div>
+
+      <div class="stat-card highlight">
+        <div class="label">Total Bookings</div>
+        <div class="value">1,016</div>
+        <div class="sub">Accepted, non-owner stays</div>
+      </div>
+
+      <div class="stat-card highlight">
+        <div class="label">Average ADR</div>
+        <div class="value">$152</div>
+        <div class="sub">Portfolio-wide average daily rate</div>
+      </div>
+
+      <div class="stat-card highlight">
+        <div class="label">2026 YTD Pacing</div>
+        <div class="value">+137%</div>
+        <div class="sub">vs. same period 2025 (Jan–Apr 11)</div>
+        <span class="badge-green">&#8593; $167K vs. $71K</span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ════════════════════════════ 2. Monthly Chart + Top 10 Table -->
+  <div class="two-col">
+
+    <!-- Monthly Revenue Chart -->
+    <div class="section">
+      <div class="section-title">2025 Monthly Revenue</div>
+      <div class="card">
+        <div class="card-title">
+          Revenue by Month
+          <span>June–August = 62% of annual revenue</span>
+        </div>
+        <div class="chart-wrap">
+          <canvas id="monthlyChart"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- Monthly Bookings Chart -->
+    <div class="section">
+      <div class="section-title">2025 Monthly Booking Volume</div>
+      <div class="card">
+        <div class="card-title">
+          Bookings by Month
+          <span>Peak volume tracks revenue curve</span>
+        </div>
+        <div class="chart-wrap">
+          <canvas id="bookingsChart"></canvas>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ══════════════════════════════════════ 3. Top 10 Properties -->
+  <div class="section">
+    <div class="section-title">Top 10 Properties by 2025 Revenue</div>
+    <div class="card">
+      <table>
+        <thead>
+          <tr>
+            <th style="width:36px">#</th>
+            <th>Property</th>
+            <th class="right">2025 Revenue</th>
+            <th class="right">Bookings</th>
+            <th class="right">ADR</th>
+            <th>Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="rank gold">1</span></td>
+            <td><span class="prop-name">Madison Drive 4BR Beach House</span></td>
+            <td class="right"><strong>$73,230</strong></td>
+            <td class="right">51</td>
+            <td class="right">$355</td>
+            <td><span class="prop-note">Portfolio leader</span></td>
+          </tr>
+          <tr>
+            <td><span class="rank silver">2</span></td>
+            <td><span class="prop-name">Coconut Grove #204</span></td>
+            <td class="right"><strong>$55,726</strong></td>
+            <td class="right">39</td>
+            <td class="right">$421</td>
+            <td><span class="prop-note">Highest ADR in portfolio</span></td>
+          </tr>
+          <tr>
+            <td><span class="rank bronze">3</span></td>
+            <td><span class="prop-name">Prince Resort 1205</span></td>
+            <td class="right"><strong>$54,139</strong></td>
+            <td class="right">52</td>
+            <td class="right">$230</td>
+            <td><span class="prop-note">High volume, consistent</span></td>
+          </tr>
+          <tr>
+            <td><span class="rank">4</span></td>
+            <td><span class="prop-name">Palms Resort #902</span></td>
+            <td class="right"><strong>$47,787</strong></td>
+            <td class="right">52</td>
+            <td class="right">$208</td>
+            <td><span class="prop-note">High volume, consistent</span></td>
+          </tr>
+          <tr>
+            <td><span class="rank">5</span></td>
+            <td><span class="prop-name">Ocean Reef #518</span></td>
+            <td class="right"><strong>$44,511</strong></td>
+            <td class="right">51</td>
+            <td class="right">$217</td>
+            <td><span class="prop-note">High volume, consistent</span></td>
+          </tr>
+          <tr>
+            <td><span class="rank">6</span></td>
+            <td><span class="prop-name">Grande Cayman Resort #1253</span></td>
+            <td class="right"><strong>$38,062</strong></td>
+            <td class="right">35</td>
+            <td class="right">$252</td>
+            <td><span class="prop-note">Strong mid-tier</span></td>
+          </tr>
+          <tr>
+            <td><span class="rank">7</span></td>
+            <td><span class="prop-name">Anderson Ocean Club</span></td>
+            <td class="right"><strong>$37,287</strong></td>
+            <td class="right">20</td>
+            <td class="right">$401</td>
+            <td><span class="prop-note">&#9733; Partial year (Jun–Dec) — likely top-3 full year</span></td>
+          </tr>
+          <tr>
+            <td><span class="rank">8</span></td>
+            <td><span class="prop-name">Sanabel Towers #303</span></td>
+            <td class="right"><strong>$26,035</strong></td>
+            <td class="right">43</td>
+            <td class="right">$128</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td><span class="rank">9</span></td>
+            <td><span class="prop-name">Spinaker #703</span></td>
+            <td class="right"><strong>$25,174</strong></td>
+            <td class="right">38</td>
+            <td class="right">$120</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td><span class="rank">10</span></td>
+            <td><span class="prop-name">Brigadune 14a</span></td>
+            <td class="right"><strong>$23,353</strong></td>
+            <td class="right">15</td>
+            <td class="right">$339</td>
+            <td><span class="prop-note">Low volume, premium rate</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ═════════════════════════════════════ 4. 2026 Pacing -->
+  <div class="section">
+    <div class="section-title">2026 Pacing vs. 2025 — Month by Month</div>
+
+    <div class="pacing-grid">
+
+      <!-- January -->
+      <div class="pacing-month">
+        <div class="month-name">January <span class="status-pill status-complete">Complete</span></div>
+        <div class="pace-row">
+          <div><div class="pace-label">2025 Final</div><div class="pace-val">$11,281</div></div>
+          <div><div class="pace-label">2026 Final</div><div class="pace-val">$26,071</div></div>
+        </div>
+        <div class="pace-delta delta-up">&#8593; +$14,790 &nbsp;(+131%)</div>
+        <div class="progress-bar-wrap"><div class="progress-bar-fill over" style="width:100%"></div></div>
+      </div>
+
+      <!-- February -->
+      <div class="pacing-month">
+        <div class="month-name">February <span class="status-pill status-complete">Complete</span></div>
+        <div class="pace-row">
+          <div><div class="pace-label">2025 Final</div><div class="pace-val">$14,383</div></div>
+          <div><div class="pace-label">2026 Final</div><div class="pace-val">$20,671</div></div>
+        </div>
+        <div class="pace-delta delta-up">&#8593; +$6,288 &nbsp;(+44%)</div>
+        <div class="progress-bar-wrap"><div class="progress-bar-fill over" style="width:100%"></div></div>
+      </div>
+
+      <!-- March -->
+      <div class="pacing-month">
+        <div class="month-name">March <span class="status-pill status-complete">Complete</span></div>
+        <div class="pace-row">
+          <div><div class="pace-label">2025 Final</div><div class="pace-val">$31,787</div></div>
+          <div><div class="pace-label">2026 Final</div><div class="pace-val">$63,193</div></div>
+        </div>
+        <div class="pace-delta delta-up">&#8593; +$31,407 &nbsp;(+99%)</div>
+        <div class="progress-bar-wrap"><div class="progress-bar-fill over" style="width:100%"></div></div>
+      </div>
+
+      <!-- April -->
+      <div class="pacing-month">
+        <div class="month-name">April <span class="status-pill status-inprog">In Progress</span></div>
+        <div class="pace-row">
+          <div><div class="pace-label">2025 Final</div><div class="pace-val">$46,203</div></div>
+          <div><div class="pace-label">2026 On Books</div><div class="pace-val">$79,567</div></div>
+        </div>
+        <div class="pace-delta delta-up">&#8593; +$33,364 &nbsp;(+72%)</div>
+        <div class="progress-bar-wrap"><div class="progress-bar-fill over" style="width:100%"></div></div>
+      </div>
+
+      <!-- May -->
+      <div class="pacing-month">
+        <div class="month-name">May <span class="status-pill status-open">Booking Window Open</span></div>
+        <div class="pace-row">
+          <div><div class="pace-label">2025 Final</div><div class="pace-val">$72,606</div></div>
+          <div><div class="pace-label">2026 On Books</div><div class="pace-val">$58,903</div></div>
+        </div>
+        <div class="pace-delta delta-down">&#8595; &minus;$13,703 &nbsp;&mdash; filling in</div>
+        <div class="progress-bar-wrap"><div class="progress-bar-fill" style="width:81%"></div></div>
+      </div>
+
+      <!-- June -->
+      <div class="pacing-month">
+        <div class="month-name">June <span class="status-pill status-open">Booking Window Open</span></div>
+        <div class="pace-row">
+          <div><div class="pace-label">2025 Final</div><div class="pace-val">$173,579</div></div>
+          <div><div class="pace-label">2026 On Books</div><div class="pace-val">$133,897</div></div>
+        </div>
+        <div class="pace-delta delta-down">&#8595; &minus;$39,682 &nbsp;&mdash; watch closely</div>
+        <div class="progress-bar-wrap"><div class="progress-bar-fill warn" style="width:77%"></div></div>
+      </div>
+
+      <!-- July -->
+      <div class="pacing-month">
+        <div class="month-name">July <span class="status-pill status-open">Booking Window Open</span></div>
+        <div class="pace-row">
+          <div><div class="pace-label">2025 Final</div><div class="pace-val">$203,030</div></div>
+          <div><div class="pace-label">2026 On Books</div><div class="pace-val">$86,797</div></div>
+        </div>
+        <div class="pace-delta delta-down">&#8595; &minus;$116,233 &nbsp;&mdash; normal, peak still booking</div>
+        <div class="progress-bar-wrap"><div class="progress-bar-fill" style="width:43%"></div></div>
+      </div>
+
+      <!-- August -->
+      <div class="pacing-month">
+        <div class="month-name">August <span class="status-pill status-open">Booking Window Open</span></div>
+        <div class="pace-row">
+          <div><div class="pace-label">2025 Final</div><div class="pace-val">$119,916</div></div>
+          <div><div class="pace-label">2026 On Books</div><div class="pace-val">$40,402</div></div>
+        </div>
+        <div class="pace-delta delta-down">&#8595; &minus;$79,514 &nbsp;&mdash; normal, peak still booking</div>
+        <div class="progress-bar-wrap"><div class="progress-bar-fill" style="width:34%"></div></div>
+      </div>
+
+      <!-- September -->
+      <div class="pacing-month">
+        <div class="month-name">September <span class="status-pill status-early">Early</span></div>
+        <div class="pace-row">
+          <div><div class="pace-label">2025 Final</div><div class="pace-val">$45,127</div></div>
+          <div><div class="pace-label">2026 On Books</div><div class="pace-val">$3,017</div></div>
+        </div>
+        <div class="pace-delta delta-down">&#8595; &minus;$42,110 &nbsp;&mdash; too early to read</div>
+        <div class="progress-bar-wrap"><div class="progress-bar-fill" style="width:7%"></div></div>
+      </div>
+
+      <!-- October -->
+      <div class="pacing-month">
+        <div class="month-name">October <span class="status-pill status-early">Early</span></div>
+        <div class="pace-row">
+          <div><div class="pace-label">2025 Final</div><div class="pace-val">$39,436</div></div>
+          <div><div class="pace-label">2026 On Books</div><div class="pace-val">$773</div></div>
+        </div>
+        <div class="pace-delta delta-down">&#8595; &minus;$38,663 &nbsp;&mdash; too early to read</div>
+        <div class="progress-bar-wrap"><div class="progress-bar-fill" style="width:2%"></div></div>
+      </div>
+
+      <!-- November -->
+      <div class="pacing-month">
+        <div class="month-name">November <span class="status-pill status-early">Not Yet Booking</span></div>
+        <div class="pace-row">
+          <div><div class="pace-label">2025 Final</div><div class="pace-val">$18,595</div></div>
+          <div><div class="pace-label">2026 On Books</div><div class="pace-val">—</div></div>
+        </div>
+        <div class="pace-delta" style="color:var(--muted)">No bookings on the books yet</div>
+        <div class="progress-bar-wrap"><div class="progress-bar-fill" style="width:0%"></div></div>
+      </div>
+
+      <!-- December -->
+      <div class="pacing-month">
+        <div class="month-name">December <span class="status-pill status-early">Not Yet Booking</span></div>
+        <div class="pace-row">
+          <div><div class="pace-label">2025 Final</div><div class="pace-val">$27,440</div></div>
+          <div><div class="pace-label">2026 On Books</div><div class="pace-val">$323</div></div>
+        </div>
+        <div class="pace-delta" style="color:var(--muted)">Too early — not meaningful</div>
+        <div class="progress-bar-wrap"><div class="progress-bar-fill" style="width:1%"></div></div>
+      </div>
+
+    </div>
+
+    <div class="coverage-note">
+      <strong>How to read this:</strong> Deficits in May–August are normal and expected &mdash; peak season bookings for 2026 are still incoming. At this same point in 2025, summer was also largely unbooked. The <strong>critical window to watch is May–June</strong>: if June–July are not pacing toward 2025 levels by early May, investigate pricing or listing quality. YTD (Jan–Apr 11): 2026 is <strong>+$96K (+137%)</strong> vs. 2025 on <strong>280 vs. 126 bookings</strong>.
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════ 5. Flagged Properties -->
+  <div class="section">
+    <div class="section-title">Flagged Properties — Need Attention</div>
+    <div style="font-size:12px; color:var(--muted); margin-bottom:14px;">
+      Portfolio benchmarks: Avg revenue $23,517 &nbsp;|&nbsp; Median $18,798 &nbsp;|&nbsp; Avg ADR $152 &nbsp;&mdash;&nbsp; All flagged properties are below 50% of portfolio average revenue with no known structural explanation.
+    </div>
+
+    <div class="flagged-grid">
+
+      <!-- Myrtle Beach Resort #431B — most urgent -->
+      <div class="flag-card urgent">
+        <div class="flag-header">
+          <span class="flag-icon">&#9888;</span>
+          <span class="flag-name">Myrtle Beach Resort #431B</span>
+          <span class="vs-avg">&minus;52% vs avg</span>
+        </div>
+        <div class="flag-stats">
+          <div class="fstat"><div class="fl">Revenue</div><div class="fv">$11,312</div></div>
+          <div class="fstat"><div class="fl">Bookings</div><div class="fv">24</div></div>
+          <div class="fstat"><div class="fl">ADR</div><div class="fv">$90</div></div>
+        </div>
+        <div class="flag-issue"><strong>Pricing issue — most urgent.</strong> 24 bookings at only $90 ADR signals severely underpriced rates. High traffic that isn't converting to revenue is a Beyond Pricing configuration problem.</div>
+        <div class="flag-action">&#8594; Action: Audit BP base rate floor and seasonal adjustments. This is the clearest pricing problem in the portfolio.</div>
+      </div>
+
+      <!-- Emerald Pointe #3B -->
+      <div class="flag-card watch">
+        <div class="flag-header">
+          <span class="flag-icon">&#9679;</span>
+          <span class="flag-name">Emerald Pointe #3B</span>
+          <span class="vs-avg">&minus;70% vs avg</span>
+        </div>
+        <div class="flag-stats">
+          <div class="fstat"><div class="fl">Revenue</div><div class="fv">$6,961</div></div>
+          <div class="fstat"><div class="fl">Bookings</div><div class="fv">15</div></div>
+          <div class="fstat"><div class="fl">ADR</div><div class="fv">$139</div></div>
+        </div>
+        <div class="flag-issue"><strong>Occupancy problem, not pricing.</strong> ADR is near average but only 15 bookings. Issue is likely discoverability or listing trust.</div>
+        <div class="flag-action">&#8594; Action: Review photos, listing copy, and reviews before adjusting rates. Confirm onboarding date with Kevin.</div>
+      </div>
+
+      <!-- Kingston #215 -->
+      <div class="flag-card watch">
+        <div class="flag-header">
+          <span class="flag-icon">&#9679;</span>
+          <span class="flag-name">Kingston &mdash; Arrow Head Court #215</span>
+          <span class="vs-avg">&minus;68% vs avg</span>
+        </div>
+        <div class="flag-stats">
+          <div class="fstat"><div class="fl">Revenue</div><div class="fv">$7,547</div></div>
+          <div class="fstat"><div class="fl">Bookings</div><div class="fv">15</div></div>
+          <div class="fstat"><div class="fl">ADR</div><div class="fv">$146</div></div>
+        </div>
+        <div class="flag-issue"><strong>Low occupancy, near-average rate.</strong> Same profile as Emerald Pointe — pricing is fine, the unit isn't being found or chosen.</div>
+        <div class="flag-action">&#8594; Action: Listing quality review. Confirm no late-2025 onboarding or owner restrictions with Kevin.</div>
+      </div>
+
+      <!-- Sand Castle #707 -->
+      <div class="flag-card watch">
+        <div class="flag-header">
+          <span class="flag-icon">&#9679;</span>
+          <span class="flag-name">Sand Castle #707</span>
+          <span class="vs-avg">&minus;63% vs avg</span>
+        </div>
+        <div class="flag-stats">
+          <div class="fstat"><div class="fl">Revenue</div><div class="fv">$8,783</div></div>
+          <div class="fstat"><div class="fl">Bookings</div><div class="fv">16</div></div>
+          <div class="fstat"><div class="fl">ADR</div><div class="fv">$150</div></div>
+        </div>
+        <div class="flag-issue"><strong>Low occupancy, near-average rate.</strong> 16 bookings at $150 should yield more. Availability restrictions or listing weakness likely.</div>
+        <div class="flag-action">&#8594; Action: Check availability calendar for owner blocks. Review listing photos and description.</div>
+      </div>
+
+      <!-- MB Resort 4216 -->
+      <div class="flag-card watch">
+        <div class="flag-header">
+          <span class="flag-icon">&#9679;</span>
+          <span class="flag-name">MB Resort 4216</span>
+          <span class="vs-avg">&minus;56% vs avg</span>
+        </div>
+        <div class="flag-stats">
+          <div class="fstat"><div class="fl">Revenue</div><div class="fv">$10,387</div></div>
+          <div class="fstat"><div class="fl">Bookings</div><div class="fv">18</div></div>
+          <div class="fstat"><div class="fl">ADR</div><div class="fv">$154</div></div>
+        </div>
+        <div class="flag-issue"><strong>Mid-range across all metrics, underperforming yield.</strong> 18 bookings at a near-average rate — not an obvious outlier but total output is too low.</div>
+        <div class="flag-action">&#8594; Action: Pricing and availability review. Confirm no structural explanation with Kevin before escalating.</div>
+      </div>
+
+    </div>
+
+    <div class="exclusion-note">
+      <strong>Structural Exclusion — Not Flagged:</strong> Cypress Bay #101 &mdash; $9,449 across 24 bookings at $73 ADR. This property is intentionally restricted: the owner occupies the unit October–April each year. Unwind manages it as a courtesy for summer months only. Low annual revenue reflects the owner&rsquo;s choice, not a management or pricing problem. Do not benchmark against full-portfolio averages.
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════ Data note -->
+  <div class="coverage-note" style="margin-bottom: 24px;">
+    <strong>Coverage note:</strong> BP export tracks $803K across 1,016 bookings for 2025. Company P&amp;L records $1.68M across 1,432 bookings. The gap reflects properties not in BP or BP&rsquo;s rental amount excluding cleaning fees. All relative comparisons, rankings, and trends are valid &mdash; do not use BP totals as P&amp;L numbers.
+  </div>
+
+</div><!-- /wrapper -->
+
+<div class="page-footer">
+  Unwind Vacation Rentals &mdash; Internal Use Only &nbsp;&bull;&nbsp; Data: Beyond Pricing / OwnerRez &nbsp;&bull;&nbsp; Generated April 11, 2026
+</div>
+
+<!-- ════════════════════════════════════════════════════ Charts -->
+<script>
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const revenue2025 = [11281, 14383, 31787, 46203, 72606, 173579, 203030, 119916, 45127, 39436, 18595, 27440];
+  const bookings2025 = [17, 26, 60, 83, 112, 156, 172, 137, 81, 69, 40, 63];
+
+  const baseColor = '#2b6cb0';
+  const peakColor = '#2c5282';
+  const gridColor = 'rgba(0,0,0,.06)';
+  const tickColor = '#718096';
+
+  // ── Monthly Revenue Chart
+  new Chart(document.getElementById('monthlyChart'), {
+    type: 'bar',
+    data: {
+      labels: months,
+      datasets: [{
+        label: 'Revenue',
+        data: revenue2025,
+        backgroundColor: revenue2025.map(v =>
+          v >= 100000 ? peakColor : v >= 40000 ? '#4299e1' : '#bee3f8'
+        ),
+        borderRadius: 4,
+        borderSkipped: false,
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: ctx => ' $' + ctx.parsed.y.toLocaleString()
+          }
+        }
+      },
+      scales: {
+        x: {
+          grid: { display: false },
+          ticks: { color: tickColor, font: { size: 11 } }
+        },
+        y: {
+          grid: { color: gridColor },
+          ticks: {
+            color: tickColor,
+            font: { size: 11 },
+            callback: v => '$' + (v >= 1000 ? (v/1000).toFixed(0) + 'K' : v)
+          },
+          border: { display: false }
+        }
+      }
+    }
+  });
+
+  // ── Monthly Bookings Chart
+  new Chart(document.getElementById('bookingsChart'), {
+    type: 'bar',
+    data: {
+      labels: months,
+      datasets: [{
+        label: 'Bookings',
+        data: bookings2025,
+        backgroundColor: bookings2025.map(v =>
+          v >= 150 ? peakColor : v >= 80 ? '#4299e1' : '#bee3f8'
+        ),
+        borderRadius: 4,
+        borderSkipped: false,
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: ctx => ' ' + ctx.parsed.y + ' bookings'
+          }
+        }
+      },
+      scales: {
+        x: {
+          grid: { display: false },
+          ticks: { color: tickColor, font: { size: 11 } }
+        },
+        y: {
+          grid: { color: gridColor },
+          ticks: { color: tickColor, font: { size: 11 } },
+          border: { display: false }
+        }
+      }
+    }
+  });
+</script>
+
+</body>
+</html>

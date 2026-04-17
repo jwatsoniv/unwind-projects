@@ -128,6 +128,27 @@
 
   .footer { font-size: 11px; color: var(--muted); text-align: center; padding: 16px 0 24px; }
 
+  /* PARTNER SUMMARY CARD */
+  .partner-summary-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; margin-bottom: 24px; }
+  .psc-header { background: var(--accent-dark); color: white; padding: 9px 18px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px; display: flex; align-items: center; justify-content: space-between; }
+  .psc-grid { display: grid; grid-template-columns: 1.25fr 1fr 1fr 0.75fr 0.75fr; }
+  .psc-cell { padding: 14px 16px; border-right: 1px solid var(--border); }
+  .psc-cell:last-child { border-right: none; }
+  .psc-net { background: #f8fafc; }
+  .psc-matt { background: #ebf8ff; border-top: 3px solid var(--accent); }
+  .psc-badge { display: inline-block; font-size: 9px; font-weight: 700; padding: 2px 6px; border-radius: 8px; margin-bottom: 5px; }
+  .psc-name { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 3px; }
+  .psc-amount { font-size: 27px; font-weight: 800; line-height: 1.1; margin: 3px 0 4px; }
+  .psc-sub { font-size: 10px; color: var(--muted); line-height: 1.6; }
+
+  /* PARTNER DISTRIBUTION TABLE section headers */
+  .partner-group-row td { background: #f0f4ff; padding: 5px 14px !important; font-size: 10px !important; font-weight: 800 !important; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 1px solid var(--border); }
+  .partner-group-row-matt td { background: #ebf8ff; }
+  .partner-group-row-minor td { background: #f0fff4; }
+  .partner-group-row-sum td { background: #f0f4ff; }
+  .partner-total-row td { background: #ebf4ff; font-weight: 700 !important; font-size: 13px !important; }
+  .partner-matt-total td { background: #dbeafe; font-weight: 700 !important; font-size: 13px !important; }
+
   @media print {
     body { background: white; font-size: 10px; }
     .page-header { background: var(--accent-dark) !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
@@ -149,6 +170,9 @@
 
 <div class="main">
 
+<!-- PARTNER TAKE-HOME SUMMARY CARD -->
+<div id="partnerSummaryCard" class="partner-summary-card"></div>
+
 <!-- SCENARIO CARDS -->
 <div class="section-title">What You Keep — 5 Revenue Scenarios</div>
 <div class="scenario-grid">
@@ -156,65 +180,65 @@
   <div class="scenario-card sc-flat" onclick="setScenario(0)" id="card0">
     <div class="sc-badge sc-active-badge" style="background:#e2e8f0;color:#4a5568;">Selected</div>
     <div class="sc-label">Flat 2025</div>
-    <div class="sc-value">$102,409</div>
+    <div class="sc-value">$51,663</div>
     <div class="sc-sub">Same revenue as 2025<br>Full-year take-home</div>
     <div class="sc-sub" style="margin-top:8px;font-size:10px;border-top:1px solid var(--border);padding-top:6px;">
-      Gross Rev: $1.63M<br>
-      Unwind Rev: $446K<br>
       Net Income: $111K<br>
-      Your Dist: $72K + $30K salary
+      Less Salaries: ($60K)<br>
+      Distributable: $51K<br>
+      Your Dist: $22K + $30K salary
     </div>
   </div>
 
   <div class="scenario-card sc-bp active" onclick="setScenario(1)" id="card1">
     <div class="sc-badge sc-active-badge" style="background:var(--blue-bg);color:var(--accent-dark);">Selected</div>
     <div class="sc-label">BP Trajectory</div>
-    <div class="sc-value">$107,753</div>
+    <div class="sc-value">$57,009</div>
     <div class="sc-sub">Based on current bookings<br>+ 2025 late-fill pattern</div>
     <div class="sc-sub" style="margin-top:8px;font-size:10px;border-top:1px solid var(--border);padding-top:6px;">
-      Gross Rev: $1.68M<br>
-      Unwind Rev: $460K<br>
       Net Income: $124K<br>
-      Your Dist: $78K + $30K salary
+      Less Salaries: ($60K)<br>
+      Distributable: $64K<br>
+      Your Dist: $27K + $30K salary
     </div>
   </div>
 
   <div class="scenario-card sc-5" onclick="setScenario(2)" id="card2">
     <div class="sc-badge sc-active-badge" style="background:#c6f6d5;color:#276749;">Selected</div>
     <div class="sc-label">+5% Growth</div>
-    <div class="sc-value">$111,205</div>
+    <div class="sc-value">$61,652</div>
     <div class="sc-sub">5% above base projection<br>Full-year take-home</div>
     <div class="sc-sub" style="margin-top:8px;font-size:10px;border-top:1px solid var(--border);padding-top:6px;">
-      Gross Rev: $1.74M<br>
-      Unwind Rev: $471K<br>
       Net Income: $134K<br>
-      Your Dist: $81K + $30K salary
+      Less Salaries: ($60K)<br>
+      Distributable: $74K<br>
+      Your Dist: $32K + $30K salary
     </div>
   </div>
 
   <div class="scenario-card sc-10" onclick="setScenario(3)" id="card3">
     <div class="sc-badge sc-active-badge" style="background:#9ae6b4;color:#1c4532;">Selected</div>
     <div class="sc-label">+10% Growth</div>
-    <div class="sc-value">$118,409</div>
+    <div class="sc-value">$69,518</div>
     <div class="sc-sub">10% above base projection<br>Full-year take-home</div>
     <div class="sc-sub" style="margin-top:8px;font-size:10px;border-top:1px solid var(--border);padding-top:6px;">
-      Gross Rev: $1.81M<br>
-      Unwind Rev: $490K<br>
       Net Income: $153K<br>
-      Your Dist: $88K + $30K salary
+      Less Salaries: ($60K)<br>
+      Distributable: $93K<br>
+      Your Dist: $40K + $30K salary
     </div>
   </div>
 
   <div class="scenario-card sc-15" onclick="setScenario(4)" id="card4">
     <div class="sc-badge sc-active-badge" style="background:#bee3f8;color:#1a365d;">Selected</div>
     <div class="sc-label">+15% Growth</div>
-    <div class="sc-value">$124,537</div>
+    <div class="sc-value">$76,314</div>
     <div class="sc-sub">15% above base projection<br>Full-year take-home</div>
     <div class="sc-sub" style="margin-top:8px;font-size:10px;border-top:1px solid var(--border);padding-top:6px;">
-      Gross Rev: $1.86M<br>
-      Unwind Rev: $506K<br>
       Net Income: $169K<br>
-      Your Dist: $95K + $30K salary
+      Less Salaries: ($60K)<br>
+      Distributable: $109K<br>
+      Your Dist: $46K + $30K salary
     </div>
   </div>
 
@@ -321,7 +345,7 @@
         <td class="col-15"><strong>$337,375</strong></td>
       </tr>
       <tr class="highlight-row">
-        <td>Net Income (Before Dist.)</td>
+        <td>Net Income (Before Owner Compensation)</td>
         <td class="col-flat">$110,971</td>
         <td class="col-bp">$123,551</td>
         <td class="col-5">$134,475</td>
@@ -329,12 +353,28 @@
         <td class="col-15">$168,974</td>
       </tr>
       <tr>
-        <td>John's Distribution (42.5% of profitable months)</td>
-        <td class="col-flat">$72,409</td>
-        <td class="col-bp">$77,753</td>
-        <td class="col-5">$81,205</td>
-        <td class="col-10">$88,409</td>
-        <td class="col-15">$94,537</td>
+        <td>Less: Owner Salaries — John IV + Matt ($30K each)</td>
+        <td class="col-flat">($60,000)</td>
+        <td class="col-bp">($60,000)</td>
+        <td class="col-5">($60,000)</td>
+        <td class="col-10">($60,000)</td>
+        <td class="col-15">($60,000)</td>
+      </tr>
+      <tr class="highlight-row">
+        <td>Distributable Pool (100% — split by ownership %)</td>
+        <td class="col-flat">$50,971</td>
+        <td class="col-bp">$63,551</td>
+        <td class="col-5">$74,475</td>
+        <td class="col-10">$92,984</td>
+        <td class="col-15">$108,974</td>
+      </tr>
+      <tr>
+        <td>John's Distribution (42.5% of distributable pool)</td>
+        <td class="col-flat">$21,663</td>
+        <td class="col-bp">$27,009</td>
+        <td class="col-5">$31,652</td>
+        <td class="col-10">$39,518</td>
+        <td class="col-15">$46,314</td>
       </tr>
       <tr>
         <td>John's Annual Salary</td>
@@ -346,51 +386,193 @@
       </tr>
       <tr class="highlight-row">
         <td>John's Total Take-Home</td>
-        <td class="col-flat">$102,409</td>
-        <td class="col-bp">$107,753</td>
-        <td class="col-5">$111,205</td>
-        <td class="col-10">$118,409</td>
-        <td class="col-15">$124,537</td>
+        <td class="col-flat">$51,663</td>
+        <td class="col-bp">$57,009</td>
+        <td class="col-5">$61,652</td>
+        <td class="col-10">$69,518</td>
+        <td class="col-15">$76,314</td>
       </tr>
       <tr>
         <td>John's % of Gross Revenue</td>
-        <td class="col-flat">6.3%</td>
-        <td class="col-bp">6.4%</td>
-        <td class="col-5">6.4%</td>
-        <td class="col-10">6.6%</td>
-        <td class="col-15">6.7%</td>
+        <td class="col-flat">3.2%</td>
+        <td class="col-bp">3.4%</td>
+        <td class="col-5">3.5%</td>
+        <td class="col-10">3.8%</td>
+        <td class="col-15">4.1%</td>
       </tr>
       <tr>
         <td>John's % of Unwind Revenue</td>
-        <td class="col-flat">22.9%</td>
-        <td class="col-bp">23.4%</td>
-        <td class="col-5">23.6%</td>
-        <td class="col-10">24.2%</td>
-        <td class="col-15">24.6%</td>
+        <td class="col-flat">11.6%</td>
+        <td class="col-bp">12.4%</td>
+        <td class="col-5">13.1%</td>
+        <td class="col-10">14.2%</td>
+        <td class="col-15">15.1%</td>
       </tr>
     </tbody>
   </table>
 </div>
 
-<!-- MONTHLY INCOME CHART -->
-<div class="section-title">Monthly Income to John — By Scenario</div>
-<div class="chart-wrap">
-  <div class="chart-legend">
-    <div class="leg-item"><div class="leg-dot" style="background:#718096"></div>Flat 2025</div>
-    <div class="leg-item"><div class="leg-dot" style="background:#2b6cb0"></div>BP Trajectory</div>
-    <div class="leg-item"><div class="leg-dot" style="background:#38a169"></div>+5% Growth</div>
-    <div class="leg-item"><div class="leg-dot" style="background:#276749"></div>+10% Growth</div>
-    <div class="leg-item"><div class="leg-dot" style="background:#1a365d"></div>+15% Growth</div>
-    <div class="leg-item" style="margin-left:auto;font-size:11px;color:var(--muted)">Max bar = $29,697 (Jul BP Traj)</div>
-  </div>
-  <div id="monthlyChart"></div>
+<!-- PARTNER DISTRIBUTION -->
+<div class="section-title">Partner Distribution — Waterfall &amp; Take-Home</div>
+
+<div style="background:#ebf4ff;border:1px solid #90cdf4;border-radius:10px;padding:14px 18px;margin-bottom:14px;font-size:12px;line-height:1.9;color:#1a365d;">
+  <strong>How it works (BP Trajectory example):</strong><br>
+  ① Company Net Income &nbsp;<strong>$123,551</strong><br>
+  ② Less John IV salary &nbsp;<strong>−$30,000</strong> &nbsp;·&nbsp; Less Matt salary &nbsp;<strong>−$30,000</strong><br>
+  ③ Distributable Pool &nbsp;<strong>$63,551</strong><br>
+  ④ Split by ownership %: John IV 42.5% = <strong>$27,009</strong> · Matt 42.5% = <strong>$27,009</strong> · John III 7.5% = <strong>$4,766</strong> · Michael 7.5% = <strong>$4,766</strong><br>
+  ⑤ John &amp; Matt add salary back: $27,009 + $30,000 = <strong>$57,009 take-home</strong><br>
+  <strong>Proof:</strong> Distributions ($63,550) + Salaries ($60,000) = $123,550 ≈ Net Income ✓
 </div>
 
-<!-- CUMULATIVE INCOME CHART -->
-<div class="section-title">Cumulative Income to John — Year-to-Date</div>
-<div class="chart-wrap">
-  <div style="font-size:11px;color:var(--muted);margin-bottom:14px;">Running total of John's salary + distributions month by month</div>
-  <div id="cumulChart"></div>
+<div class="summary-table-wrap">
+  <table class="summary-table">
+    <thead>
+      <tr>
+        <th>Metric</th>
+        <th class="col-flat">Flat 2025</th>
+        <th class="col-bp">BP Trajectory</th>
+        <th class="col-5">+5% Growth</th>
+        <th class="col-10">+10% Growth</th>
+        <th class="col-15">+15% Growth</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Waterfall steps 1-3 -->
+      <tr class="partner-group-row"><td colspan="6" style="color:var(--accent-dark);">Steps ①②③ &nbsp;·&nbsp; Net Income → Minus Salaries → Distributable Pool</td></tr>
+      <tr class="highlight-row">
+        <td>① Company Net Income</td>
+        <td class="col-flat">$110,971</td>
+        <td class="col-bp">$123,551</td>
+        <td class="col-5">$134,475</td>
+        <td class="col-10">$152,984</td>
+        <td class="col-15">$168,974</td>
+      </tr>
+      <tr>
+        <td>② Less: John IV Annual Salary</td>
+        <td>($30,000)</td><td>($30,000)</td><td>($30,000)</td><td>($30,000)</td><td>($30,000)</td>
+      </tr>
+      <tr>
+        <td>② Less: Matt Annual Salary</td>
+        <td>($30,000)</td><td>($30,000)</td><td>($30,000)</td><td>($30,000)</td><td>($30,000)</td>
+      </tr>
+      <tr class="highlight-row">
+        <td>③ Distributable Pool (100%)</td>
+        <td class="col-flat">$50,971</td>
+        <td class="col-bp">$63,551</td>
+        <td class="col-5">$74,475</td>
+        <td class="col-10">$92,984</td>
+        <td class="col-15">$108,974</td>
+      </tr>
+
+      <!-- John Watson IV -->
+      <tr class="partner-group-row"><td colspan="6" style="color:var(--accent-dark);">Step ④⑤ &nbsp;·&nbsp; John Watson IV — 42.5% equity + $2,500/mo Salary</td></tr>
+      <tr>
+        <td>④ Distribution (42.5% of pool)</td>
+        <td class="col-flat">$21,663</td>
+        <td class="col-bp">$27,009</td>
+        <td class="col-5">$31,652</td>
+        <td class="col-10">$39,518</td>
+        <td class="col-15">$46,314</td>
+      </tr>
+      <tr>
+        <td>⑤ Salary add-back</td>
+        <td>$30,000</td><td>$30,000</td><td>$30,000</td><td>$30,000</td><td>$30,000</td>
+      </tr>
+      <tr class="partner-total-row">
+        <td style="color:var(--accent-dark);">John Watson IV &nbsp;·&nbsp; Total Take-Home</td>
+        <td class="col-flat">$51,663</td>
+        <td class="col-bp">$57,009</td>
+        <td class="col-5">$61,652</td>
+        <td class="col-10">$69,518</td>
+        <td class="col-15">$76,314</td>
+      </tr>
+
+      <!-- Matt Meetre -->
+      <tr class="partner-group-row partner-group-row-matt"><td colspan="6" style="color:var(--accent);">Step ④⑤ &nbsp;·&nbsp; Matt Meetre — 42.5% equity + $2,500/mo Salary</td></tr>
+      <tr>
+        <td>④ Distribution (42.5% of pool)</td>
+        <td class="col-flat">$21,663</td>
+        <td class="col-bp">$27,009</td>
+        <td class="col-5">$31,652</td>
+        <td class="col-10">$39,518</td>
+        <td class="col-15">$46,314</td>
+      </tr>
+      <tr>
+        <td>⑤ Salary add-back</td>
+        <td>$30,000</td><td>$30,000</td><td>$30,000</td><td>$30,000</td><td>$30,000</td>
+      </tr>
+      <tr class="partner-matt-total">
+        <td style="color:var(--accent);">Matt Meetre &nbsp;·&nbsp; Total Take-Home</td>
+        <td class="col-flat">$51,663</td>
+        <td class="col-bp">$57,009</td>
+        <td class="col-5">$61,652</td>
+        <td class="col-10">$69,518</td>
+        <td class="col-15">$76,314</td>
+      </tr>
+
+      <!-- John Watson III -->
+      <tr class="partner-group-row partner-group-row-minor"><td colspan="6" style="color:var(--green);">Step ④ &nbsp;·&nbsp; John Watson III — 7.5% equity · Distribution Only</td></tr>
+      <tr>
+        <td>④ Distribution (7.5% of pool)</td>
+        <td class="col-flat">$3,823</td>
+        <td class="col-bp">$4,766</td>
+        <td class="col-5">$5,586</td>
+        <td class="col-10">$6,974</td>
+        <td class="col-15">$8,173</td>
+      </tr>
+      <tr class="partner-total-row">
+        <td style="color:var(--green);">John Watson III &nbsp;·&nbsp; Total Take-Home</td>
+        <td class="col-flat">$3,823</td>
+        <td class="col-bp">$4,766</td>
+        <td class="col-5">$5,586</td>
+        <td class="col-10">$6,974</td>
+        <td class="col-15">$8,173</td>
+      </tr>
+
+      <!-- Michael Chittum -->
+      <tr class="partner-group-row partner-group-row-minor"><td colspan="6" style="color:var(--green);">Step ④ &nbsp;·&nbsp; Michael Chittum — 7.5% equity · Distribution Only</td></tr>
+      <tr>
+        <td>④ Distribution (7.5% of pool)</td>
+        <td class="col-flat">$3,823</td>
+        <td class="col-bp">$4,766</td>
+        <td class="col-5">$5,586</td>
+        <td class="col-10">$6,974</td>
+        <td class="col-15">$8,173</td>
+      </tr>
+      <tr class="partner-total-row">
+        <td style="color:var(--green);">Michael Chittum &nbsp;·&nbsp; Total Take-Home</td>
+        <td class="col-flat">$3,823</td>
+        <td class="col-bp">$4,766</td>
+        <td class="col-5">$5,586</td>
+        <td class="col-10">$6,974</td>
+        <td class="col-15">$8,173</td>
+      </tr>
+
+      <!-- Proof / verification -->
+      <tr class="partner-group-row partner-group-row-sum"><td colspan="6" style="color:var(--accent-dark);">Proof — Distributions + Salaries = Net Income ✓</td></tr>
+      <tr>
+        <td>Total Distributions (all 4 partners)</td>
+        <td class="col-flat">$50,972</td>
+        <td class="col-bp">$63,550</td>
+        <td class="col-5">$74,476</td>
+        <td class="col-10">$92,984</td>
+        <td class="col-15">$108,974</td>
+      </tr>
+      <tr>
+        <td>Total Owner Salaries (John IV + Matt)</td>
+        <td>$60,000</td><td>$60,000</td><td>$60,000</td><td>$60,000</td><td>$60,000</td>
+      </tr>
+      <tr class="highlight-row">
+        <td>Distributions + Salaries ≈ Net Income ✓</td>
+        <td class="col-flat">$110,972</td>
+        <td class="col-bp">$123,550</td>
+        <td class="col-5">$134,476</td>
+        <td class="col-10">$152,984</td>
+        <td class="col-15">$168,974</td>
+      </tr>
+    </tbody>
+  </table>
 </div>
 
 <!-- MONTHLY DETAIL BY SCENARIO -->
@@ -430,14 +612,14 @@
         <div style="flex:1;background:#f7fafc;border:1px solid var(--border);border-radius:8px;padding:12px 14px;">
           <div style="font-size:10px;color:var(--muted);margin-bottom:3px;">Total Liquid</div>
           <div style="font-size:24px;font-weight:800;color:#4a5568;line-height:1;">$26,887</div>
-          <div style="font-size:10px;color:var(--muted);margin-top:2px;">vs. ~$74K target</div>
+          <div style="font-size:10px;color:var(--muted);margin-top:2px;">vs. ~$89K target</div>
         </div>
       </div>
       <!-- Progress bar -->
-      <div style="font-size:11px;color:var(--muted);margin-bottom:5px;">Reserve funded — target <strong>$74,253</strong> (Flat scenario + 25% buffer)</div>
+      <div style="font-size:11px;color:var(--muted);margin-bottom:5px;">Reserve funded — target <strong>$89,104</strong> (Flat scenario + 50% buffer)</div>
       <div style="background:#e2e8f0;border-radius:6px;height:20px;position:relative;overflow:hidden;">
-        <div style="background:linear-gradient(90deg,#2b6cb0,#4299e1);width:36.2%;height:100%;border-radius:6px;"></div>
-        <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#1a365d;mix-blend-mode:multiply;">36% funded &nbsp;·&nbsp; $47,366 gap</div>
+        <div style="background:linear-gradient(90deg,#2b6cb0,#4299e1);width:0%;height:100%;border-radius:6px;"></div>
+        <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#1a365d;mix-blend-mode:multiply;">0% funded &nbsp;·&nbsp; $89,104 gap</div>
       </div>
     </div>
 
@@ -520,16 +702,16 @@
           <td style="padding:6px 4px;text-align:right;color:var(--red);">(53,467)</td>
         </tr>
         <tr style="background:var(--yellow-bg);font-weight:700;">
-          <td style="padding:6px 8px;color:var(--yellow);font-size:11px;">Target Reserve<br><span style="font-weight:400;font-size:10px;">(deficit + 25% buffer)</span></td>
-          <td style="padding:6px 4px;text-align:right;color:var(--yellow);">$74,253</td>
-          <td style="padding:6px 4px;text-align:right;color:var(--yellow);">$74,253</td>
-          <td style="padding:6px 4px;text-align:right;color:var(--yellow);">$70,744</td>
-          <td style="padding:6px 4px;text-align:right;color:var(--yellow);">$68,798</td>
-          <td style="padding:6px 4px;text-align:right;color:var(--yellow);">$66,834</td>
+          <td style="padding:6px 8px;color:var(--yellow);font-size:11px;">Target Reserve<br><span style="font-weight:400;font-size:10px;">(deficit + 50% buffer)</span></td>
+          <td style="padding:6px 4px;text-align:right;color:var(--yellow);">$89,104</td>
+          <td style="padding:6px 4px;text-align:right;color:var(--yellow);">$89,104</td>
+          <td style="padding:6px 4px;text-align:right;color:var(--yellow);">$84,893</td>
+          <td style="padding:6px 4px;text-align:right;color:var(--yellow);">$82,558</td>
+          <td style="padding:6px 4px;text-align:right;color:var(--yellow);">$80,201</td>
         </tr>
       </tbody>
     </table>
-    <div style="font-size:10px;color:var(--muted);margin-top:8px;">25% buffer added over 2025 actual because $80K "barely made it" — gives ~$15–21K cushion for unexpected expenses.</div>
+    <div style="font-size:10px;color:var(--muted);margin-top:8px;">50% buffer added over deficit to account for variables — gives ~$20–30K cushion for unexpected expenses and model uncertainty.</div>
   </div>
 
   <!-- RIGHT: 2026 Savings Plan -->
@@ -551,47 +733,47 @@
           <td style="padding:5px 8px;font-weight:600;">Apr (now)</td>
           <td style="padding:5px 6px;text-align:right;">$12,577</td>
           <td style="padding:5px 6px;text-align:right;color:var(--green);">$3,773</td>
-          <td style="padding:5px 6px;text-align:right;font-weight:700;">$30,660</td>
+          <td style="padding:5px 6px;text-align:right;font-weight:700;">$3,773</td>
         </tr>
         <tr style="border-bottom:1px solid var(--border);">
           <td style="padding:5px 8px;font-weight:600;">May</td>
           <td style="padding:5px 6px;text-align:right;">$22,513</td>
           <td style="padding:5px 6px;text-align:right;color:var(--green);">$6,754</td>
-          <td style="padding:5px 6px;text-align:right;font-weight:700;">$37,414</td>
+          <td style="padding:5px 6px;text-align:right;font-weight:700;">$10,527</td>
         </tr>
         <tr style="background:var(--green-light);border-bottom:1px solid var(--border);">
           <td style="padding:5px 8px;font-weight:600;">Jun &#9733;</td>
           <td style="padding:5px 6px;text-align:right;">$40,910</td>
           <td style="padding:5px 6px;text-align:right;color:var(--green);font-weight:700;">$12,273</td>
-          <td style="padding:5px 6px;text-align:right;font-weight:700;">$49,687</td>
+          <td style="padding:5px 6px;text-align:right;font-weight:700;">$22,800</td>
         </tr>
         <tr style="background:var(--green-light);border-bottom:1px solid var(--border);">
           <td style="padding:5px 8px;font-weight:600;">Jul &#9733;</td>
           <td style="padding:5px 6px;text-align:right;">$51,094</td>
           <td style="padding:5px 6px;text-align:right;color:var(--green);font-weight:700;">$15,328</td>
-          <td style="padding:5px 6px;text-align:right;font-weight:700;">$65,015</td>
+          <td style="padding:5px 6px;text-align:right;font-weight:700;">$38,128</td>
         </tr>
         <tr style="background:var(--green-light);border-bottom:1px solid var(--border);">
           <td style="padding:5px 8px;font-weight:600;">Aug &#9733;</td>
           <td style="padding:5px 6px;text-align:right;">$30,544</td>
           <td style="padding:5px 6px;text-align:right;color:var(--green);font-weight:700;">$9,163</td>
-          <td style="padding:5px 6px;text-align:right;font-weight:700;">$74,178</td>
+          <td style="padding:5px 6px;text-align:right;font-weight:700;">$47,291</td>
         </tr>
         <tr style="border-bottom:2px solid var(--border);">
           <td style="padding:5px 8px;font-weight:600;">Sep</td>
           <td style="padding:5px 6px;text-align:right;">$9,689</td>
           <td style="padding:5px 6px;text-align:right;color:var(--green);">$2,907</td>
-          <td style="padding:5px 6px;text-align:right;font-weight:700;">$77,085</td>
+          <td style="padding:5px 6px;text-align:right;font-weight:700;">$50,198</td>
         </tr>
-        <tr style="background:var(--green-bg);">
-          <td colspan="3" style="padding:7px 8px;font-weight:700;color:var(--green);">HYSA at Oct 1 (target: $74,253)</td>
-          <td style="padding:7px 6px;text-align:right;font-weight:800;color:var(--green);font-size:14px;">$77,085 ✓</td>
+        <tr style="background:var(--yellow-bg);">
+          <td colspan="3" style="padding:7px 8px;font-weight:700;color:var(--yellow);">HYSA at Oct 1 (target: $89,104)</td>
+          <td style="padding:7px 6px;text-align:right;font-weight:800;color:var(--red);font-size:14px;">$50,198 — short $38,906</td>
         </tr>
       </tbody>
     </table>
 
     <div style="margin-top:12px;background:#ebf8ff;border:1px solid #90cdf4;border-radius:6px;padding:10px 12px;font-size:11px;line-height:1.7;color:#2c5282;">
-      <strong>How it works:</strong> At the start of each month, transfer 30% of the prior month's net profit into the HYSA. Jun–Aug are the critical months — those three months alone contribute <strong>$36,764</strong> of the needed gap. At 4.5% APY, $77K earns ~$870 in interest during the Oct–Feb draw period as a small bonus.
+      <strong>How it works:</strong> At the start of each month, transfer 30% of the prior month's net profit into the HYSA. Jun–Aug are the critical months — those three months alone contribute <strong>$36,764</strong> of the $50,198 total. Starting from $0, the 30% savings rate reaches <strong>$50,198</strong> by Oct 1 — <strong>$38,906 short</strong> of the $89,104 target. At 4.5% APY, $50K earns ~$940 in interest during the Oct–Feb draw period. The LOC backstop covers the gap.
     </div>
   </div>
 </div>
@@ -776,21 +958,6 @@
 const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 const peakMonths = new Set([4,5,6,7]); // 0-indexed May=4, Jun=5, Jul=6, Aug=7
 
-// John's monthly take-home for each scenario [0..4]
-// Payroll corrected to 2025 actual: $210,634/yr = $17,553/mo (was $21,000/mo)
-const johnMonthly = [
-  // [0] Flat 2025 — corrected payroll; Mar now profitable, Oct still slight loss
-  [2500, 2500, 3795, 7845, 12068, 19887, 24215, 15481, 6618, 2500, 2500, 2500],
-  // [1] BP Trajectory — corrected payroll
-  [2500, 2500, 3795, 7845, 8153, 27863, 29697, 11282, 6618, 2500, 2500, 2500],
-  // [2] +5% Growth — corrected payroll; Oct borderline ($-132 net, still loss)
-  [2500, 2500, 4990, 9283, 13123, 21300, 25880, 16732, 7397, 2500, 2500, 2500],
-  // [3] +10% Growth — corrected payroll; Oct now profitable
-  [2500, 2500, 4990, 9792, 14179, 22775, 27545, 17922, 8176, 3030, 2500, 2500],
-  // [4] +15% Growth — corrected payroll; Oct profitable
-  [2500, 2500, 4990, 9231, 15234, 24189, 29210, 19173, 8955, 3555, 2500, 2500],
-];
-
 // Full monthly P&L data per scenario
 // cols: [gross, unwindRev, expenses, net, johnDist, johnTotal]
 // Payroll corrected: $17,553/mo (2025 actual). Expenses = orig - $3,447. Net = orig + $3,447.
@@ -874,53 +1041,63 @@ const monthlyPL = [
 
 const scColors = ['#718096','#2b6cb0','#38a169','#276749','#1a365d'];
 const scNames  = ['Flat 2025','BP Trajectory','+5% Growth','+10% Growth','+15% Growth'];
-const scAnnual = [102409, 107753, 111205, 118409, 124537];
+const scAnnual = [51663, 57009, 61652, 69518, 76314];
 
-// ─── MONTHLY BAR CHART ───────────────────────────────────────────────────────
-const maxMonthly = Math.max(...johnMonthly.flat()); // 28232
+// Partner distribution data per scenario: [netIncome, distributable, johnMattDist, jw3MicDist]
+// Model: net - $60K salaries = distributable; split 42.5/42.5/7.5/7.5; add $30K salary for J/M
+const partnerData = [
+  [110971, 50971, 21663, 3823],   // Flat 2025:    J/M take-home = $51,663
+  [123551, 63551, 27009, 4766],   // BP Trajectory: J/M take-home = $57,009
+  [134475, 74475, 31652, 5586],   // +5% Growth:   J/M take-home = $61,652
+  [152984, 92984, 39518, 6974],   // +10% Growth:  J/M take-home = $69,518
+  [168974, 108974, 46314, 8173],  // +15% Growth:  J/M take-home = $76,314
+];
 
-function buildMonthlyChart() {
-  let html = '<div class="month-chart-grid">';
-  months.forEach((m, mi) => {
-    html += `<div class="month-lbl">${m}</div><div class="bar-row">`;
-    johnMonthly.forEach((sc, si) => {
-      const v = sc[mi];
-      const pct = Math.round(v / maxMonthly * 100);
-      html += `<div class="bar-line">
-        <div class="bar-outer"><div class="bar-inner" style="width:${pct}%;background:${scColors[si]}"></div></div>
-        <div class="bar-val" style="color:${scColors[si]}">$${v.toLocaleString()}</div>
-      </div>`;
-    });
-    html += '</div>';
-  });
-  html += '</div>';
-  document.getElementById('monthlyChart').innerHTML = html;
-}
+// ─── PARTNER SUMMARY CARD ────────────────────────────────────────────────────
+function buildPartnerSummary(si) {
+  const [net, distributable, jmDist, j3Dist] = partnerData[si];
+  const color = scColors[si];
+  const name = scNames[si];
+  const salary = 30000;
+  const jmTotal = jmDist + salary;
 
-// ─── CUMULATIVE CHART ────────────────────────────────────────────────────────
-function buildCumulChart() {
-  // Build cumulative arrays
-  const cumuls = johnMonthly.map(sc => {
-    let running = 0;
-    return sc.map(v => { running += v; return running; });
-  });
-  const maxCumul = Math.max(...cumuls.map(sc => sc[sc.length-1]));
-
-  let html = '<div class="month-chart-grid">';
-  months.forEach((m, mi) => {
-    html += `<div class="month-lbl">${m}</div><div class="bar-row">`;
-    cumuls.forEach((sc, si) => {
-      const v = sc[mi];
-      const pct = Math.round(v / maxCumul * 100);
-      html += `<div class="bar-line">
-        <div class="bar-outer"><div class="bar-inner" style="width:${pct}%;background:${scColors[si]}"></div></div>
-        <div class="bar-val" style="color:${scColors[si]}">$${Math.round(v/1000)}K</div>
-      </div>`;
-    });
-    html += '</div>';
-  });
-  html += '</div>';
-  document.getElementById('cumulChart').innerHTML = html;
+  document.getElementById('partnerSummaryCard').innerHTML = `
+    <div class="psc-header">
+      <span>Partner Take-Home &nbsp;·&nbsp; <span style="color:#90cdf4">${name}</span></span>
+      <span style="font-weight:400;opacity:0.7;font-size:10px;">As of April 14, 2026 · Click a scenario to update</span>
+    </div>
+    <div class="psc-grid">
+      <div class="psc-cell psc-net">
+        <div class="psc-name">Company Net Income</div>
+        <div class="psc-amount" style="color:${color}">${fmt(net)}</div>
+        <div class="psc-sub">Less $60K owner salaries<br>= ${fmt(distributable)} distributable</div>
+      </div>
+      <div class="psc-cell">
+        <div class="psc-name">John Watson IV</div>
+        <div class="psc-badge" style="background:#e2e8f0;color:#4a5568;">42.5%</div>
+        <div class="psc-amount" style="color:var(--text)">${fmt(jmTotal)}</div>
+        <div class="psc-sub">${fmt(jmDist)} dist (42.5%)<br>+ $30K salary</div>
+      </div>
+      <div class="psc-cell psc-matt">
+        <div class="psc-name" style="color:var(--accent)">Matt Meetre</div>
+        <div class="psc-badge" style="background:#bee3f8;color:#2c5282;">42.5%</div>
+        <div class="psc-amount" style="color:var(--accent-dark)">${fmt(jmTotal)}</div>
+        <div class="psc-sub" style="color:var(--accent)">${fmt(jmDist)} dist (42.5%)<br>+ $30K salary</div>
+      </div>
+      <div class="psc-cell">
+        <div class="psc-name">John Watson III</div>
+        <div class="psc-badge" style="background:#c6f6d5;color:#276749;">7.5%</div>
+        <div class="psc-amount" style="color:var(--text)">${fmt(j3Dist)}</div>
+        <div class="psc-sub">${fmt(j3Dist)} dist (7.5%)<br>no salary</div>
+      </div>
+      <div class="psc-cell">
+        <div class="psc-name">Michael Chittum</div>
+        <div class="psc-badge" style="background:#c6f6d5;color:#276749;">7.5%</div>
+        <div class="psc-amount" style="color:var(--text)">${fmt(j3Dist)}</div>
+        <div class="psc-sub">${fmt(j3Dist)} dist (7.5%)<br>no salary</div>
+      </div>
+    </div>
+  `;
 }
 
 // ─── DETAIL TABLE ────────────────────────────────────────────────────────────
@@ -948,28 +1125,22 @@ function buildDetailTable(si) {
         <th>Gross Guest Rev</th>
         <th>Unwind Revenue</th>
         <th>Total Expenses</th>
-        <th>Net Income</th>
-        <th>John Dist (42.5%)</th>
-        <th>John Salary</th>
-        <th style="color:${color}">John Total</th>
+        <th style="color:${color}">Net Income</th>
       </tr>
     </thead>
     <tbody>`;
 
-  let totG=0, totR=0, totE=0, totN=0, totD=0, totT=0;
+  let totG=0, totR=0, totE=0, totN=0;
   data.forEach((r,mi) => {
-    const [gross, rev, exp, net, dist, total] = r;
-    totG+=gross; totR+=rev; totE+=exp; totN+=net; totD+=dist; totT+=total;
+    const [gross, rev, exp, net] = r;
+    totG+=gross; totR+=rev; totE+=exp; totN+=net;
     const rowCls = peakMonths.has(mi) ? ' class="peak-row"' : '';
     html += `<tr${rowCls}>
       <td>${months[mi]}${peakMonths.has(mi)?'<span style="font-size:9px;color:#c05621;margin-left:4px;font-weight:700">PEAK</span>':''}</td>
       <td>${fmt(gross)}</td>
       <td>${fmt(rev)}</td>
       <td>${fmt(exp)}</td>
-      <td>${fmtNet(net)}</td>
-      <td>${dist > 0 ? fmt(dist) : '—'}</td>
-      <td>$2,500</td>
-      <td style="color:${color};font-weight:700">${fmt(total)}</td>
+      <td style="color:${color};font-weight:700">${fmtNet(net)}</td>
     </tr>`;
   });
 
@@ -978,10 +1149,7 @@ function buildDetailTable(si) {
     <td>${fmt(totG)}</td>
     <td>${fmt(totR)}</td>
     <td>${fmt(totE)}</td>
-    <td>${fmtNet(totN)}</td>
-    <td>${fmt(totD)}</td>
-    <td>$30,000</td>
-    <td>${fmt(totT)}</td>
+    <td style="color:${color}">${fmtNet(totN)}</td>
   </tr>`;
 
   html += '</tbody></table>';
@@ -996,11 +1164,11 @@ function setScenario(i) {
     document.getElementById('card'+j).classList.toggle('active', j===i);
   }
   setTab(i);
+  buildPartnerSummary(i);
 }
 
 // ─── INIT ─────────────────────────────────────────────────────────────────────
-buildMonthlyChart();
-buildCumulChart();
+buildPartnerSummary(1);  // default to BP Trajectory
 buildDetailTable(1);  // default to BP Trajectory
 </script>
 </body>

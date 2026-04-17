@@ -1,0 +1,32 @@
+{
+  "generated_on": "2026-04-17",
+  "source_file": "BP booking data April 17 2026.csv",
+  "current_month": {
+    "label": "April 2026",
+    "bookings_on_books": 128,
+    "revenue_on_books": 75196.3
+  },
+  "next_month": {
+    "label": "May 2026",
+    "bookings_on_books": 61,
+    "revenue_on_books": 72691.5
+  },
+  "ytd": {
+    "period": "Jan 1 2026 \u2013 Apr 17 2026",
+    "revenue": 142793.85
+  },
+  "top_3_properties_this_month": [
+    {
+      "property": "Holiday Pavilion #210",
+      "bookings": 5
+    },
+    {
+      "property": "Beach Cove #412",
+      "bookings": 5
+    },
+    {
+      "property": "Prince Resort 1205",
+      "bookings": 5
+    }
+  ]
+}

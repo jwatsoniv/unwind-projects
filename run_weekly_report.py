@@ -33,7 +33,7 @@ kickoff = (
     "run the script, revert the script, then commit and push weekly-report-data.json to main."
 )
 
-with client.beta.sessions.stream(session_id=session.id) as stream:
+with client.beta.sessions.events.stream(session_id=session.id) as stream:
     client.beta.sessions.events.send(
         session_id=session.id,
         events=[{

@@ -1,0 +1,36 @@
+name: Unwind Weekly Report
+
+on:
+  schedule:
+    # 4:35 AM EDT (UTC−4) = 08:35 UTC, every Monday
+    # Note: shifts to 3:35 AM ET in winter (EST = UTC−5). Adjust to 09:35 if you prefer year-round consistency.
+    - cron: '35 8 * * 1'
+  workflow_dispatch: # allows manual trigger from the GitHub Actions UI
+
+permissions:
+  contents: read # GH_PAT handles repo writes; this keeps the built-in token minimal
+
+jobs:
+  weekly-report:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Anthropic SDK
+        run: pip install anthropic
+
+      - name: Run weekly report agent
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          UNWIND_AGENT_ID: ${{ secrets.UNWIND_AGENT_ID }}
+          UNWIND_ENV_ID: ${{ secrets.UNWIND_ENV_ID }}
+          GH_PAT: ${{ secrets.GH_PAT }}
+        run: python run_weekly_report.py

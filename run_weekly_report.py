@@ -1,59 +1,79 @@
 #!/usr/bin/env python3
 """
 Called by GitHub Actions every Monday at 4:35 AM ET.
-Creates a Managed Agent session and streams until the agent finishes.
+Runs generate-weekly-report-data.py directly, then commits and pushes
+the updated weekly-report-data.json to GitHub.
 """
 import os
+import re
+import subprocess
 import sys
-import anthropic
+from datetime import date
 
-client = anthropic.Anthropic(api_key=os.environ["ANTHROPIC_API_KEY"])
+REPO_DIR = os.path.dirname(os.path.abspath(__file__))
+GENERATE_SCRIPT = os.path.join(REPO_DIR, "generate-weekly-report-data.py")
+DATA_FILE = os.path.join(REPO_DIR, "weekly-report-data.json")
+GITHUB_TOKEN = os.environ["GH_PAT"]
+GITHUB_REPO = "jwatsoniv/unwind-projects"
 
-agent_id = os.environ["UNWIND_AGENT_ID"]
-env_id = os.environ["UNWIND_ENV_ID"]
-github_token = os.environ["GH_PAT"]
+today = date.today()
+today_str = f"date({today.year}, {today.month}, {today.day})"
+print(f"Today is {today}. Patching generate script...")
 
-print(f"Creating session (agent={agent_id})...")
-session = client.beta.sessions.create(
-    agent=agent_id,
-    environment_id=env_id,
-    resources=[{
-        "type": "github_repository",
-        "url": "https://github.com/jwatsoniv/unwind-projects",
-        "authorization_token": github_token,
-        "mount_path": "/workspace/unwind-projects",
-        "checkout": {"type": "branch", "name": "main"},
-    }],
+# Patch the hardcoded TODAY date in the generate script
+with open(GENERATE_SCRIPT, "r") as f:
+    original = f.read()
+
+patched = re.sub(r"TODAY\s*=\s*date\(\d+,\s*\d+,\s*\d+\)", f"TODAY = {today_str}", original)
+
+if patched == original:
+    print("WARNING: Could not find TODAY date pattern to patch — running with existing date.")
+else:
+    with open(GENERATE_SCRIPT, "w") as f:
+        f.write(patched)
+    print(f"Patched TODAY to {today_str}")
+
+print("Running generate-weekly-report-data.py...")
+result = subprocess.run(
+    [sys.executable, GENERATE_SCRIPT],
+    cwd=REPO_DIR,
+    capture_output=True,
+    text=True,
+    timeout=300,
 )
-print(f"Session created: {session.id}\n")
 
-kickoff = (
-    "Run the weekly report update now. "
-    "Update today's date in generate-weekly-report-data.py, "
-    "run the script, revert the script, then commit and push weekly-report-data.json to main."
-)
+# Always restore original script
+if patched != original:
+    with open(GENERATE_SCRIPT, "w") as f:
+        f.write(original)
+    print("Restored generate script to original.")
 
-with client.beta.sessions.events.stream(session_id=session.id) as stream:
-    client.beta.sessions.events.send(
-        session_id=session.id,
-        events=[{
-            "type": "user.message",
-            "content": [{"type": "text", "text": kickoff}],
-        }],
-    )
-    for event in stream:
-        if event.type == "agent.message":
-            for block in event.content:
-                if block.type == "text":
-                    print(block.text, end="", flush=True)
-        elif event.type == "session.error":
-            print(f"\n[ERROR] {event}", file=sys.stderr)
-        elif event.type == "session.status_terminated":
-            print("\n\n[Session terminated]")
-            break
-        elif event.type == "session.status_idle":
-            if event.stop_reason.type != "requires_action":
-                print("\n\n[Session complete]")
-                break
+if result.returncode != 0:
+    print(f"[ERROR] Script failed:\n{result.stderr}", file=sys.stderr)
+    sys.exit(1)
 
-print("\n✅ Weekly report update finished.")
+print(result.stdout)
+print("Script completed. Committing weekly-report-data.json...")
+
+# Configure git with token-based remote
+remote_url = f"https://{GITHUB_TOKEN}@github.com/{GITHUB_REPO}.git"
+
+def run_git(*args):
+    r = subprocess.run(["git", "-C", REPO_DIR] + list(args), capture_output=True, text=True)
+    if r.returncode != 0:
+        print(f"[git error] {' '.join(args)}\n{r.stderr}", file=sys.stderr)
+        sys.exit(1)
+    return r.stdout.strip()
+
+run_git("config", "user.email", "github-actions@github.com")
+run_git("config", "user.name", "GitHub Actions")
+run_git("remote", "set-url", "origin", remote_url)
+run_git("add", DATA_FILE)
+
+status = run_git("status", "--porcelain")
+if not status:
+    print("No changes to weekly-report-data.json — nothing to commit.")
+else:
+    run_git("commit", "-m", f"chore: update weekly report data ({today})")
+    run_git("push", "origin", "main")
+    print(f"✅ Pushed updated weekly-report-data.json for {today}.")

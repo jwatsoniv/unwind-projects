@@ -1,0 +1,680 @@
+/* ============================================================
+   Unwind Vacations — OwnerRez Custom Stylesheet
+   Brand: Navy #1B4F6B | Teal #4BBFBF | Gold #F5B731 | White #FFFFFF
+   Goal: Clean, photo-forward, Airbnb-inspired aesthetic
+   ============================================================ */
+
+/* --- Google Fonts --- */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+/* --- CSS Variables --- */
+:root {
+  --navy:   #1B4F6B;
+  --teal:   #4BBFBF;
+  --gold:   #F5B731;
+  --white:  #FFFFFF;
+  --gray-light: #F7F7F7;
+  --gray-mid:   #717171;
+  --gray-dark:  #222222;
+  --shadow-card: 0 2px 16px rgba(0, 0, 0, 0.10);
+  --shadow-bar:  0 1px 4px rgba(0, 0, 0, 0.08);
+  --radius-card: 12px;
+  --radius-pill: 40px;
+  --transition: 0.2s ease;
+}
+
+/* ============================================================
+   1. GLOBAL RESET & BODY
+   ============================================================ */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Poppins', 'Segoe UI', Arial, sans-serif;
+  background-color: var(--white);
+  color: var(--gray-dark);
+  margin: 0;
+  padding: 0;
+  font-size: 15px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ============================================================
+   2. TYPOGRAPHY
+   ============================================================ */
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  color: var(--navy);
+  margin-top: 0;
+  line-height: 1.25;
+}
+
+h1 { font-size: 2.2rem; }
+h2 { font-size: 1.7rem; }
+h3 { font-size: 1.3rem; }
+h4 { font-size: 1.1rem; }
+
+p {
+  color: var(--gray-mid);
+  margin-top: 0;
+}
+
+a {
+  color: var(--teal);
+  text-decoration: none;
+  transition: color var(--transition);
+}
+
+a:hover {
+  color: var(--navy);
+}
+
+/* ============================================================
+   3. NAVIGATION
+   ============================================================ */
+
+/* Main nav wrapper */
+nav,
+.navbar,
+header nav,
+.site-header,
+#header,
+.or-header,
+[class*="nav-bar"],
+[class*="navbar"] {
+  background-color: var(--white) !important;
+  border-bottom: 1px solid #EBEBEB !important;
+  box-shadow: var(--shadow-bar) !important;
+  padding: 0 32px !important;
+  height: 72px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 1000 !important;
+}
+
+/* Logo */
+nav .logo,
+.navbar .logo,
+.site-header .logo,
+nav img[class*="logo"],
+.navbar-brand,
+[class*="nav-logo"] {
+  height: 40px !important;
+  width: auto !important;
+}
+
+/* Nav links */
+nav a,
+.navbar a,
+.nav-link,
+[class*="nav-item"] a {
+  font-family: 'Poppins', sans-serif !important;
+  font-weight: 500 !important;
+  font-size: 14px !important;
+  color: var(--gray-dark) !important;
+  text-transform: none !important;
+  letter-spacing: 0 !important;
+  padding: 8px 14px !important;
+  border-radius: 8px !important;
+  transition: background-color var(--transition), color var(--transition) !important;
+}
+
+nav a:hover,
+.navbar a:hover,
+.nav-link:hover,
+[class*="nav-item"] a:hover {
+  background-color: var(--gray-light) !important;
+  color: var(--navy) !important;
+}
+
+/* Active nav link */
+nav a.active,
+.navbar a.active,
+.nav-link.active {
+  color: var(--teal) !important;
+  font-weight: 600 !important;
+}
+
+/* CTA / Book Now button in nav */
+nav a[href*="book"],
+nav a[href*="reserve"],
+.navbar a[href*="book"],
+.nav-cta {
+  background-color: var(--teal) !important;
+  color: var(--white) !important;
+  border-radius: var(--radius-pill) !important;
+  padding: 10px 22px !important;
+}
+
+nav a[href*="book"]:hover,
+nav a[href*="reserve"]:hover,
+.navbar a[href*="book"]:hover {
+  background-color: var(--navy) !important;
+  color: var(--white) !important;
+}
+
+/* ============================================================
+   4. SEARCH BAR
+   ============================================================ */
+
+/* Search container — pill shape */
+.search-bar,
+.search-form,
+[class*="search-bar"],
+[class*="searchbar"],
+form[role="search"],
+.or-search,
+.booking-search {
+  background-color: var(--white) !important;
+  border: 1px solid #DDDDDD !important;
+  border-radius: var(--radius-pill) !important;
+  box-shadow: var(--shadow-card) !important;
+  display: flex !important;
+  align-items: center !important;
+  overflow: hidden !important;
+  max-width: 860px !important;
+  margin: 24px auto !important;
+  padding: 6px 8px !important;
+}
+
+/* Individual search fields */
+.search-bar input,
+.search-form input,
+[class*="search-bar"] input,
+.or-search input,
+.booking-search input,
+.search-bar select,
+.booking-search select {
+  border: none !important;
+  outline: none !important;
+  background: transparent !important;
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 14px !important;
+  padding: 10px 16px !important;
+  color: var(--gray-dark) !important;
+  flex: 1 !important;
+  min-width: 0 !important;
+}
+
+/* Divider between search fields */
+.search-bar .field + .field,
+.booking-search .field + .field {
+  border-left: 1px solid #EBEBEB !important;
+}
+
+/* Search / Submit button */
+.search-bar button,
+.search-bar input[type="submit"],
+.search-form button[type="submit"],
+[class*="search-bar"] button,
+.or-search button,
+.booking-search button,
+.search-submit {
+  background-color: var(--teal) !important;
+  color: var(--white) !important;
+  border: none !important;
+  border-radius: var(--radius-pill) !important;
+  font-family: 'Poppins', sans-serif !important;
+  font-weight: 600 !important;
+  font-size: 14px !important;
+  padding: 12px 28px !important;
+  cursor: pointer !important;
+  transition: background-color var(--transition), transform var(--transition) !important;
+  white-space: nowrap !important;
+}
+
+.search-bar button:hover,
+.search-bar input[type="submit"]:hover,
+.search-form button[type="submit"]:hover,
+.or-search button:hover,
+.booking-search button:hover {
+  background-color: var(--navy) !important;
+  transform: scale(1.02) !important;
+}
+
+/* Date picker inputs */
+.search-bar input[type="date"],
+.booking-search input[type="date"],
+.datepicker-input {
+  cursor: pointer !important;
+}
+
+/* ============================================================
+   5. PROPERTY CARDS
+   ============================================================ */
+
+/* Card wrapper */
+.property-card,
+.listing-card,
+[class*="property-card"],
+[class*="listing-card"],
+.or-property,
+.rental-card,
+.unit-card {
+  background-color: var(--white) !important;
+  border-radius: var(--radius-card) !important;
+  box-shadow: var(--shadow-card) !important;
+  overflow: hidden !important;
+  transition: transform var(--transition), box-shadow var(--transition) !important;
+  border: none !important;
+}
+
+/* Hover lift effect */
+.property-card:hover,
+.listing-card:hover,
+[class*="property-card"]:hover,
+[class*="listing-card"]:hover,
+.or-property:hover,
+.rental-card:hover,
+.unit-card:hover {
+  transform: translateY(-4px) !important;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.14) !important;
+}
+
+/* Card image */
+.property-card img,
+.listing-card img,
+[class*="property-card"] img,
+.or-property img,
+.rental-card img {
+  width: 100% !important;
+  height: 220px !important;
+  object-fit: cover !important;
+  display: block !important;
+  border-radius: 0 !important;
+}
+
+/* Card body padding */
+.property-card .card-body,
+.listing-card .card-body,
+.property-card .card-content,
+.listing-card .card-content,
+[class*="property-card"] > div:last-child,
+.or-property .property-info {
+  padding: 14px 16px 18px !important;
+}
+
+/* Property name / title */
+.property-card .property-name,
+.property-card .card-title,
+.listing-card .card-title,
+.listing-card .listing-name,
+[class*="property-card"] h2,
+[class*="property-card"] h3,
+[class*="property-card"] h4,
+.or-property h3,
+.or-property .name {
+  font-family: 'Poppins', sans-serif !important;
+  font-weight: 600 !important;
+  font-size: 15px !important;
+  color: var(--navy) !important;
+  margin-bottom: 4px !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+/* Sleeps / beds / guests info */
+.property-card .property-meta,
+.property-card .card-meta,
+.listing-card .card-meta,
+.property-card .sleeps,
+.property-card .bedrooms,
+.property-card [class*="meta"],
+[class*="property-card"] p,
+.or-property .details {
+  font-size: 13px !important;
+  color: var(--gray-mid) !important;
+  font-weight: 400 !important;
+  margin-bottom: 6px !important;
+}
+
+/* Price */
+.property-card .price,
+.listing-card .price,
+[class*="property-card"] .price,
+.or-property .price {
+  font-weight: 600 !important;
+  color: var(--navy) !important;
+  font-size: 15px !important;
+}
+
+/* ============================================================
+   6. HERO / BANNER SECTION
+   ============================================================ */
+
+.hero,
+.hero-section,
+.banner,
+.site-banner,
+[class*="hero"],
+[class*="banner"],
+.or-hero,
+.page-hero {
+  position: relative !important;
+  width: 100% !important;
+  min-height: 480px !important;
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  overflow: hidden !important;
+}
+
+/* Semi-transparent dark overlay for text readability */
+.hero::before,
+.hero-section::before,
+.banner::before,
+.site-banner::before,
+[class*="hero"]::before,
+[class*="banner"]::before,
+.or-hero::before {
+  content: '' !important;
+  position: absolute !important;
+  inset: 0 !important;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.20) 0%,
+    rgba(0, 0, 0, 0.48) 100%
+  ) !important;
+  z-index: 1 !important;
+}
+
+/* Hero text content — centered, above overlay */
+.hero-content,
+.hero .content,
+.hero-text,
+.banner-content,
+[class*="hero"] .inner,
+[class*="hero"] .content {
+  position: relative !important;
+  z-index: 2 !important;
+  text-align: center !important;
+  padding: 0 20px !important;
+  max-width: 700px !important;
+}
+
+.hero-content h1,
+.hero-content h2,
+.hero-text h1,
+.hero-text h2,
+.banner-content h1,
+[class*="hero"] .content h1,
+[class*="hero"] .content h2 {
+  color: var(--white) !important;
+  font-size: 2.6rem !important;
+  font-weight: 700 !important;
+  text-shadow: 0 2px 12px rgba(0,0,0,0.35) !important;
+  margin-bottom: 12px !important;
+}
+
+.hero-content p,
+.hero-text p,
+.banner-content p,
+[class*="hero"] .content p {
+  color: rgba(255, 255, 255, 0.90) !important;
+  font-size: 1.1rem !important;
+  text-shadow: 0 1px 6px rgba(0,0,0,0.30) !important;
+}
+
+/* ============================================================
+   7. PAGE LAYOUT & SECTION PADDING
+   ============================================================ */
+
+main,
+.main-content,
+#main,
+.page-content,
+.site-main {
+  background-color: var(--white) !important;
+  padding: 0 !important;
+}
+
+section,
+.section,
+.content-section {
+  padding: 56px 32px !important;
+}
+
+.container,
+.inner-container,
+.content-wrapper {
+  max-width: 1120px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  padding-left: 24px !important;
+  padding-right: 24px !important;
+}
+
+/* Property grid */
+.property-grid,
+.listings-grid,
+.or-properties,
+[class*="property-grid"],
+[class*="listings-grid"] {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)) !important;
+  gap: 28px !important;
+  padding: 32px 0 !important;
+}
+
+/* ============================================================
+   8. BUTTONS (GENERAL)
+   ============================================================ */
+
+.btn,
+button,
+input[type="submit"],
+input[type="button"],
+a.button,
+[class*="btn-primary"] {
+  font-family: 'Poppins', sans-serif !important;
+  font-weight: 600 !important;
+  border-radius: var(--radius-pill) !important;
+  transition: background-color var(--transition), transform var(--transition) !important;
+  cursor: pointer !important;
+  border: none !important;
+}
+
+.btn-primary,
+[class*="btn-primary"],
+.or-btn-primary {
+  background-color: var(--teal) !important;
+  color: var(--white) !important;
+  padding: 12px 28px !important;
+}
+
+.btn-primary:hover,
+[class*="btn-primary"]:hover {
+  background-color: var(--navy) !important;
+  transform: scale(1.02) !important;
+}
+
+.btn-secondary,
+[class*="btn-secondary"],
+.or-btn-secondary {
+  background-color: transparent !important;
+  color: var(--navy) !important;
+  border: 2px solid var(--navy) !important;
+  padding: 10px 26px !important;
+}
+
+.btn-secondary:hover {
+  background-color: var(--navy) !important;
+  color: var(--white) !important;
+}
+
+/* ============================================================
+   9. FOOTER
+   ============================================================ */
+
+footer,
+.site-footer,
+#footer,
+.or-footer {
+  background-color: var(--navy) !important;
+  color: rgba(255, 255, 255, 0.80) !important;
+  padding: 48px 32px 32px !important;
+  margin-top: 64px !important;
+}
+
+footer a,
+.site-footer a {
+  color: rgba(255, 255, 255, 0.80) !important;
+  transition: color var(--transition) !important;
+}
+
+footer a:hover,
+.site-footer a:hover {
+  color: var(--teal) !important;
+}
+
+footer h3,
+footer h4,
+.site-footer h3,
+.site-footer h4 {
+  color: var(--white) !important;
+  font-size: 0.9rem !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.08em !important;
+}
+
+/* ============================================================
+   10. MISCELLANEOUS POLISH
+   ============================================================ */
+
+/* Remove any site-wide uppercase from OwnerRez defaults */
+* {
+  text-transform: none;
+}
+
+/* Re-apply uppercase only where we explicitly want it */
+footer h3,
+footer h4 {
+  text-transform: uppercase !important;
+}
+
+/* Horizontal rule */
+hr {
+  border: none !important;
+  border-top: 1px solid #EBEBEB !important;
+  margin: 32px 0 !important;
+}
+
+/* Breadcrumbs */
+.breadcrumb,
+[class*="breadcrumb"] {
+  font-size: 13px !important;
+  color: var(--gray-mid) !important;
+  padding: 12px 0 !important;
+}
+
+.breadcrumb a {
+  color: var(--gray-mid) !important;
+}
+
+.breadcrumb a:hover {
+  color: var(--teal) !important;
+}
+
+/* Badge / tag chips */
+.badge,
+.tag,
+[class*="badge"],
+[class*="tag"] {
+  background-color: var(--gray-light) !important;
+  color: var(--gray-dark) !important;
+  border-radius: 20px !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  padding: 4px 12px !important;
+}
+
+/* Gold accent highlight — can be applied manually via class */
+.highlight,
+.accent {
+  color: var(--gold) !important;
+}
+
+/* Focus rings — accessibility */
+*:focus-visible {
+  outline: 3px solid var(--teal) !important;
+  outline-offset: 2px !important;
+}
+
+/* ============================================================
+   11. RESPONSIVE
+   ============================================================ */
+
+@media (max-width: 768px) {
+  nav,
+  .navbar,
+  .site-header {
+    padding: 0 16px !important;
+    height: 60px !important;
+  }
+
+  section,
+  .section {
+    padding: 36px 16px !important;
+  }
+
+  .hero,
+  .hero-section,
+  .site-banner {
+    min-height: 320px !important;
+  }
+
+  .hero-content h1,
+  .hero-text h1 {
+    font-size: 1.8rem !important;
+  }
+
+  .search-bar,
+  .search-form,
+  .booking-search {
+    flex-direction: column !important;
+    border-radius: 16px !important;
+    padding: 12px !important;
+    margin: 16px !important;
+  }
+
+  .search-bar button,
+  .booking-search button {
+    width: 100% !important;
+    border-radius: 12px !important;
+  }
+
+  .property-grid,
+  .listings-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  h1 { font-size: 1.7rem; }
+  h2 { font-size: 1.4rem; }
+}
+
+@media (max-width: 480px) {
+  nav a,
+  .navbar a,
+  .nav-link {
+    font-size: 13px !important;
+    padding: 6px 10px !important;
+  }
+}

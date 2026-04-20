@@ -1,0 +1,44 @@
+<!--
+  ============================================================
+  Unwind Vacations — OwnerRez Page Injection Snippet
+  Paste this into the OwnerRez "Page Intro" (HTML) section
+  for each page you want styled.
+
+  What this does:
+    1. Loads Google Fonts (Poppins) via JavaScript to bypass
+       OwnerRez's <head> restrictions
+    2. Injects the custom CSS stylesheet link
+  ============================================================
+-->
+
+<script>
+  (function () {
+    // 1. Google Fonts — Poppins
+    var fontLink = document.createElement('link');
+    fontLink.rel  = 'stylesheet';
+    fontLink.href = 'https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap';
+    document.head.appendChild(fontLink);
+
+    // 2. Custom Unwind stylesheet
+    //    HOST THIS FILE somewhere publicly accessible (e.g. a CDN,
+    //    GitHub Pages, or your own domain) and replace the href below.
+    //    Example: https://unwindvacations.com/assets/ownerrez-custom.css
+    var cssLink = document.createElement('link');
+    cssLink.rel  = 'stylesheet';
+    cssLink.type = 'text/css';
+    cssLink.href = 'https://unwindvacations.com/assets/ownerrez-custom.css';
+    document.head.appendChild(cssLink);
+  })();
+</script>
+
+<!--
+  OPTIONAL: paste the entire CSS inline below if you cannot
+  host the file externally. Replace the <script> block's
+  cssLink injection with this <style> block instead.
+  (Inline is easier to test; hosted file is easier to maintain.)
+-->
+<!--
+<style>
+  PASTE CONTENTS OF ownerrez-custom.css HERE
+</style>
+-->

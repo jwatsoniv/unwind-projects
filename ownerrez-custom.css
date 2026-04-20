@@ -90,9 +90,7 @@ nav,
 header nav,
 .site-header,
 #header,
-.or-header,
-[class*="nav-bar"],
-[class*="navbar"] {
+.or-header {
   background-color: var(--white) !important;
   border-bottom: 1px solid #EBEBEB !important;
   box-shadow: var(--shadow-bar) !important;
@@ -104,6 +102,7 @@ header nav,
   position: sticky !important;
   top: 0 !important;
   z-index: 1000 !important;
+  overflow: visible !important;
 }
 
 /* Logo */
@@ -185,7 +184,8 @@ form[role="search"],
   box-shadow: var(--shadow-card) !important;
   display: flex !important;
   align-items: center !important;
-  overflow: hidden !important;
+  flex-wrap: wrap !important;
+  overflow: visible !important;
   max-width: 860px !important;
   margin: 24px auto !important;
   padding: 6px 8px !important;

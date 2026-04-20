@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unwind Weekly Report — April 17, 2026</title>
+  <style>
+    /* Reset */
+    body, table, td, p, h1, h2, h3 { margin: 0; padding: 0; }
+    body { background-color: #f4f6f8; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; }
+
+    /* Wrapper */
+    .wrapper { width: 100%; background-color: #f4f6f8; padding: 32px 16px; box-sizing: border-box; }
+    .container { max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+
+    /* Header */
+    .header { background-color: #1B4F6B; padding: 32px 36px; text-align: center; }
+    .header .logo-text { color: #4BBFBF; font-size: 22px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; }
+    .header h1 { color: #ffffff; font-size: 18px; font-weight: 400; margin-top: 6px; opacity: 0.88; }
+    .header .date-badge { display: inline-block; margin-top: 14px; background-color: rgba(75,191,191,0.18); color: #4BBFBF; font-size: 12px; font-weight: 600; letter-spacing: 0.8px; text-transform: uppercase; padding: 4px 12px; border-radius: 20px; border: 1px solid rgba(75,191,191,0.4); }
+
+    /* Section label */
+    .section-label { padding: 24px 36px 8px; }
+    .section-label h2 { font-size: 11px; font-weight: 700; letter-spacing: 1.4px; text-transform: uppercase; color: #4BBFBF; }
+
+    /* Stat cards row */
+    .stat-row { display: flex; gap: 0; padding: 0 36px 24px; }
+    .stat-card { flex: 1; background-color: #f7fafa; border: 1px solid #e0eff0; border-radius: 6px; padding: 18px 16px; text-align: center; margin: 0 6px; }
+    .stat-card:first-child { margin-left: 0; }
+    .stat-card:last-child { margin-right: 0; }
+    .stat-card .stat-label { font-size: 11px; color: #6b8fa0; font-weight: 600; letter-spacing: 0.6px; text-transform: uppercase; margin-bottom: 8px; }
+    .stat-card .stat-value { font-size: 26px; font-weight: 700; color: #1B4F6B; line-height: 1; }
+    .stat-card .stat-sub { font-size: 13px; color: #4BBFBF; font-weight: 600; margin-top: 6px; }
+
+    /* Divider */
+    .divider { height: 1px; background-color: #e8eef2; margin: 0 36px; }
+
+    /* Top properties */
+    .properties-section { padding: 24px 36px; }
+    .properties-section h2 { font-size: 11px; font-weight: 700; letter-spacing: 1.4px; text-transform: uppercase; color: #4BBFBF; margin-bottom: 14px; }
+    .property-row { display: flex; align-items: center; padding: 12px 0; border-bottom: 1px solid #f0f4f6; }
+    .property-row:last-child { border-bottom: none; }
+    .rank-badge { width: 28px; height: 28px; border-radius: 50%; background-color: #1B4F6B; color: #ffffff; font-size: 13px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .property-name { flex: 1; font-size: 14px; font-weight: 600; color: #1B4F6B; margin-left: 14px; }
+    .property-bookings { font-size: 13px; color: #6b8fa0; font-weight: 500; }
+    .property-bookings span { color: #4BBFBF; font-weight: 700; }
+
+    /* YTD banner */
+    .ytd-banner { background: linear-gradient(135deg, #1B4F6B 0%, #1a6080 100%); margin: 0; padding: 28px 36px; text-align: center; }
+    .ytd-banner .ytd-label { font-size: 11px; font-weight: 700; letter-spacing: 1.4px; text-transform: uppercase; color: rgba(75,191,191,0.9); margin-bottom: 8px; }
+    .ytd-banner .ytd-value { font-size: 36px; font-weight: 700; color: #ffffff; letter-spacing: -0.5px; }
+    .ytd-banner .ytd-period { font-size: 12px; color: rgba(255,255,255,0.6); margin-top: 6px; }
+
+    /* Footer */
+    .footer { background-color: #f4f6f8; padding: 24px 36px; text-align: center; }
+    .footer p { font-size: 11px; color: #9badb8; line-height: 1.7; }
+    .footer a { color: #4BBFBF; text-decoration: none; }
+
+    /* Mobile */
+    @media (max-width: 480px) {
+      .wrapper { padding: 16px 8px; }
+      .header, .section-label, .stat-row, .divider, .properties-section, .ytd-banner, .footer { padding-left: 20px; padding-right: 20px; }
+      .stat-row { flex-direction: column; gap: 10px; padding-left: 20px; padding-right: 20px; }
+      .stat-card { margin: 0; }
+      .stat-card .stat-value { font-size: 22px; }
+      .ytd-banner .ytd-value { font-size: 28px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <div class="container">
+
+      <!-- Header -->
+      <div class="header">
+        <div class="logo-text">Unwind Vacation Rentals</div>
+        <h1>Weekly Performance Report</h1>
+        <div class="date-badge">April 17, 2026</div>
+      </div>
+
+      <!-- April stats -->
+      <div class="section-label">
+        <h2>April 2026 — On the Books</h2>
+      </div>
+      <div class="stat-row">
+        <div class="stat-card">
+          <div class="stat-label">Bookings</div>
+          <div class="stat-value">128</div>
+          <div class="stat-sub">confirmed</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Revenue</div>
+          <div class="stat-value" style="font-size:21px;">$75,196</div>
+          <div class="stat-sub">on books</div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- May stats -->
+      <div class="section-label">
+        <h2>May 2026 — On the Books</h2>
+      </div>
+      <div class="stat-row">
+        <div class="stat-card">
+          <div class="stat-label">Bookings</div>
+          <div class="stat-value">61</div>
+          <div class="stat-sub">confirmed</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Revenue</div>
+          <div class="stat-value" style="font-size:21px;">$72,692</div>
+          <div class="stat-sub">on books</div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- Top properties -->
+      <div class="properties-section">
+        <h2>Top Properties This Month</h2>
+        <div class="property-row">
+          <div class="rank-badge">1</div>
+          <div class="property-name">Holiday Pavilion #210</div>
+          <div class="property-bookings"><span>5</span> bookings</div>
+        </div>
+        <div class="property-row">
+          <div class="rank-badge">2</div>
+          <div class="property-name">Beach Cove #412</div>
+          <div class="property-bookings"><span>5</span> bookings</div>
+        </div>
+        <div class="property-row">
+          <div class="rank-badge" style="background-color:#4BBFBF;">3</div>
+          <div class="property-name">Prince Resort 1205</div>
+          <div class="property-bookings"><span>5</span> bookings</div>
+        </div>
+      </div>
+
+      <!-- YTD banner -->
+      <div class="ytd-banner">
+        <div class="ytd-label">Year-to-Date Revenue</div>
+        <div class="ytd-value">$142,794</div>
+        <div class="ytd-period">Jan 1 – Apr 17, 2026</div>
+      </div>
+
+      <!-- Footer -->
+      <div class="footer">
+        <p>Generated automatically from Beyond Pricing data.<br />
+        Questions? Reply to this email or reach John at <a href="mailto:jwatson@unwindvacations.com">jwatson@unwindvacations.com</a>.</p>
+      </div>
+
+    </div>
+  </div>
+</body>
+</html>

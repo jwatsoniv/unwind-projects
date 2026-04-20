@@ -1,0 +1,19 @@
+/*BeginTemplate*//*BeginTemplate*/ .section-right .header-links { font-size: 1.6em; } .section-right .header-links .btn { font-size: 0.6em; }/*EndTemplate*/.hero-text, .hero h1, .page-header h1, .jumbotron h1 { font-size: 3.5em !important; font-weight: 700 !important; color: #ffffff !important; text-shadow: 2px 2px 8px rgba(0,0,0,0.8) !important; letter-spacing: 1px !important; }.carousel-caption h1 { font-size: 4em !important; font-weight: 700 !important; text-shadow: 3px 3px 10px rgba(0,0,0,0.9) !important; }.navbar-brand img, .header-logo img, img.logo { max-height: 120px !important; width: auto !important; }
+
+.navbar-brand.has-brand-image { height: 120px !important; background-size: contain !important; background-position: center !important; width: 160px !important; }
+.header-logo { text-align: center !important; display: flex !important; justify-content: center !important; }
+.property-item, .property-listing, .listing-item { background: #ffffff !important; border-radius: 12px !important; box-shadow: 0 2px 12px rgba(0,0,0,0.08) !important; overflow: hidden !important; transition: transform 0.2s ease, box-shadow 0.2s ease !important; margin-bottom: 24px !important; } .property-item:hover, .property-listing:hover, .listing-item:hover { transform: translateY(-4px) !important; box-shadow: 0 8px 24px rgba(0,0,0,0.12) !important; } .property-item h3 a, .property-listing h3 a, .listing-item h3 a, .property-item h2 a { color: #1B4F6B !important; font-weight: 600 !important; }
+.property-result-tile { background: #ffffff !important; border-radius: 12px !important; box-shadow: 0 2px 12px rgba(0,0,0,0.08) !important; overflow: hidden !important; transition: transform 0.2s ease, box-shadow 0.2s ease !important; }
+
+.property-result-tile:hover { transform: translateY(-4px) !important; box-shadow: 0 8px 24px rgba(0,0,0,0.15) !important; }
+
+.property-result-tile-content { background: #ffffff !important; padding: 16px !important; }
+
+.property-result-tile-content h2 a, .property-result-tile-content h3 a { color: #1B4F6B !important; font-weight: 600 !important; }
+
+.property-result-list { background: #ffffff !important; padding: 24px !important; }
+#content, .body-content, .container { background: #ffffff !important; }
+.incarousel-search-bar { margin-bottom: 0 !important; padding-bottom: 0 !important; } .carousel-hero-carousel { margin-bottom: 0 !important; }
+.incarousel-search-bar.container { height: auto !important; min-height: 0 !important; padding-bottom: 0 !important; }
+.incarousel-search-bar.container { height: auto !important; min-height: 0 !important; padding: 0 !important; margin-bottom: 0 !important; } .incarousel-search-bar-inner { padding-bottom: 0 !important; margin-bottom: 0 !important; }
+div.incarousel-search-bar.container { height: auto !important; min-height: 0 !important; padding-top: 0 !important; padding-bottom: 0 !important; margin-bottom: -40px !important; }

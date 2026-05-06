@@ -1,0 +1,28 @@
+{
+  "event_id": "019dfd5a-8d91-7ca2-a143-1d4eca611cd2",
+  "event_type": "observe",
+  "subject": {
+    "kind": "entity",
+    "id": "019dfd5a-8d91-7ca2-a143-1d2a27694b57"
+  },
+  "actor": {
+    "kind": "human",
+    "id": "john"
+  },
+  "time_observed": "2026-05-06T12:54:23.377665Z",
+  "time_recorded": "2026-05-06T12:54:23.377665Z",
+  "layer": "episodic",
+  "authority": {
+    "source_kind": "user",
+    "score": 50
+  },
+  "signature_state": "unsigned",
+  "classification": "private",
+  "payload": {
+    "type": "observe",
+    "summary": "Unwind Vacations portfolio: ~60 active properties (2026-05-06), target 95 by year-end. Canonical source for active count is the vault wiki — OwnerRez shows 95 but includes inactive/historical. Niche: 3BR+ beach homes and higher-end condos on Myrtle Beach area. Cleaning is a profit center (48% gross margin).",
+    "source": "brain-cli"
+  },
+  "schema_version": 1,
+  "idempotency_key": "cli::019dfd5a-8d91-7ca2-a143-1d372ee3778a"
+}

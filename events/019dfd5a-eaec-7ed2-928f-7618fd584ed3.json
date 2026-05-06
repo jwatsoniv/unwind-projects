@@ -1,0 +1,28 @@
+{
+  "event_id": "019dfd5a-eaec-7ed2-928f-7618fd584ed3",
+  "event_type": "observe",
+  "subject": {
+    "kind": "entity",
+    "id": "019dfd5a-eaeb-7920-8fd9-5efa70e7ea85"
+  },
+  "actor": {
+    "kind": "human",
+    "id": "john"
+  },
+  "time_observed": "2026-05-06T12:54:47.276404Z",
+  "time_recorded": "2026-05-06T12:54:47.276404Z",
+  "layer": "episodic",
+  "authority": {
+    "source_kind": "user",
+    "score": 50
+  },
+  "signature_state": "unsigned",
+  "classification": "private",
+  "payload": {
+    "type": "observe",
+    "summary": "v0.1 pricing monitoring rules: 1) Same-day bookings (lead_time=0) — flag always. 2) 1-night bookings — flag always. 3) Peak (Jun-Aug) <4 nights on 4BR+ booked >14d out — flag. 4) MinLOS baseline 3-night peak/shoulder/slow, drops to 2 within 14d. 5) ADR benchmarks: 1BR peak , 2BR , 3BR , 4BR , 6BR . 6) Late-booking-rate >50% rolling 30d — soft flag. 7) Pacing 2026 vs 2025 same-period — thresholds TBD with John.",
+    "source": "brain-cli"
+  },
+  "schema_version": 1,
+  "idempotency_key": "cli::019dfd5a-eaeb-7920-8fd9-5f07af9bebed"
+}

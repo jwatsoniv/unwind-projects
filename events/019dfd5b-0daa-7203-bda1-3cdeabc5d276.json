@@ -1,0 +1,28 @@
+{
+  "event_id": "019dfd5b-0daa-7203-bda1-3cdeabc5d276",
+  "event_type": "observe",
+  "subject": {
+    "kind": "entity",
+    "id": "019dfd5b-0da8-76f1-a8f9-8ff52d0b4f8e"
+  },
+  "actor": {
+    "kind": "human",
+    "id": "john"
+  },
+  "time_observed": "2026-05-06T12:54:56.170133Z",
+  "time_recorded": "2026-05-06T12:54:56.170133Z",
+  "layer": "episodic",
+  "authority": {
+    "source_kind": "user",
+    "score": 50
+  },
+  "signature_state": "unsigned",
+  "classification": "private",
+  "payload": {
+    "type": "observe",
+    "summary": "API integrations: OwnerRez (logged in 2026-04-28, active). Beyond Pricing (logged in 2026-04-28, active). Ramp (deferred to v0.3). Gmail: eve@unwindvacations.com — Eve's only email account, never touch jwatson@unwindvacations.com.",
+    "source": "brain-cli"
+  },
+  "schema_version": 1,
+  "idempotency_key": "cli::019dfd5b-0da8-76f1-a8f9-900d4dc5ca15"
+}

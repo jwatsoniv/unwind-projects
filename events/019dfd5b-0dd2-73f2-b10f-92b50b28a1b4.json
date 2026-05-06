@@ -1,0 +1,28 @@
+{
+  "event_id": "019dfd5b-0dd2-73f2-b10f-92b50b28a1b4",
+  "event_type": "observe",
+  "subject": {
+    "kind": "entity",
+    "id": "019dfd5b-0dd0-7d93-8120-5de69320af98"
+  },
+  "actor": {
+    "kind": "human",
+    "id": "john"
+  },
+  "time_observed": "2026-05-06T12:54:56.210029Z",
+  "time_recorded": "2026-05-06T12:54:56.210029Z",
+  "layer": "episodic",
+  "authority": {
+    "source_kind": "user",
+    "score": 50
+  },
+  "signature_state": "unsigned",
+  "classification": "private",
+  "payload": {
+    "type": "observe",
+    "summary": "Unwind financials (2025 snapshot): .73M gross rental, K company income, K net, +42% YoY, +9.5% vs. market occupancy. 2026 investor commitment target: 95 properties / .2M revenue. VTO ambition is 125 properties / .5M — plan against .2M unless told otherwise.",
+    "source": "brain-cli"
+  },
+  "schema_version": 1,
+  "idempotency_key": "cli::019dfd5b-0dd0-7d93-8120-5df7062899fd"
+}

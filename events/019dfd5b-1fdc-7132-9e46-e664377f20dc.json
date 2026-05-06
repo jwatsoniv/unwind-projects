@@ -1,0 +1,28 @@
+{
+  "event_id": "019dfd5b-1fdc-7132-9e46-e664377f20dc",
+  "event_type": "observe",
+  "subject": {
+    "kind": "entity",
+    "id": "019dfd5b-1fda-78e3-88cd-7397bf4ebfc0"
+  },
+  "actor": {
+    "kind": "human",
+    "id": "john"
+  },
+  "time_observed": "2026-05-06T12:55:00.828962Z",
+  "time_recorded": "2026-05-06T12:55:00.828962Z",
+  "layer": "episodic",
+  "authority": {
+    "source_kind": "user",
+    "score": 50
+  },
+  "signature_state": "unsigned",
+  "classification": "private",
+  "payload": {
+    "type": "observe",
+    "summary": "brain tool installed 2026-05-06: git-backed shared memory store at ~/.brain. Wired to OpenClaw (BRAIN.md in workspace) and Claude Code (MCP server + CLAUDE.md). Use 'brain note', 'brain ask', 'brain log', 'brain tui'. Repo cloned at /Users/john/.openclaw/workspace/brain/.",
+    "source": "brain-cli"
+  },
+  "schema_version": 1,
+  "idempotency_key": "cli::019dfd5b-1fda-78e3-88cd-73a8916fdd0c"
+}

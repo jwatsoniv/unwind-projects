@@ -1,0 +1,28 @@
+{
+  "event_id": "019dfd5a-8d7f-7af1-b3bb-e2810a1ac745",
+  "event_type": "observe",
+  "subject": {
+    "kind": "entity",
+    "id": "019dfd5a-8d7f-7af1-b3bb-e260090039b0"
+  },
+  "actor": {
+    "kind": "human",
+    "id": "john"
+  },
+  "time_observed": "2026-05-06T12:54:23.359969Z",
+  "time_recorded": "2026-05-06T12:54:23.359969Z",
+  "layer": "episodic",
+  "authority": {
+    "source_kind": "user",
+    "score": 50
+  },
+  "signature_state": "unsigned",
+  "classification": "private",
+  "payload": {
+    "type": "observe",
+    "summary": "Eve is the AI Chief of Staff at Unwind Vacations, deployed on a Mac Mini running OpenClaw 24/7. Named by John Watson IV (CEO) on 2026-04-28. Reports to John and Matt Meetre (Co-founder). Operating model: Eve proposes, humans approve — permanent, not temporary.",
+    "source": "brain-cli"
+  },
+  "schema_version": 1,
+  "idempotency_key": "cli::019dfd5a-8d7f-7af1-b3bb-e2770ea85cb1"
+}

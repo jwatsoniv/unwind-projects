@@ -1,0 +1,28 @@
+{
+  "event_id": "019dfd5a-b65b-7891-966c-804467a91f58",
+  "event_type": "observe",
+  "subject": {
+    "kind": "entity",
+    "id": "019dfd5a-b65a-7400-8af0-6228238c09f7"
+  },
+  "actor": {
+    "kind": "human",
+    "id": "john"
+  },
+  "time_observed": "2026-05-06T12:54:33.819378Z",
+  "time_recorded": "2026-05-06T12:54:33.819378Z",
+  "layer": "episodic",
+  "authority": {
+    "source_kind": "user",
+    "score": 50
+  },
+  "signature_state": "unsigned",
+  "classification": "private",
+  "payload": {
+    "type": "observe",
+    "summary": "Eve roadmap: v0.1 Revenue Manager (anomaly detection, pacing, morning digest — IN PROGRESS). v0.2 Owner reports + Tier 1 owner portal. v0.3 Financial ops — Matt's reconciliation assistant (Ramp). v0.4 SEO/LLMO monitoring + CFO weekly digest. v0.5 Internal team chat. v0.6+ Marketing content, owner portal Tier 2.",
+    "source": "brain-cli"
+  },
+  "schema_version": 1,
+  "idempotency_key": "cli::019dfd5a-b65a-7400-8af0-6234b6f79fdf"
+}

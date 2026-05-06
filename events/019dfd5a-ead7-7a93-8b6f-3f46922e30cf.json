@@ -1,0 +1,28 @@
+{
+  "event_id": "019dfd5a-ead7-7a93-8b6f-3f46922e30cf",
+  "event_type": "observe",
+  "subject": {
+    "kind": "entity",
+    "id": "019dfd5a-ead5-72c3-909f-1dfc29283f3a"
+  },
+  "actor": {
+    "kind": "human",
+    "id": "john"
+  },
+  "time_observed": "2026-05-06T12:54:47.255326Z",
+  "time_recorded": "2026-05-06T12:54:47.255326Z",
+  "layer": "episodic",
+  "authority": {
+    "source_kind": "user",
+    "score": 50
+  },
+  "signature_state": "unsigned",
+  "classification": "private",
+  "payload": {
+    "type": "observe",
+    "summary": "Pricing stack: Beyond Pricing (BP) is the price engine — simpler search-powered model. Eve is the portfolio judgment layer on top. Unwind ran PriceLabs 2023-March 2026 then switched back to BP because too many stacked automations suppressed bookings. Do NOT propose PriceLabs migration without addressing this history.",
+    "source": "brain-cli"
+  },
+  "schema_version": 1,
+  "idempotency_key": "cli::019dfd5a-ead5-72c3-909f-1e059af71b42"
+}

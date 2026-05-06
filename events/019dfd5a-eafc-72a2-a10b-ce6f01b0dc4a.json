@@ -1,0 +1,28 @@
+{
+  "event_id": "019dfd5a-eafc-72a2-a10b-ce6f01b0dc4a",
+  "event_type": "observe",
+  "subject": {
+    "kind": "entity",
+    "id": "019dfd5a-eafb-7771-aaf3-c80a8c4cfd08"
+  },
+  "actor": {
+    "kind": "human",
+    "id": "john"
+  },
+  "time_observed": "2026-05-06T12:54:47.292803Z",
+  "time_recorded": "2026-05-06T12:54:47.292803Z",
+  "layer": "episodic",
+  "authority": {
+    "source_kind": "user",
+    "score": 50
+  },
+  "signature_state": "unsigned",
+  "classification": "private",
+  "payload": {
+    "type": "observe",
+    "summary": "Daily pricing cron: job ID e505d25b-9603-4a28-a066-adbe391aac09, name eve-pricing-daily, schedule 5:03am ET daily, runs in main session (has browser tool). Failure alert to John on Telegram after 1 failure, 4h cooldown. LIVE — autonomous BP changes permitted per Rules 1/2/3/4/9.",
+    "source": "brain-cli"
+  },
+  "schema_version": 1,
+  "idempotency_key": "cli::019dfd5a-eafb-7771-aaf3-c81afbaeafb3"
+}

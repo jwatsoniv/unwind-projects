@@ -1,0 +1,28 @@
+{
+  "event_id": "019dfd5b-0dc1-7170-8b14-fd72a297eb5e",
+  "event_type": "observe",
+  "subject": {
+    "kind": "entity",
+    "id": "019dfd5b-0dbf-77c0-bb36-5f42f9fbda02"
+  },
+  "actor": {
+    "kind": "human",
+    "id": "john"
+  },
+  "time_observed": "2026-05-06T12:54:56.193036Z",
+  "time_recorded": "2026-05-06T12:54:56.193036Z",
+  "layer": "episodic",
+  "authority": {
+    "source_kind": "user",
+    "score": 50
+  },
+  "signature_state": "unsigned",
+  "classification": "private",
+  "payload": {
+    "type": "observe",
+    "summary": "John's Brain Obsidian vault: shared into Mac Mini iCloud Drive from John's iCloud account. Business vault has read+write access. Vault is Eve's employee handbook. Every deliverable should be mirrored to John's Brain — Business/outputs/ (default: eve-reports/).",
+    "source": "brain-cli"
+  },
+  "schema_version": 1,
+  "idempotency_key": "cli::019dfd5b-0dbf-77c0-bb36-5f5821403980"
+}

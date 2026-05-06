@@ -1,0 +1,28 @@
+{
+  "event_id": "019dfe87-4191-7d21-94a8-7ee7ba739f86",
+  "event_type": "observe",
+  "subject": {
+    "kind": "entity",
+    "id": "019dfe87-418f-78e1-881f-ee0aaf0b9240"
+  },
+  "actor": {
+    "kind": "human",
+    "id": "john"
+  },
+  "time_observed": "2026-05-06T18:22:50.257190Z",
+  "time_recorded": "2026-05-06T18:22:50.257190Z",
+  "layer": "episodic",
+  "authority": {
+    "source_kind": "user",
+    "score": 50
+  },
+  "signature_state": "unsigned",
+  "classification": "private",
+  "payload": {
+    "type": "observe",
+    "summary": "Future goal: Set up RAMP expense management integration. Agent should log into RAMP, add expenses incurred on behalf of property owners, and tag them to the correct owner account. Business partner currently handles reconciliation manually — goal is to automate this so the agent can reconcile owner expenses from RAMP. Prerequisite: Get Google Meet plugin fully configured first.",
+    "source": "brain-cli"
+  },
+  "schema_version": 1,
+  "idempotency_key": "cli::019dfe87-418f-78e1-881f-ee1743ed31df"
+}

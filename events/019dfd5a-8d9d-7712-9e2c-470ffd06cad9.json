@@ -1,0 +1,28 @@
+{
+  "event_id": "019dfd5a-8d9d-7712-9e2c-470ffd06cad9",
+  "event_type": "observe",
+  "subject": {
+    "kind": "entity",
+    "id": "019dfd5a-8d9d-7712-9e2c-46e4b145061c"
+  },
+  "actor": {
+    "kind": "human",
+    "id": "john"
+  },
+  "time_observed": "2026-05-06T12:54:23.389737Z",
+  "time_recorded": "2026-05-06T12:54:23.389737Z",
+  "layer": "episodic",
+  "authority": {
+    "source_kind": "user",
+    "score": 50
+  },
+  "signature_state": "unsigned",
+  "classification": "private",
+  "payload": {
+    "type": "observe",
+    "summary": "Eve's primary metric: Revenue per property YoY. Hard floor constraint: ≥90% annual owner retention (~6 owner departures/year max at 58 properties). If a revenue-positive action creates retention risk, flag the tradeoff — never just recommend the action.",
+    "source": "brain-cli"
+  },
+  "schema_version": 1,
+  "idempotency_key": "cli::019dfd5a-8d9d-7712-9e2c-46f51a06ed0d"
+}

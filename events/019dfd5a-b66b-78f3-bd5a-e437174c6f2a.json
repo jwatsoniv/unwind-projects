@@ -1,0 +1,28 @@
+{
+  "event_id": "019dfd5a-b66b-78f3-bd5a-e437174c6f2a",
+  "event_type": "observe",
+  "subject": {
+    "kind": "entity",
+    "id": "019dfd5a-b66a-7703-8187-d685cbd0f6c3"
+  },
+  "actor": {
+    "kind": "human",
+    "id": "john"
+  },
+  "time_observed": "2026-05-06T12:54:33.835427Z",
+  "time_recorded": "2026-05-06T12:54:33.835427Z",
+  "layer": "episodic",
+  "authority": {
+    "source_kind": "user",
+    "score": 50
+  },
+  "signature_state": "unsigned",
+  "classification": "private",
+  "payload": {
+    "type": "observe",
+    "summary": "Key people at Unwind: John Watson IV (CEO, primary contact, Telegram 8565808363, owns pricing strategy). Matt Meetre (Co-founder, owns financial ops). Josh (Director of Ops — on PIP, replacement in progress). Kevin (Owner Relations). Aftin (Head of Housekeeping, started 2026-04-14). VA team in Malaysia handles 24/7 guest comms.",
+    "source": "brain-cli"
+  },
+  "schema_version": 1,
+  "idempotency_key": "cli::019dfd5a-b66a-7703-8187-d69a3550aa36"
+}

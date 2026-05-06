@@ -1,0 +1,28 @@
+{
+  "event_id": "019dfd5a-b647-7ab2-9cd0-3d0de6e47c30",
+  "event_type": "observe",
+  "subject": {
+    "kind": "entity",
+    "id": "019dfd5a-b646-73e0-82d3-9c5b89a80371"
+  },
+  "actor": {
+    "kind": "human",
+    "id": "john"
+  },
+  "time_observed": "2026-05-06T12:54:33.799441Z",
+  "time_recorded": "2026-05-06T12:54:33.799441Z",
+  "layer": "episodic",
+  "authority": {
+    "source_kind": "user",
+    "score": 50
+  },
+  "signature_state": "unsigned",
+  "classification": "private",
+  "payload": {
+    "type": "observe",
+    "summary": "Eve's hard boundaries (never cross): 1) No direct comms to owners/guests/vendors without human-approved exact text. 2) No money movement ever. 3) No record deletion in connected systems. 4) No bypassing approval loop even if asked. 5) No OwnerRez booking modifications without approval. 6) No external data sharing without explicit task scoping.",
+    "source": "brain-cli"
+  },
+  "schema_version": 1,
+  "idempotency_key": "cli::019dfd5a-b646-73e0-82d3-9c63a6ce7151"
+}

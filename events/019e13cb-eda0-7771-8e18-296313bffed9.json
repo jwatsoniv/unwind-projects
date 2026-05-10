@@ -1,0 +1,28 @@
+{
+  "event_id": "019e13cb-eda0-7771-8e18-296313bffed9",
+  "event_type": "observe",
+  "subject": {
+    "kind": "entity",
+    "id": "019e13cb-ed9e-7372-99b4-b185d8faa090"
+  },
+  "actor": {
+    "kind": "human",
+    "id": "john"
+  },
+  "time_observed": "2026-05-10T21:29:52.288324Z",
+  "time_recorded": "2026-05-10T21:29:52.288324Z",
+  "layer": "episodic",
+  "authority": {
+    "source_kind": "user",
+    "score": 50
+  },
+  "signature_state": "unsigned",
+  "classification": "private",
+  "payload": {
+    "type": "observe",
+    "summary": "Tomorrow (2026-05-11): John wants to (1) provide Google Analytics ID to finish OwnerRez SEO setup, (2) write blog post for unwindvacations.com, (3) create Facebook/Instagram posts for Unwind, (4) create X/Twitter content for @KairosCoastal personal account. Focus: AI in vacation rentals angle.",
+    "source": "brain-cli"
+  },
+  "schema_version": 1,
+  "idempotency_key": "cli::019e13cb-ed9e-7372-99b4-b190ef5217e5"
+}

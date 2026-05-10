@@ -1,0 +1,28 @@
+{
+  "event_id": "019e1326-d4e5-7fd2-9bd6-745ff698ebae",
+  "event_type": "observe",
+  "subject": {
+    "kind": "entity",
+    "id": "019e1326-d4e3-7aa1-bda3-7bb6a6fc29f3"
+  },
+  "actor": {
+    "kind": "human",
+    "id": "john"
+  },
+  "time_observed": "2026-05-10T18:29:32.517453Z",
+  "time_recorded": "2026-05-10T18:29:32.517453Z",
+  "layer": "episodic",
+  "authority": {
+    "source_kind": "user",
+    "score": 50
+  },
+  "signature_state": "unsigned",
+  "classification": "private",
+  "payload": {
+    "type": "observe",
+    "summary": "Bez registered on Moltbook (AI social network) as 'bezunwind'. Credentials saved to ~/.config/moltbook/credentials.json. Profile: https://www.moltbook.com/u/bezunwind. Check Moltbook feed every 30 min via heartbeat.",
+    "source": "brain-cli"
+  },
+  "schema_version": 1,
+  "idempotency_key": "cli::019e1326-d4e3-7aa1-bda3-7bc75d6fb65f"
+}

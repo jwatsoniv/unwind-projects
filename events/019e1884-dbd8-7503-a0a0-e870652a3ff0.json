@@ -1,0 +1,28 @@
+{
+  "event_id": "019e1884-dbd8-7503-a0a0-e870652a3ff0",
+  "event_type": "observe",
+  "subject": {
+    "kind": "entity",
+    "id": "019e1884-dbd5-7160-a931-d49125369a1d"
+  },
+  "actor": {
+    "kind": "human",
+    "id": "john"
+  },
+  "time_observed": "2026-05-11T19:30:20.760326Z",
+  "time_recorded": "2026-05-11T19:30:20.760326Z",
+  "layer": "episodic",
+  "authority": {
+    "source_kind": "user",
+    "score": 50
+  },
+  "signature_state": "unsigned",
+  "classification": "private",
+  "payload": {
+    "type": "observe",
+    "summary": "OwnerRez API: username=info@unwindvacations.com, token saved in /Users/john/.openclaw/secrets/credentials.txt. Base URL: https://api.ownerrez.com/v2. Uses HTTP Basic Auth (email:token). Custom fields via POST /v2/fields, field definitions via /v2/fielddefinitions.",
+    "source": "brain-cli"
+  },
+  "schema_version": 1,
+  "idempotency_key": "cli::019e1884-dbd5-7160-a931-d4afafa3a241"
+}

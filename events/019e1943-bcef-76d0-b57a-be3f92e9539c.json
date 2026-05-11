@@ -1,0 +1,28 @@
+{
+  "event_id": "019e1943-bcef-76d0-b57a-be3f92e9539c",
+  "event_type": "observe",
+  "subject": {
+    "kind": "entity",
+    "id": "019e1943-bceb-7531-ac97-3e95688e54c8"
+  },
+  "actor": {
+    "kind": "human",
+    "id": "john"
+  },
+  "time_observed": "2026-05-11T22:58:50.223038Z",
+  "time_recorded": "2026-05-11T22:58:50.223038Z",
+  "layer": "episodic",
+  "authority": {
+    "source_kind": "user",
+    "score": 50
+  },
+  "signature_state": "unsigned",
+  "classification": "private",
+  "payload": {
+    "type": "observe",
+    "summary": "John instructed Bez to post at least once daily on Moltbook (bezunwind) and comment on multiple posts each day. This is a standing daily task, tracked via lastMoltbookDailyPost in heartbeat-state.json. Draw content from real Unwind work — tools, observations, operational AI lessons. No generic posts.",
+    "source": "brain-cli"
+  },
+  "schema_version": 1,
+  "idempotency_key": "cli::019e1943-bceb-7531-ac97-3ea4069b213b"
+}

@@ -1,0 +1,28 @@
+{
+  "event_id": "019e1c13-a37f-7d00-809c-d0ad0e003ea0",
+  "event_type": "observe",
+  "subject": {
+    "kind": "entity",
+    "id": "019e1c13-a37c-79a1-9c5f-2c0610924b7f"
+  },
+  "actor": {
+    "kind": "human",
+    "id": "john"
+  },
+  "time_observed": "2026-05-12T12:05:09.631324Z",
+  "time_recorded": "2026-05-12T12:05:09.631324Z",
+  "layer": "episodic",
+  "authority": {
+    "source_kind": "user",
+    "score": 50
+  },
+  "signature_state": "unsigned",
+  "classification": "private",
+  "payload": {
+    "type": "observe",
+    "summary": "BEYOND PRICING PORTFOLIO AUDIT - 2026-05-12\n\nPortfolio: 47 active / 61 total. YTD Revenue ,464 (52% of .6M goal). Next 90-day RevPAR  vs  last year (+60% YoY). Strong overall.\n\nCRITICAL ISSUES FOUND:\n1. Tilgham #241: Base price = ,664 (corrupted data entry). 100% blocked. Status: Enable. Completely non-functional.\n2. Anderson Ocean Club: Health score 45 despite 100%/94% occupancy = severely underpriced. Base , needs -420+. 26% blocked.\n3. Forest Dunes 404 + Robbers Roost 829: Setup status, /bin/zsh goals, not live.\n4. Marina Inn 4302: Health score 1, only 4% YTD revenue progress (K goal), no occupancy data.\n\nUNDERPRICING:\n- Spinaker #703: 93%/91% occ but health 60. Base  → needs -210. 22% blocked.\n- Brigadune 14a: 90%/85% occ, health 72, ALREADY at 102% revenue goal in May. Base  too low. Revenue goal K too low.\n- A Place at Beach 3L 5001: 80% occ, health 77, base  probably too low.\n\nHIGH OWNER BLOCKS (revenue loss):\n- Brigadune 14a: 27% blocked\n- Anderson Ocean Club: 26% blocked\n- MB Resort 4216: 24% blocked (also 0 bookings past 14 days, health 63)\n- Spinaker #703: 22% blocked\n- Hillside Beach House: 20% blocked, 0 bookings in 14 days\n\nSTALE SETTINGS (12+ properties):\n- ~12 properties have minimum prices 2+ months stale heading into peak season\n- Worst: Monterey Bay #1205 min , Beach Cove #507 min , Beach Cove #412 min \n- Luster Leaf 104 base price 3 months stale\n\nALL CHANGES require John approval before implementation.\nFull audit saved to: outputs/beyond-pricing-audit-2026-05-12.md\n\nTags: beyond-pricing, portfolio-audit, unwind, revenue-management, 2026-05-12",
+    "source": "brain-cli"
+  },
+  "schema_version": 1,
+  "idempotency_key": "cli::019e1c13-a37c-79a1-9c5f-2c1ab2b3521c"
+}

@@ -1,0 +1,28 @@
+{
+  "event_id": "019e2265-88d8-7431-81c1-0a660bc52338",
+  "event_type": "observe",
+  "subject": {
+    "kind": "entity",
+    "id": "019e2265-88d5-7471-a9dc-c942c480cd93"
+  },
+  "actor": {
+    "kind": "human",
+    "id": "john"
+  },
+  "time_observed": "2026-05-13T17:32:20.056975Z",
+  "time_recorded": "2026-05-13T17:32:20.056975Z",
+  "layer": "episodic",
+  "authority": {
+    "source_kind": "user",
+    "score": 50
+  },
+  "signature_state": "unsigned",
+  "classification": "private",
+  "payload": {
+    "type": "observe",
+    "summary": "VOICE AGENT — KNOWLEDGE BASE (ElevenLabs Knowledge Base document) v1 — 2026-05-13\n\n# Unwind Vacation Rentals — Voice Agent Knowledge Base\n# ElevenLabs Conversational AI\n# Upload this as a Knowledge Base document in ElevenLabs.\n# Update this file when anything changes — no need to edit the system prompt.\n\n---\n\n## Company\n\n**Name:** Unwind Vacation Rentals\n**Market:** Myrtle Beach and North Myrtle Beach, SC (Grand Strand)\n**Phone:** (843) 438-9992\n**Website:** unwindvacations.com\n**Owner sign-up:** join.unwindvacations.net\n\n---\n\n## Portfolio\n\n- 55+ properties managed on the Grand Strand\n- Property types: oceanfront condos, resort pool condos, beach houses, upscale units\n- Airbnb Superhost with a 4.8+ star rating\n- 2025: booked 9.5% more nights than the North Myrtle Beach market average\n\n---\n\n## Management Services\n\n**Fee:** 20% flat commission. All-inclusive. No hidden fees.\n\n**What's included:**\n- Marketing and listing creation\n- Dynamic pricing (Beyond Pricing software)\n- 24/7 guest communication and support\n- In-house cleaning and post-checkout inspections\n- Fresh linens and restocked essentials for every stay\n- Guest welcome bags\n- Maintenance coordination\n- Hospitality tax filings\n\n**Listing channels:** Airbnb, VRBO, Expedia, Google Vacations, Hopper Homes, Booking.com, Capital One Vacations, Savvy (8 total)\n\n---\n\n## One-Time Onboarding Costs\n\nThese are paid once when a new property joins Unwind:\n\n- **$500** — Onboarding fee (system setup, listing creation, dynamic pricing rules)\n- **$350** — Smart lock + installation\n- **$159** — Professional photography (interior, exterior, drone)\n\nNo monthly fees. No ongoing hidden charges.\n\n---\n\n## Guest Policies\n\n**Check-in:** 4:00 PM standard. Early check-in may be available but is not guaranteed — contact the team.\n**Checkout:** 10:00 AM standard.\n**Pets:** Most Unwind properties do not allow pets. Confirm with the team for a specific property.\n**Parking:** Varies by property. Instructions are in the booking confirmation. Contact team if missing.\n**Access / lock codes:** Provided in the booking confirmation email. Contact team if not received.\n\n---\n\n## Hours & Contact\n\n**Team availability:** Nearly 24/7 for guest emergencies\n**Phone:** (843) 438-9992\n**Standard business hours:** Monday–Friday, reasonable hours (exact hours TBD — update this when confirmed)\n\n---\n\n## What Avery Cannot Help With\n\n- Modifying or canceling reservations (connect to team)\n- Quoting specific nightly rates for a property\n- Confirming a property's annual revenue\n- Negotiating management fee terms\n- Making commitments on behalf of the team\n\n---\n*Last updated: May 13, 2026 — update this file when policies, fees, or contact info changes.*",
+    "source": "brain-cli"
+  },
+  "schema_version": 1,
+  "idempotency_key": "cli::019e2265-88d5-7471-a9dc-c95bcac9fcad"
+}

@@ -1,0 +1,28 @@
+{
+  "event_id": "019e2179-111b-75f3-b4e0-4288a708dbd5",
+  "event_type": "observe",
+  "subject": {
+    "kind": "entity",
+    "id": "019e2179-1117-70b0-92ec-138d6d935a57"
+  },
+  "actor": {
+    "kind": "human",
+    "id": "john"
+  },
+  "time_observed": "2026-05-13T13:14:02.907583Z",
+  "time_recorded": "2026-05-13T13:14:02.907583Z",
+  "layer": "episodic",
+  "authority": {
+    "source_kind": "user",
+    "score": 50
+  },
+  "signature_state": "unsigned",
+  "classification": "private",
+  "payload": {
+    "type": "observe",
+    "summary": "John's business partner: Matt Meetre, Telegram phone +18433605333",
+    "source": "brain-cli"
+  },
+  "schema_version": 1,
+  "idempotency_key": "cli::019e2179-1117-70b0-92ec-1390b1f53894"
+}

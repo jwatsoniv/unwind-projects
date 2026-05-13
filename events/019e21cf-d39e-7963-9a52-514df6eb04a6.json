@@ -1,0 +1,28 @@
+{
+  "event_id": "019e21cf-d39e-7963-9a52-514df6eb04a6",
+  "event_type": "observe",
+  "subject": {
+    "kind": "entity",
+    "id": "019e21cf-d39b-7f01-b57b-f75c270a54cc"
+  },
+  "actor": {
+    "kind": "human",
+    "id": "john"
+  },
+  "time_observed": "2026-05-13T14:48:48.798251Z",
+  "time_recorded": "2026-05-13T14:48:48.798251Z",
+  "layer": "episodic",
+  "authority": {
+    "source_kind": "user",
+    "score": 50
+  },
+  "signature_state": "unsigned",
+  "classification": "private",
+  "payload": {
+    "type": "observe",
+    "summary": "BP export automation: Playwright script built at ~/workspace/scripts/morning-digest/bp_export.py. Login works, Insights>Listings navigation works, Reservations switch works. Steps: login → Insights → Listings → switch Performance to Reservations → change 'View Data for' to Calendar Year → Download. Couldn't test download step because BP had server errors on 2026-05-13. Test when BP is stable.",
+    "source": "brain-cli"
+  },
+  "schema_version": 1,
+  "idempotency_key": "cli::019e21cf-d39b-7f01-b57b-f76b73171fe0"
+}

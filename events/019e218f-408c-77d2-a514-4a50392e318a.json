@@ -1,0 +1,28 @@
+{
+  "event_id": "019e218f-408c-77d2-a514-4a50392e318a",
+  "event_type": "observe",
+  "subject": {
+    "kind": "entity",
+    "id": "019e218f-4089-7de2-aa1e-3926de557263"
+  },
+  "actor": {
+    "kind": "human",
+    "id": "john"
+  },
+  "time_observed": "2026-05-13T13:38:16.844631Z",
+  "time_recorded": "2026-05-13T13:38:16.844631Z",
+  "layer": "episodic",
+  "authority": {
+    "source_kind": "user",
+    "score": 50
+  },
+  "signature_state": "unsigned",
+  "classification": "private",
+  "payload": {
+    "type": "observe",
+    "summary": "gog Gmail auth for jwatson@unwindvacations.com: refresh token captured and saved to ~/Library/Application Support/gogcli/keyring/jwatson@unwindvacations.com.json but gog auth list still shows 'No tokens stored' — gog may be using macOS Keychain instead of file-based storage. Next step: investigate gog keyring_backend, try security add-generic-password or gog auth add --keyring-backend file. Client ID: 352298494313-2a887ohbbppjloqoha6b20kmhcaqglkl.apps.googleusercontent.com",
+    "source": "brain-cli"
+  },
+  "schema_version": 1,
+  "idempotency_key": "cli::019e218f-4089-7de2-aa1e-393c6bd1c953"
+}

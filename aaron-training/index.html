@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-title" content="Aaron's Grind" />
+<meta name="theme-color" content="#0a0a0a" />
+<title>Aaron's 4-Week Hoops Plan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Archivo:wght@400;500;600;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --court: #c47a3d;
+    --court-dark: #8b4f1f;
+    --line: #f4ead5;
+    --ink: #0a0a0a;
+    --paper: #faf6ed;
+    --hot: #e63946;
+    --net: #1d3557;
+    --done: #2d6a4f;
+    --done-soft: #95d5b2;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Archivo', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+  }
+  body {
+    background-image:
+      radial-gradient(circle at 20% 10%, rgba(196,122,61,0.08) 0%, transparent 40%),
+      radial-gradient(circle at 80% 80%, rgba(29,53,87,0.06) 0%, transparent 40%);
+  }
+  .wrap { max-width: 920px; margin: 0 auto; padding: 24px 18px 80px; }
+
+  /* HEADER */
+  header {
+    border: 3px solid var(--ink);
+    background: var(--ink);
+    color: var(--paper);
+    padding: 28px 24px 22px;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute; right: -40px; top: -40px;
+    width: 180px; height: 180px;
+    border: 3px solid var(--hot);
+    border-radius: 50%;
+    opacity: 0.4;
+  }
+  header::after {
+    content: '';
+    position: absolute; right: 20px; top: 20px;
+    width: 100px; height: 100px;
+    border: 2px solid var(--hot);
+    border-radius: 50%;
+    opacity: 0.6;
+  }
+  .eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--hot);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(44px, 8vw, 78px);
+    line-height: 0.92;
+    letter-spacing: 0.01em;
+    margin-bottom: 6px;
+  }
+  h1 .accent { color: var(--hot); }
+  .sub {
+    font-size: 14px;
+    opacity: 0.85;
+    max-width: 540px;
+    line-height: 1.5;
+  }
+
+  /* MISSION BAR */
+  .mission {
+    margin-top: -3px;
+    border: 3px solid var(--ink);
+    border-top: none;
+    background: var(--hot);
+    color: var(--paper);
+    padding: 14px 24px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 18px;
+    align-items: center;
+  }
+  .mission strong { font-weight: 700; }
+
+  /* PROGRESS */
+  .progress-card {
+    margin-top: 24px;
+    border: 3px solid var(--ink);
+    background: var(--paper);
+    padding: 22px 24px;
+    position: relative;
+  }
+  .progress-card::before {
+    content: '';
+    position: absolute;
+    inset: 6px;
+    border: 1px dashed var(--ink);
+    pointer-events: none;
+    opacity: 0.25;
+  }
+  .progress-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .progress-top h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    letter-spacing: 0.02em;
+  }
+  .progress-stat {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    font-weight: 700;
+  }
+  .progress-stat .big {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 32px;
+    color: var(--hot);
+    margin-right: 4px;
+  }
+  .bar {
+    height: 14px;
+    background: #ebe3d0;
+    border: 2px solid var(--ink);
+    position: relative;
+    overflow: hidden;
+  }
+  .bar-fill {
+    height: 100%;
+    background: repeating-linear-gradient(
+      45deg,
+      var(--hot),
+      var(--hot) 8px,
+      #c0202e 8px,
+      #c0202e 16px
+    );
+    width: 0%;
+    transition: width 0.6s cubic-bezier(0.2, 0.9, 0.3, 1);
+  }
+  .reset {
+    margin-top: 14px;
+    background: none;
+    border: 2px solid var(--ink);
+    padding: 8px 14px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .reset:hover { background: var(--ink); color: var(--paper); }
+
+  /* WEEK TABS */
+  .weeks-nav {
+    margin-top: 28px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    border: 3px solid var(--ink);
+  }
+  .week-tab {
+    background: var(--paper);
+    border: none;
+    border-right: 3px solid var(--ink);
+    padding: 14px 8px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+  }
+  .week-tab:last-child { border-right: none; }
+  .week-tab .num { display: block; font-size: 32px; line-height: 1; }
+  .week-tab .label { display: block; font-size: 10px; font-family: 'JetBrains Mono', monospace; letter-spacing: 0.1em; margin-top: 2px; opacity: 0.6; }
+  .week-tab:hover { background: #f0e8d0; }
+  .week-tab.active {
+    background: var(--ink);
+    color: var(--paper);
+  }
+  .week-tab.active .label { opacity: 0.7; color: var(--hot); }
+  .week-tab .check-dot {
+    position: absolute;
+    top: 6px; right: 6px;
+    width: 10px; height: 10px;
+    background: var(--done);
+    border-radius: 50%;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .week-tab.complete .check-dot { opacity: 1; }
+
+  /* WEEK HEADER */
+  .week-header {
+    margin-top: 28px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding-bottom: 14px;
+    border-bottom: 3px solid var(--ink);
+  }
+  .week-title h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 52px;
+    line-height: 1;
+    letter-spacing: 0.01em;
+  }
+  .week-title .focus {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--hot);
+    margin-top: 4px;
+  }
+  .week-quote {
+    font-style: italic;
+    font-size: 13px;
+    max-width: 320px;
+    text-align: right;
+    line-height: 1.4;
+    opacity: 0.75;
+  }
+
+  /* DAYS */
+  .days { margin-top: 20px; display: flex; flex-direction: column; gap: 14px; }
+  .day {
+    border: 3px solid var(--ink);
+    background: var(--paper);
+    overflow: hidden;
+    transition: background 0.3s;
+  }
+  .day.complete { background: #f0f7ef; }
+  .day-head {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 18px;
+    background: var(--ink);
+    color: var(--paper);
+    cursor: pointer;
+    user-select: none;
+  }
+  .day.complete .day-head { background: var(--done); }
+  .day-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 38px;
+    line-height: 1;
+    color: var(--hot);
+    min-width: 38px;
+  }
+  .day.complete .day-num { color: var(--done-soft); }
+  .day-title {
+    flex: 1;
+  }
+  .day-title .name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 0.04em;
+    line-height: 1;
+  }
+  .day-title .type {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    opacity: 0.7;
+    margin-top: 3px;
+    text-transform: uppercase;
+  }
+  .day-count {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 700;
+    background: rgba(255,255,255,0.12);
+    padding: 6px 10px;
+    border-radius: 2px;
+  }
+  .chev {
+    transition: transform 0.3s;
+    font-size: 18px;
+    opacity: 0.7;
+  }
+  .day.open .chev { transform: rotate(180deg); }
+
+  .day-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+  }
+  .day.open .day-body { max-height: 2400px; }
+
+  .tasks { padding: 18px; display: flex; flex-direction: column; gap: 8px; }
+  .task {
+    display: flex;
+    gap: 12px;
+    padding: 12px 14px;
+    border: 2px solid var(--ink);
+    background: var(--paper);
+    cursor: pointer;
+    transition: all 0.15s;
+    align-items: flex-start;
+  }
+  .task:hover { background: #f5ecd3; }
+  .task.done {
+    background: #e8f0e3;
+    border-color: var(--done);
+  }
+  .task.done .task-text { text-decoration: line-through; opacity: 0.5; }
+  .checkbox {
+    width: 22px; height: 22px;
+    border: 2px solid var(--ink);
+    flex-shrink: 0;
+    margin-top: 1px;
+    position: relative;
+    background: var(--paper);
+    transition: all 0.15s;
+  }
+  .task.done .checkbox {
+    background: var(--done);
+    border-color: var(--done);
+  }
+  .task.done .checkbox::after {
+    content: '✓';
+    position: absolute;
+    color: var(--paper);
+    font-size: 16px;
+    font-weight: 900;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -55%);
+  }
+  .task-text {
+    flex: 1;
+    font-size: 14px;
+    line-height: 1.45;
+  }
+  .task-text .tag {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    background: var(--ink);
+    color: var(--paper);
+    padding: 2px 6px;
+    margin-right: 6px;
+    text-transform: uppercase;
+    vertical-align: 1px;
+  }
+  .task-text .tag.shoot { background: var(--hot); }
+  .task-text .tag.lift { background: var(--net); }
+  .task-text .tag.def { background: var(--done); }
+  .task-text .tag.cond { background: #8b4f1f; }
+  .task-text .tag.life { background: #5a3a8a; }
+  .task-text .tag.skill { background: #c47a3d; }
+  .task-text strong { font-weight: 700; }
+
+  /* NON-NEGOTIABLES PINNED */
+  .pinned {
+    margin-top: 28px;
+    border: 3px solid var(--ink);
+    background: var(--net);
+    color: var(--paper);
+    padding: 22px;
+  }
+  .pinned h3 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    color: var(--hot);
+    margin-bottom: 12px;
+    letter-spacing: 0.02em;
+  }
+  .pinned ul { list-style: none; display: grid; gap: 6px; }
+  .pinned li {
+    font-size: 13px;
+    line-height: 1.5;
+    padding-left: 22px;
+    position: relative;
+  }
+  .pinned li::before {
+    content: '◆';
+    position: absolute;
+    left: 0;
+    color: var(--hot);
+  }
+  .pinned li strong { color: var(--paper); font-weight: 700; }
+
+  /* MINDSET */
+  .mindset {
+    margin-top: 24px;
+    border: 3px solid var(--ink);
+    padding: 28px 24px;
+    background: var(--paper);
+    text-align: center;
+    position: relative;
+  }
+  .mindset::before {
+    content: '"';
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 120px;
+    line-height: 1;
+    color: var(--hot);
+    position: absolute;
+    top: -10px; left: 14px;
+    opacity: 0.25;
+  }
+  .mindset p {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(20px, 3.4vw, 30px);
+    line-height: 1.15;
+    letter-spacing: 0.01em;
+    max-width: 640px;
+    margin: 0 auto;
+  }
+  .mindset .signoff {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    margin-top: 14px;
+    letter-spacing: 0.2em;
+    opacity: 0.6;
+    text-transform: uppercase;
+  }
+
+  /* LOADING */
+  .loading {
+    text-align: center;
+    padding: 40px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    opacity: 0.5;
+    text-transform: uppercase;
+  }
+
+  @media (max-width: 600px) {
+    h1 { font-size: 48px; }
+    .week-title h2 { font-size: 36px; }
+    .week-quote { text-align: left; }
+    .progress-top { flex-direction: column; align-items: flex-start; }
+    .day-head { padding: 12px; gap: 10px; }
+    .day-num { font-size: 32px; min-width: 32px; }
+    .week-tab { padding: 10px 4px; }
+    .week-tab .num { font-size: 26px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="eyebrow">// Mission: Make The Team</div>
+    <h1>AARON.<br/>FOUR <span class="accent">WEEKS</span>.</h1>
+    <p class="sub">Built for the 5'7" combo wing who wants to be the kid coaches can't cut. Defense, deep ball, and dinner — every day.</p>
+  </header>
+
+  <div class="mission">
+    <span>⛹ <strong>POS:</strong> Combo Wing</span>
+    <span>🎯 <strong>FOCUS:</strong> Defense • Shooting • Strength</span>
+    <span>🏀 <strong>NORTH STAR:</strong> Steph</span>
+  </div>
+
+  <div class="progress-card">
+    <div class="progress-top">
+      <h2>Total Grind</h2>
+      <div class="progress-stat"><span class="big" id="pct">0%</span> <span id="frac">0 / 0 tasks crushed</span></div>
+    </div>
+    <div class="bar"><div class="bar-fill" id="bar"></div></div>
+    <button class="reset" id="resetBtn">↺ Reset All Progress</button>
+  </div>
+
+  <nav class="weeks-nav" id="weeksNav"></nav>
+
+  <div id="weekContent">
+    <div class="loading">Loading the work...</div>
+  </div>
+
+  <div class="pinned">
+    <h3>Non-Negotiables (Every. Single. Day.)</h3>
+    <ul>
+      <li><strong>EAT.</strong> Bodyweight in grams of protein. 3 real meals + 2 shakes. Eggs, chicken, rice, peanut butter, milk, bananas.</li>
+      <li><strong>SLEEP 9 HOURS.</strong> Muscle grows when you're out cold. This is not optional.</li>
+      <li><strong>LOG YOUR MAKES.</strong> Notebook or notes app. Date + total makes + % from 3. What gets measured gets better.</li>
+      <li><strong>WATCH 10 MIN OF FILM.</strong> Curry off-ball movement OR Jrue Holiday on-ball D. YouTube. Take notes.</li>
+    </ul>
+  </div>
+
+  <div class="mindset">
+    <p>The 5'7" kid who never gets tired on defense and shoots from deep is the coach's favorite. Be that kid.</p>
+    <div class="signoff">— Let's go. Day 1 starts now.</div>
+  </div>
+
+</div>
+
+<script>
+const PLAN = {
+  weeks: [
+    {
+      title: "Foundation",
+      focus: "Build the base. Reps over flash.",
+      quote: "Hard work beats talent when talent doesn't work hard.",
+      days: [
+        { name: "Monday", type: "Skills + Lift", tasks: [
+          { t: "shoot", text: "<strong>200 makes:</strong> 50 form (close), 50 mid-range catch & shoot, 75 corners + wings 3PT, 25 free throws" },
+          { t: "skill", text: "<strong>Handle:</strong> 5 min each — pound dribble, alternating, crossover (stationary 2-ball)" },
+          { t: "skill", text: "<strong>Finishing:</strong> 15 min — floaters, Euros, reverse layups with pool noodle/pad contact" },
+          { t: "def", text: "<strong>Defensive slides:</strong> 4 x 30 sec. Stay low — butt below knees." },
+          { t: "lift", text: "<strong>Lift (45 min):</strong> Goblet squat 3x10 • DB bench 3x10 • DB row 3x10 • Plank 3x45s • Hanging knee raise 3x10" },
+          { t: "life", text: "<strong>Fuel:</strong> Protein shake within 30 min of lifting" },
+        ]},
+        { name: "Tuesday", type: "Skills + Conditioning", tasks: [
+          { t: "shoot", text: "<strong>200 makes</strong> same breakdown as Monday" },
+          { t: "skill", text: "<strong>Handle:</strong> stationary 2-ball + 10 min cone weaves with finishes" },
+          { t: "def", text: "<strong>Mirror drill:</strong> partner leads, you stay in front. 3 x 60 sec." },
+          { t: "cond", text: "<strong>Conditioning:</strong> 10 suicides, full court. Free throws between each round." },
+          { t: "life", text: "<strong>Watch 10 min:</strong> Curry off-ball cuts on YouTube" },
+        ]},
+        { name: "Wednesday", type: "Skills + Lift", tasks: [
+          { t: "shoot", text: "<strong>200 makes</strong> — focus on perfect form. Slow it down." },
+          { t: "skill", text: "<strong>Handle:</strong> 2-ball drills, eyes up the whole time" },
+          { t: "skill", text: "<strong>Finishing:</strong> contact layups, 10 each side with pad" },
+          { t: "def", text: "<strong>Close-out drill:</strong> sprint, break down, contest — 15 reps" },
+          { t: "lift", text: "<strong>Lift:</strong> same as Monday, add 5 lbs where possible" },
+        ]},
+        { name: "Thursday", type: "Skills + Conditioning", tasks: [
+          { t: "shoot", text: "<strong>200 makes</strong> — last 50 must be free throws under fatigue" },
+          { t: "skill", text: "<strong>Handle:</strong> cone weaves, focus on change of pace" },
+          { t: "def", text: "<strong>Lateral slides:</strong> 4 x 40 sec. Hands active." },
+          { t: "cond", text: "<strong>Conditioning:</strong> 10 suicides + 20 jumping jacks between" },
+          { t: "life", text: "<strong>Hydrate:</strong> half your bodyweight in oz of water today" },
+        ]},
+        { name: "Friday", type: "Skills + Lift", tasks: [
+          { t: "shoot", text: "<strong>200 makes</strong> — track make % from 3PT in your notebook" },
+          { t: "skill", text: "<strong>Handle + Finish:</strong> combo drills — crossover into layup, 20 each hand" },
+          { t: "def", text: "<strong>Defensive shell:</strong> slides + close-out combo, 8 rounds" },
+          { t: "lift", text: "<strong>Lift:</strong> Goblet squat • DB bench • Row • Plank • Knee raise — push the weight up" },
+        ]},
+        { name: "Saturday", type: "Live Play", tasks: [
+          { t: "skill", text: "<strong>Pickup or scrimmage:</strong> 60–90 min. Find a game. Older/bigger kids ideal." },
+          { t: "def", text: "<strong>Defensive challenge:</strong> talk on every possession. Every. One." },
+          { t: "shoot", text: "<strong>100 makes</strong> after pickup — game-tired shooting" },
+        ]},
+        { name: "Sunday", type: "Recovery", tasks: [
+          { t: "life", text: "<strong>REST DAY.</strong> Stretch 20 min." },
+          { t: "life", text: "<strong>Film session:</strong> 20 min Curry highlights — pause and study his footwork" },
+          { t: "life", text: "<strong>Eat huge.</strong> This is when muscle builds." },
+          { t: "life", text: "<strong>Review the week:</strong> what got better? What sucked?" },
+        ]},
+      ],
+    },
+    {
+      title: "Volume",
+      focus: "Add movement. Make it harder.",
+      quote: "I've failed over and over and over again in my life and that is why I succeed. — MJ",
+      days: [
+        { name: "Monday", type: "Skills + Lift", tasks: [
+          { t: "shoot", text: "<strong>250 makes:</strong> 50 form, 50 catch & shoot mid, 75 3PT, 50 1-dribble pull-ups, 25 FT" },
+          { t: "shoot", text: "<strong>Curry relocation:</strong> 50 makes — sprint to new spot, catch from passer/return-pass, shoot" },
+          { t: "skill", text: "<strong>Handle:</strong> tennis ball toss + crossover (catch tennis ball with one hand, crossover with the other)" },
+          { t: "def", text: "<strong>Lane slides:</strong> 4 x 40 sec" },
+          { t: "lift", text: "<strong>Lift:</strong> Add Bulgarian split squats 3x8/leg • Pull-ups (or assisted) 3x max • + Week 1 lifts heavier" },
+        ]},
+        { name: "Tuesday", type: "Skills + Conditioning", tasks: [
+          { t: "shoot", text: "<strong>250 makes</strong> — emphasis on shots off screens" },
+          { t: "skill", text: "<strong>Handle:</strong> cone dribble + finishes, both hands" },
+          { t: "def", text: "<strong>Mirror + close-out combo:</strong> 4 rounds" },
+          { t: "cond", text: "<strong>17s:</strong> sideline to sideline, 17 touches in 60 sec — 4 rounds, 90 sec rest" },
+          { t: "life", text: "<strong>Watch 10 min:</strong> Jrue Holiday on-ball defense breakdown" },
+        ]},
+        { name: "Wednesday", type: "Skills + Lift", tasks: [
+          { t: "shoot", text: "<strong>250 makes</strong> — include 50 off-screen shots" },
+          { t: "skill", text: "<strong>2-ball:</strong> with eyes on hand signals (partner or imagined)" },
+          { t: "def", text: "<strong>Close-out drill:</strong> 20 reps, perfect form" },
+          { t: "lift", text: "<strong>Lift:</strong> all main lifts + Bulgarian splits + Pull-ups" },
+        ]},
+        { name: "Thursday", type: "Skills + Conditioning", tasks: [
+          { t: "shoot", text: "<strong>250 makes</strong> — last 50 are fatigue FTs" },
+          { t: "skill", text: "<strong>Finishing:</strong> contact finishes both hands, 15 each side" },
+          { t: "def", text: "<strong>Slides:</strong> 4 x 45 sec — push the time" },
+          { t: "cond", text: "<strong>17s:</strong> 4 rounds" },
+        ]},
+        { name: "Friday", type: "Skills + Lift", tasks: [
+          { t: "shoot", text: "<strong>250 makes</strong> — track make % from 3 in notebook" },
+          { t: "skill", text: "<strong>Curry relocation:</strong> 75 makes today" },
+          { t: "def", text: "<strong>Defensive shell:</strong> slides + close-out + recover, 8 rounds" },
+          { t: "lift", text: "<strong>Lift:</strong> push weight up from Monday" },
+        ]},
+        { name: "Saturday", type: "Live Play", tasks: [
+          { t: "skill", text: "<strong>Pickup 60–90 min.</strong> Force yourself to take 5+ threes." },
+          { t: "def", text: "<strong>Defensive goal:</strong> 3 steals or deflections. Track it." },
+          { t: "shoot", text: "<strong>100 makes</strong> after pickup" },
+        ]},
+        { name: "Sunday", type: "Recovery", tasks: [
+          { t: "life", text: "<strong>REST + stretch 20 min</strong>" },
+          { t: "life", text: "<strong>Film:</strong> 20 min Curry off-ball cuts" },
+          { t: "life", text: "<strong>Eat. Sleep. Reflect.</strong>" },
+        ]},
+      ],
+    },
+    {
+      title: "Game Speed",
+      focus: "Everything at full speed. No half-reps.",
+      quote: "You miss 100% of the shots you don't take. — Gretzky / Curry",
+      days: [
+        { name: "Monday", type: "Skills + Lift", tasks: [
+          { t: "shoot", text: "<strong>300 makes:</strong> ALL on the move. 100 catch & shoot, 100 off the dribble, 75 3PT (incl. 25 deep), 25 FT" },
+          { t: "skill", text: "<strong>2-ball drills:</strong> eyes up reading hand signals" },
+          { t: "def", text: "<strong>Z-pattern slides:</strong> 4 cones, 8 rounds. Stay low." },
+          { t: "lift", text: "<strong>Lift HEAVY:</strong> 3x6 main lifts • Box jumps 4x5 • Bulgarian splits • Pull-ups" },
+        ]},
+        { name: "Tuesday", type: "Skills + Conditioning", tasks: [
+          { t: "shoot", text: "<strong>300 makes</strong> — FT after every conditioning round" },
+          { t: "skill", text: "<strong>Handle:</strong> full speed with finishes, both hands" },
+          { t: "def", text: "<strong>Close-out + slide + recover:</strong> 4 rounds" },
+          { t: "cond", text: "<strong>Defensive shell sprints:</strong> Z-pattern x 8" },
+        ]},
+        { name: "Wednesday", type: "Skills + Lift", tasks: [
+          { t: "shoot", text: "<strong>300 makes</strong> — include 25 deep 3s (step behind line)" },
+          { t: "skill", text: "<strong>Finishing:</strong> contact with pad, 20 each side" },
+          { t: "def", text: "<strong>Z-pattern:</strong> 8 rounds" },
+          { t: "lift", text: "<strong>Lift heavy:</strong> 3x6 + box jumps + accessories" },
+        ]},
+        { name: "Thursday", type: "Skills + Conditioning", tasks: [
+          { t: "shoot", text: "<strong>300 makes</strong> — 50 must be game-speed off-screen" },
+          { t: "skill", text: "<strong>2-ball + eyes up</strong>" },
+          { t: "def", text: "<strong>Slides + close-out:</strong> 4 rounds, full intensity" },
+          { t: "cond", text: "<strong>Z-pattern shell:</strong> 8 rounds" },
+        ]},
+        { name: "Friday", type: "Skills + Lift", tasks: [
+          { t: "shoot", text: "<strong>300 makes</strong> — track make % from deep" },
+          { t: "skill", text: "<strong>Full-speed handle + finish combo</strong>" },
+          { t: "lift", text: "<strong>Lift heavy:</strong> push numbers" },
+        ]},
+        { name: "Saturday", type: "Live 1-on-1", tasks: [
+          { t: "skill", text: "<strong>1-on-1 to 7:</strong> 3 games vs an older/bigger player. Lose? Don't quit." },
+          { t: "skill", text: "<strong>Pickup after</strong> if you have energy" },
+          { t: "shoot", text: "<strong>100 makes</strong> to close" },
+        ]},
+        { name: "Sunday", type: "Recovery", tasks: [
+          { t: "life", text: "<strong>REST + stretch + foam roll</strong>" },
+          { t: "life", text: "<strong>Film:</strong> watch yourself if you have any video. Be honest." },
+          { t: "life", text: "<strong>Eat huge. Sleep 9+.</strong>" },
+        ]},
+      ],
+    },
+    {
+      title: "Sharpen",
+      focus: "Pull back volume. Crank up intensity. Be SHARP.",
+      quote: "I'd rather be the hardest worker in the gym than the most talented.",
+      days: [
+        { name: "Monday", type: "Skills + Lift", tasks: [
+          { t: "shoot", text: "<strong>250 makes</strong> — ALL game-speed: off screens, off dribble, relocation" },
+          { t: "shoot", text: "<strong>Track make %</strong> from 3 — set a target (40%+)" },
+          { t: "skill", text: "<strong>Full-court handle:</strong> speed dribble baseline to baseline, change of pace, finish" },
+          { t: "lift", text: "<strong>Lift:</strong> reduce volume 30%, keep intensity. Focus on quality." },
+        ]},
+        { name: "Tuesday", type: "Skills + Conditioning", tasks: [
+          { t: "shoot", text: "<strong>250 makes</strong> game-speed" },
+          { t: "skill", text: "<strong>Handle + finish combos</strong> at full speed" },
+          { t: "def", text: "<strong>Quick close-outs + slides:</strong> 6 rounds, perfect form" },
+          { t: "cond", text: "<strong>Short bursts:</strong> 10 x baseline-to-FT line sprints" },
+        ]},
+        { name: "Wednesday", type: "Skills + Lift", tasks: [
+          { t: "shoot", text: "<strong>250 makes</strong> — last 50 are pressure FTs (make 8/10 or run a suicide)" },
+          { t: "def", text: "<strong>1-on-1 close-out defense drill:</strong> partner attacks, you contain" },
+          { t: "lift", text: "<strong>Lift light + fast:</strong> moderate weight, explosive reps" },
+        ]},
+        { name: "Thursday", type: "Skills + Conditioning", tasks: [
+          { t: "shoot", text: "<strong>250 makes</strong> — emphasize off-screen relocation (Curry)" },
+          { t: "def", text: "<strong>Defensive footwork:</strong> stay sharp" },
+          { t: "cond", text: "<strong>Short bursts:</strong> 10 sprints" },
+        ]},
+        { name: "Friday", type: "Skills + Light Lift", tasks: [
+          { t: "shoot", text: "<strong>200 makes</strong> — quality over quantity. Every shot game-speed." },
+          { t: "skill", text: "<strong>Quick handle drills</strong> — feel the ball" },
+          { t: "lift", text: "<strong>Light lift:</strong> activation only. Don't burn yourself out." },
+        ]},
+        { name: "Saturday", type: "Scrimmage / Tryout Prep", tasks: [
+          { t: "skill", text: "<strong>Full scrimmage / pickup.</strong> Play like it's tryouts." },
+          { t: "def", text: "<strong>TALK every possession.</strong> Communication = playing time." },
+          { t: "shoot", text: "<strong>50 makes</strong> after — sharp, then done" },
+        ]},
+        { name: "Sunday", type: "Reflection", tasks: [
+          { t: "life", text: "<strong>REST.</strong> Stretch 20 min." },
+          { t: "life", text: "<strong>Look back:</strong> compare Week 1 vs now — make %, weight, defense feel" },
+          { t: "life", text: "<strong>Write down 3 things you're better at</strong> than 4 weeks ago" },
+          { t: "life", text: "<strong>You're ready. Now go take it.</strong>" },
+        ]},
+      ],
+    },
+  ],
+};
+
+// state
+let state = {};
+let currentWeek = 0;
+
+const STORAGE_KEY = "aaron-training-progress-v1";
+
+function loadState() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) {
+      state = JSON.parse(raw);
+      return;
+    }
+  } catch (e) {
+    // first run — no data yet
+  }
+  state = {};
+}
+
+function saveState() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  } catch (e) {
+    console.error("Save failed", e);
+  }
+}
+
+function taskKey(w, d, i) { return `w${w}d${d}t${i}`; }
+
+function totals() {
+  let total = 0, done = 0;
+  PLAN.weeks.forEach((wk, wi) => {
+    wk.days.forEach((day, di) => {
+      day.tasks.forEach((_, ti) => {
+        total++;
+        if (state[taskKey(wi, di, ti)]) done++;
+      });
+    });
+  });
+  return { total, done };
+}
+
+function weekTotals(wi) {
+  let total = 0, done = 0;
+  PLAN.weeks[wi].days.forEach((day, di) => {
+    day.tasks.forEach((_, ti) => {
+      total++;
+      if (state[taskKey(wi, di, ti)]) done++;
+    });
+  });
+  return { total, done };
+}
+
+function dayTotals(wi, di) {
+  let total = PLAN.weeks[wi].days[di].tasks.length;
+  let done = 0;
+  PLAN.weeks[wi].days[di].tasks.forEach((_, ti) => {
+    if (state[taskKey(wi, di, ti)]) done++;
+  });
+  return { total, done };
+}
+
+function renderProgress() {
+  const { total, done } = totals();
+  const pct = total === 0 ? 0 : Math.round((done / total) * 100);
+  document.getElementById("pct").textContent = pct + "%";
+  document.getElementById("frac").textContent = `${done} / ${total} tasks crushed`;
+  document.getElementById("bar").style.width = pct + "%";
+
+  // week tab completion dots
+  document.querySelectorAll(".week-tab").forEach((tab, i) => {
+    const wt = weekTotals(i);
+    if (wt.done === wt.total) tab.classList.add("complete");
+    else tab.classList.remove("complete");
+  });
+}
+
+function renderWeekTabs() {
+  const nav = document.getElementById("weeksNav");
+  nav.innerHTML = "";
+  PLAN.weeks.forEach((wk, i) => {
+    const btn = document.createElement("button");
+    btn.className = "week-tab" + (i === currentWeek ? " active" : "");
+    btn.innerHTML = `<span class="num">${i + 1}</span><span class="label">${wk.title}</span><span class="check-dot"></span>`;
+    btn.onclick = () => { currentWeek = i; renderAll(); };
+    nav.appendChild(btn);
+  });
+}
+
+function renderWeek() {
+  const wk = PLAN.weeks[currentWeek];
+  const container = document.getElementById("weekContent");
+
+  let html = `
+    <div class="week-header">
+      <div class="week-title">
+        <h2>Week ${currentWeek + 1} — ${wk.title}</h2>
+        <div class="focus">${wk.focus}</div>
+      </div>
+      <div class="week-quote">${wk.quote}</div>
+    </div>
+    <div class="days">
+  `;
+
+  wk.days.forEach((day, di) => {
+    const dt = dayTotals(currentWeek, di);
+    const complete = dt.done === dt.total;
+    html += `
+      <div class="day ${complete ? 'complete' : ''}" data-day="${di}">
+        <div class="day-head" onclick="toggleDay(${di})">
+          <div class="day-num">${(di + 1).toString().padStart(2, '0')}</div>
+          <div class="day-title">
+            <div class="name">${day.name}</div>
+            <div class="type">${day.type}</div>
+          </div>
+          <div class="day-count">${dt.done}/${dt.total}</div>
+          <div class="chev">▼</div>
+        </div>
+        <div class="day-body">
+          <div class="tasks">
+    `;
+    day.tasks.forEach((task, ti) => {
+      const checked = !!state[taskKey(currentWeek, di, ti)];
+      html += `
+        <div class="task ${checked ? 'done' : ''}" onclick="toggleTask(${di}, ${ti})">
+          <div class="checkbox"></div>
+          <div class="task-text"><span class="tag ${task.t}">${task.t}</span>${task.text}</div>
+        </div>
+      `;
+    });
+    html += `</div></div></div>`;
+  });
+
+  html += `</div>`;
+  container.innerHTML = html;
+}
+
+function toggleDay(di) {
+  const el = document.querySelector(`.day[data-day="${di}"]`);
+  if (el) el.classList.toggle("open");
+}
+
+async function toggleTask(di, ti) {
+  const key = taskKey(currentWeek, di, ti);
+  state[key] = !state[key];
+
+  // update task UI
+  const dayEl = document.querySelector(`.day[data-day="${di}"]`);
+  const taskEls = dayEl.querySelectorAll(".task");
+  const taskEl = taskEls[ti];
+  if (state[key]) taskEl.classList.add("done");
+  else taskEl.classList.remove("done");
+
+  // update day count
+  const dt = dayTotals(currentWeek, di);
+  const countEl = dayEl.querySelector(".day-count");
+  countEl.textContent = `${dt.done}/${dt.total}`;
+  if (dt.done === dt.total) dayEl.classList.add("complete");
+  else dayEl.classList.remove("complete");
+
+  renderProgress();
+  saveState();
+}
+
+function renderAll() {
+  renderWeekTabs();
+  renderWeek();
+  renderProgress();
+}
+
+document.getElementById("resetBtn").onclick = () => {
+  if (!confirm("Reset all progress? This wipes every checkmark.")) return;
+  state = {};
+  try { localStorage.removeItem(STORAGE_KEY); } catch (e) {}
+  renderAll();
+};
+
+// expose for inline handlers
+window.toggleDay = toggleDay;
+window.toggleTask = toggleTask;
+
+// init
+loadState();
+renderAll();
+</script>
+</body>
+</html>

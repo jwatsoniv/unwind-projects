@@ -1,47 +1,82 @@
-# Joshua's Operations Tracker
+# Unwind Operations Board
 
-Single-file HTML task board for Joshua, Director of Operations at Unwind Vacation Rentals.
+Shared task board for the Unwind Vacation Rentals team (John, Matt, Joshua).
 
 **Live URL:** https://jwatsoniv.github.io/unwind-projects/joshua-tracker/
 
+## How It Works
+
+Tasks are stored as **GitHub Issues** in this repo (`jwatsoniv/unwind-projects`). The page is a thin client over the GitHub API. Each team member signs in once with their GitHub account; after that they can add, edit, and close tasks from the web page or from the GitHub Issues UI / mobile app — both stay in sync because they're the same data.
+
 ## Categories
 
-- **Urgent** — today / drop everything
-- **2nd Tier** — this week / important not on fire
-- **Recurring** — daily, weekly, monthly forever
-- **Done** — the receipts
+| Tab        | Label                | When to use                              |
+| ---------- | -------------------- | ---------------------------------------- |
+| Urgent     | `tracker:urgent`     | Today / drop everything                   |
+| On Deck    | `tracker:on-deck`    | This week / important not on fire         |
+| Recurring  | `tracker:recurring`  | Daily, weekly, monthly forever            |
+| Done       | _closed issue_       | The receipts                              |
+
+All board tasks also carry `tracker:task` so the page can filter them from unrelated issues in the repo.
+
+## Setup (one-time)
+
+### 1. Labels
+
+Create these labels in the GitHub web UI (Settings → Labels for `jwatsoniv/unwind-projects`):
+
+- `tracker:task` — any color, e.g. `#003040`
+- `tracker:urgent` — `#f08040` (Unwind sunset orange)
+- `tracker:on-deck` — `#f0b030` (Unwind gold)
+- `tracker:recurring` — `#40b0b0` (Unwind teal)
+
+### 2. OAuth App for Device Flow
+
+Tracker uses GitHub Device Flow so users sign in with a 6-character code (no passwords, no client secrets in browser code).
+
+1. Go to https://github.com/settings/developers → OAuth Apps → New OAuth App
+2. Application name: **Unwind Operations Board**
+3. Homepage URL: **https://jwatsoniv.github.io/unwind-projects/joshua-tracker/**
+4. Authorization callback URL: same as homepage (not used, but required)
+5. **Check** "Enable Device Flow"
+6. Save. Copy the **Client ID**.
+7. Open `joshua-tracker/index.html` and replace the value of `CONFIG.clientId` with your real Client ID.
+8. Commit + push. The page is now live.
+
+### 3. Team access
+
+Invite Matt and Joshua as **collaborators** on `jwatsoniv/unwind-projects`:
+
+- Settings → Collaborators → Add people → enter their GitHub usernames
+- They each need a free GitHub account at https://github.com/signup if they don't have one
+
+Once they accept the invite, they can sign in to the Board and add/edit tasks.
+
+## Privacy Note
+
+`jwatsoniv/unwind-projects` is currently **public**. That means the issues on the Board are public too. If task content gets sensitive (owner names, financials), migrate to a private repo:
+
+1. Create a private repo (e.g. `jwatsoniv/unwind-tasks`)
+2. Update `CONFIG.repoOwner` and `CONFIG.repoName` in `index.html`
+3. Re-host the tracker page wherever you want (or keep it where it is)
 
 ## Features
 
-- Add / edit / delete tasks inline
-- Optional due dates with overdue highlighting
-- Optional notes per task (multi-line, preserves whitespace)
-- Progress bar across all open work
-- localStorage persistence (browser-local)
-- Export / Import JSON for backup or cross-device move
-- Reset re-seeds the board with Unwind's current operational defaults
+- **Sign in with GitHub** (Device Flow — no password handling)
+- **Live sync** — refresh button or hard refresh page; or use GitHub mobile app to see same tasks
+- **Categories** with live count badges
+- **Due dates** with overdue highlighting
+- **Notes** (markdown supported via GitHub issue body)
+- **Author attribution** — every task shows who added it
+- **"Open on GitHub"** button on each task — drops you into the underlying issue for comments, attachments, etc.
 
 ## Tech
 
-- Pure HTML/CSS/JS, no dependencies, no build step
-- Fonts: Bebas Neue + Archivo + JetBrains Mono (Google Fonts CDN)
-- Storage key: `joshua-tracker-v1`
-
-## Important Limitation
-
-Data lives in the **browser's localStorage**, which means:
-
-- Tasks added on John's laptop will NOT appear on Joshua's phone automatically
-- Clearing browser data wipes the board (use Export JSON regularly)
-
-### Sync Options (future work)
-
-1. **GitHub Issues** — convert each task into a GitHub issue with labels (`urgent`, `2nd-tier`, `recurring`). True multi-user. Requires GitHub auth for write access.
-2. **Shared JSON in this repo** — commit `tasks.json` and have the page fetch it. Read-only for end users unless we add an edit/PR flow.
-3. **Notion database** — already in the Unwind stack, supports comments and team access. Would change the UI surface.
-
-Recommend option 1 if Joshua needs to add tasks from his phone. Until then, John or Bez owns task entry from the laptop.
+- Single-file HTML, no build step, no backend (except GitHub itself)
+- Fonts: Playfair Display + Inter + JetBrains Mono (Google Fonts CDN)
+- Auth tokens cached in `localStorage` per browser
+- API rate limit: 5,000 requests/hour per user (more than enough)
 
 ## Built by
 
-Bez (Chief Architect) — 2026-05-18 — patterned on Aaron's Hoops Plan tracker.
+Bez (Chief Architect) — 2026-05-18 — design language patterned on Aaron's Hoops Plan tracker, recolored in Unwind brand palette.

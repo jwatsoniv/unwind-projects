@@ -5,120 +5,156 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-<meta name="apple-mobile-web-app-title" content="Joshua's Board" />
-<meta name="theme-color" content="#0a0a0a" />
-<title>Joshua — Operations Tracker</title>
+<meta name="apple-mobile-web-app-title" content="Unwind Ops Board" />
+<meta name="theme-color" content="#003040" />
+<title>Unwind — Operations Board</title>
+<link rel="icon" type="image/png" href="./assets/unwind-logo.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Archivo:wght@400;500;600;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --ink: #0a0a0a;
-    --paper: #faf6ed;
-    --hot: #e63946;
-    --net: #1d3557;
-    --sea: #2a9d8f;
-    --sand: #c47a3d;
+    /* Unwind brand palette (sampled from logo) */
+    --navy: #003040;
+    --navy-deep: #002030;
+    --teal: #40b0b0;
+    --teal-bright: #60c0c0;
+    --teal-dark: #1d6b7a;
+    --gold: #f0b030;
+    --gold-soft: #f0c060;
+    --sunset: #f08040;
+    --paper: #fbf8f1;
+    --paper-warm: #f5ecd9;
+    --ink: #0a1f28;
     --done: #2d6a4f;
     --done-soft: #95d5b2;
+    --shadow: 0 4px 14px rgba(0, 48, 64, 0.08);
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html, body {
     background: var(--paper);
     color: var(--ink);
-    font-family: 'Archivo', sans-serif;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     -webkit-font-smoothing: antialiased;
     min-height: 100vh;
   }
   body {
     background-image:
-      radial-gradient(circle at 20% 10%, rgba(230,57,70,0.07) 0%, transparent 40%),
-      radial-gradient(circle at 80% 80%, rgba(29,53,87,0.06) 0%, transparent 40%);
+      radial-gradient(circle at 15% 5%, rgba(64, 176, 176, 0.10) 0%, transparent 45%),
+      radial-gradient(circle at 85% 90%, rgba(240, 128, 64, 0.08) 0%, transparent 45%);
   }
   .wrap { max-width: 1080px; margin: 0 auto; padding: 24px 18px 80px; }
 
   /* HEADER */
   header {
-    border: 3px solid var(--ink);
-    background: var(--ink);
+    border: 3px solid var(--navy);
+    background: var(--navy);
     color: var(--paper);
     padding: 28px 24px 22px;
     position: relative;
     overflow: hidden;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    border-radius: 4px;
   }
   header::before {
     content: '';
-    position: absolute; right: -40px; top: -40px;
-    width: 180px; height: 180px;
-    border: 3px solid var(--hot);
+    position: absolute; right: -60px; bottom: -60px;
+    width: 220px; height: 220px;
+    background: linear-gradient(180deg, var(--teal) 0%, var(--gold) 50%, var(--sunset) 100%);
     border-radius: 50%;
-    opacity: 0.4;
+    opacity: 0.15;
   }
-  header::after {
-    content: '';
-    position: absolute; right: 20px; top: 20px;
-    width: 100px; height: 100px;
-    border: 2px solid var(--hot);
+  .logo {
+    width: 80px; height: 80px;
+    flex-shrink: 0;
+    background: var(--paper);
     border-radius: 50%;
-    opacity: 0.6;
+    padding: 4px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.25);
   }
+  .logo img { width: 100%; height: 100%; object-fit: contain; }
+  .header-text { position: relative; z-index: 1; }
   .eyebrow {
     font-family: 'JetBrains Mono', monospace;
     font-size: 11px;
     letter-spacing: 0.2em;
-    color: var(--hot);
+    color: var(--teal-bright);
     text-transform: uppercase;
     margin-bottom: 8px;
+    font-weight: 700;
   }
   h1 {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(44px, 8vw, 78px);
-    line-height: 0.92;
-    letter-spacing: 0.01em;
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(34px, 6vw, 52px);
+    line-height: 1.02;
+    letter-spacing: -0.02em;
     margin-bottom: 6px;
+    font-weight: 800;
   }
-  h1 .accent { color: var(--hot); }
+  h1 .accent { color: var(--sunset); }
   .sub {
     font-size: 14px;
-    opacity: 0.85;
+    opacity: 0.92;
     max-width: 580px;
     line-height: 1.5;
   }
 
-  /* MISSION BAR */
-  .mission {
+  /* AUTH BAR */
+  .auth-bar {
     margin-top: -3px;
-    border: 3px solid var(--ink);
+    border: 3px solid var(--navy);
     border-top: none;
-    background: var(--hot);
+    background: var(--teal);
     color: var(--paper);
-    padding: 14px 24px;
+    padding: 12px 24px;
     font-family: 'JetBrains Mono', monospace;
     font-size: 12px;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.06em;
     text-transform: uppercase;
     display: flex;
     flex-wrap: wrap;
-    gap: 18px;
+    gap: 14px;
     align-items: center;
+    justify-content: space-between;
+    border-radius: 0 0 4px 4px;
   }
-  .mission strong { font-weight: 700; }
+  .auth-bar .who { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; }
+  .auth-bar .status-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--gold);
+    display: inline-block;
+    margin-right: 6px;
+  }
+  .auth-bar.signed .status-dot { background: var(--done-soft); }
+  .auth-bar strong { font-weight: 700; }
+  .auth-btn {
+    background: var(--paper);
+    color: var(--navy);
+    border: 2px solid var(--paper);
+    padding: 6px 14px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+    font-weight: 700;
+    transition: all 0.15s;
+    border-radius: 2px;
+  }
+  .auth-btn:hover { background: var(--navy); color: var(--paper); border-color: var(--paper); }
 
   /* PROGRESS */
   .progress-card {
     margin-top: 24px;
-    border: 3px solid var(--ink);
+    border: 3px solid var(--navy);
     background: var(--paper);
     padding: 22px 24px;
     position: relative;
-  }
-  .progress-card::before {
-    content: '';
-    position: absolute;
-    inset: 6px;
-    border: 1px dashed var(--ink);
-    pointer-events: none;
-    opacity: 0.25;
+    box-shadow: var(--shadow);
+    border-radius: 4px;
   }
   .progress-top {
     display: flex;
@@ -129,37 +165,35 @@
     gap: 8px;
   }
   .progress-top h2 {
-    font-family: 'Bebas Neue', sans-serif;
+    font-family: 'Playfair Display', serif;
     font-size: 28px;
-    letter-spacing: 0.02em;
+    color: var(--navy);
+    font-weight: 700;
   }
   .progress-stat {
     font-family: 'JetBrains Mono', monospace;
     font-size: 13px;
     font-weight: 700;
+    color: var(--navy);
   }
   .progress-stat .big {
-    font-family: 'Bebas Neue', sans-serif;
+    font-family: 'Playfair Display', serif;
     font-size: 32px;
-    color: var(--hot);
+    color: var(--sunset);
     margin-right: 4px;
+    font-weight: 800;
   }
   .bar {
     height: 14px;
-    background: #ebe3d0;
-    border: 2px solid var(--ink);
+    background: var(--paper-warm);
+    border: 2px solid var(--navy);
     position: relative;
     overflow: hidden;
+    border-radius: 2px;
   }
   .bar-fill {
     height: 100%;
-    background: repeating-linear-gradient(
-      45deg,
-      var(--hot),
-      var(--hot) 8px,
-      #c0202e 8px,
-      #c0202e 16px
-    );
+    background: linear-gradient(90deg, var(--teal) 0%, var(--gold) 50%, var(--sunset) 100%);
     width: 0%;
     transition: width 0.6s cubic-bezier(0.2, 0.9, 0.3, 1);
   }
@@ -171,7 +205,7 @@
   }
   .btn {
     background: none;
-    border: 2px solid var(--ink);
+    border: 2px solid var(--navy);
     padding: 8px 14px;
     font-family: 'JetBrains Mono', monospace;
     font-size: 11px;
@@ -179,13 +213,17 @@
     letter-spacing: 0.1em;
     cursor: pointer;
     transition: all 0.15s;
-    color: var(--ink);
+    color: var(--navy);
+    font-weight: 700;
+    border-radius: 2px;
   }
-  .btn:hover { background: var(--ink); color: var(--paper); }
-  .btn.danger { border-color: var(--hot); color: var(--hot); }
-  .btn.danger:hover { background: var(--hot); color: var(--paper); }
-  .btn.primary { background: var(--ink); color: var(--paper); }
-  .btn.primary:hover { background: var(--hot); border-color: var(--hot); }
+  .btn:hover { background: var(--navy); color: var(--paper); }
+  .btn.danger { border-color: var(--sunset); color: var(--sunset); }
+  .btn.danger:hover { background: var(--sunset); color: var(--paper); }
+  .btn.primary { background: var(--navy); color: var(--paper); }
+  .btn.primary:hover { background: var(--sunset); border-color: var(--sunset); }
+  .btn:disabled { opacity: 0.4; cursor: not-allowed; }
+  .btn:disabled:hover { background: none; color: var(--navy); }
 
   /* CATEGORY TABS */
   .cat-nav {
@@ -193,33 +231,47 @@
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 0;
-    border: 3px solid var(--ink);
+    border: 3px solid var(--navy);
+    border-radius: 4px;
+    overflow: hidden;
   }
   .cat-tab {
     background: var(--paper);
     border: none;
-    border-right: 3px solid var(--ink);
+    border-right: 3px solid var(--navy);
     padding: 14px 8px;
-    font-family: 'Bebas Neue', sans-serif;
+    font-family: 'Playfair Display', serif;
     font-size: 22px;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.01em;
     cursor: pointer;
     transition: all 0.2s;
     position: relative;
+    color: var(--navy);
+    font-weight: 700;
   }
   .cat-tab:last-child { border-right: none; }
-  .cat-tab .num { display: block; font-size: 30px; line-height: 1; }
-  .cat-tab .label { display: block; font-size: 10px; font-family: 'JetBrains Mono', monospace; letter-spacing: 0.1em; margin-top: 2px; opacity: 0.6; }
-  .cat-tab:hover { background: #f0e8d0; }
-  .cat-tab.active {
-    background: var(--ink);
-    color: var(--paper);
+  .cat-tab .num {
+    display: block;
+    font-size: 30px;
+    line-height: 1;
+    font-family: 'Playfair Display', serif;
   }
-  .cat-tab.active .label { opacity: 0.7; color: var(--hot); }
-  .cat-tab.cat-urgent.active { background: var(--hot); }
-  .cat-tab.cat-second.active { background: var(--sand); }
-  .cat-tab.cat-recurring.active { background: var(--net); }
-  .cat-tab.cat-done.active { background: var(--done); }
+  .cat-tab .label {
+    display: block;
+    font-size: 10px;
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.1em;
+    margin-top: 2px;
+    opacity: 0.6;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+  .cat-tab:hover { background: var(--paper-warm); }
+  .cat-tab.active.cat-urgent { background: var(--sunset); color: var(--paper); }
+  .cat-tab.active.cat-on-deck { background: var(--gold); color: var(--navy); }
+  .cat-tab.active.cat-recurring { background: var(--teal); color: var(--paper); }
+  .cat-tab.active.cat-done { background: var(--done); color: var(--paper); }
+  .cat-tab.active .label { opacity: 0.85; }
 
   /* CATEGORY HEADER */
   .cat-header {
@@ -230,115 +282,126 @@
     flex-wrap: wrap;
     gap: 12px;
     padding-bottom: 14px;
-    border-bottom: 3px solid var(--ink);
+    border-bottom: 3px solid var(--navy);
   }
   .cat-title h2 {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 52px;
+    font-family: 'Playfair Display', serif;
+    font-size: 48px;
     line-height: 1;
-    letter-spacing: 0.01em;
+    color: var(--navy);
+    font-weight: 800;
   }
   .cat-title .focus {
     font-family: 'JetBrains Mono', monospace;
     font-size: 12px;
     text-transform: uppercase;
     letter-spacing: 0.15em;
-    color: var(--hot);
-    margin-top: 4px;
+    color: var(--sunset);
+    margin-top: 6px;
+    font-weight: 700;
   }
   .cat-quote {
+    font-family: 'Playfair Display', serif;
     font-style: italic;
-    font-size: 13px;
+    font-size: 15px;
     max-width: 360px;
     text-align: right;
     line-height: 1.4;
     opacity: 0.75;
+    color: var(--navy);
   }
 
   /* ADD TASK FORM */
   .add-form {
     margin-top: 20px;
-    border: 3px solid var(--ink);
+    border: 3px solid var(--navy);
     background: var(--paper);
     padding: 16px;
     display: grid;
     grid-template-columns: 1fr 1fr auto auto;
     gap: 10px;
     align-items: stretch;
+    border-radius: 4px;
+    box-shadow: var(--shadow);
   }
   .add-form input, .add-form select, .add-form textarea {
-    border: 2px solid var(--ink);
+    border: 2px solid var(--navy);
     background: var(--paper);
     padding: 10px 12px;
-    font-family: 'Archivo', sans-serif;
+    font-family: 'Inter', sans-serif;
     font-size: 14px;
     color: var(--ink);
     width: 100%;
+    border-radius: 2px;
   }
   .add-form input:focus, .add-form select:focus, .add-form textarea:focus {
     outline: none;
-    border-color: var(--hot);
+    border-color: var(--sunset);
     background: #fffbf0;
   }
   .add-form .title-input { grid-column: 1 / 3; }
-  .add-form .notes-input { grid-column: 1 / -1; min-height: 60px; resize: vertical; }
   .add-form .add-btn {
-    background: var(--ink);
+    background: var(--navy);
     color: var(--paper);
-    border: 2px solid var(--ink);
+    border: 2px solid var(--navy);
     padding: 10px 18px;
-    font-family: 'Bebas Neue', sans-serif;
+    font-family: 'Playfair Display', serif;
     font-size: 18px;
-    letter-spacing: 0.04em;
     cursor: pointer;
     transition: all 0.15s;
+    font-weight: 700;
+    border-radius: 2px;
   }
-  .add-form .add-btn:hover { background: var(--hot); border-color: var(--hot); }
+  .add-form .add-btn:hover { background: var(--sunset); border-color: var(--sunset); }
+  .add-form .add-btn:disabled { background: #999; border-color: #999; cursor: not-allowed; }
 
   @media (max-width: 700px) {
     .add-form { grid-template-columns: 1fr 1fr; }
-    .add-form .title-input, .add-form .notes-input, .add-form .add-btn { grid-column: 1 / -1; }
+    .add-form .title-input, .add-form .add-btn { grid-column: 1 / -1; }
   }
 
   /* TASK LIST */
   .tasks { margin-top: 20px; display: flex; flex-direction: column; gap: 10px; }
   .task {
-    border: 3px solid var(--ink);
+    border: 2px solid var(--navy);
     background: var(--paper);
     padding: 14px 16px;
     display: flex;
     gap: 14px;
     align-items: flex-start;
-    transition: background 0.15s;
+    transition: all 0.15s;
     position: relative;
+    border-radius: 4px;
+    box-shadow: var(--shadow);
   }
-  .task:hover { background: #f5ecd3; }
-  .task.done { background: #e8f0e3; border-color: var(--done); }
-  .task.done .task-title { text-decoration: line-through; opacity: 0.5; }
-  .task.done .task-notes { opacity: 0.5; }
-
-  /* Left stripe by priority */
+  .task:hover { background: #fffbf0; transform: translateY(-1px); }
+  .task.done { background: #eef5e9; border-color: var(--done); opacity: 0.85; }
+  .task.done .task-title { text-decoration: line-through; opacity: 0.6; }
+  .task.done .task-notes { opacity: 0.55; }
   .task::before {
     content: '';
     position: absolute;
     left: 0; top: 0; bottom: 0;
     width: 6px;
+    border-radius: 4px 0 0 4px;
   }
-  .task.pri-urgent::before { background: var(--hot); }
-  .task.pri-second::before { background: var(--sand); }
-  .task.pri-recurring::before { background: var(--net); }
+  .task.pri-urgent::before { background: var(--sunset); }
+  .task.pri-on-deck::before { background: var(--gold); }
+  .task.pri-recurring::before { background: var(--teal); }
   .task.pri-done::before { background: var(--done); }
 
   .checkbox {
     width: 24px; height: 24px;
-    border: 2px solid var(--ink);
+    border: 2px solid var(--navy);
     flex-shrink: 0;
     margin-top: 2px;
     position: relative;
     background: var(--paper);
     cursor: pointer;
     transition: all 0.15s;
+    border-radius: 3px;
   }
+  .checkbox:hover { border-color: var(--sunset); }
   .task.done .checkbox {
     background: var(--done);
     border-color: var(--done);
@@ -354,11 +417,12 @@
   }
   .task-body { flex: 1; min-width: 0; }
   .task-title {
-    font-family: 'Archivo', sans-serif;
+    font-family: 'Inter', sans-serif;
     font-weight: 600;
     font-size: 16px;
     line-height: 1.35;
     word-break: break-word;
+    color: var(--navy);
   }
   .task-meta {
     display: flex;
@@ -372,26 +436,35 @@
     font-family: 'JetBrains Mono', monospace;
     font-size: 9px;
     letter-spacing: 0.1em;
-    background: var(--ink);
+    background: var(--navy);
     color: var(--paper);
     padding: 3px 7px;
     text-transform: uppercase;
+    font-weight: 700;
+    border-radius: 2px;
   }
-  .tag.urgent { background: var(--hot); }
-  .tag.second { background: var(--sand); }
-  .tag.recurring { background: var(--net); }
+  .tag.urgent { background: var(--sunset); }
+  .tag.on-deck { background: var(--gold); color: var(--navy); }
+  .tag.recurring { background: var(--teal); }
   .tag.done { background: var(--done); }
   .due {
     font-family: 'JetBrains Mono', monospace;
     font-size: 11px;
     opacity: 0.7;
+    color: var(--navy);
   }
-  .due.overdue { color: var(--hot); opacity: 1; font-weight: 700; }
+  .due.overdue { color: var(--sunset); opacity: 1; font-weight: 700; }
+  .author {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    opacity: 0.55;
+    color: var(--navy);
+  }
   .task-notes {
     margin-top: 6px;
     font-size: 13px;
-    line-height: 1.5;
-    color: #333;
+    line-height: 1.55;
+    color: #2d4a55;
     white-space: pre-wrap;
   }
   .task-controls {
@@ -400,7 +473,7 @@
     flex-shrink: 0;
   }
   .icon-btn {
-    border: 2px solid var(--ink);
+    border: 2px solid var(--navy);
     background: var(--paper);
     width: 32px; height: 32px;
     cursor: pointer;
@@ -410,13 +483,36 @@
     font-family: 'JetBrains Mono', monospace;
     font-size: 14px;
     transition: all 0.15s;
+    color: var(--navy);
+    border-radius: 3px;
   }
-  .icon-btn:hover { background: var(--ink); color: var(--paper); }
-  .icon-btn.del:hover { background: var(--hot); border-color: var(--hot); color: var(--paper); }
+  .icon-btn:hover { background: var(--navy); color: var(--paper); }
+  .icon-btn.del:hover { background: var(--sunset); border-color: var(--sunset); color: var(--paper); }
+  .icon-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+  .icon-btn:disabled:hover { background: var(--paper); color: var(--navy); }
 
   .empty {
     text-align: center;
     padding: 60px 20px;
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 20px;
+    opacity: 0.5;
+    color: var(--navy);
+  }
+  .empty .small {
+    display: block;
+    margin-top: 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-style: normal;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .loading {
+    text-align: center;
+    padding: 40px;
     font-family: 'JetBrains Mono', monospace;
     font-size: 12px;
     letter-spacing: 0.1em;
@@ -424,46 +520,101 @@
     text-transform: uppercase;
   }
 
-  /* MINDSET */
-  .mindset {
-    margin-top: 32px;
-    border: 3px solid var(--ink);
-    padding: 28px 24px;
+  /* SIGN-IN OVERLAY */
+  .signin-overlay {
+    position: fixed; inset: 0;
+    background: rgba(0, 48, 64, 0.92);
+    backdrop-filter: blur(8px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 200;
+    padding: 20px;
+  }
+  .signin-overlay.show { display: flex; }
+  .signin-card {
     background: var(--paper);
+    border: 3px solid var(--navy);
+    padding: 36px 32px;
+    max-width: 480px;
+    width: 100%;
     text-align: center;
-    position: relative;
+    border-radius: 4px;
   }
-  .mindset::before {
-    content: '"';
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 120px;
-    line-height: 1;
-    color: var(--hot);
-    position: absolute;
-    top: -10px; left: 14px;
-    opacity: 0.25;
+  .signin-card img {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 16px;
   }
-  .mindset p {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(20px, 3.4vw, 30px);
-    line-height: 1.15;
-    letter-spacing: 0.01em;
-    max-width: 720px;
-    margin: 0 auto;
+  .signin-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 32px;
+    color: var(--navy);
+    margin-bottom: 8px;
+    font-weight: 800;
   }
-  .mindset .signoff {
+  .signin-card p {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--ink);
+    margin-bottom: 18px;
+  }
+  .signin-card .code-block {
+    background: var(--navy);
+    color: var(--gold);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    padding: 16px;
+    margin: 14px 0;
+    border-radius: 4px;
+    cursor: pointer;
+    user-select: all;
+  }
+  .signin-card .code-block:hover { background: var(--ink); }
+  .signin-card .code-hint {
     font-family: 'JetBrains Mono', monospace;
     font-size: 11px;
-    margin-top: 14px;
-    letter-spacing: 0.2em;
+    letter-spacing: 0.1em;
     opacity: 0.6;
     text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .signin-card .big-btn {
+    background: var(--navy);
+    color: var(--paper);
+    border: none;
+    padding: 14px 28px;
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    cursor: pointer;
+    transition: all 0.15s;
+    font-weight: 700;
+    border-radius: 3px;
+    margin: 8px 0;
+  }
+  .signin-card .big-btn:hover { background: var(--sunset); }
+  .signin-card .small-btn {
+    display: inline-block;
+    margin-top: 12px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--navy);
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-decoration: underline;
+    opacity: 0.7;
   }
 
   /* MODAL */
   .modal-bg {
     position: fixed; inset: 0;
-    background: rgba(10,10,10,0.7);
+    background: rgba(0,30,40,0.6);
+    backdrop-filter: blur(4px);
     display: none;
     align-items: center;
     justify-content: center;
@@ -473,16 +624,18 @@
   .modal-bg.show { display: flex; }
   .modal {
     background: var(--paper);
-    border: 3px solid var(--ink);
+    border: 3px solid var(--navy);
     padding: 24px;
     max-width: 480px;
     width: 100%;
+    border-radius: 4px;
   }
   .modal h3 {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 32px;
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
     margin-bottom: 14px;
-    letter-spacing: 0.02em;
+    color: var(--navy);
+    font-weight: 700;
   }
   .modal .form-row { margin-bottom: 12px; }
   .modal label {
@@ -493,15 +646,18 @@
     text-transform: uppercase;
     margin-bottom: 4px;
     opacity: 0.75;
+    color: var(--navy);
+    font-weight: 700;
   }
   .modal input, .modal select, .modal textarea {
     width: 100%;
-    border: 2px solid var(--ink);
+    border: 2px solid var(--navy);
     background: var(--paper);
     padding: 10px 12px;
-    font-family: 'Archivo', sans-serif;
+    font-family: 'Inter', sans-serif;
     font-size: 14px;
     color: var(--ink);
+    border-radius: 2px;
   }
   .modal textarea { min-height: 80px; resize: vertical; }
   .modal-actions {
@@ -511,8 +667,45 @@
     justify-content: flex-end;
   }
 
+  /* TOAST */
+  .toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(120%);
+    background: var(--navy);
+    color: var(--paper);
+    padding: 14px 20px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border-radius: 3px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+    transition: transform 0.3s cubic-bezier(0.2, 0.9, 0.3, 1);
+    z-index: 300;
+    max-width: 90%;
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+  .toast.error { background: var(--sunset); }
+  .toast.success { background: var(--done); }
+
+  /* FOOTER */
+  .footer {
+    margin-top: 32px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(0,48,64,0.15);
+    text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    opacity: 0.5;
+    color: var(--navy);
+  }
+
   @media (max-width: 600px) {
-    h1 { font-size: 48px; }
+    header { flex-direction: column; text-align: center; gap: 16px; padding: 20px; }
     .cat-title h2 { font-size: 36px; }
     .cat-quote { text-align: left; }
     .cat-tab { padding: 10px 4px; }
@@ -525,15 +718,20 @@
 <div class="wrap">
 
   <header>
-    <div class="eyebrow">// Operations: Director of Ops</div>
-    <h1>JOSHUA.<br/>THE <span class="accent">BOARD</span>.</h1>
-    <p class="sub">Single source of truth for what's on your plate. Urgent today, second-tier this week, recurring forever. Done is done.</p>
+    <div class="logo"><img src="./assets/unwind-logo.png" alt="Unwind Vacation Rentals" /></div>
+    <div class="header-text">
+      <div class="eyebrow">// UNWIND VACATION RENTALS · OPERATIONS</div>
+      <h1>The <span class="accent">Board</span>.</h1>
+      <p class="sub">Shared task board for John, Matt, and Joshua. Urgent today, on deck this week, recurring forever. Done is done.</p>
+    </div>
   </header>
 
-  <div class="mission">
-    <span>🎯 <strong>ROLE:</strong> Director of Operations</span>
-    <span>⚡ <strong>FOCUS:</strong> Urgent • 2nd Tier • Recurring</span>
-    <span>🏆 <strong>NORTH STAR:</strong> Zero balls dropped</span>
+  <div class="auth-bar" id="authBar">
+    <div class="who">
+      <span><span class="status-dot"></span>NOT SIGNED IN</span>
+      <span id="repoLabel" style="opacity:0.85"></span>
+    </div>
+    <button class="auth-btn" id="authBtn">Sign in with GitHub</button>
   </div>
 
   <div class="progress-card">
@@ -543,11 +741,9 @@
     </div>
     <div class="bar"><div class="bar-fill" id="bar"></div></div>
     <div class="actions-row">
-      <button class="btn primary" id="addBtn">+ Add Task</button>
-      <button class="btn" id="exportBtn">↓ Export JSON</button>
-      <button class="btn" id="importBtn">↑ Import JSON</button>
-      <button class="btn danger" id="resetBtn">↺ Reset All</button>
-      <input type="file" id="importFile" accept="application/json" style="display:none" />
+      <button class="btn primary" id="addBtn" disabled>+ Add Task</button>
+      <button class="btn" id="refreshBtn">↻ Refresh</button>
+      <button class="btn" id="setupBtn">⚙ Setup Help</button>
     </div>
   </div>
 
@@ -555,11 +751,33 @@
 
   <div id="catContent"></div>
 
-  <div class="mindset">
-    <p>The Director of Operations who never lets anything fall through is the most valuable person in the building. Be that person.</p>
-    <div class="signoff">— Unwind Vacation Rentals</div>
+  <div class="footer">
+    Built by Bez · Chief Architect · Unwind Vacation Rentals
   </div>
 
+</div>
+
+<!-- SIGN-IN OVERLAY -->
+<div class="signin-overlay" id="signinOverlay">
+  <div class="signin-card">
+    <img src="./assets/unwind-logo.png" alt="Unwind" />
+    <h3>Sign in to the Board</h3>
+    <p id="signinStep1">
+      Click below. GitHub will give you a code. Paste it on the GitHub page that opens.<br/>
+      <br/>
+      <strong>Need a GitHub account first?</strong> Make one free at <a href="https://github.com/signup" target="_blank" style="color:var(--sunset)">github.com/signup</a>, then ask John to add you as a collaborator on <code>jwatsoniv/unwind-projects</code>.
+    </p>
+    <div id="signinStep2" style="display:none">
+      <p>Your code is below. <strong>It's already copied to your clipboard.</strong></p>
+      <div class="code-block" id="userCode" onclick="copyCode()">XXXX-XXXX</div>
+      <div class="code-hint">Tap to copy · Then paste on GitHub</div>
+      <p>The GitHub authorize page should have opened in a new tab. Paste the code there and approve.</p>
+      <button class="big-btn" id="openGitHubBtn">Open GitHub Authorize Page</button>
+      <p style="font-size:12px;opacity:0.7">Waiting for you to approve on github.com... I'll detect it automatically.</p>
+    </div>
+    <button class="big-btn" id="signinStartBtn">Start Sign-In</button>
+    <button class="small-btn" onclick="closeSignin()">Cancel</button>
+  </div>
 </div>
 
 <!-- EDIT MODAL -->
@@ -574,7 +792,7 @@
       <label>Priority</label>
       <select id="modalPriority">
         <option value="urgent">Urgent</option>
-        <option value="second">2nd Tier</option>
+        <option value="on-deck">On Deck</option>
         <option value="recurring">Recurring</option>
       </select>
     </div>
@@ -593,80 +811,294 @@
   </div>
 </div>
 
+<div class="toast" id="toast"></div>
+
 <script>
+// ============================================================================
+// CONFIG
+// ============================================================================
+const CONFIG = {
+  repoOwner: 'jwatsoniv',
+  repoName: 'unwind-projects',
+  // OAuth Device Flow client_id. This is PUBLIC and safe to embed.
+  // Created via: GitHub Settings → Developer settings → OAuth Apps (Device Flow enabled)
+  clientId: 'Ov23licCWP8eIcKHvFKL', // placeholder — replace via one-time setup
+  // Issues are filtered by this label so the board only shows task-relevant issues
+  taskLabel: 'tracker:task',
+  labels: {
+    urgent: 'tracker:urgent',
+    'on-deck': 'tracker:on-deck',
+    recurring: 'tracker:recurring',
+  },
+};
+const TOKEN_KEY = 'unwind-tracker-token-v1';
+const USER_KEY = 'unwind-tracker-user-v1';
+
 const CATEGORIES = [
   { id: 'urgent', label: 'Urgent', focus: 'Today. Now. Drop everything.', quote: "If it's not urgent, it doesn't belong here.", color: 'cat-urgent' },
-  { id: 'second', label: '2nd Tier', focus: 'This week. Important, not on fire.', quote: "Don't let these become urgent.", color: 'cat-second' },
+  { id: 'on-deck', label: 'On Deck', focus: 'This week. Important, not on fire.', quote: "Don't let these become urgent.", color: 'cat-on-deck' },
   { id: 'recurring', label: 'Recurring', focus: 'Every day, week, or month. Forever.', quote: "Consistency is the multiplier.", color: 'cat-recurring' },
   { id: 'done', label: 'Done', focus: 'The receipts.', quote: "Done is done. On to the next.", color: 'cat-done' },
 ];
 
-const STORAGE_KEY = "joshua-tracker-v1";
-
-// state shape:
-// { tasks: [ { id, title, priority, due, notes, done, createdAt, completedAt } ], currentCat: 'urgent' }
-let state = { tasks: [], currentCat: 'urgent' };
+// ============================================================================
+// STATE
+// ============================================================================
+let state = {
+  tasks: [],          // array of normalized issue objects
+  currentCat: 'urgent',
+  token: null,
+  user: null,
+  loading: false,
+  deviceFlow: null,
+};
 let editingId = null;
+let pollTimer = null;
 
-// SEED TASKS — first-run defaults so the board isn't empty.
-const SEED_TASKS = [
-  { title: "PMIC hire — finalize JD and start funnel by June 30", priority: "urgent", notes: "Kevin's exit is contingent on this hire. Deadline is firm." },
-  { title: "Covewind launch — 14 properties online by spring 2026 milestones", priority: "urgent", notes: "Largest single growth event. All phases of onboarding SOP need a named owner." },
-  { title: "Aftin's first 30-60 days — hotel→STR mindset shift + Breezeway training", priority: "urgent", notes: "Started 2026-04-14. Check in weekly." },
-  { title: "Daily 9am operations stand-up (M-F, 10 min)", priority: "recurring", notes: "Every active onboarding named with Day#, phase, owner, blocker." },
-  { title: "Weekly review with John (Fridays)", priority: "recurring", notes: "Pipeline, blockers, retention signal." },
-  { title: "Notion property database — review and clean up 1x/month", priority: "recurring", notes: "Owner contacts, lock codes, vendor refs." },
-  { title: "Vintory pipeline — review owner-acquisition leads weekly", priority: "second", notes: "3.5x ROI confirmed. Decision pending on volume scale-up." },
-  { title: "Direct booking site — Airbnb concentration hedge", priority: "second", notes: "79% of bookings via Airbnb = existential risk." },
-];
-
-function loadState() {
+// ============================================================================
+// AUTH (GitHub Device Flow)
+// ============================================================================
+async function startDeviceFlow() {
   try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (raw) {
-      const parsed = JSON.parse(raw);
-      if (parsed && Array.isArray(parsed.tasks)) {
-        state = parsed;
-        if (!state.currentCat) state.currentCat = 'urgent';
+    const r = await fetch('https://github.com/login/device/code', {
+      method: 'POST',
+      headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+      body: JSON.stringify({ client_id: CONFIG.clientId, scope: 'repo' }),
+    });
+    if (!r.ok) throw new Error(`Device flow start failed: ${r.status}`);
+    const data = await r.json();
+    state.deviceFlow = data;
+    document.getElementById('signinStep1').style.display = 'none';
+    document.getElementById('signinStep2').style.display = 'block';
+    document.getElementById('userCode').textContent = data.user_code;
+    document.getElementById('signinStartBtn').style.display = 'none';
+    // copy code automatically
+    try { await navigator.clipboard.writeText(data.user_code); } catch (e) {}
+    // open GitHub authorize page
+    document.getElementById('openGitHubBtn').onclick = () => window.open(data.verification_uri, '_blank');
+    window.open(data.verification_uri, '_blank');
+    // poll for token
+    pollForToken(data);
+  } catch (err) {
+    toast('Sign-in failed: ' + err.message, 'error');
+    closeSignin();
+  }
+}
+
+async function pollForToken(flow) {
+  const interval = (flow.interval || 5) * 1000;
+  const deadline = Date.now() + (flow.expires_in || 900) * 1000;
+  async function tick() {
+    if (Date.now() > deadline) {
+      toast('Sign-in expired. Try again.', 'error');
+      closeSignin();
+      return;
+    }
+    try {
+      const r = await fetch('https://github.com/login/oauth/access_token', {
+        method: 'POST',
+        headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          client_id: CONFIG.clientId,
+          device_code: flow.device_code,
+          grant_type: 'urn:ietf:params:oauth:grant-type:device_code',
+        }),
+      });
+      const data = await r.json();
+      if (data.access_token) {
+        await onSignedIn(data.access_token);
         return;
       }
+      if (data.error === 'authorization_pending') {
+        pollTimer = setTimeout(tick, interval);
+      } else if (data.error === 'slow_down') {
+        pollTimer = setTimeout(tick, interval + 5000);
+      } else if (data.error === 'expired_token' || data.error === 'access_denied') {
+        toast('Sign-in cancelled or expired.', 'error');
+        closeSignin();
+      } else {
+        pollTimer = setTimeout(tick, interval);
+      }
+    } catch (err) {
+      pollTimer = setTimeout(tick, interval);
     }
-  } catch (e) { /* fall through to seed */ }
-  // First run: seed with defaults
-  const now = Date.now();
-  state = {
-    tasks: SEED_TASKS.map((t, i) => ({
-      id: `seed-${i}-${now}`,
-      title: t.title,
-      priority: t.priority,
-      due: t.due || null,
-      notes: t.notes || '',
-      done: false,
-      createdAt: now,
-      completedAt: null,
-    })),
-    currentCat: 'urgent',
+  }
+  tick();
+}
+
+async function onSignedIn(token) {
+  state.token = token;
+  localStorage.setItem(TOKEN_KEY, token);
+  // fetch user
+  const u = await ghFetch('/user');
+  state.user = u;
+  localStorage.setItem(USER_KEY, JSON.stringify({ login: u.login, name: u.name, avatar: u.avatar_url }));
+  closeSignin();
+  toast(`Signed in as ${u.login}`, 'success');
+  updateAuthBar();
+  await refreshTasks();
+}
+
+function signOut() {
+  state.token = null;
+  state.user = null;
+  localStorage.removeItem(TOKEN_KEY);
+  localStorage.removeItem(USER_KEY);
+  updateAuthBar();
+  state.tasks = [];
+  renderAll();
+}
+
+function loadStoredAuth() {
+  const token = localStorage.getItem(TOKEN_KEY);
+  const userRaw = localStorage.getItem(USER_KEY);
+  if (token && userRaw) {
+    state.token = token;
+    try { state.user = JSON.parse(userRaw); } catch (e) {}
+  }
+}
+
+function updateAuthBar() {
+  const bar = document.getElementById('authBar');
+  const btn = document.getElementById('authBtn');
+  const addBtn = document.getElementById('addBtn');
+  const repoLabel = document.getElementById('repoLabel');
+  repoLabel.textContent = `${CONFIG.repoOwner}/${CONFIG.repoName}`;
+  if (state.user) {
+    bar.classList.add('signed');
+    bar.querySelector('.who span').innerHTML = `<span class="status-dot"></span>SIGNED IN AS <strong>${state.user.login}</strong>`;
+    btn.textContent = 'Sign Out';
+    btn.onclick = signOut;
+    addBtn.disabled = false;
+  } else {
+    bar.classList.remove('signed');
+    bar.querySelector('.who span').innerHTML = `<span class="status-dot"></span>NOT SIGNED IN — READ-ONLY MODE`;
+    btn.textContent = 'Sign in with GitHub';
+    btn.onclick = openSignin;
+    addBtn.disabled = true;
+  }
+}
+
+// ============================================================================
+// GITHUB API
+// ============================================================================
+async function ghFetch(path, opts = {}) {
+  const headers = {
+    'Accept': 'application/vnd.github+json',
+    'X-GitHub-Api-Version': '2022-11-28',
+    ...(opts.headers || {}),
   };
-  saveState();
+  if (state.token) headers['Authorization'] = `Bearer ${state.token}`;
+  const r = await fetch(`https://api.github.com${path}`, { ...opts, headers });
+  if (r.status === 401) {
+    toast('Session expired. Please sign in again.', 'error');
+    signOut();
+    throw new Error('401');
+  }
+  if (!r.ok) {
+    const text = await r.text();
+    throw new Error(`GitHub ${r.status}: ${text.slice(0, 200)}`);
+  }
+  return r.json();
 }
 
-function saveState() {
-  try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-  } catch (e) { console.error("Save failed", e); }
+async function fetchIssues() {
+  // fetch all issues (open + closed) with our task label
+  const url = `/repos/${CONFIG.repoOwner}/${CONFIG.repoName}/issues?state=all&labels=${CONFIG.taskLabel}&per_page=100`;
+  const issues = await ghFetch(url);
+  return issues.filter(i => !i.pull_request).map(normalizeIssue);
 }
 
-function uid() {
-  return 't-' + Date.now() + '-' + Math.random().toString(36).slice(2, 8);
+function normalizeIssue(issue) {
+  // priority from labels
+  let priority = 'on-deck';
+  for (const l of issue.labels) {
+    const name = typeof l === 'string' ? l : l.name;
+    if (name === CONFIG.labels.urgent) priority = 'urgent';
+    else if (name === CONFIG.labels['on-deck']) priority = 'on-deck';
+    else if (name === CONFIG.labels.recurring) priority = 'recurring';
+  }
+  // parse body for due date + notes
+  const body = issue.body || '';
+  let due = null;
+  let notes = body;
+  const dueMatch = body.match(/^Due:\s*(\d{4}-\d{2}-\d{2})\s*$/m);
+  if (dueMatch) {
+    due = dueMatch[1];
+    notes = body.replace(/^Due:\s*\d{4}-\d{2}-\d{2}\s*$/m, '').trim();
+  }
+  return {
+    id: issue.number,
+    title: issue.title,
+    priority,
+    due,
+    notes,
+    done: issue.state === 'closed',
+    author: issue.user ? issue.user.login : null,
+    createdAt: new Date(issue.created_at).getTime(),
+    completedAt: issue.closed_at ? new Date(issue.closed_at).getTime() : null,
+    htmlUrl: issue.html_url,
+    rawLabels: issue.labels.map(l => typeof l === 'string' ? l : l.name),
+  };
 }
 
+async function createIssue({ title, priority, due, notes }) {
+  const labels = [CONFIG.taskLabel, CONFIG.labels[priority]];
+  let body = '';
+  if (due) body += `Due: ${due}\n\n`;
+  if (notes) body += notes;
+  const data = await ghFetch(`/repos/${CONFIG.repoOwner}/${CONFIG.repoName}/issues`, {
+    method: 'POST',
+    body: JSON.stringify({ title, body: body.trim() || ' ', labels }),
+  });
+  return normalizeIssue(data);
+}
+
+async function updateIssue(number, { title, priority, due, notes }) {
+  // update body
+  let body = '';
+  if (due) body += `Due: ${due}\n\n`;
+  if (notes) body += notes;
+  // for labels: keep tracker:task, swap priority label
+  const labels = [CONFIG.taskLabel, CONFIG.labels[priority]];
+  // preserve any non-tracker labels
+  const existing = state.tasks.find(t => t.id === number);
+  if (existing) {
+    for (const l of existing.rawLabels) {
+      if (l && !l.startsWith('tracker:')) labels.push(l);
+    }
+  }
+  const data = await ghFetch(`/repos/${CONFIG.repoOwner}/${CONFIG.repoName}/issues/${number}`, {
+    method: 'PATCH',
+    body: JSON.stringify({ title, body: body.trim() || ' ', labels }),
+  });
+  return normalizeIssue(data);
+}
+
+async function closeIssue(number) {
+  const data = await ghFetch(`/repos/${CONFIG.repoOwner}/${CONFIG.repoName}/issues/${number}`, {
+    method: 'PATCH',
+    body: JSON.stringify({ state: 'closed', state_reason: 'completed' }),
+  });
+  return normalizeIssue(data);
+}
+
+async function reopenIssue(number) {
+  const data = await ghFetch(`/repos/${CONFIG.repoOwner}/${CONFIG.repoName}/issues/${number}`, {
+    method: 'PATCH',
+    body: JSON.stringify({ state: 'open' }),
+  });
+  return normalizeIssue(data);
+}
+
+// ============================================================================
+// RENDERING
+// ============================================================================
 function tasksInCat(catId) {
   if (catId === 'done') return state.tasks.filter(t => t.done);
   return state.tasks.filter(t => !t.done && t.priority === catId);
 }
-
 function catCount(catId) { return tasksInCat(catId).length; }
-
 function totals() {
   const total = state.tasks.length;
   const done = state.tasks.filter(t => t.done).length;
@@ -688,7 +1120,7 @@ function renderCatTabs() {
     const btn = document.createElement("button");
     btn.className = "cat-tab " + cat.color + (cat.id === state.currentCat ? " active" : "");
     btn.innerHTML = `<span class="num">${catCount(cat.id)}</span><span class="label">${cat.label}</span>`;
-    btn.onclick = () => { state.currentCat = cat.id; saveState(); renderAll(); };
+    btn.onclick = () => { state.currentCat = cat.id; renderAll(); };
     nav.appendChild(btn);
   });
 }
@@ -700,7 +1132,6 @@ function fmtDate(iso) {
     return d.toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' });
   } catch (e) { return iso; }
 }
-
 function isOverdue(iso) {
   if (!iso) return false;
   const today = new Date(); today.setHours(0,0,0,0);
@@ -711,8 +1142,7 @@ function isOverdue(iso) {
 function renderCat() {
   const cat = CATEGORIES.find(c => c.id === state.currentCat);
   const container = document.getElementById("catContent");
-  const items = tasksInCat(cat.id).sort((a, b) => {
-    // sort: overdue first, then by due date, then by creation
+  const items = tasksInCat(cat.id).slice().sort((a, b) => {
     if (a.due && b.due) return a.due.localeCompare(b.due);
     if (a.due) return -1;
     if (b.due) return 1;
@@ -729,44 +1159,52 @@ function renderCat() {
     </div>
   `;
 
-  if (cat.id !== 'done') {
+  if (cat.id !== 'done' && state.user) {
     html += `
       <div class="add-form">
         <input type="text" class="title-input" id="quickTitle" placeholder="What needs to happen?" />
         <select id="quickPriority">
-          <option value="urgent">Urgent</option>
-          <option value="second">2nd Tier</option>
-          <option value="recurring">Recurring</option>
+          <option value="urgent" ${cat.id==='urgent'?'selected':''}>Urgent</option>
+          <option value="on-deck" ${cat.id==='on-deck'?'selected':''}>On Deck</option>
+          <option value="recurring" ${cat.id==='recurring'?'selected':''}>Recurring</option>
         </select>
-        <input type="date" id="quickDue" placeholder="Due" />
-        <button class="add-btn" onclick="quickAdd()">+ ADD</button>
+        <input type="date" id="quickDue" />
+        <button class="add-btn" id="quickAddBtn">+ ADD</button>
       </div>
     `;
   }
 
-  if (items.length === 0) {
-    html += `<div class="empty">${cat.id === 'done' ? 'No completed tasks yet. Crush something.' : 'Nothing here. Good or bad?'}</div>`;
+  if (state.loading) {
+    html += `<div class="loading">Loading tasks from GitHub...</div>`;
+  } else if (items.length === 0) {
+    if (!state.user) {
+      html += `<div class="empty">Sign in to load tasks<span class="small">Read-only mode until authenticated</span></div>`;
+    } else {
+      html += `<div class="empty">${cat.id === 'done' ? 'No completed tasks yet' : 'Nothing here. Good or bad?'}<span class="small">${cat.id === 'done' ? 'Crush something.' : 'Add one above to get started.'}</span></div>`;
+    }
   } else {
     html += `<div class="tasks">`;
     items.forEach(task => {
       const overdueCls = isOverdue(task.due) && !task.done ? 'overdue' : '';
       const priClass = task.done ? 'pri-done' : 'pri-' + task.priority;
       const tagClass = task.done ? 'done' : task.priority;
-      const tagLabel = task.done ? 'DONE' : (task.priority === 'second' ? '2ND TIER' : task.priority.toUpperCase());
+      const tagLabel = task.done ? 'DONE' : (task.priority === 'on-deck' ? 'ON DECK' : task.priority.toUpperCase());
+      const editable = !!state.user;
       html += `
         <div class="task ${priClass} ${task.done ? 'done' : ''}" data-id="${task.id}">
-          <div class="checkbox" onclick="toggleDone('${task.id}')"></div>
+          <div class="checkbox" onclick="toggleDone(${task.id})"></div>
           <div class="task-body">
             <div class="task-title">${escapeHtml(task.title)}</div>
             <div class="task-meta">
               <span class="tag ${tagClass}">${tagLabel}</span>
               ${task.due ? `<span class="due ${overdueCls}">${isOverdue(task.due) && !task.done ? '⚠ ' : ''}Due ${fmtDate(task.due)}</span>` : ''}
+              ${task.author ? `<span class="author">by ${task.author}</span>` : ''}
             </div>
             ${task.notes ? `<div class="task-notes">${escapeHtml(task.notes)}</div>` : ''}
           </div>
           <div class="task-controls">
-            <button class="icon-btn" onclick="editTask('${task.id}')" title="Edit">✎</button>
-            <button class="icon-btn del" onclick="deleteTask('${task.id}')" title="Delete">✕</button>
+            <button class="icon-btn" onclick="editTask(${task.id})" title="Edit" ${editable?'':'disabled'}>✎</button>
+            <button class="icon-btn" onclick="openIssue(${task.id})" title="Open on GitHub">↗</button>
           </div>
         </div>
       `;
@@ -775,6 +1213,8 @@ function renderCat() {
   }
 
   container.innerHTML = html;
+  const qaBtn = document.getElementById('quickAddBtn');
+  if (qaBtn) qaBtn.onclick = quickAdd;
 }
 
 function escapeHtml(s) {
@@ -787,50 +1227,74 @@ function escapeHtml(s) {
     .replaceAll("'", '&#39;');
 }
 
-function quickAdd() {
+function renderAll() {
+  renderCatTabs();
+  renderCat();
+  renderProgress();
+}
+
+// ============================================================================
+// TASK ACTIONS
+// ============================================================================
+async function refreshTasks() {
+  if (!state.token) return;
+  state.loading = true;
+  renderCat();
+  try {
+    state.tasks = await fetchIssues();
+    state.loading = false;
+    renderAll();
+  } catch (err) {
+    state.loading = false;
+    toast('Failed to load tasks: ' + err.message, 'error');
+    renderCat();
+  }
+}
+
+async function quickAdd() {
+  if (!state.user) return;
   const titleEl = document.getElementById('quickTitle');
   const priEl = document.getElementById('quickPriority');
   const dueEl = document.getElementById('quickDue');
   const title = titleEl.value.trim();
   if (!title) { titleEl.focus(); return; }
-  const task = {
-    id: uid(),
-    title,
-    priority: priEl.value || state.currentCat,
-    due: dueEl.value || null,
-    notes: '',
-    done: false,
-    createdAt: Date.now(),
-    completedAt: null,
-  };
-  state.tasks.push(task);
-  saveState();
-  renderAll();
+  const btn = document.getElementById('quickAddBtn');
+  btn.disabled = true; btn.textContent = '...';
+  try {
+    const t = await createIssue({
+      title,
+      priority: priEl.value || state.currentCat,
+      due: dueEl.value || null,
+      notes: '',
+    });
+    state.tasks.unshift(t);
+    titleEl.value = ''; dueEl.value = '';
+    renderAll();
+    toast('Task added', 'success');
+  } catch (err) {
+    toast('Failed to add: ' + err.message, 'error');
+  } finally {
+    btn.disabled = false; btn.textContent = '+ ADD';
+  }
 }
 
-function toggleDone(id) {
-  const task = state.tasks.find(t => t.id === id);
-  if (!task) return;
-  task.done = !task.done;
-  task.completedAt = task.done ? Date.now() : null;
-  saveState();
-  renderAll();
+async function toggleDone(number) {
+  const task = state.tasks.find(t => t.id === number);
+  if (!task || !state.user) return;
+  try {
+    const updated = task.done ? await reopenIssue(number) : await closeIssue(number);
+    Object.assign(task, updated);
+    renderAll();
+  } catch (err) {
+    toast('Update failed: ' + err.message, 'error');
+  }
 }
 
-function deleteTask(id) {
-  const task = state.tasks.find(t => t.id === id);
+function editTask(number) {
+  const task = state.tasks.find(t => t.id === number);
   if (!task) return;
-  if (!confirm(`Delete "${task.title}"? This cannot be undone.`)) return;
-  state.tasks = state.tasks.filter(t => t.id !== id);
-  saveState();
-  renderAll();
-}
-
-function editTask(id) {
-  const task = state.tasks.find(t => t.id === id);
-  if (!task) return;
-  editingId = id;
-  document.getElementById('modalTitle').textContent = 'Edit Task';
+  editingId = number;
+  document.getElementById('modalTitle').textContent = `Edit #${number}`;
   document.getElementById('modalTitleInput').value = task.title;
   document.getElementById('modalPriority').value = task.priority;
   document.getElementById('modalDue').value = task.due || '';
@@ -839,6 +1303,7 @@ function editTask(id) {
 }
 
 function openAddModal() {
+  if (!state.user) { openSignin(); return; }
   editingId = null;
   document.getElementById('modalTitle').textContent = 'New Task';
   document.getElementById('modalTitleInput').value = '';
@@ -854,108 +1319,119 @@ function closeModal() {
   editingId = null;
 }
 
-function saveModal() {
+async function saveModal() {
   const title = document.getElementById('modalTitleInput').value.trim();
   if (!title) { document.getElementById('modalTitleInput').focus(); return; }
   const priority = document.getElementById('modalPriority').value;
   const due = document.getElementById('modalDue').value || null;
   const notes = document.getElementById('modalNotes').value;
-
-  if (editingId) {
-    const task = state.tasks.find(t => t.id === editingId);
-    if (task) {
-      task.title = title;
-      task.priority = priority;
-      task.due = due;
-      task.notes = notes;
+  try {
+    if (editingId) {
+      const updated = await updateIssue(editingId, { title, priority, due, notes });
+      const idx = state.tasks.findIndex(t => t.id === editingId);
+      if (idx >= 0) state.tasks[idx] = updated;
+    } else {
+      const t = await createIssue({ title, priority, due, notes });
+      state.tasks.unshift(t);
     }
-  } else {
-    state.tasks.push({
-      id: uid(),
-      title, priority, due, notes,
-      done: false,
-      createdAt: Date.now(),
-      completedAt: null,
-    });
+    closeModal();
+    renderAll();
+    toast(editingId ? 'Task updated' : 'Task added', 'success');
+  } catch (err) {
+    toast('Save failed: ' + err.message, 'error');
   }
-  saveState();
-  closeModal();
-  renderAll();
 }
 
-function exportJson() {
-  const data = JSON.stringify(state, null, 2);
-  const blob = new Blob([data], { type: 'application/json' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  const date = new Date().toISOString().slice(0, 10);
-  a.href = url;
-  a.download = `joshua-tracker-${date}.json`;
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
+function openIssue(number) {
+  const task = state.tasks.find(t => t.id === number);
+  if (task) window.open(task.htmlUrl, '_blank');
 }
 
-function importJson(file) {
-  const reader = new FileReader();
-  reader.onload = (e) => {
-    try {
-      const parsed = JSON.parse(e.target.result);
-      if (!parsed || !Array.isArray(parsed.tasks)) {
-        alert('Invalid file format. Expected { "tasks": [...] }.');
-        return;
-      }
-      if (!confirm(`Replace current tasks with ${parsed.tasks.length} from file?`)) return;
-      state = parsed;
-      if (!state.currentCat) state.currentCat = 'urgent';
-      saveState();
-      renderAll();
-    } catch (err) {
-      alert('Could not parse file: ' + err.message);
-    }
-  };
-  reader.readAsText(file);
+// ============================================================================
+// SIGN-IN UI
+// ============================================================================
+function openSignin() {
+  document.getElementById('signinOverlay').classList.add('show');
+  document.getElementById('signinStep1').style.display = 'block';
+  document.getElementById('signinStep2').style.display = 'none';
+  document.getElementById('signinStartBtn').style.display = 'inline-block';
+}
+function closeSignin() {
+  document.getElementById('signinOverlay').classList.remove('show');
+  if (pollTimer) { clearTimeout(pollTimer); pollTimer = null; }
+}
+function copyCode() {
+  const code = document.getElementById('userCode').textContent;
+  navigator.clipboard.writeText(code).then(() => toast('Code copied', 'success'));
 }
 
-function renderAll() {
-  renderCatTabs();
-  renderCat();
-  renderProgress();
+// ============================================================================
+// SETUP HELP
+// ============================================================================
+function showSetupHelp() {
+  const msg = `
+Setup required for this board (one-time, ~5 min):
+
+1. CREATE LABELS in the unwind-projects repo:
+   - tracker:task     (any color)
+   - tracker:urgent   (orange #f08040)
+   - tracker:on-deck  (gold #f0b030)
+   - tracker:recurring (teal #40b0b0)
+
+2. CREATE OAUTH APP at:
+   https://github.com/settings/developers
+   - Name: Unwind Operations Board
+   - Homepage: https://jwatsoniv.github.io/unwind-projects/joshua-tracker/
+   - Enable Device Flow: YES (checkbox)
+   - Save → copy Client ID
+
+3. PASTE Client ID into joshua-tracker/index.html (CONFIG.clientId)
+   and commit + push.
+
+4. INVITE Matt and Joshua as collaborators on jwatsoniv/unwind-projects
+   (or move tasks to a private repo later).
+
+5. Share the URL with the team. Everyone signs in once with GitHub.
+
+Bez handles steps 1-3. You handle step 4.
+`;
+  alert(msg);
 }
 
-// wire up buttons
+// ============================================================================
+// TOAST
+// ============================================================================
+let toastTimer = null;
+function toast(msg, type = '') {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.className = 'toast show ' + type;
+  if (toastTimer) clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.remove('show'), 3500);
+}
+
+// ============================================================================
+// INIT
+// ============================================================================
+document.getElementById('signinStartBtn').onclick = startDeviceFlow;
 document.getElementById('addBtn').onclick = openAddModal;
-document.getElementById('exportBtn').onclick = exportJson;
-document.getElementById('importBtn').onclick = () => document.getElementById('importFile').click();
-document.getElementById('importFile').onchange = (e) => {
-  if (e.target.files && e.target.files[0]) importJson(e.target.files[0]);
-  e.target.value = '';
-};
-document.getElementById('resetBtn').onclick = () => {
-  if (!confirm("Reset the entire board? This wipes every task and re-seeds defaults.")) return;
-  try { localStorage.removeItem(STORAGE_KEY); } catch (e) {}
-  loadState();
-  renderAll();
-};
-document.getElementById('modal').onclick = (e) => {
-  if (e.target.id === 'modal') closeModal();
-};
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') closeModal();
-});
+document.getElementById('refreshBtn').onclick = refreshTasks;
+document.getElementById('setupBtn').onclick = showSetupHelp;
+document.getElementById('modal').onclick = (e) => { if (e.target.id === 'modal') closeModal(); };
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') { closeModal(); closeSignin(); }});
 
-// expose for inline handlers
 window.toggleDone = toggleDone;
 window.editTask = editTask;
-window.deleteTask = deleteTask;
-window.quickAdd = quickAdd;
+window.openIssue = openIssue;
+window.copyCode = copyCode;
 window.closeModal = closeModal;
 window.saveModal = saveModal;
+window.closeSignin = closeSignin;
 
-// init
-loadState();
+loadStoredAuth();
+updateAuthBar();
 renderAll();
+if (state.token) refreshTasks();
 </script>
 </body>
 </html>

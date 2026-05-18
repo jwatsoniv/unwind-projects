@@ -5,10 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-<meta name="apple-mobile-web-app-title" content="Unwind Ops Board" />
+<meta name="apple-mobile-web-app-title" content="Joshua's Board" />
 <meta name="theme-color" content="#003040" />
-<title>Unwind — Operations Board</title>
-<link rel="icon" type="image/png" href="./assets/unwind-logo.png" />
+<title>Joshua's Board — Unwind Operations</title>
+<link rel="icon" type="image/png" href="./assets/unwind-logo-transparent.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -67,14 +67,18 @@
     opacity: 0.15;
   }
   .logo {
-    width: 80px; height: 80px;
+    width: 110px;
     flex-shrink: 0;
-    background: var(--paper);
-    border-radius: 50%;
-    padding: 4px;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
-  .logo img { width: 100%; height: 100%; object-fit: contain; }
+  .logo img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 2px 8px rgba(0,0,0,0.3));
+  }
   .header-text { position: relative; z-index: 1; }
   .eyebrow {
     font-family: 'JetBrains Mono', monospace;
@@ -727,11 +731,11 @@
 <div class="wrap">
 
   <header>
-    <div class="logo"><img src="./assets/unwind-logo.png" alt="Unwind Vacation Rentals" /></div>
+    <div class="logo"><img src="./assets/unwind-logo-transparent.png" alt="Unwind Vacation Rentals" /></div>
     <div class="header-text">
-      <div class="eyebrow">// UNWIND VACATION RENTALS · OPERATIONS</div>
-      <h1>The <span class="accent">Board</span>.</h1>
-      <p class="sub">Shared task board for John, Matt, and Joshua. Urgent today, on deck this week, recurring forever. Done is done.</p>
+      <div class="eyebrow">// UNWIND VACATION RENTALS · DIRECTOR OF OPERATIONS</div>
+      <h1>Joshua's <span class="accent">Board</span>.</h1>
+      <p class="sub">Joshua's task queue. John and Matt assign work, Joshua executes. Urgent today, priority this week, recurring forever. Done is done.</p>
     </div>
   </header>
 
@@ -769,8 +773,8 @@
 <!-- SIGN-IN OVERLAY -->
 <div class="signin-overlay" id="signinOverlay">
   <div class="signin-card">
-    <img src="./assets/unwind-logo.png" alt="Unwind" />
-    <h3>Sign in to the Board</h3>
+    <img src="./assets/unwind-logo-transparent.png" alt="Unwind" style="width:120px;height:auto;" />
+    <h3>Sign in to Joshua's Board</h3>
     <p id="signinStep1">
       Click below. GitHub will give you a code. Paste it on the GitHub page that opens.<br/>
       <br/>

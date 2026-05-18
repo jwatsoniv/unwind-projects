@@ -1,8 +1,17 @@
-# Unwind Operations Board
+# Joshua's Board
 
-Shared task board for the Unwind Vacation Rentals team (John, Matt, Joshua).
+Joshua's task queue for Unwind Vacation Rentals operations. John and Matt assign tasks; Joshua executes.
 
 **Live URL:** https://jwatsoniv.github.io/unwind-projects/joshua-tracker/
+
+## Who Does What
+
+| Role | Who | Job |
+| ---- | --- | --- |
+| **Task givers** | John (CEO), Matt (Co-founder) | Add tasks with priority + due dates |
+| **Task doer** | Joshua (Director of Operations) | Move tasks through In Progress → Done |
+
+Everyone can see the whole board. The point is one shared queue so nothing gets lost in Slack or email.
 
 ## How It Works
 

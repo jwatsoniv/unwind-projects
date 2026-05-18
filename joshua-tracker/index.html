@@ -229,7 +229,7 @@
   .cat-nav {
     margin-top: 28px;
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(5, 1fr);
     gap: 0;
     border: 3px solid var(--navy);
     border-radius: 4px;
@@ -268,7 +268,8 @@
   }
   .cat-tab:hover { background: var(--paper-warm); }
   .cat-tab.active.cat-urgent { background: var(--sunset); color: var(--paper); }
-  .cat-tab.active.cat-on-deck { background: var(--gold); color: var(--navy); }
+  .cat-tab.active.cat-priority { background: var(--gold); color: var(--navy); }
+  .cat-tab.active.cat-in-progress { background: var(--teal-dark); color: var(--paper); }
   .cat-tab.active.cat-recurring { background: var(--teal); color: var(--paper); }
   .cat-tab.active.cat-done { background: var(--done); color: var(--paper); }
   .cat-tab.active .label { opacity: 0.85; }
@@ -386,7 +387,8 @@
     border-radius: 4px 0 0 4px;
   }
   .task.pri-urgent::before { background: var(--sunset); }
-  .task.pri-on-deck::before { background: var(--gold); }
+  .task.pri-priority::before { background: var(--gold); }
+  .task.pri-in-progress::before { background: var(--teal-dark); }
   .task.pri-recurring::before { background: var(--teal); }
   .task.pri-done::before { background: var(--done); }
 
@@ -444,7 +446,8 @@
     border-radius: 2px;
   }
   .tag.urgent { background: var(--sunset); }
-  .tag.on-deck { background: var(--gold); color: var(--navy); }
+  .tag.priority { background: var(--gold); color: var(--navy); }
+  .tag.in-progress { background: var(--teal-dark); }
   .tag.recurring { background: var(--teal); }
   .tag.done { background: var(--done); }
   .due {
@@ -704,12 +707,18 @@
     color: var(--navy);
   }
 
+  @media (max-width: 700px) {
+    .cat-tab { padding: 10px 2px; font-size: 16px; }
+    .cat-tab .num { font-size: 22px; }
+    .cat-tab .label { font-size: 8px; }
+  }
   @media (max-width: 600px) {
     header { flex-direction: column; text-align: center; gap: 16px; padding: 20px; }
     .cat-title h2 { font-size: 36px; }
     .cat-quote { text-align: left; }
-    .cat-tab { padding: 10px 4px; }
-    .cat-tab .num { font-size: 24px; }
+    .cat-tab { padding: 8px 2px; }
+    .cat-tab .num { font-size: 18px; }
+    .cat-tab .label { font-size: 7px; letter-spacing: 0.05em; }
     .task { padding: 12px; gap: 10px; }
   }
 </style>
@@ -792,7 +801,8 @@
       <label>Priority</label>
       <select id="modalPriority">
         <option value="urgent">Urgent</option>
-        <option value="on-deck">On Deck</option>
+        <option value="priority">Priority</option>
+        <option value="in-progress">In Progress</option>
         <option value="recurring">Recurring</option>
       </select>
     </div>
@@ -827,7 +837,8 @@ const CONFIG = {
   taskLabel: 'tracker:task',
   labels: {
     urgent: 'tracker:urgent',
-    'on-deck': 'tracker:on-deck',
+    'priority': 'tracker:priority',
+    'in-progress': 'tracker:in-progress',
     recurring: 'tracker:recurring',
   },
 };
@@ -836,7 +847,8 @@ const USER_KEY = 'unwind-tracker-user-v1';
 
 const CATEGORIES = [
   { id: 'urgent', label: 'Urgent', focus: 'Today. Now. Drop everything.', quote: "If it's not urgent, it doesn't belong here.", color: 'cat-urgent' },
-  { id: 'on-deck', label: 'On Deck', focus: 'This week. Important, not on fire.', quote: "Don't let these become urgent.", color: 'cat-on-deck' },
+  { id: 'priority', label: 'Priority', focus: 'This week. Important, not on fire.', quote: "Don't let these become urgent.", color: 'cat-priority' },
+  { id: 'in-progress', label: 'In Progress', focus: 'Actively being worked.', quote: "Started, not finished. Keep momentum.", color: 'cat-in-progress' },
   { id: 'recurring', label: 'Recurring', focus: 'Every day, week, or month. Forever.', quote: "Consistency is the multiplier.", color: 'cat-recurring' },
   { id: 'done', label: 'Done', focus: 'The receipts.', quote: "Done is done. On to the next.", color: 'cat-done' },
 ];
@@ -1011,11 +1023,12 @@ async function fetchIssues() {
 
 function normalizeIssue(issue) {
   // priority from labels
-  let priority = 'on-deck';
+  let priority = 'priority';
   for (const l of issue.labels) {
     const name = typeof l === 'string' ? l : l.name;
     if (name === CONFIG.labels.urgent) priority = 'urgent';
-    else if (name === CONFIG.labels['on-deck']) priority = 'on-deck';
+    else if (name === CONFIG.labels.priority) priority = 'priority';
+    else if (name === CONFIG.labels['in-progress']) priority = 'in-progress';
     else if (name === CONFIG.labels.recurring) priority = 'recurring';
   }
   // parse body for due date + notes
@@ -1165,7 +1178,8 @@ function renderCat() {
         <input type="text" class="title-input" id="quickTitle" placeholder="What needs to happen?" />
         <select id="quickPriority">
           <option value="urgent" ${cat.id==='urgent'?'selected':''}>Urgent</option>
-          <option value="on-deck" ${cat.id==='on-deck'?'selected':''}>On Deck</option>
+          <option value="priority" ${cat.id==='priority'?'selected':''}>Priority</option>
+          <option value="in-progress" ${cat.id==='in-progress'?'selected':''}>In Progress</option>
           <option value="recurring" ${cat.id==='recurring'?'selected':''}>Recurring</option>
         </select>
         <input type="date" id="quickDue" />
@@ -1188,7 +1202,10 @@ function renderCat() {
       const overdueCls = isOverdue(task.due) && !task.done ? 'overdue' : '';
       const priClass = task.done ? 'pri-done' : 'pri-' + task.priority;
       const tagClass = task.done ? 'done' : task.priority;
-      const tagLabel = task.done ? 'DONE' : (task.priority === 'on-deck' ? 'ON DECK' : task.priority.toUpperCase());
+      let tagLabel;
+      if (task.done) tagLabel = 'DONE';
+      else if (task.priority === 'in-progress') tagLabel = 'IN PROGRESS';
+      else tagLabel = task.priority.toUpperCase();
       const editable = !!state.user;
       html += `
         <div class="task ${priClass} ${task.done ? 'done' : ''}" data-id="${task.id}">
@@ -1373,10 +1390,11 @@ function showSetupHelp() {
 Setup required for this board (one-time, ~5 min):
 
 1. CREATE LABELS in the unwind-projects repo:
-   - tracker:task     (any color)
-   - tracker:urgent   (orange #f08040)
-   - tracker:on-deck  (gold #f0b030)
-   - tracker:recurring (teal #40b0b0)
+   - tracker:task        (navy #003040)
+   - tracker:urgent      (sunset #f08040)
+   - tracker:priority    (gold #f0b030)
+   - tracker:in-progress (teal-dark #1d6b7a)
+   - tracker:recurring   (teal #40b0b0)
 
 2. CREATE OAUTH APP at:
    https://github.com/settings/developers

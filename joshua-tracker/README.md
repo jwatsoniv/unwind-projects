@@ -10,12 +10,13 @@ Tasks are stored as **GitHub Issues** in this repo (`jwatsoniv/unwind-projects`)
 
 ## Categories
 
-| Tab        | Label                | When to use                              |
-| ---------- | -------------------- | ---------------------------------------- |
-| Urgent     | `tracker:urgent`     | Today / drop everything                   |
-| On Deck    | `tracker:on-deck`    | This week / important not on fire         |
-| Recurring  | `tracker:recurring`  | Daily, weekly, monthly forever            |
-| Done       | _closed issue_       | The receipts                              |
+| Tab          | Label                    | When to use                              |
+| ------------ | ------------------------ | ---------------------------------------- |
+| Urgent       | `tracker:urgent`         | Today / drop everything                   |
+| Priority     | `tracker:priority`       | This week / important not on fire         |
+| In Progress  | `tracker:in-progress`    | Actively being worked, not yet done       |
+| Recurring    | `tracker:recurring`      | Daily, weekly, monthly forever            |
+| Done         | _closed issue_           | The receipts                              |
 
 All board tasks also carry `tracker:task` so the page can filter them from unrelated issues in the repo.
 
@@ -25,9 +26,10 @@ All board tasks also carry `tracker:task` so the page can filter them from unrel
 
 Create these labels in the GitHub web UI (Settings → Labels for `jwatsoniv/unwind-projects`):
 
-- `tracker:task` — any color, e.g. `#003040`
+- `tracker:task` — `#003040` (navy)
 - `tracker:urgent` — `#f08040` (Unwind sunset orange)
-- `tracker:on-deck` — `#f0b030` (Unwind gold)
+- `tracker:priority` — `#f0b030` (Unwind gold)
+- `tracker:in-progress` — `#1d6b7a` (Unwind teal-dark)
 - `tracker:recurring` — `#40b0b0` (Unwind teal)
 
 ### 2. OAuth App for Device Flow

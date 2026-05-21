@@ -22,7 +22,7 @@ import os
 from datetime import date, datetime
 from collections import defaultdict
 
-TODAY = date(2026, 4, 17)
+TODAY = date.today()
 CURRENT_MONTH = (TODAY.year, TODAY.month)
 NEXT_MONTH_DATE = date(TODAY.year, TODAY.month + 1, 1) if TODAY.month < 12 else date(TODAY.year + 1, 1, 1)
 NEXT_MONTH = (NEXT_MONTH_DATE.year, NEXT_MONTH_DATE.month)
@@ -31,10 +31,16 @@ SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 
 
 def find_latest_bp_file():
-    pattern = os.path.join(SCRIPT_DIR, "BP booking data*.csv")
-    matches = glob.glob(pattern)
+    patterns = [
+        os.path.join(SCRIPT_DIR, "BP booking data*.csv"),
+        os.path.join(SCRIPT_DIR, "BP Reservations*.csv"),
+        os.path.join(SCRIPT_DIR, "BP_Reservations*.csv"),
+    ]
+    matches = []
+    for pattern in patterns:
+        matches.extend(glob.glob(pattern))
     if not matches:
-        raise FileNotFoundError(f"No files matching 'BP booking data*.csv' found in {SCRIPT_DIR}")
+        raise FileNotFoundError(f"No BP data files found in {SCRIPT_DIR}")
     return max(matches, key=os.path.getmtime)
 
 

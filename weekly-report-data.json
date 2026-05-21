@@ -1,31 +1,31 @@
 {
-  "generated_on": "2026-04-17",
-  "source_file": "BP booking data April 17 2026.csv",
+  "generated_on": "2026-05-21",
+  "source_file": "BP Reservations 5 21 2026.csv",
   "current_month": {
-    "label": "April 2026",
-    "bookings_on_books": 128,
-    "revenue_on_books": 75196.3
+    "label": "May 2026",
+    "bookings_on_books": 150,
+    "revenue_on_books": 129994.31
   },
   "next_month": {
-    "label": "May 2026",
-    "bookings_on_books": 61,
-    "revenue_on_books": 72691.5
+    "label": "June 2026",
+    "bookings_on_books": 140,
+    "revenue_on_books": 220593.57
   },
   "ytd": {
-    "period": "Jan 1 2026 \u2013 Apr 17 2026",
-    "revenue": 142793.85
+    "period": "Jan 1 2026 \u2013 May 21 2026",
+    "revenue": 239931.93
   },
   "top_3_properties_this_month": [
     {
-      "property": "Holiday Pavilion #210",
-      "bookings": 5
+      "property": "Ocean villas #G2",
+      "bookings": 6
     },
     {
-      "property": "Beach Cove #412",
-      "bookings": 5
+      "property": "Coconut Grove #204",
+      "bookings": 6
     },
     {
-      "property": "Prince Resort 1205",
+      "property": "Madison Drive 4BR Beach House",
       "bookings": 5
     }
   ]

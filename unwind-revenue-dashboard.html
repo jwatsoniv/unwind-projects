@@ -375,7 +375,7 @@
     <div class="subtitle">Revenue Dashboard &mdash; 2025 Performance &amp; 2026 Pacing</div>
   </div>
   <div class="meta">
-    Updated May 1, 2026<br>
+    <span id="header-date">Updated May 1, 2026</span><br>
     Source: Beyond Pricing / OwnerRez
   </div>
 </div>
@@ -604,21 +604,21 @@
         <div class="month-name">May <span class="status-pill status-inprog">In Progress</span></div>
         <div class="pace-row">
           <div><div class="pace-label">2025 Final</div><div class="pace-val">$72,606</div></div>
-          <div><div class="pace-label">2026 On Books</div><div class="pace-val">$106,372</div></div>
+          <div><div class="pace-label">2026 On Books</div><div class="pace-val" id="may-onbooks">$106,372</div></div>
         </div>
-        <div class="pace-delta delta-up">&#8593; +$33,766 &nbsp;(+46%) &mdash; ahead of 2025 pace</div>
-        <div class="progress-bar-wrap"><div class="progress-bar-fill over" style="width:100%"></div></div>
+        <div class="pace-delta delta-up" id="may-delta">&#8593; +$33,766 &nbsp;(+46%) &mdash; ahead of 2025 pace</div>
+        <div class="progress-bar-wrap"><div class="progress-bar-fill over" style="width:100%" id="may-pbar"></div></div>
       </div>
 
       <!-- June -->
       <div class="pacing-month">
-        <div class="month-name">June <span class="status-pill status-ahead">At 2025 Pace</span></div>
+        <div class="month-name">June <span class="status-pill status-ahead" id="june-status">At 2025 Pace</span></div>
         <div class="pace-row">
           <div><div class="pace-label">2025 Final</div><div class="pace-val">$173,579</div></div>
-          <div><div class="pace-label">2026 On Books</div><div class="pace-val">$173,380</div></div>
+          <div><div class="pace-label">2026 On Books</div><div class="pace-val" id="june-onbooks">$173,380</div></div>
         </div>
-        <div class="pace-delta delta-up">&#8593; &minus;$199 &nbsp;&mdash; essentially matched 2025 pace</div>
-        <div class="progress-bar-wrap"><div class="progress-bar-fill over" style="width:100%"></div></div>
+        <div class="pace-delta delta-up" id="june-delta">&#8593; &minus;$199 &nbsp;&mdash; essentially matched 2025 pace</div>
+        <div class="progress-bar-wrap"><div class="progress-bar-fill over" style="width:100%" id="june-pbar"></div></div>
       </div>
 
       <!-- July -->
@@ -689,7 +689,7 @@
 
     </div>
 
-    <div class="coverage-note">
+    <div class="coverage-note" id="snapshot-coverage">
       <strong>How to read this:</strong> Peak season is booking fast. <strong>May is now 46% ahead of 2025 pace</strong> (+$33,766 on books). <strong>June has essentially matched full-year 2025 pace</strong> ($173,380 vs. $173,579 final) &mdash; the first forward month to hit this milestone. July is at 68% of 2025 final with the window still wide open. YTD Jan–Apr (complete): 2026 is <strong>+$89K (+86%)</strong> vs. 2025 on <strong>145 vs. 132 April bookings</strong>. Data: Beyond Pricing, May 1, 2026 snapshot (BP-tracked channels only).
     </div>
   </div>
@@ -895,6 +895,102 @@
       }
     }
   });
+</script>
+
+<script>
+// ── Dynamic data loader — reads weekly-report-data.json on every page load
+(function () {
+  const MAY_2025  = 72606;
+  const JUN_2025  = 173579;
+
+  function fmtFull(v) {
+    return '$' + Math.round(v).toLocaleString('en-US');
+  }
+
+  fetch('./weekly-report-data.json?v=' + Date.now())
+    .then(function (r) { return r.json(); })
+    .then(function (d) {
+
+      // Header date
+      var dateEl = document.getElementById('header-date');
+      if (dateEl && d.generated_on) {
+        var parts = d.generated_on.split('-');
+        var dt = new Date(+parts[0], +parts[1] - 1, +parts[2]);
+        dateEl.textContent = 'Updated ' + dt.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+      }
+
+      // May pacing
+      var mayRev   = d.current_month && d.current_month.revenue_on_books;
+      if (mayRev != null) {
+        var mayDelta = mayRev - MAY_2025;
+        var mayPct   = Math.round((mayDelta / MAY_2025) * 100);
+        var el = document.getElementById('may-onbooks');
+        if (el) el.textContent = fmtFull(mayRev);
+        el = document.getElementById('may-delta');
+        if (el) {
+          var sign = mayDelta >= 0 ? '\u2191 +' : '\u2193 ';
+          el.textContent = sign + fmtFull(Math.abs(mayDelta)) + '\u00a0(' + (mayDelta >= 0 ? '+' : '') + mayPct + '%) \u2014 ' + (mayDelta >= 0 ? 'ahead of 2025 pace' : 'behind 2025 pace');
+          el.className = 'pace-delta ' + (mayDelta >= 0 ? 'delta-up' : 'delta-down');
+        }
+        el = document.getElementById('may-pbar');
+        if (el) {
+          var pct = Math.min(150, Math.round((mayRev / MAY_2025) * 100));
+          el.style.width = Math.min(pct, 100) + '%';
+          if (mayRev >= MAY_2025) el.classList.add('over'); else el.classList.remove('over');
+        }
+      }
+
+      // June pacing
+      var junRev = d.next_month && d.next_month.revenue_on_books;
+      if (junRev != null) {
+        var junDelta = junRev - JUN_2025;
+        var junPct   = Math.round((junDelta / JUN_2025) * 100);
+        var junPctOfFinal = Math.round((junRev / JUN_2025) * 100);
+        el = document.getElementById('june-onbooks');
+        if (el) el.textContent = fmtFull(junRev);
+        el = document.getElementById('june-delta');
+        if (el) {
+          var sign = junDelta >= 0 ? '\u2191 +' : '\u2193 ';
+          el.textContent = sign + fmtFull(Math.abs(junDelta)) + '\u00a0(' + (junDelta >= 0 ? '+' : '') + junPct + '%) \u2014 ' + (junDelta >= 0 ? 'ahead of 2025 final' : 'behind 2025 final');
+          el.className = 'pace-delta ' + (junDelta >= 0 ? 'delta-up' : 'delta-down');
+        }
+        el = document.getElementById('june-status');
+        if (el) {
+          if (junRev >= JUN_2025) {
+            el.textContent = junPctOfFinal + '% of 2025 — Ahead';
+            el.className = 'status-pill status-ahead';
+          } else {
+            el.textContent = junPctOfFinal + '% of 2025 Pace';
+            el.className = 'status-pill status-open';
+          }
+        }
+        el = document.getElementById('june-pbar');
+        if (el) {
+          el.style.width = Math.min(junPctOfFinal, 100) + '%';
+          if (junRev >= JUN_2025) el.classList.add('over'); else el.classList.remove('over');
+        }
+      }
+
+      // Coverage / snapshot note
+      el = document.getElementById('snapshot-coverage');
+      if (el && mayRev != null && junRev != null) {
+        var mayDelta2  = mayRev - MAY_2025;
+        var mayPct2    = Math.round((mayDelta2 / MAY_2025) * 100);
+        var junDelta2  = junRev - JUN_2025;
+        var junPct2    = Math.round((junDelta2 / JUN_2025) * 100);
+        var junOfFinal = Math.round((junRev / JUN_2025) * 100);
+        var mayStr = mayDelta2 >= 0
+          ? '<strong>May is ' + mayPct2 + '% ahead of 2025 pace</strong> (' + fmtFull(mayRev) + ' on books vs. $72,606 final)'
+          : '<strong>May is ' + Math.abs(mayPct2) + '% behind 2025 pace</strong> (' + fmtFull(mayRev) + ' on books vs. $72,606 final)';
+        var junStr = junDelta2 >= 0
+          ? '<strong>June has surpassed 2025 final pace</strong> (' + fmtFull(junRev) + ' vs. $173,579 &mdash; ' + junOfFinal + '% of 2025 final)'
+          : '<strong>June is at ' + junOfFinal + '% of 2025 final pace</strong> (' + fmtFull(junRev) + ' vs. $173,579)';
+        el.innerHTML = '<strong>How to read this:</strong> Peak season pacing update. ' + mayStr + '. ' + junStr + '. Data: Beyond Pricing, ' + (d.generated_on || '') + ' snapshot (BP-tracked channels only).';
+      }
+
+    })
+    .catch(function (e) { console.warn('weekly-report-data.json load failed:', e); });
+})();
 </script>
 
 </body>

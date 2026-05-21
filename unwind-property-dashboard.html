@@ -242,7 +242,7 @@
     <h1>Unwind Vacation Rentals — Property Performance Dashboard</h1>
     <div class="subtitle">2025 Full-Year · 40 Properties · Source: Beyond Pricing Export + April 2026 Audit</div>
   </div>
-  <div class="meta">Generated May 1, 2026<br>Internal Use Only</div>
+  <div class="meta"><span id="header-date">Generated May 1, 2026</span><br>Internal Use Only</div>
 </div>
 
 <div class="wrapper">
@@ -490,6 +490,19 @@ function renderSummaryCards() {
 
 renderSummaryCards();
 renderTable();
+
+// Dynamic date from weekly-report-data.json
+fetch('./weekly-report-data.json?v=' + Date.now())
+  .then(function(r){ return r.json(); })
+  .then(function(d){
+    var el = document.getElementById('header-date');
+    if (el && d.generated_on) {
+      var p = d.generated_on.split('-');
+      var dt = new Date(+p[0], +p[1]-1, +p[2]);
+      el.textContent = 'Generated ' + dt.toLocaleDateString('en-US', {month:'long', day:'numeric', year:'numeric'});
+    }
+  })
+  .catch(function(){});
 </script>
 </body>
 </html>

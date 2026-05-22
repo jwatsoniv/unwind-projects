@@ -240,7 +240,7 @@
 <div class="page-header">
   <div>
     <h1>Unwind Vacation Rentals — Property Performance Dashboard</h1>
-    <div class="subtitle">2025 Full-Year · 40 Properties · Source: Beyond Pricing Export + April 2026 Audit</div>
+    <div class="subtitle">2025 Full-Year vs 2026 On-Books (May 22 snapshot) · Source: Beyond Pricing Export</div>
   </div>
   <div class="meta"><span id="header-date">Generated May 1, 2026</span><br>Internal Use Only</div>
 </div>
@@ -283,12 +283,15 @@
           <tr>
             <th style="width:28px;">#</th>
             <th onclick="sortBy('name')" data-col="name">Property<i class="sort-icon"></i></th>
-            <th onclick="sortBy('br')" data-col="br" style="width:46px;">BR<i class="sort-icon"></i></th>
-            <th onclick="sortBy('revenue')" data-col="revenue" class="sort-desc" style="width:110px;">2025 Revenue<i class="sort-icon"></i></th>
-            <th onclick="sortBy('bookings')" data-col="bookings" style="width:72px;">Bookings<i class="sort-icon"></i></th>
-            <th onclick="sortBy('adr')" data-col="adr" style="width:66px;">ADR<i class="sort-icon"></i></th>
-            <th onclick="sortBy('avgStay')" data-col="avgStay" style="width:76px;">Avg Stay<i class="sort-icon"></i></th>
-            <th onclick="sortBy('lateRate')" data-col="lateRate" style="width:80px;">Late Rate<i class="sort-icon"></i></th>
+            <th onclick="sortBy('br')" data-col="br" style="width:36px;">BR<i class="sort-icon"></i></th>
+            <th onclick="sortBy('revenue')" data-col="revenue" class="sort-desc" style="width:96px;">2025 Rev<i class="sort-icon"></i></th>
+            <th onclick="sortBy('rev2026')" data-col="rev2026" style="width:96px;">2026 On-Books<i class="sort-icon"></i></th>
+            <th onclick="sortBy('vsLY')" data-col="vsLY" style="width:72px;">vs '25<i class="sort-icon"></i></th>
+            <th onclick="sortBy('bookings')" data-col="bookings" style="width:56px;">Bks '25<i class="sort-icon"></i></th>
+            <th onclick="sortBy('bks2026')" data-col="bks2026" style="width:56px;">Bks '26<i class="sort-icon"></i></th>
+            <th onclick="sortBy('adr')" data-col="adr" style="width:58px;">ADR '25<i class="sort-icon"></i></th>
+            <th onclick="sortBy('adr2026')" data-col="adr2026" style="width:58px;">ADR '26<i class="sort-icon"></i></th>
+            <th onclick="sortBy('lateRate')" data-col="lateRate" style="width:72px;">Late Rate<i class="sort-icon"></i></th>
             <th style="width:230px;">Audit Flag</th>
           </tr>
         </thead>
@@ -299,7 +302,7 @@
   </div>
 
   <p style="font-size:11px;color:var(--muted);text-align:center;margin-top:8px;">
-    Late Rate = bookings with ≤7 days lead time. Revenue = Rental Amount from BP export, accepted non-owner bookings, 2025 check-ins only.
+    2025 = full-year actuals (check-in Jan–Dec 2025). 2026 On-Books = all accepted reservations in BP as of May 22, 2026 (includes future stays still to fill). Late Rate = 2025 bookings ≤7 days lead time.
     Portfolio avg revenue = $20,085/property. Color thresholds: green ≥ avg, yellow within 25% below, red &gt;25% below.
   </p>
 
@@ -385,7 +388,63 @@ function getFiltered() {
 }
 
 function renderTable() {
-  const data = getFiltered().slice().sort((a, b) => {
+  // ─── 2026 ON-BOOKS DATA (BP snapshot May 22 2026) ───────────────────────────
+const data2026 = {
+  'Coconut Grove #204': {rev:56837, bks:29, adr:401, avgStay:4.7},
+  'Madison Drive 4BR Beach House': {rev:48661, bks:19, adr:556, avgStay:4.6},
+  'Beach Club II 4E': {rev:45478, bks:21, adr:451, avgStay:4.4},
+  'Anderson Ocean Club': {rev:38630, bks:19, adr:488, avgStay:4.2},
+  'Palms Resort #902': {rev:38208, bks:24, adr:284, avgStay:4.8},
+  'Grande Cayman Resort #1253': {rev:33584, bks:23, adr:323, avgStay:4.4},
+  'Prince Resort 1205': {rev:27304, bks:20, adr:273, avgStay:4.8},
+  'Hillside Beach House': {rev:21388, bks:23, adr:175, avgStay:5.8},
+  'Brigadune 14a': {rev:21163, bks:7, adr:432, avgStay:7.0},
+  'Sanabel Towers #303': {rev:21117, bks:25, adr:181, avgStay:4.6},
+  'Spinaker #703': {rev:20591, bks:22, adr:180, avgStay:4.8},
+  'Ocean Villas #G2': {rev:20568, bks:29, adr:158, avgStay:4.3},
+  'Holiday Pavilion #210': {rev:18767, bks:24, adr:162, avgStay:5.7},
+  'Covewind 1522': {rev:18524, bks:20, adr:227, avgStay:4.6},
+  'Ocean Reef #518': {rev:17866, bks:15, adr:291, avgStay:3.7},
+  'Covewind 1535': {rev:17811, bks:20, adr:222, avgStay:3.8},
+  'Luster Leaf 104': {rev:17431, bks:23, adr:144, avgStay:5.1},
+  'MB Resort 4216': {rev:14268, bks:18, adr:149, avgStay:5.3},
+  'Beach Cove #412': {rev:14066, bks:21, adr:153, avgStay:4.5},
+  'A Place at the Beach 3L': {rev:14050, bks:20, adr:144, avgStay:4.7},
+  'Beach Cove #507': {rev:13429, bks:21, adr:127, avgStay:4.6},
+  'Covewind 1518': {rev:12863, bks:15, adr:223, avgStay:3.5},
+  'Barefoot #1225 Willow Bend': {rev:12514, bks:15, adr:141, avgStay:6.1},
+  'Emerald Pointe #3B': {rev:12169, bks:20, adr:129, avgStay:4.5},
+  'Barefoot #731 Willow Bend': {rev:11755, bks:15, adr:127, avgStay:5.8},
+  'Sand Dunes Resort 2527': {rev:11106, bks:16, adr:142, avgStay:4.7},
+  'Barefoot #1532 Willow Bend': {rev:10426, bks:10, adr:122, avgStay:13.9},
+  'Monterey Bay #1205': {rev:10376, bks:15, adr:138, avgStay:5.4},
+  'Kingston #215': {rev:10339, bks:16, adr:125, avgStay:5.2},
+  'A Place at the Beach #123': {rev:8874, bks:14, adr:126, avgStay:4.9},
+  'Myrtle Beach Resort #431B': {rev:8721, bks:18, adr:113, avgStay:4.2},
+  'Robbers Roost Villas 909': {rev:8340, bks:11, adr:123, avgStay:7.5},
+  'Barefoot #1635 Havens': {rev:7797, bks:15, adr:119, avgStay:4.3},
+  'Barefoot #1222 Havens': {rev:7578, bks:15, adr:100, avgStay:5.3},
+  'A Place at the Beach #3G': {rev:7530, bks:14, adr:130, avgStay:4.1},
+  'Barefoot #811 Ironwood': {rev:7202, bks:12, adr:85, avgStay:8.3},
+  'Caravelle Resort #125': {rev:6771, bks:15, adr:104, avgStay:4.3},
+  'Cypress Bay #101': {rev:4682, bks:8, adr:95, avgStay:6.6},
+  'Sand Castle #707': {rev:190, bks:1, adr:95, avgStay:2.0},
+};
+
+// New in 2026 (not in 2025 portfolio)
+const newIn2026 = [
+  {name:'Bahama Sands PH7', br:3, rev:27264, bks:13, adr:403},
+  {name:'Shipwatch Pointe E109', br:2, rev:10388, bks:16, adr:125},
+  {name:'The Winds 707 #L', br:2, rev:6043, bks:8, adr:181},
+  {name:'Murrells Inlet Golf House', br:3, rev:3725, bks:2, adr:262},
+  {name:'Marina Inn 4302', br:2, rev:2876, bks:5, adr:153},
+  {name:'A Place At The Beach II 3-B', br:2, rev:7747, bks:13, adr:121},
+  {name:'Arcadian Dunes #170', br:2, rev:431, bks:1, adr:216},
+  {name:'Forest Dunes 404', br:2, rev:397, bks:1, adr:199},
+  {name:'Robbers Roost 829', br:2, rev:481, bks:1, adr:120},
+];
+
+const data = getFiltered().slice().sort((a, b) => {
     const av = typeof a[sortCol] === 'string' ? a[sortCol].toLowerCase() : a[sortCol];
     const bv = typeof b[sortCol] === 'string' ? b[sortCol].toLowerCase() : b[sortCol];
     if (av < bv) return sortDir;
@@ -397,37 +456,69 @@ function renderTable() {
   tbody.innerHTML = data.map((p, i) => {
     const rc = rowClass(p.revenue);
     const lc = lateClass(p.lateRate);
+    const d26 = data2026[p.name] || null;
+    const rev26 = d26 ? d26.rev : null;
+    const bks26 = d26 ? d26.bks : null;
+    const adr26 = d26 ? d26.adr : null;
+    const vsLY = (rev26 !== null && p.revenue > 0) ? Math.round((rev26 - p.revenue) / p.revenue * 100) : null;
+    const vsLYStr = vsLY !== null ? `<span style="color:${vsLY>=0?'#38a169':'#e53e3e'};font-weight:700;">${vsLY>=0?'+':''}${vsLY}%</span>` : '<span style="color:var(--muted);">new</span>';
     return `<tr class="${rc}">
       <td class="td-num" style="color:var(--muted);font-size:11px;">${i + 1}</td>
       <td class="td-name">${p.name}</td>
       <td class="td-br">${p.br}</td>
       <td class="td-num td-revenue">${fmt$(p.revenue)}</td>
+      <td class="td-num" style="color:var(--accent);font-weight:700;">${rev26 !== null ? fmt$(rev26) : '—'}</td>
+      <td class="td-num">${vsLYStr}</td>
       <td class="td-num">${p.bookings}</td>
+      <td class="td-num">${bks26 !== null ? bks26 : '—'}</td>
       <td class="td-num">$${p.adr}</td>
-      <td class="td-num">${p.avgStay.toFixed(1)}n</td>
+      <td class="td-num">${adr26 !== null ? '$'+adr26 : '—'}</td>
       <td class="td-num ${lc}">${fmtPct(p.lateRate)}</td>
-      <td>${flagHTML(p.flagType, p.flagText)}</td>
     </tr>`;
   }).join('');
+
+  // New 2026 properties section
+  if (activeFilter === 'all' || activeFilter === 'flagged') {
+    tbody.insertAdjacentHTML('beforeend', newIn2026.map(p =>
+      `<tr style="background:rgba(56,161,105,0.05);">
+        <td class="td-num" style="color:var(--muted);font-size:11px;">NEW</td>
+        <td class="td-name">${p.name} <span style="font-size:10px;background:#38a169;color:#fff;padding:1px 5px;border-radius:6px;margin-left:4px;">2026</span></td>
+        <td class="td-br">${p.br}</td>
+        <td class="td-num" style="color:var(--muted);">n/a</td>
+        <td class="td-num" style="color:var(--accent);font-weight:700;">${fmt$(p.rev)}</td>
+        <td class="td-num"><span style="color:#38a169;font-weight:700;">NEW</span></td>
+        <td class="td-num" style="color:var(--muted);">n/a</td>
+        <td class="td-num">${p.bks}</td>
+        <td class="td-num" style="color:var(--muted);">n/a</td>
+        <td class="td-num">$${p.adr}</td>
+        <td class="td-num">—</td>
+      </tr>`
+    ).join(''));
+  }
 
   // Summary row
   const totRev = data.reduce((s, p) => s + p.revenue, 0);
   const totBks = data.reduce((s, p) => s + p.bookings, 0);
+  const totRev26 = data.reduce((s, p) => s + (data2026[p.name] ? data2026[p.name].rev : 0), 0);
+  const totBks26 = data.reduce((s, p) => s + (data2026[p.name] ? data2026[p.name].bks : 0), 0);
   const wADR   = data.reduce((s, p) => s + p.adr * p.bookings, 0) / totBks;
-  const wStay  = data.reduce((s, p) => s + p.avgStay * p.bookings, 0) / totBks;
+  const wADR26 = totBks26 > 0 ? data.reduce((s, p) => s + (data2026[p.name] ? data2026[p.name].adr * data2026[p.name].bks : 0), 0) / totBks26 : 0;
   const wLate  = data.reduce((s, p) => s + (p.lateRate / 100) * p.bookings, 0) / totBks * 100;
+  const vsLYTot = totRev > 0 ? Math.round((totRev26 - totRev) / totRev * 100) : 0;
   const flagCount = data.filter(p => p.flagType === 'red' || p.flagType === 'warn').length;
 
   document.getElementById('tableFoot').innerHTML = `<tr class="summary-row">
     <td></td>
-    <td>Portfolio Total / Avg (${data.length} properties)</td>
+    <td>Portfolio Total / Avg (${data.length} properties + ${newIn2026.length} new)</td>
     <td class="td-br">—</td>
     <td class="td-num">${fmt$(totRev)}</td>
+    <td class="td-num" style="color:var(--accent);font-weight:700;">${fmt$(totRev26)}</td>
+    <td class="td-num"><span style="color:${vsLYTot>=0?'#38a169':'#e53e3e'};font-weight:700;">${vsLYTot>=0?'+':''}${vsLYTot}%</span></td>
     <td class="td-num">${totBks}</td>
+    <td class="td-num">${totBks26}</td>
     <td class="td-num">$${Math.round(wADR)}</td>
-    <td class="td-num">${wStay.toFixed(1)}n</td>
+    <td class="td-num">$${Math.round(wADR26)}</td>
     <td class="td-num">${Math.round(wLate)}%</td>
-    <td style="font-size:11px;color:var(--muted);">${flagCount} properties flagged</td>
   </tr>`;
 
   // Update sort indicators

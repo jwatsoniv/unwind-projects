@@ -1,19 +1,19 @@
 {
-  "generated_on": "2026-05-21",
-  "source_file": "BP Reservations 5 21 2026.csv",
+  "generated_on": "2026-05-22",
+  "source_file": "BP Reservations 5 22 2026.csv",
   "current_month": {
     "label": "May 2026",
-    "bookings_on_books": 150,
-    "revenue_on_books": 129994.31
+    "bookings_on_books": 153,
+    "revenue_on_books": 131517.74
   },
   "next_month": {
     "label": "June 2026",
-    "bookings_on_books": 140,
-    "revenue_on_books": 220593.57
+    "bookings_on_books": 144,
+    "revenue_on_books": 223804.57
   },
   "ytd": {
-    "period": "Jan 1 2026 \u2013 May 21 2026",
-    "revenue": 239931.93
+    "period": "Jan 1 2026 \u2013 May 22 2026",
+    "revenue": 251780.49
   },
   "top_3_properties_this_month": [
     {

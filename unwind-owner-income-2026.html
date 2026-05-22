@@ -174,6 +174,111 @@
 <div id="partnerSummaryCard" class="partner-summary-card"></div>
 
 <!-- SCENARIO CARDS -->
+<!-- ── 2026 YTD ACTUALS SCORECARD ─────────────────────────────────────────── -->
+<div class="section-title">📊 2026 YTD Actuals — How We're Tracking</div>
+<div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px 24px;margin-bottom:20px;">
+
+  <!-- Monthly actuals table -->
+  <div style="overflow-x:auto;">
+  <table style="width:100%;border-collapse:collapse;font-size:13px;">
+    <thead>
+      <tr style="border-bottom:2px solid var(--border);">
+        <th style="text-align:left;padding:8px 10px;font-weight:700;color:var(--muted);font-size:11px;text-transform:uppercase;">Month</th>
+        <th style="text-align:right;padding:8px 10px;font-weight:700;color:var(--muted);font-size:11px;text-transform:uppercase;">Bookings</th>
+        <th style="text-align:right;padding:8px 10px;font-weight:700;color:var(--muted);font-size:11px;text-transform:uppercase;">Actual Revenue</th>
+        <th style="text-align:right;padding:8px 10px;font-weight:700;color:var(--muted);font-size:11px;text-transform:uppercase;">Flat 2025 Target</th>
+        <th style="text-align:right;padding:8px 10px;font-weight:700;color:var(--muted);font-size:11px;text-transform:uppercase;">BP Target</th>
+        <th style="text-align:right;padding:8px 10px;font-weight:700;color:var(--muted);font-size:11px;text-transform:uppercase;">vs Flat 2025</th>
+        <th style="text-align:left;padding:8px 10px;font-weight:700;color:var(--muted);font-size:11px;text-transform:uppercase;">Bar</th>
+      </tr>
+    </thead>
+    <tbody id="ytd-actuals-body">
+      <!-- filled by JS -->
+    </tbody>
+    <tfoot>
+      <tr style="border-top:2px solid var(--border);background:rgba(43,108,176,0.05);">
+        <td style="padding:10px;font-weight:700;">YTD Total</td>
+        <td style="text-align:right;padding:10px;font-weight:700;" id="ytd-bookings-total"></td>
+        <td style="text-align:right;padding:10px;font-weight:700;color:var(--accent);" id="ytd-actual-total"></td>
+        <td style="text-align:right;padding:10px;color:var(--muted);" id="ytd-flat-total"></td>
+        <td style="text-align:right;padding:10px;color:var(--muted);" id="ytd-bp-total"></td>
+        <td style="text-align:right;padding:10px;font-weight:700;" id="ytd-vs-flat"></td>
+        <td></td>
+      </tr>
+    </tfoot>
+  </table>
+  </div>
+
+  <!-- May note -->
+  <div style="margin-top:14px;padding:12px 16px;background:rgba(56,161,105,0.08);border-left:3px solid #38a169;border-radius:6px;font-size:12px;color:var(--text);">
+    <strong>May 2026 (in progress):</strong> $89,646 checked in as of May 22 · $41,872 still to arrive · <strong>$131,518 full-month on books</strong> · 47 active properties
+  </div>
+
+  <!-- Run-rate callout -->
+  <div style="margin-top:12px;display:flex;gap:16px;flex-wrap:wrap;">
+    <div style="flex:1;min-width:160px;background:rgba(43,108,176,0.07);border-radius:10px;padding:14px 18px;">
+      <div style="font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;margin-bottom:4px;">YTD Actual (through May 22)</div>
+      <div style="font-size:26px;font-weight:800;color:var(--accent);">$247,907</div>
+      <div style="font-size:11px;color:var(--muted);margin-top:2px;">Guest revenue, accepted stays checked in</div>
+    </div>
+    <div style="flex:1;min-width:160px;background:rgba(56,161,105,0.07);border-radius:10px;padding:14px 18px;">
+      <div style="font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;margin-bottom:4px;">Peak Season On Books</div>
+      <div style="font-size:26px;font-weight:800;color:#38a169;">$599,866</div>
+      <div style="font-size:11px;color:var(--muted);margin-top:2px;">May–Aug combined (current BP snapshot)</div>
+    </div>
+    <div style="flex:1;min-width:160px;background:rgba(113,128,150,0.07);border-radius:10px;padding:14px 18px;">
+      <div style="font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;margin-bottom:4px;">vs 2025 Peak Season Final</div>
+      <div style="font-size:26px;font-weight:800;color:#d69e2e;">+5.5%</div>
+      <div style="font-size:11px;color:var(--muted);margin-top:2px;">2025 May–Aug actual: $568,820 (with months still filling)</div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── 2026 YTD ACTUALS DATA ─────────────────────────────────────────────────────
+// Source: BP Reservations 5 22 2026.csv — accepted, non-owner stays, checked-in <= May 22
+const ytdActuals = [
+  { month:'Jan', bookings:12,  actual:9413,   flat:12789,  bp:12789  },
+  { month:'Feb', bookings:24,  actual:11663,  flat:16446,  bp:16446  },
+  { month:'Mar', bookings:131, actual:57984,  flat:82095,  bp:82095  },
+  { month:'Apr', bookings:140, actual:79201,  flat:108673, bp:108673 },
+  { month:'May', bookings:115, actual:89646,  flat:180260, bp:219602, partial:true, onBooks:131518 },
+];
+
+(function buildYTDTable() {
+  const tbody = document.getElementById('ytd-actuals-body');
+  if (!tbody) return;
+  let totActual=0, totFlat=0, totBP=0, totBookings=0;
+  ytdActuals.forEach(function(r) {
+    const pct = Math.min(100, Math.round(r.actual / r.flat * 100));
+    const diff = r.actual - r.flat;
+    const diffColor = diff >= 0 ? '#38a169' : '#e53e3e';
+    const diffStr = (diff >= 0 ? '+' : '') + '$' + Math.abs(diff).toLocaleString();
+    const barW = Math.min(100, Math.round(r.actual / r.flat * 100));
+    const note = r.partial ? '<span style="font-size:10px;color:var(--muted);"> (partial)</span>' : '';
+    tbody.insertAdjacentHTML('beforeend',
+      '<tr style="border-bottom:1px solid var(--border);">'+
+      '<td style="padding:8px 10px;font-weight:600;">'+r.month+note+'</td>'+
+      '<td style="text-align:right;padding:8px 10px;color:var(--muted);">'+r.bookings+'</td>'+
+      '<td style="text-align:right;padding:8px 10px;font-weight:700;color:var(--accent);">$'+r.actual.toLocaleString()+'</td>'+
+      '<td style="text-align:right;padding:8px 10px;color:var(--muted);">$'+r.flat.toLocaleString()+'</td>'+
+      '<td style="text-align:right;padding:8px 10px;color:var(--muted);">$'+r.bp.toLocaleString()+'</td>'+
+      '<td style="text-align:right;padding:8px 10px;font-weight:700;color:'+diffColor+';">'+diffStr+'</td>'+
+      '<td style="padding:8px 10px;min-width:80px;"><div style="background:var(--border);border-radius:4px;height:8px;"><div style="background:var(--accent);border-radius:4px;height:8px;width:'+barW+'%;"></div></div></td>'+
+      '</tr>'
+    );
+    totActual += r.actual; totFlat += r.flat; totBP += r.bp; totBookings += r.bookings;
+  });
+  const totDiff = totActual - totFlat;
+  const totDiffColor = totDiff >= 0 ? '#38a169' : '#e53e3e';
+  document.getElementById('ytd-bookings-total').textContent = totBookings;
+  document.getElementById('ytd-actual-total').textContent = '$'+totActual.toLocaleString();
+  document.getElementById('ytd-flat-total').textContent = '$'+totFlat.toLocaleString();
+  document.getElementById('ytd-bp-total').textContent = '$'+totBP.toLocaleString();
+  document.getElementById('ytd-vs-flat').innerHTML = '<span style="color:'+totDiffColor+';">'+(totDiff>=0?'+':'')+' $'+Math.abs(totDiff).toLocaleString()+'</span>';
+})();
+</script>
+
 <div class="section-title">What You Keep - 5 Revenue Scenarios</div>
 <div class="scenario-grid">
 

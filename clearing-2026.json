@@ -1,0 +1,40 @@
+{
+  "year": 2026,
+  "period": "All of 2026 (YTD)",
+  "summary": {
+    "commission": 146185.15,
+    "total_markups": 0.00,
+    "reimbursable_expenses": 21826.51,
+    "deductible_items": -1737.02,
+    "other_debits": -158970.53,
+    "other_credits": 275347.80,
+    "net": 282651.91
+  },
+  "by_category": {
+    "revenue": {
+      "accommodation_fare_total": 450.98,
+      "cancellation_fee": 100.00,
+      "cleaning_fee_collected": 211565.65,
+      "host_fee": 50.10,
+      "management_fee": 56464.71,
+      "processing_fees": 6399.94,
+      "resolution_payout": 316.42,
+      "cleaning_reimbursable": 10859.00,
+      "laundry_reimbursable": 527.04,
+      "maintenance_reimbursable": 7726.56,
+      "repairs_reimbursable": 1039.68,
+      "supplies_reimbursable": 1674.23,
+      "commission": 146185.15
+    },
+    "expense": {
+      "accommodation_fare": -642.00,
+      "bank_fees": -17.88,
+      "cleaning_paid_by_pm": -103717.00,
+      "commission": -42473.66,
+      "funds_transfer": -12119.99,
+      "adjustment_deductible": -1212.92,
+      "cleaning_fee_deductible": -300.00,
+      "resolution_payout_deductible": -224.10
+    }
+  }
+}

@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-title" content="Jane's Volleyball" />
+<meta name="theme-color" content="#1a1333" />
+<title>Jane's Volleyball Journey</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+ :root {
+ --grape: #6c4ab6;
+ --grape-dark: #4a2f87;
+ --sky: #4cc9f0;
+ --sun: #ffb703;
+ --coral: #ff6b9d;
+ --mint: #06d6a0;
+ --cream: #fff8f0;
+ --ink: #2d2150;
+ --soft: #efe7fb;
+ }
+ * { box-sizing: border-box; margin: 0; padding: 0; }
+ html, body {
+ background: var(--cream);
+ color: var(--ink);
+ font-family: 'Nunito', sans-serif;
+ -webkit-font-smoothing: antialiased;
+ min-height: 100vh;
+ }
+ body {
+ background-image:
+ radial-gradient(circle at 15% 5%, rgba(76,201,240,0.12) 0%, transparent 35%),
+ radial-gradient(circle at 85% 90%, rgba(255,107,157,0.12) 0%, transparent 35%),
+ radial-gradient(circle at 90% 15%, rgba(255,183,3,0.1) 0%, transparent 30%);
+ }
+ .wrap { max-width: 900px; margin: 0 auto; padding: 22px 16px 80px; }
+
+ /* HEADER */
+ header {
+ background: linear-gradient(135deg, var(--grape) 0%, var(--grape-dark) 100%);
+ color: #fff;
+ border-radius: 28px;
+ padding: 30px 26px 26px;
+ position: relative;
+ overflow: hidden;
+ box-shadow: 0 12px 28px rgba(108,74,182,0.3);
+ }
+ header::before {
+ content: '🏐';
+ position: absolute;
+ font-size: 130px;
+ right: -20px; top: -28px;
+ opacity: 0.18;
+ transform: rotate(-15deg);
+ }
+ .eyebrow {
+ font-family: 'Fredoka', sans-serif;
+ font-size: 13px;
+ letter-spacing: 0.12em;
+ color: var(--sun);
+ text-transform: uppercase;
+ font-weight: 600;
+ margin-bottom: 6px;
+ }
+ h1 {
+ font-family: 'Baloo 2', sans-serif;
+ font-size: clamp(34px, 6.5vw, 54px);
+ line-height: 1.02;
+ font-weight: 800;
+ }
+ h1 .pop { color: var(--sky); }
+ .sub {
+ font-size: 15px;
+ margin-top: 8px;
+ max-width: 460px;
+ line-height: 1.5;
+ opacity: 0.94;
+ font-weight: 600;
+ }
+
+ /* INFO PILLS */
+ .pills {
+ display: flex;
+ flex-wrap: wrap;
+ gap: 9px;
+ margin-top: 16px;
+ }
+ .pill {
+ background: rgba(255,255,255,0.18);
+ border: 2px solid rgba(255,255,255,0.3);
+ border-radius: 999px;
+ padding: 7px 14px;
+ font-size: 12.5px;
+ font-weight: 700;
+ font-family: 'Fredoka', sans-serif;
+ }
+
+ /* PROGRESS */
+ .progress-card {
+ margin-top: 20px;
+ background: #fff;
+ border-radius: 24px;
+ padding: 22px 24px;
+ box-shadow: 0 6px 18px rgba(45,33,80,0.08);
+ border: 3px solid var(--soft);
+ }
+ .progress-top {
+ display: flex;
+ justify-content: space-between;
+ align-items: center;
+ margin-bottom: 14px;
+ flex-wrap: wrap;
+ gap: 8px;
+ }
+ .progress-top h2 {
+ font-family: 'Baloo 2', sans-serif;
+ font-size: 24px;
+ font-weight: 700;
+ }
+ .progress-stat { font-weight: 800; font-size: 14px; color: var(--grape); }
+ .progress-stat .big {
+ font-family: 'Baloo 2', sans-serif;
+ font-size: 30px;
+ color: var(--coral);
+ }
+ .bar {
+ height: 18px;
+ background: var(--soft);
+ border-radius: 999px;
+ overflow: hidden;
+ }
+ .bar-fill {
+ height: 100%;
+ background: linear-gradient(90deg, var(--sky), var(--mint), var(--sun));
+ width: 0%;
+ border-radius: 999px;
+ transition: width 0.7s cubic-bezier(0.2, 0.9, 0.3, 1);
+ }
+ .cheer {
+ margin-top: 12px;
+ font-family: 'Fredoka', sans-serif;
+ font-weight: 600;
+ font-size: 14px;
+ color: var(--grape);
+ min-height: 20px;
+ }
+ .reset {margin-top: 12px;
+ background: #fff;
+ border: 2px solid var(--soft);
+ border-radius: 999px;
+ padding: 8px 16px;
+ font-family: 'Fredoka', sans-serif;
+ font-size: 12px;
+ font-weight: 600;
+ color: var(--grape);
+ cursor: pointer;
+ transition: all 0.15s;
+ }
+ .reset:hover { background: var(--soft); }
+
+ /* WEEK TABS */
+ .weeks-nav {
+ margin-top: 24px;
+ display: grid;
+ grid-template-columns: repeat(4, 1fr);
+ gap: 10px;
+ }
+ .week-tab {
+ background: #fff;
+ border: 3px solid var(--soft);
+ border-radius: 18px;
+ padding: 14px 6px;
+ cursor: pointer;
+ transition: all 0.2s;
+ text-align: center;
+ position: relative;
+ }
+ .week-tab .num {
+ display: block;
+ font-family: 'Baloo 2', sans-serif;
+ font-size: 30px;
+ font-weight: 800;
+ line-height: 1;
+ color: var(--grape);
+ }
+ .week-tab .label {
+ display: block;
+ font-family: 'Fredoka', sans-serif;
+ font-size: 11px;
+ font-weight: 600;
+ margin-top: 3px;
+ color: var(--ink);
+ opacity: 0.65;
+ }
+ .week-tab:hover { transform: translateY(-2px); }
+ .week-tab.active {
+ background: var(--grape);
+ border-color: var(--grape);
+ }
+ .week-tab.active .num { color: #fff; }
+ .week-tab.active .label { color: var(--sun); opacity: 1; }
+ .week-tab .star {
+ position: absolute;
+ top: -8px; right: -6px;
+ font-size: 20px;
+ opacity: 0;
+ transform: scale(0.5);
+ transition: all 0.3s;
+ }
+ .week-tab.complete .star { opacity: 1; transform: scale(1); }
+
+ /* WEEK HEADER */
+ .week-header {
+ margin-top: 24px;
+ background: #fff;
+ border-radius: 22px;
+ padding: 20px 22px;
+ border: 3px solid var(--soft);
+ }
+ .week-header h2 {
+ font-family: 'Baloo 2', sans-serif;
+ font-size: 30px;
+ font-weight: 800;
+ line-height: 1.1;
+ }
+ .week-header .focus {
+ font-family: 'Fredoka', sans-serif;
+ font-size: 14px;
+ font-weight: 600;
+ color: var(--coral);
+ margin-top: 3px;
+ }
+ .week-header .quote {
+ margin-top: 10px;
+ font-size: 14px;
+ font-weight: 600;
+ background: var(--soft);
+ border-radius: 14px;
+ padding: 10px 14px;
+ line-height: 1.45;
+ }
+ .week-header .quote .emoji { font-size: 16px; }
+
+ /* DAYS */
+ .days { margin-top: 18px; display: flex; flex-direction: column; gap: 13px; }
+ .day {
+ background: #fff;
+ border-radius: 20px;
+ border: 3px solid var(--soft);
+ overflow: hidden;
+ transition: all 0.25s;
+ }
+ .day.complete {
+ border-color: var(--mint);
+ background: #f0fdf8;
+ }
+ .day-head {
+ display: flex;
+ align-items: center;
+ gap: 14px;
+ padding: 16px 18px;
+ cursor: pointer;
+ user-select: none;
+ }
+ .day-icon {
+ width: 46px; height: 46px;
+ border-radius: 14px;
+ background: var(--grape);
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ font-size: 24px;
+ flex-shrink: 0;
+ }
+ .day.complete .day-icon { background: var(--mint); }
+ .day-title { flex: 1; }
+ .day-title .name {
+ font-family: 'Baloo 2', sans-serif;
+ font-size: 19px;
+ font-weight: 700;
+ line-height: 1.1;
+ }
+ .day-title .type {
+ font-family: 'Fredoka', sans-serif;
+ font-size: 12px;
+ font-weight: 500;
+ color: var(--grape);
+ margin-top: 1px;
+ }
+ .day-count {
+ font-family: 'Fredoka', sans-serif;
+ font-weight: 600;
+ font-size: 13px;
+ background: var(--soft);
+ color: var(--grape);
+ padding: 6px 12px;
+ border-radius: 999px;
+ }
+ .day.complete .day-count {
+ background: var(--mint);
+ color: #fff;
+ }
+ .chev { font-size: 15px; opacity: 0.5; transition: transform 0.3s; }
+ .day.open .chev { transform: rotate(180deg); }
+
+ .day-body {
+ max-height: 0;
+ overflow: hidden;
+ transition: max-height 0.4s ease;
+ }
+ .day.open .day-body { max-height: 1800px; }
+
+ .tasks { padding: 6px 16px 18px; display: flex; flex-direction: column; gap: 9px; }
+ .task {
+ display: flex;
+ gap: 13px;
+ padding: 13px 14px;
+ border-radius: 14px;
+ background: var(--cream);
+ border: 2px solid var(--soft);
+ cursor: pointer;transition: all 0.15s;
+ align-items: flex-start;
+ }
+ .task:hover { background: var(--soft); }
+ .task.done {
+ background: #eafff7;
+ border-color: var(--mint);
+ }
+ .task.done .task-text { opacity: 0.55; }
+ .task.done .task-text strong { text-decoration: line-through; }
+ .checkbox {
+ width: 26px; height: 26px;
+ border: 3px solid var(--grape);
+ border-radius: 9px;
+ flex-shrink: 0;
+ background: #fff;
+ position: relative;
+ transition: all 0.15s;
+ }
+ .task.done .checkbox {
+ background: var(--mint);
+ border-color: var(--mint);
+ }
+ .task.done .checkbox::after {
+ content: '✓';
+ position: absolute;
+ color: #fff;
+ font-size: 18px;
+ font-weight: 800;
+ top: 50%; left: 50%;
+ transform: translate(-50%, -56%);
+ }
+ .task-text { flex: 1; font-size: 14.5px; line-height: 1.5; font-weight: 600; }
+ .task-text .tag {
+ display: inline-block;
+ font-family: 'Fredoka', sans-serif;
+ font-size: 10px;
+ font-weight: 600;
+ border-radius: 999px;
+ padding: 2px 9px;
+ margin-right: 7px;
+ color: #fff;
+ vertical-align: 1px;
+ }
+ .tag.warm { background: var(--sun); }
+ .tag.serve { background: var(--coral); }
+ .tag.pass { background: var(--sky); }
+ .tag.set { background: var(--grape); }
+ .tag.move { background: var(--mint); }
+ .tag.fun { background: #b56cff; }
+
+ /* TIPS BOX */
+ .tips {
+ margin-top: 24px;
+ background: linear-gradient(135deg, var(--sky), var(--grape));
+ color: #fff;
+ border-radius: 24px;
+ padding: 24px;
+ }
+ .tips h3 {
+ font-family: 'Baloo 2', sans-serif;
+ font-size: 24px;
+ font-weight: 800;
+ margin-bottom: 12px;
+ }
+ .tips ul { list-style: none; display: grid; gap: 9px; }
+ .tips li {
+ font-size: 14px;
+ font-weight: 600;
+ line-height: 1.5;
+ padding-left: 28px;
+ position: relative;
+ }
+ .tips li .ic {
+ position: absolute;
+ left: 0;
+ font-size: 16px;
+ }
+
+ /* MINDSET */
+ .mindset {
+ margin-top: 22px;
+ background: #fff;
+ border: 3px solid var(--soft);
+ border-radius: 24px;
+ padding: 26px 22px;
+ text-align: center;
+ }
+ .mindset .ball { font-size: 38px; }
+ .mindset p {
+ font-family: 'Baloo 2', sans-serif;
+ font-size: clamp(19px, 3.2vw, 26px);
+ font-weight: 700;
+ line-height: 1.25;
+ max-width: 540px;
+ margin: 10px auto 0;
+ }
+ .mindset .signoff {
+ font-family: 'Fredoka', sans-serif;
+ font-size: 13px;
+ font-weight: 600;
+ color: var(--grape);
+ margin-top: 12px;
+ }
+
+ .loading {
+ text-align: center;
+ padding: 40px;
+ font-family: 'Fredoka', sans-serif;
+ font-weight: 600;
+ color: var(--grape);
+ opacity: 0.6;
+ }
+
+ /* CELEBRATION POP */
+ .celebrate {
+ position: fixed;
+ inset: 0;
+ pointer-events: none;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ z-index: 99;
+ }
+ .celebrate .burst {
+ font-family: 'Baloo 2', sans-serif;
+ font-size: 44px;
+ font-weight: 800;
+ color: var(--grape);
+ background: #fff;
+ padding: 18px 34px;
+ border-radius: 22px;
+ box-shadow: 0 14px 40px rgba(45,33,80,0.3);
+ opacity: 0;
+ transform: scale(0.6);
+ }
+ .celebrate.show .burst {
+ animation: pop 1.6s ease forwards;
+ }
+ @keyframes pop {
+ 0% { opacity: 0; transform: scale(0.6); }
+ 20% { opacity: 1; transform: scale(1.1); }
+ 35% { transform: scale(1); }
+ 80% { opacity: 1; }
+ 100% { opacity: 0; transform: scale(1); }
+ }
+
+ @media (max-width: 600px) {
+ h1 { font-size: 36px; }
+ .week-header h2 { font-size: 24px; }
+ .week-tab .num { font-size: 24px; }
+ .day-head { padding: 14px; gap: 11px; }
+ }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+ <header>
+ <div class="eyebrow">★ My Volleyball Journey ★</div>
+ <h1>JANE'S<br/>4-WEEK <span class="pop">PLAN</span></h1>
+ <p class="sub">Little steps, big confidence. Four weeks to walk into tryouts feeling ready. You've got this! 🌟</p>
+ <div class="pills">
+ <span class="pill">🏐 Fundamentals First</span>
+ <span class="pill">⏱ 20–25 min a day</span><span class="pill">📅 4 days a week</span>
+ <span class="pill">🎯 Goal: Make the team</span>
+ </div>
+ </header>
+
+ <div class="progress-card">
+ <div class="progress-top">
+ <h2>My Progress 🌈</h2>
+ <div class="progress-stat"><span class="big" id="pct">0%</span></div>
+ </div>
+ <div class="bar"><div class="bar-fill" id="bar"></div></div>
+ <div class="cheer" id="cheer">Tap a day below to get started! 💪</div>
+ <button class="reset" id="resetBtn">↺ Start Over</button>
+ </div>
+
+ <nav class="weeks-nav" id="weeksNav"></nav>
+
+ <div id="weekContent">
+ <div class="loading">Loading your plan...</div>
+ </div>
+
+ <div class="tips">
+ <h3>Jane's Daily Reminders 💛</h3>
+ <ul>
+ <li><span class="ic">💧</span> Drink water before and after you practice.</li>
+ <li><span class="ic">😊</span> Mistakes are how you learn — laugh them off and try again.</li>
+ <li><span class="ic">🗣️</span> Say the skill out loud as you do it ("platform!", "high hands!"). It helps it stick.</li>
+ <li><span class="ic">⭐</span> Tell someone one thing you got better at today. Being proud is part of training!</li>
+ </ul>
+ </div>
+
+ <div class="mindset">
+ <div class="ball">🏐</div>
+ <p>You don't have to be perfect. You just have to keep showing up. Every rep makes you better!</p>
+ <div class="signoff">— Now grab your ball. Day 1 is waiting! 🌟</div>
+ </div>
+
+</div>
+
+<div class="celebrate" id="celebrate"><div class="burst" id="burstText">Day Done! 🎉</div></div>
+
+<script>
+const PLAN = {
+ weeks: [
+ {
+ title: "Get Comfy",
+ focus: "Make friends with the ball 🏐",
+ quote: "This week is all about feeling good with the ball in your hands. No pressure — just play!",
+ days: [
+ { name: "Day 1", type: "Ball Control", tasks: [
+ { t: "warm", text: "<strong>Warm up:</strong> jog in place 1 min, 10 arm circles each way, 10 jumping jacks" },
+ { t: "pass", text: "<strong>Bump to yourself:</strong> bump the ball straight up, catch it. Do 20. Focus on a flat platform with your arms." },
+ { t: "set", text: "<strong>Set to yourself:</strong> set the ball up with your fingertips, catch it. Do 20. Make a triangle window with your hands." },
+ { t: "fun", text: "<strong>Wall game:</strong> bump or set against a wall as many times in a row as you can. Try to beat 5!" },
+ ]},
+ { name: "Day 2", type: "Serving Start", tasks: [
+ { t: "warm", text: "<strong>Warm up:</strong> jog in place 1 min, arm circles, 5 big lunges each leg" },
+ { t: "serve", text: "<strong>Toss practice:</strong> practice ONLY your serving toss 15 times — toss it up steady in front of you, let it drop. A good toss = a good serve." },
+ { t: "serve", text: "<strong>Underhand serves:</strong> serve into the net or trainer 15 times. It's okay if they don't go far — focus on hitting the ball cleanly." },
+ { t: "fun", text: "<strong>Target game:</strong> pick a spot on the net and try to hit it. Celebrate every time you do!" },
+ ]},
+ { name: "Day 3", type: "Passing Day", tasks: [
+ { t: "warm", text: "<strong>Warm up:</strong> jog in place, arm circles, 10 side-to-side hops" },
+ { t: "pass", text: "<strong>Bump & catch:</strong> bump up and catch, 25 times. Keep your knees bent and arms straight." },
+ { t: "move", text: "<strong>Ready position:</strong> practice your athletic stance — knees bent, hands ready. Hold it 5 times for 10 seconds each." },
+ { t: "pass", text: "<strong>Bump on the move:</strong> bump it up, take one step, bump again. Try 10 in a row." },
+ ]},
+ { name: "Day 4", type: "Fun Friday", tasks: [
+ { t: "warm", text: "<strong>Warm up:</strong> your favorite warm-up from this week" },
+ { t: "fun", text: "<strong>Skill show:</strong> show someone (or film yourself) doing your best bump and best set. Be proud!" },
+ { t: "serve", text: "<strong>Serve challenge:</strong> 10 underhand serves — count how many go over the net." },{ t: "fun", text: "<strong>Free play:</strong> 5 minutes of just playing with the ball however you want!" },
+ ]},
+ ],
+ },
+ {
+ title: "Build Skills",
+ focus: "Sharpen your bump, set & serve ✨",
+ quote: "You already feel better with the ball. Now let's make those skills stronger and steadier!",
+ days: [
+ { name: "Day 1", type: "Passing Power", tasks: [
+ { t: "warm", text: "<strong>Warm up:</strong> jog 1 min, arm circles, 10 jumping jacks, 5 lunges each leg" },
+ { t: "pass", text: "<strong>Bump to yourself:</strong> 30 in a row without catching if you can! Count your best streak." },
+ { t: "pass", text: "<strong>Trainer bumps:</strong> use your volleyball trainer — bump the ball and let the trainer bring it back. Do 20 good ones." },
+ { t: "move", text: "<strong>Shuffle & pass:</strong> shuffle 3 steps to your right, bump, shuffle back, bump. 10 times." },
+ ]},
+ { name: "Day 2", type: "Setting Day", tasks: [
+ { t: "warm", text: "<strong>Warm up:</strong> jog, arm circles, wrist circles, 10 hops" },
+ { t: "set", text: "<strong>Set to yourself:</strong> 30 sets in a row. Soft fingertips, follow through up high." },
+ { t: "set", text: "<strong>Set to the net:</strong> set the ball up toward the top of the net 15 times." },
+ { t: "fun", text: "<strong>Bump-set combo:</strong> bump it up, then set it up, then catch. Try 10 in a row!" },
+ ]},
+ { name: "Day 3", type: "Serving Day", tasks: [
+ { t: "warm", text: "<strong>Warm up:</strong> jog, big arm circles, 5 lunges each leg" },
+ { t: "serve", text: "<strong>Underhand serves:</strong> 20 serves over the net. Count how many make it over." },
+ { t: "serve", text: "<strong>Steady toss:</strong> 15 toss-only reps — same height, same spot every time." },
+ { t: "fun", text: "<strong>Beat your score:</strong> try to make more serves over than Week 1 Day 4!" },
+ ]},
+ { name: "Day 4", type: "Fun Friday", tasks: [
+ { t: "warm", text: "<strong>Warm up:</strong> your choice!" },
+ { t: "move", text: "<strong>Footwork fun:</strong> shuffle side to side for 30 seconds, 3 times. Stay low like a ninja!" },
+ { t: "fun", text: "<strong>Mini-game:</strong> see how long you can keep a bump-set-bump-set rally going with yourself." },
+ { t: "fun", text: "<strong>Proud moment:</strong> tell someone the BEST thing you did in volleyball this week." },
+ ]},
+ ],
+ },
+ {
+ title: "Put It Together",
+ focus: "Combine your skills like a real game 🎮",
+ quote: "In a real game, skills connect. This week you'll string them together — you're becoming a volleyball player!",
+ days: [
+ { name: "Day 1", type: "Combo Skills", tasks: [
+ { t: "warm", text: "<strong>Warm up:</strong> jog 1 min, arm circles, jumping jacks, lunges" },
+ { t: "pass", text: "<strong>Bump-set-bump:</strong> bump up, set up, bump up, catch. Try to get 15 clean combos." },
+ { t: "move", text: "<strong>Move & pass:</strong> use your trainer — pass, shuffle to a new spot, pass again. 15 reps." },
+ { t: "fun", text: "<strong>Streak challenge:</strong> longest bump-to-yourself streak. Beat your record!" },
+ ]},
+ { name: "Day 2", type: "Serve & Pass", tasks: [
+ { t: "warm", text: "<strong>Warm up:</strong> jog, arm circles, 10 side hops, lunges" },
+ { t: "serve", text: "<strong>Serves:</strong> 20 underhand serves. Aim for the same spot each time." },
+ { t: "serve", text: "<strong>Try overhand (just practice):</strong> try 5 overhand serves. It's hard at first — that's normal! Just give it a go." },
+ { t: "pass", text: "<strong>Pass after serve:</strong> serve, then quickly get into ready position like the ball is coming back." },
+ ]},
+ { name: "Day 3", type: "Setting & Targets", tasks: [{ t: "warm", text: "<strong>Warm up:</strong> jog, wrist + arm circles, hops" },
+ { t: "set", text: "<strong>Target setting:</strong> set the ball to hit a target spot near the net, 20 times." },
+ { t: "set", text: "<strong>Set on the move:</strong> set to yourself, take a step, set again. 15 in a row." },
+ { t: "fun", text: "<strong>Trick shot:</strong> try one fun thing — set behind your head, or a super high set. Just for fun!" },
+ ]},
+ { name: "Day 4", type: "Fun Friday", tasks: [
+ { t: "warm", text: "<strong>Warm up:</strong> your favorite!" },
+ { t: "fun", text: "<strong>Skill showcase:</strong> show off your bump, set, AND serve to someone. You've come so far!" },
+ { t: "move", text: "<strong>Quick feet:</strong> 3 rounds of fast shuffles, 30 seconds each." },
+ { t: "fun", text: "<strong>Free play:</strong> 5 minutes of just having fun with the ball." },
+ ]},
+ ],
+ },
+ {
+ title: "Tryout Ready",
+ focus: "Feel confident & shine 🌟",
+ quote: "Final week! You've practiced so much. This week is about feeling ready and walking in with a smile.",
+ days: [
+ { name: "Day 1", type: "Confidence Reps", tasks: [
+ { t: "warm", text: "<strong>Warm up:</strong> full warm-up — jog, arm circles, jacks, lunges" },
+ { t: "pass", text: "<strong>Best bumps:</strong> 25 bumps to yourself, focus on clean form. You know how to do this now!" },
+ { t: "set", text: "<strong>Best sets:</strong> 25 sets to yourself, soft hands, follow through." },
+ { t: "fun", text: "<strong>Smile reps:</strong> do 10 of anything while smiling — coaches love players who look happy to be there!" },
+ ]},
+ { name: "Day 2", type: "Serving Strong", tasks: [
+ { t: "warm", text: "<strong>Warm up:</strong> jog, arm circles, lunges" },
+ { t: "serve", text: "<strong>Game serves:</strong> 20 serves. Pretend each one is in a real game. Take a breath before each serve." },
+ { t: "serve", text: "<strong>Routine practice:</strong> do the SAME thing before every serve (bounce ball twice, breathe, toss). Routines help you stay calm." },
+ { t: "fun", text: "<strong>Count your makes:</strong> how many over the net? Cheer for yourself!" },
+ ]},
+ { name: "Day 3", type: "Game Ready", tasks: [
+ { t: "warm", text: "<strong>Warm up:</strong> your full routine" },
+ { t: "pass", text: "<strong>All skills mix:</strong> 5 min of bump, set, serve — mix them up like a real practice." },
+ { t: "move", text: "<strong>Ready position reps:</strong> practice looking alert and ready — that's what coaches watch for!" },
+ { t: "fun", text: "<strong>Picture it:</strong> close your eyes and imagine doing great at tryouts. You've got this!" },
+ ]},
+ { name: "Day 4", type: "You're Ready!", tasks: [
+ { t: "warm", text: "<strong>Light warm-up:</strong> easy jog and stretches. Don't tire yourself out." },
+ { t: "fun", text: "<strong>Fun reps only:</strong> do your favorite drills, just for joy. Keep it light." },
+ { t: "fun", text: "<strong>Look back:</strong> think about Week 1 vs now. Write down 3 things you got better at!" },
+ { t: "fun", text: "<strong>Pep talk:</strong> tell yourself out loud — \"I worked hard and I'm ready.\" Because you ARE. 🌟" },
+ ]},
+ ],
+ },
+ ],
+};
+
+const CHEERS = [
+ "Tap a day below to get started! 💪",
+ "Great start! Keep going! 🌟",
+ "You're doing amazing! 🏐",
+ "Look at you go! So proud! 💛",
+ "Halfway there — you're a star! ⭐",
+ "Wow, you're really committed! 🔥",
+ "Almost done — finish strong! 💪",
+ "So close! You've got this! 🌈",
+ "INCREDIBLE! You finished it all! 🎉🏐🎉",
+];
+
+let state = {};
+let currentWeek = 0;
+const STORAGE_KEY = "jane-volleyball-progress-v1";
+
+function loadState() {
+ try {
+ const raw = localStorage.getItem(STORAGE_KEY);
+ if (raw) { state = JSON.parse(raw); return; }
+ } catch (e) {}
+ state = {};
+}
+
+function saveState() {
+ try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
+ catch (e) { console.error("Save failed", e); }
+}
+
+function taskKey(w, d, i) { return `w${w}d${d}t${i}`; }
+
+function totals() {
+ let total = 0, done = 0;
+ PLAN.weeks.forEach((wk, wi) => wk.days.forEach((day, di) => day.tasks.forEach((_, ti) => {
+ total++;
+ if (state[taskKey(wi, di, ti)]) done++;
+ })));
+ return { total, done };
+}
+function weekTotals(wi) {
+ let total = 0, done = 0;
+ PLAN.weeks[wi].days.forEach((day, di) => day.tasks.forEach((_, ti) => {
+ total++;
+ if (state[taskKey(wi, di, ti)]) done++;
+ }));
+ return { total, done };
+}
+function dayTotals(wi, di) {
+ let total = PLAN.weeks[wi].days[di].tasks.length, done = 0;
+ PLAN.weeks[wi].days[di].tasks.forEach((_, ti) => { if (state[taskKey(wi, di, ti)]) done++; });
+ return { total, done };
+}
+
+function renderProgress() {
+ const { total, done } = totals();
+ const pct = total === 0 ? 0 : Math.round((done / total) * 100);
+ document.getElementById("pct").textContent = pct + "%";
+ document.getElementById("bar").style.width = pct + "%";
+ const idx = Math.min(CHEERS.length - 1, Math.floor((pct / 100) * (CHEERS.length - 1)));
+ document.getElementById("cheer").textContent = CHEERS[idx];
+ document.querySelectorAll(".week-tab").forEach((tab, i) => {
+ const wt = weekTotals(i);
+ if (wt.done === wt.total && wt.total > 0) tab.classList.add("complete");
+ else tab.classList.remove("complete");
+ });
+}
+
+function renderWeekTabs() {
+ const nav = document.getElementById("weeksNav");
+ nav.innerHTML = "";
+ PLAN.weeks.forEach((wk, i) => {
+ const btn = document.createElement("button");
+ btn.className = "week-tab" + (i === currentWeek ? " active" : "");
+ btn.innerHTML = `<span class="star">⭐</span><span class="num">${i + 1}</span><span class="label">${wk.title}</span>`;
+ btn.onclick = () => { currentWeek = i; renderAll(); };
+ nav.appendChild(btn);
+ });
+}
+
+function renderWeek() {
+ const wk = PLAN.weeks[currentWeek];
+ const container = document.getElementById("weekContent");
+ let html = `
+ <div class="week-header">
+ <h2>Week ${currentWeek + 1}: ${wk.title}</h2>
+ <div class="focus">${wk.focus}</div>
+ <div class="quote"><span class="emoji">💬</span> ${wk.quote}</div>
+ </div>
+ <div class="days">
+ `;
+ const icons = ["🏐", "🎯", "✋", "🎉"];
+ wk.days.forEach((day, di) => {
+ const dt = dayTotals(currentWeek, di);
+ const complete = dt.done === dt.total;
+ html += `
+ <div class="day ${complete ? 'complete' : ''}" data-day="${di}">
+ <div class="day-head" onclick="toggleDay(${di})">
+ <div class="day-icon">${complete ? '⭐' : icons[di]}</div>
+ <div class="day-title">
+ <div class="name">${day.name}</div>
+ <div class="type">${day.type}</div>
+ </div>
+ <div class="day-count">${dt.done}/${dt.total}</div>
+ <div class="chev">▼</div>
+ </div>
+ <div class="day-body"><div class="tasks">
+ `;
+ day.tasks.forEach((task, ti) => {
+ const checked = !!state[taskKey(currentWeek, di, ti)];
+ html += `
+ <div class="task ${checked ? 'done' : ''}" onclick="toggleTask(${di}, ${ti})">
+ <div class="checkbox"></div>
+ <div class="task-text"><span class="tag ${task.t}">${task.t}</span>${task.text}</div>
+ </div>
+ `;
+ });
+ html += `</div></div></div>`;
+ });
+ html += `</div>`;
+ container.innerHTML = html;
+}
+
+function toggleDay(di) {
+ const el = document.querySelector(`.day[data-day="${di}"]`);
+ if (el) el.classList.toggle("open");
+}
+
+function celebrate(msg) {
+ const c = document.getElementById("celebrate");
+ document.getElementById("burstText").textContent = msg;
+ c.classList.remove("show");
+ void c.offsetWidth;
+ c.classList.add("show");
+ setTimeout(() => c.classList.remove("show"), 1700);
+}
+
+function toggleTask(di, ti) {
+ const key = taskKey(currentWeek, di, ti);
+ const wasComplete = (() => { const d = dayTotals(currentWeek, di); return d.done === d.total; })();
+ state[key] = !state[key];
+ const dayEl = document.querySelector(`.day[data-day="${di}"]`);
+ const taskEl = dayEl.querySelectorAll(".task")[ti];
+ if (state[key]) taskEl.classList.add("done");
+ else taskEl.classList.remove("done");
+
+ const dt = dayTotals(currentWeek, di);
+ dayEl.querySelector(".day-count").textContent = `${dt.done}/${dt.total}`;
+ if (dt.done === dt.total) {
+ dayEl.classList.add("complete");
+ dayEl.querySelector(".day-icon").textContent = "⭐";
+ if (!wasComplete) {
+ const allDone = totals();
+ if (allDone.done === allDone.total) celebrate("ALL DONE! 🏆");
+ else celebrate("Day Done! 🎉");
+ }
+ } else {
+ dayEl.classList.remove("complete");
+ const icons = ["🏐", "🎯", "✋", "🎉"];
+ dayEl.querySelector(".day-icon").textContent = icons[di];
+ }
+
+ renderProgress();
+ saveState();
+}
+
+function renderAll() {
+ renderWeekTabs();
+ renderWeek();
+ renderProgress();
+}
+
+document.getElementById("resetBtn").onclick = () => {
+ if (!confirm("Start over? This clears all your stars and checkmarks.")) return;
+ state = {};
+ try { localStorage.removeItem(STORAGE_KEY); } catch (e) {}
+ renderAll();
+};
+
+window.toggleDay = toggleDay;
+window.toggleTask = toggleTask;
+
+loadState();
+renderAll();
+</script>
+</body>
+</html>

@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-title" content="Jack's Training" />
+<meta name="theme-color" content="#0d1b2a" />
+<title>Jack's 4-Week Football Build</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Teko:wght@500;600;700&family=Barlow+Condensed:wght@500;600;700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+ :root {
+ --steel: #0d1b2a;
+ --steel2: #1b263b;
+ --grid: #2a3a52;
+ --turf: #2dc653;
+ --turf-dark: #1a9c3c;
+ --volt: #e8ff3a;
+ --blaze: #ff5400;
+ --ice: #48cae4;
+ --paper: #f4f6f8;
+ --ink: #11181f;
+ }
+ * { box-sizing: border-box; margin: 0; padding: 0; }
+ html, body {
+ background: var(--paper);
+ color: var(--ink);
+ font-family: 'Inter', sans-serif;
+ -webkit-font-smoothing: antialiased;
+ min-height: 100vh;
+ }
+ .wrap { max-width: 920px; margin: 0 auto; padding: 22px 16px 80px; }
+
+ /* HEADER */
+ header {
+ background: var(--steel);
+ color: #fff;
+ border-radius: 18px;
+ padding: 30px 26px 24px;
+ position: relative;
+ overflow: hidden;
+ }
+ header::before {
+ content: '';
+ position: absolute;
+ inset: 0;
+ background-image:
+ repeating-linear-gradient(90deg, transparent, transparent 58px, rgba(255,255,255,0.04) 58px, rgba(255,255,255,0.04) 60px);
+ }
+ header::after {
+ content: '';
+ position: absolute;
+ right: -30px; bottom: -50px;
+ width: 200px; height: 200px;
+ background: radial-gradient(circle, rgba(45,198,83,0.25) 0%, transparent 70%);
+ }
+ .eyebrow {
+ font-family: 'JetBrains Mono', monospace;
+ font-size: 11px;
+ letter-spacing: 0.22em;
+ color: var(--volt);
+ text-transform: uppercase;
+ margin-bottom: 8px;
+ position: relative;
+ }
+ h1 {
+ font-family: 'Teko', sans-serif;
+ font-size: clamp(48px, 9vw, 84px);
+ line-height: 0.86;
+ font-weight: 700;
+ letter-spacing: 0.01em;
+ position: relative;
+ }
+ h1 .turf { color: var(--turf); }
+ .sub {
+ font-size: 14px;
+ margin-top: 10px;
+ max-width: 500px;
+ line-height: 1.55;
+ opacity: 0.85;
+ position: relative;
+ }
+ .statline {
+ margin-top: 16px;
+ display: flex;
+ flex-wrap: wrap;
+ gap: 8px;
+ position: relative;
+ }
+ .stat {
+ background: var(--steel2);
+ border: 1px solid var(--grid);
+ border-radius: 7px;
+ padding: 8px 12px;
+ font-family: 'JetBrains Mono', monospace;
+ font-size: 11px;
+ font-weight: 700;
+ }
+ .stat .v { color: var(--volt); }
+
+ /* SAFETY NOTE */
+ .safety {
+ margin-top: 14px;
+ background: #fff;
+ border: 2px solid var(--grid);
+ border-left: 6px solid var(--blaze);
+ border-radius: 10px;
+ padding: 14px 16px;
+ font-size: 13px;
+ line-height: 1.55;
+ }
+ .safety strong { color: var(--blaze); }
+
+ /* PROGRESS */
+ .progress-card {
+ margin-top: 18px;
+ background: var(--steel);
+ color: #fff;
+ border-radius: 14px;
+ padding: 20px 22px;
+ }
+ .progress-top {
+ display: flex;
+ justify-content: space-between;
+ align-items: center;
+ margin-bottom: 12px;
+ flex-wrap: wrap;
+ gap: 6px;
+ }
+ .progress-top h2 {
+ font-family: 'Teko', sans-serif;
+ font-size: 30px;
+ font-weight: 600;
+ letter-spacing: 0.02em;
+ }
+ .progress-stat { font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 700; }
+ .progress-stat .big {
+ font-family: 'Teko', sans-serif;
+ font-size: 36px;
+ color: var(--turf);
+ margin-right: 4px;
+ }
+ .bar {
+ height: 16px;
+ background: var(--steel2);
+ border: 1px solid var(--grid);
+ border-radius: 8px;overflow: hidden;
+ }
+ .bar-fill {
+ height: 100%;
+ background: linear-gradient(90deg, var(--turf), var(--volt));
+ width: 0%;
+ border-radius: 8px;
+ transition: width 0.6s cubic-bezier(0.2, 0.9, 0.3, 1);
+ }
+ .reset {
+ margin-top: 12px;
+ background: transparent;
+ border: 1px solid var(--grid);
+ color: #fff;
+ border-radius: 7px;
+ padding: 8px 14px;
+ font-family: 'JetBrains Mono', monospace;
+ font-size: 11px;
+ text-transform: uppercase;
+ letter-spacing: 0.1em;
+ cursor: pointer;
+ transition: all 0.15s;
+ }
+ .reset:hover { background: var(--blaze); border-color: var(--blaze); }
+
+ /* WEEK TABS */
+ .weeks-nav {
+ margin-top: 22px;
+ display: grid;
+ grid-template-columns: repeat(4, 1fr);
+ gap: 8px;
+ }
+ .week-tab {
+ background: #fff;
+ border: 2px solid var(--grid);
+ border-radius: 10px;
+ padding: 12px 6px;
+ cursor: pointer;
+ transition: all 0.18s;
+ text-align: center;
+ position: relative;
+ }
+ .week-tab .num {
+ display: block;
+ font-family: 'Teko', sans-serif;
+ font-size: 30px;
+ font-weight: 700;
+ line-height: 1;
+ color: var(--steel);
+ }
+ .week-tab .label {
+ display: block;
+ font-family: 'Barlow Condensed', sans-serif;
+ font-size: 12px;
+ font-weight: 600;
+ text-transform: uppercase;
+ letter-spacing: 0.04em;
+ margin-top: 2px;
+ color: var(--ink);
+ opacity: 0.6;
+ }
+ .week-tab:hover { border-color: var(--turf); }
+ .week-tab.active {
+ background: var(--steel);
+ border-color: var(--steel);
+ }
+ .week-tab.active .num { color: var(--volt); }
+ .week-tab.active .label { color: var(--turf); opacity: 1; }
+ .week-tab .done-flag {
+ position: absolute;
+ top: -7px; right: -7px;
+ width: 20px; height: 20px;
+ background: var(--turf);
+ border-radius: 50%;
+ color: #fff;
+ font-size: 12px;
+ font-weight: 800;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ opacity: 0;
+ transform: scale(0.5);
+ transition: all 0.25s;
+ }
+ .week-tab.complete .done-flag { opacity: 1; transform: scale(1); }
+
+ /* WEEK HEADER */
+ .week-header {
+ margin-top: 22px;
+ padding: 18px 20px;
+ background: var(--steel2);
+ color: #fff;
+ border-radius: 12px;
+ }
+ .week-header h2 {
+ font-family: 'Teko', sans-serif;
+ font-size: 42px;
+ font-weight: 700;
+ line-height: 1;
+ letter-spacing: 0.02em;
+ }
+ .week-header .focus {
+ font-family: 'Barlow Condensed', sans-serif;
+ font-size: 15px;
+ font-weight: 600;
+ text-transform: uppercase;
+ letter-spacing: 0.08em;
+ color: var(--volt);
+ margin-top: 2px;
+ }
+ .week-header .note {
+ margin-top: 10px;
+ font-size: 13px;
+ line-height: 1.5;
+ opacity: 0.85;
+ }
+
+ /* DAYS */
+ .days { margin-top: 16px; display: flex; flex-direction: column; gap: 11px; }
+ .day {
+ background: #fff;
+ border: 2px solid var(--grid);
+ border-radius: 12px;
+ overflow: hidden;
+ transition: all 0.22s;
+ }
+ .day.complete { border-color: var(--turf); }
+ .day-head {
+ display: flex;
+ align-items: center;
+ gap: 13px;
+ padding: 14px 16px;
+ cursor: pointer;
+ user-select: none;
+ }
+ .day-tag {
+ font-family: 'JetBrains Mono', monospace;
+ font-size: 10px;
+ font-weight: 700;
+ text-transform: uppercase;
+ letter-spacing: 0.08em;
+ padding: 5px 9px;
+ border-radius: 6px;
+ flex-shrink: 0;
+ }
+ .day-tag.gym { background: var(--steel); color: var(--volt); }
+ .day-tag.bw { background: var(--turf); color: #fff; }
+ .day-tag.rest { background: var(--ice); color: var(--steel); }
+ .day-title { flex: 1; }
+ .day-title .name {
+ font-family: 'Teko', sans-serif;
+ font-size: 24px;
+ font-weight: 600;
+ line-height: 1;
+ letter-spacing: 0.02em;
+ }
+ .day-title .type {
+ font-family: 'Barlow Condensed', sans-serif;
+ font-size: 12px;
+ font-weight: 600;
+ text-transform: uppercase;
+ letter-spacing: 0.05em;
+ color: var(--turf-dark);
+ margin-top: 1px;
+ }
+ .day-count {
+ font-family: 'JetBrains Mono', monospace;
+ font-weight: 700;font-size: 12px;
+ background: var(--paper);
+ border: 1px solid var(--grid);
+ padding: 5px 10px;
+ border-radius: 6px;
+ }
+ .day.complete .day-count { background: var(--turf); color: #fff; border-color: var(--turf); }
+ .chev { font-size: 14px; opacity: 0.45; transition: transform 0.3s; }
+ .day.open .chev { transform: rotate(180deg); }
+
+ .day-body { max-height: 0; overflow: hidden; transition: max-height 0.4s ease; }
+ .day.open .day-body { max-height: 2600px; }
+
+ .tasks { padding: 4px 14px 16px; display: flex; flex-direction: column; gap: 8px; }
+ .block-label {
+ font-family: 'JetBrains Mono', monospace;
+ font-size: 10px;
+ font-weight: 700;
+ text-transform: uppercase;
+ letter-spacing: 0.12em;
+ color: var(--turf-dark);
+ margin: 10px 0 2px;
+ padding-left: 2px;
+ }
+ .block-label:first-child { margin-top: 6px; }
+ .task {
+ display: flex;
+ gap: 12px;
+ padding: 12px 13px;
+ border: 2px solid var(--grid);
+ border-radius: 9px;
+ background: var(--paper);
+ cursor: pointer;
+ transition: all 0.15s;
+ align-items: flex-start;
+ }
+ .task:hover { border-color: var(--turf); }
+ .task.done {
+ background: #eefcf1;
+ border-color: var(--turf);
+ }
+ .task.done .task-text { opacity: 0.5; }
+ .task.done .task-text strong { text-decoration: line-through; }
+ .checkbox {
+ width: 24px; height: 24px;
+ border: 2px solid var(--steel);
+ border-radius: 6px;
+ flex-shrink: 0;
+ background: #fff;
+ position: relative;
+ transition: all 0.15s;
+ }
+ .task.done .checkbox {
+ background: var(--turf);
+ border-color: var(--turf);
+ }
+ .task.done .checkbox::after {
+ content: '✓';
+ position: absolute;
+ color: #fff;
+ font-size: 16px;
+ font-weight: 800;
+ top: 50%; left: 50%;
+ transform: translate(-50%, -56%);
+ }
+ .task-text { flex: 1; font-size: 14px; line-height: 1.5; font-weight: 500; }
+ .task-text strong { font-weight: 700; }
+ .task-text .sets {
+ display: inline-block;
+ font-family: 'JetBrains Mono', monospace;
+ font-size: 11px;
+ font-weight: 700;
+ background: var(--steel);
+ color: var(--volt);
+ padding: 2px 7px;
+ border-radius: 5px;
+ margin-left: 4px;
+ }
+ .task-text .cue {
+ display: block;
+ font-size: 12px;
+ font-weight: 500;
+ opacity: 0.7;
+ margin-top: 3px;
+ font-style: italic;
+ }
+
+ /* RULES BOX */
+ .rules {
+ margin-top: 24px;
+ background: var(--steel);
+ color: #fff;
+ border-radius: 14px;
+ padding: 22px;
+ }
+ .rules h3 {
+ font-family: 'Teko', sans-serif;
+ font-size: 30px;
+ font-weight: 600;
+ color: var(--volt);
+ letter-spacing: 0.02em;
+ margin-bottom: 12px;
+ }
+ .rules ul { list-style: none; display: grid; gap: 8px; }
+ .rules li {
+ font-size: 13px;
+ line-height: 1.55;
+ padding-left: 24px;
+ position: relative;
+ }
+ .rules li::before {
+ content: '▸';
+ position: absolute;
+ left: 4px;
+ color: var(--turf);
+ font-weight: 700;
+ }
+ .rules li strong { color: var(--volt); }
+
+ /* MINDSET */
+ .mindset {
+ margin-top: 20px;
+ background: #fff;
+ border: 2px solid var(--grid);
+ border-radius: 14px;
+ padding: 26px 22px;
+ text-align: center;
+ }
+ .mindset p {
+ font-family: 'Teko', sans-serif;
+ font-size: clamp(24px, 4vw, 36px);
+ font-weight: 600;
+ line-height: 1.1;
+ letter-spacing: 0.02em;
+ max-width: 600px;
+ margin: 0 auto;
+ }
+ .mindset p .hl { color: var(--turf); }
+ .mindset .signoff {
+ font-family: 'JetBrains Mono', monospace;
+ font-size: 11px;
+ margin-top: 12px;
+ letter-spacing: 0.12em;
+ text-transform: uppercase;
+ opacity: 0.55;
+ }
+
+ .loading {
+ text-align: center;
+ padding: 40px;
+ font-family: 'JetBrains Mono', monospace;
+ font-size: 12px;
+ opacity: 0.5;
+ }
+
+ @media (max-width: 600px) {
+ h1 { font-size: 52px; }
+ .week-header h2 { font-size: 32px; }
+ .week-tab .num { font-size: 24px; }
+ .day-head { padding: 12px; gap: 9px; }
+ }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+ <header>
+ <div class="eyebrow">// 4-Week Football Build</div>
+ <h1>JACK.<br/>FASTER. <span class="turf">STRONGER.</span></h1>
+ <p class="sub">Speed, power, and an upper body that catches up to those legs. Gym days at PF, bodyweight days anywhere. Let's build a football player.</p>
+ <div class="statline">
+ <span class="stat">BW <span class="v">106 lb</span></span>
+ <span class="stat">SQUAT <span class="v">185</span></span>
+ <span class="stat">BENCH <span class="v">75x6x3</span></span>
+ <span class="stat">GOAL <span class="v">SPEED + UPPER</span></span>
+ </div>
+ </header>
+
+ <div class="safety">
+ <strong>For Jack — read this first.</strong> You're strong for your age, which is awesome. But you're still growing, so the rule for the next 4 weeks is: <strong>perfect form beats heavy weight, every time.</strong> Always leave 2–3 reps "in the tank" — never grind to total failure, and no max-out singles. If a weight makes your form break down, drop it. Train with Dad spotting. This is how you get strong AND stay healthy.
+ </div>
+
+ <div class="progress-card">
+ <div class="progress-top">
+ <h2>Total Progress</h2>
+ <div class="progress-stat"><span class="big" id="pct">0%</span><span id="frac">0 / 0 done</span></div>
+ </div>
+ <div class="bar"><div class="bar-fill" id="bar"></div></div>
+ <button class="reset" id="resetBtn">↺ Reset Progress</button>
+ </div>
+
+ <nav class="weeks-nav" id="weeksNav"></nav>
+
+ <div id="weekContent">
+ <div class="loading">Loading the plan...</div>
+ </div>
+
+ <div class="rules">
+ <h3>The Rules — Every Week</h3>
+ <ul>
+ <li><strong>Warm up first.</strong> Never lift or sprint cold. 5 min of light cardio + dynamic moves.</li>
+ <li><strong>Form over weight.</strong> If form breaks, the weight is too heavy. Drop it, no ego.</li>
+ <li><strong>Leave 2–3 in the tank.</strong> No maxing, no grinding to failure. You're 13 and growing.</li>
+ <li><strong>Eat to grow.</strong> You're lean at 106 lb. To add muscle you must eat more — protein every meal (eggs, chicken, milk, peanut butter, Greek yogurt) plus plenty of carbs.</li>
+ <li><strong>Sleep 9 hours.</strong> Muscle and speed are built while you sleep. Non-negotiable.</li>
+ <li><strong>Rest days matter.</strong> Don't train hard 7 days straight. Recovery is when you get better.</li>
+ <li><strong>Dad spots gym days.</strong> Always have a spotter for bench and squat.</li>
+ </ul>
+ </div>
+
+ <div class="mindset">
+ <p>Speed is earned in the <span class="hl">off-season</span>. Show up, do the reps, eat, sleep. In four weeks you'll feel the difference.</p>
+ <div class="signoff">— Week 1, Day 1. Let's work.</div>
+ </div>
+
+</div>
+
+<script>
+const PLAN = {
+ weeks: [
+ {
+ title: "Foundation",
+ focus: "Dial in form • Build the base",
+ note: "Week 1 is about clean technique and waking up the muscles. Weights feel a little light on purpose — that's correct. Master the movement now.",
+ days: [
+ { name: "Day 1", type: "Gym — Full Body", kind: "gym", tasks: [
+ { b: "Warm-Up", name: "5 min bike or treadmill walk + leg swings, arm circles", sets: "", cue: "Get your heart rate up and joints loose." },
+ { b: "Lower", name: "Goblet squat", sets: "3 x 10", cue: "Hold a dumbbell at your chest. Sit down between your knees, chest tall." },
+ { b: "Upper Push", name: "Dumbbell bench press", sets: "3 x 10", cue: "Lighter than your barbell max — control the weight down slowly." },
+ { b: "Upper Pull", name: "Lat pulldown", sets: "3 x 10", cue: "Pull the bar to your collarbone, squeeze your back, slow on the way up." },
+ { b: "Core", name: "Plank", sets: "3 x 30 sec", cue: "Straight line head to heels. No sagging hips." },
+ ]},
+ { name: "Day 2", type: "Bodyweight — Speed & Upper", kind: "bw", tasks: [
+ { b: "Warm-Up", name: "Jog in place 2 min + 10 lunges each leg + arm circles", sets: "", cue: "" },
+ { b: "Speed", name: "Sprint drills: high knees, butt kicks, A-skips", sets: "2 x 20 yd each", cue: "Focus on quick feet and pumping your arms." },
+ { b: "Speed", name: "Short sprints — 70% effort", sets: "6 x 20 yd", cue: "Walk back to recover between each. Smooth, not max effort this week." },
+ { b: "Upper Push", name: "Push-ups", sets: "3 x max (good form)", cue: "Hands under shoulders, lower all the way, body straight." },
+ { b: "Upper Pull", name: "Table rows (lie under a sturdy table, pull chest to edge)", sets: "3 x 10", cue: "Squeeze shoulder blades. This builds the back like rows do." },
+ { b: "Core", name: "Hollow body hold", sets: "3 x 20 sec", cue: "Lower back pressed to floor, arms and legs out." },
+ ]},
+ { name: "Day 3", type: "Gym — Full Body", kind: "gym", tasks: [
+ { b: "Warm-Up", name: "5 min cardio + dynamic stretches", sets: "", cue: "" },
+ { b: "Lower", name: "Leg press", sets: "3 x 12", cue: "Don't lock knees hard at the top. Control both directions." },
+ { b: "Upper Push", name: "Seated shoulder press (dumbbells)", sets: "3 x 10", cue: "Press overhead, don't arch your back." },
+ { b: "Upper Pull", name: "Seated cable row", sets: "3 x 12", cue: "Pull to your belly, chest stays tall." },
+ { b: "Arms", name: "Dumbbell curls + tricep pushdowns", sets: "2 x 12 each", cue: "Slow and controlled — no swinging." },
+ { b: "Core", name: "Hanging knee raises or cable crunch", sets: "3 x 12", cue: "" },
+ ]},
+ { name: "Day 4", type: "Bodyweight — Athleticism", kind: "bw", tasks: [
+ { b: "Warm-Up", name: "Jog 2 min + dynamic stretches", sets: "", cue: "" },
+ { b: "Power", name: "Squat jumps", sets: "3 x 8", cue: "Land soft and quiet, bend knees to absorb. Quality over height." },
+ { b: "Agility", name: "Lateral shuffles (5 yd each way)", sets: "4 rounds", cue: "Stay low in athletic stance, don't cross your feet." },
+ { b: "Upper Push", name: "Incline push-ups (hands on couch/bench)", sets: "3 x 12", cue: "" },
+ { b: "Lower", name: "Walking lunges", sets: "3 x 10 each leg", cue: "Knee tracks over toes, tall posture." },
+ { b: "Core", name: "Bicycle crunches", sets: "3 x 20", cue: "Slow and controlled." },
+ ]},
+ { name: "Day 5", type: "Rest / Recovery", kind: "rest", tasks: [
+ { b: "Recovery", name: "Full rest or light walk", sets: "", cue: "Stretch 10 min if you feel tight." },
+ { b: "Fuel", name: "Eat big — protein every meal", sets: "", cue: "This is when your body builds. Don't skip meals." },
+ ]},
+ ],
+ },
+ {
+ title: "Build",
+ focus: "Add volume • Push the pace",
+ note: "Form is solid now, so we add a set here and there and pick up sprint intensity. You can nudge gym weights up a little IF form stays clean.",
+ days: [
+ { name: "Day 1", type: "Gym — Full Body", kind: "gym", tasks: [
+ { b: "Warm-Up", name: "5 min cardio + dynamic moves", sets: "", cue: "" },
+ { b: "Lower", name: "Goblet squat", sets: "4 x 10", cue: "Add a little weight if last week felt easy with perfect form." },
+ { b: "Upper Push", name: "Dumbbell bench press", sets: "4 x 8", cue: "Upper body focus — controlled reps, full range." },
+ { b: "Upper Pull", name: "Lat pulldown", sets: "4 x 10", cue: "" },
+ { b: "Upper Push", name: "Push-ups (burnout)", sets: "2 x max", cue: "Right after pulldowns — extra upper volume to close the gap." },
+ { b: "Core", name: "Plank", sets: "3 x 40 sec", cue: "" },
+ ]},
+ { name: "Day 2", type: "Bodyweight — Speed & Upper", kind: "bw", tasks: [
+ { b: "Warm-Up", name: "Jog 2 min + dynamic stretches + sprint drills", sets: "", cue: "" },
+ { b: "Speed", name: "Sprints — 85% effort", sets: "8 x 20 yd", cue: "Faster than week 1. Full walk-back recovery." },
+ { b: "Upper Push", name: "Push-ups", sets: "4 x max", cue: "Try to beat last week's numbers." },
+ { b: "Upper Pull", name: "Table rows", sets: "4 x 12", cue: "" },
+ { b: "Upper Push", name: "Pike push-ups (hips up, head toward floor)", sets: "3 x 8", cue: "This hits your shoulders — like an overhead press with no weight." },
+ { b: "Core", name: "Hollow body hold", sets: "3 x 30 sec", cue: "" },
+ ]},
+ { name: "Day 3", type: "Gym — Full Body", kind: "gym", tasks: [
+ { b: "Warm-Up", name: "5 min cardio + dynamic stretches", sets: "", cue: "" },
+ { b: "Lower", name: "Leg press", sets: "4 x 12", cue: "" },
+ { b: "Upper Push", name: "Seated shoulder press", sets: "4 x 8", cue: "" },
+ { b: "Upper Pull", name: "Seated cable row", sets: "4 x 12", cue: "" },
+ { b: "Upper Pull", name: "Face pulls (cable, high)", sets: "3 x 15", cue: "Great for healthy shoulders and posture. Pull toward your eyes." },
+ { b: "Arms", name: "Dumbbell curls + tricep pushdowns", sets: "3 x 12 each", cue: "" },
+ { b: "Core", name: "Hanging knee raises", sets: "3 x 12", cue: "" },
+ ]},
+ { name: "Day 4", type: "Bodyweight — Athleticism", kind: "bw", tasks: [
+ { b: "Warm-Up", name: "Jog 2 min + dynamic stretches", sets: "", cue: "" },
+ { b: "Power", name: "Broad jumps", sets: "4 x 5", cue: "Jump forward as far as you can, land soft and balanced." },
+ { b: "Power", name: "Squat jumps", sets: "3 x 10", cue: "" },
+ { b: "Agility", name: "5-10-5 shuttle (sprint 5yd, back 10yd, finish 5yd)", sets: "5 rounds", cue: "Plant hard and change direction fast. Rest fully between." },
+ { b: "Upper Push", name: "Decline push-ups (feet on couch)", sets: "3 x 10", cue: "Harder version — more upper chest and shoulders." },
+ { b: "Core", name: "Bicycle crunches + leg raises", sets: "3 x 15 each", cue: "" },
+ ]},
+ { name: "Day 5", type: "Rest / Recovery", kind: "rest", tasks: [
+ { b: "Recovery", name: "Full rest or light walk + stretch", sets: "", cue: "" },
+ { b: "Fuel", name: "Eat big — extra protein and carbs", sets: "", cue: "" },
+ ]},
+ ],
+ },
+ {
+ title: "Power",
+ focus: "Explosive speed • Peak intensity",
+ note: "This is the hardest week. Sprints are full effort, jumps are explosive. Gym weight stays controlled — power comes from moving the bar FAST, not heavier.",
+ days: [
+ { name: "Day 1", type: "Gym — Full Body", kind: "gym", tasks: [
+ { b: "Warm-Up", name: "5 min cardio + dynamic moves", sets: "", cue: "" },
+ { b: "Lower", name: "Goblet squat", sets: "4 x 8", cue: "Drive UP fast and explosive, control the way down." },
+ { b: "Upper Push", name: "Dumbbell bench press", sets: "4 x 8", cue: "Press the weight up quick with control." },
+ { b: "Upper Pull", name: "Lat pulldown", sets: "4 x 10", cue: "" },
+ { b: "Upper Push", name: "Dumbbell shoulder press", sets: "3 x 10", cue: "Extra upper volume." },
+ { b: "Core", name: "Plank + side planks", sets: "3 x 45 sec / 30 sec each side", cue: "" },
+ ]},
+ { name: "Day 2", type: "Bodyweight — Speed & Upper", kind: "bw", tasks: [
+ { b: "Warm-Up", name: "Full dynamic warm-up + sprint drills", sets: "", cue: "Warm up well — today is full speed." },
+ { b: "Speed", name: "Sprints — 100% effort", sets: "8 x 25 yd", cue: "All-out. Full recovery between (walk back + 30 sec)." },
+ { b: "Speed", name: "Acceleration starts (3-point stance)", sets: "5 x 10 yd", cue: "Explode out of your stance like the ball was just snapped." },
+ { b: "Upper Push", name: "Push-ups", sets: "4 x max", cue: "" },
+ { b: "Upper Pull", name: "Table rows", sets: "4 x 12", cue: "" },
+ { b: "Core", name: "Hollow body hold + hollow rocks", sets: "3 x 30 sec", cue: "" },
+ ]},
+ { name: "Day 3", type: "Gym — Full Body", kind: "gym", tasks: [
+ { b: "Warm-Up", name: "5 min cardio + dynamic stretches", sets: "", cue: "" },
+ { b: "Lower", name: "Leg press", sets: "4 x 10", cue: "Controlled, explosive press." },
+ { b: "Upper Push", name: "Seated shoulder press", sets: "4 x 8", cue: "" },
+ { b: "Upper Pull", name: "Seated cable row", sets: "4 x 10", cue: "" },
+ { b: "Upper Pull", name: "Face pulls", sets: "3 x 15", cue: "" },
+ { b: "Arms", name: "Curls + tricep pushdowns", sets: "3 x 12 each", cue: "" },
+ { b: "Core", name: "Hanging knee raises", sets: "3 x 15", cue: "" },
+ ]},
+ { name: "Day 4", type: "Bodyweight — Athleticism", kind: "bw", tasks: [
+ { b: "Warm-Up", name: "Full dynamic warm-up", sets: "", cue: "" },
+ { b: "Power", name: "Broad jump into immediate sprint", sets: "5 x (jump + 15 yd)", cue: "Jump, then explode straight into a sprint. Football-specific." },
+ { b: "Power", name: "Tuck jumps", sets: "3 x 8", cue: "Knees to chest, land soft." },
+ { b: "Agility", name: "5-10-5 shuttle", sets: "6 rounds", cue: "Full effort, full rest." },
+ { b: "Upper Push", name: "Decline push-ups", sets: "4 x 10", cue: "" },
+ { b: "Core", name: "Full core circuit: planks, bicycles, leg raises", sets: "3 rounds", cue: "" },
+ ]},
+ { name: "Day 5", type: "Rest / Recovery", kind: "rest", tasks: [
+ { b: "Recovery", name: "Full rest — you earned it. Stretch and walk only.", sets: "", cue: "" },
+ { b: "Fuel", name: "Eat big — this was a hard week", sets: "", cue: "" },
+ ]},
+ ],
+ },
+ {
+ title: "Sharpen",
+ focus: "Stay crisp • Recover • Test yourself",
+ note: "Lighter week on purpose — we pull volume back so your body absorbs all the work and you feel fast and fresh. End the week by re-testing to see your progress.",
+ days: [
+ { name: "Day 1", type: "Gym — Full Body", kind: "gym", tasks: [
+ { b: "Warm-Up", name: "5 min cardio + dynamic moves", sets: "", cue: "" },
+ { b: "Lower", name: "Goblet squat", sets: "3 x 8", cue: "Moderate weight, crisp reps. Don't grind." },
+ { b: "Upper Push", name: "Dumbbell bench press", sets: "3 x 8", cue: "" },
+ { b: "Upper Pull", name: "Lat pulldown", sets: "3 x 10", cue: "" },
+ { b: "Core", name: "Plank", sets: "3 x 40 sec", cue: "" },
+ ]},
+ { name: "Day 2", type: "Bodyweight — Speed", kind: "bw", tasks: [
+ { b: "Warm-Up", name: "Full dynamic warm-up + sprint drills", sets: "", cue: "" },
+ { b: "Speed", name: "Sprints — 90% effort", sets: "5 x 20 yd", cue: "Fast and smooth, but not a grind. Stay sharp." },
+ { b: "Upper Push", name: "Push-ups", sets: "3 x submax (stop 2 short of max)", cue: "" },
+ { b: "Upper Pull", name: "Table rows", sets: "3 x 10", cue: "" },
+ { b: "Core", name: "Hollow body hold", sets: "3 x 25 sec", cue: "" },
+ ]},
+ { name: "Day 3", type: "Gym — Full Body", kind: "gym", tasks: [
+ { b: "Warm-Up", name: "5 min cardio + dynamic stretches", sets: "", cue: "" },
+ { b: "Lower", name: "Leg press", sets: "3 x 10", cue: "" },
+ { b: "Upper Push", name: "Seated shoulder press", sets: "3 x 8", cue: "" },
+ { b: "Upper Pull", name: "Seated cable row", sets: "3 x 10", cue: "" },
+ { b: "Arms", name: "Curls + tricep pushdowns", sets: "2 x 12 each", cue: "" },
+ { b: "Core", name: "Hanging knee raises", sets: "3 x 12", cue: "" },
+ ]},
+ { name: "Day 4", type: "Test Day — See Your Progress", kind: "bw", tasks: [
+ { b: "Warm-Up", name: "Full dynamic warm-up — warm up well before testing", sets: "", cue: "" },
+ { b: "Test", name: "Max push-ups in one set", sets: "1 set", cue: "Write down the number. Compare to Week 1." },
+ { b: "Test", name: "Standing broad jump — measure your best of 3", sets: "3 attempts", cue: "Mark where you land. This shows your power gain." },
+ { b: "Test", name: "20-yard sprint — have Dad time your best of 3", sets: "3 attempts", cue: "Full recovery between. See how much faster you got." },
+ { b: "Reflect", name: "Write down your 3 test numbers + how you feel vs Week 1", sets: "", cue: "Proof the work paid off. Be proud of it." },
+ ]},
+ { name: "Day 5", type: "Rest / Celebrate", kind: "rest", tasks: [
+ { b: "Recovery", name: "Full rest. Four weeks done — that's real commitment.", sets: "", cue: "" },
+ { b: "Next", name: "Talk to Dad about Phase 2 to keep building", sets: "", cue: "" },
+ ]},
+ ],
+ },
+ ],
+};
+
+let state = {};
+let currentWeek = 0;
+const STORAGE_KEY = "jack-football-progress-v1";
+
+function loadState() {
+ try {
+ const raw = localStorage.getItem(STORAGE_KEY);
+ if (raw) { state = JSON.parse(raw); return; }
+ } catch (e) {}
+ state = {};
+}
+function saveState() {
+ try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
+ catch (e) { console.error("Save failed", e); }
+}
+
+function taskKey(w, d, i) { return `w${w}d${d}t${i}`; }
+
+function totals() {
+ let total = 0, done = 0;
+ PLAN.weeks.forEach((wk, wi) => wk.days.forEach((day, di) => day.tasks.forEach((_, ti) => {
+ total++;
+ if (state[taskKey(wi, di, ti)]) done++;
+ })));
+ return { total, done };
+}
+function weekTotals(wi) {
+ let total = 0, done = 0;
+ PLAN.weeks[wi].days.forEach((day, di) => day.tasks.forEach((_, ti) => {
+ total++;
+ if (state[taskKey(wi, di, ti)]) done++;
+ }));
+ return { total, done };
+}
+function dayTotals(wi, di) {
+ let total = PLAN.weeks[wi].days[di].tasks.length, done = 0;
+ PLAN.weeks[wi].days[di].tasks.forEach((_, ti) => { if (state[taskKey(wi, di, ti)]) done++; });
+ return { total, done };
+}
+
+function renderProgress() {
+ const { total, done } = totals();
+ const pct = total === 0 ? 0 : Math.round((done / total) * 100);
+ document.getElementById("pct").textContent = pct + "%";
+ document.getElementById("frac").textContent = `${done} / ${total} done`;
+ document.getElementById("bar").style.width = pct + "%";
+ document.querySelectorAll(".week-tab").forEach((tab, i) => {
+ const wt = weekTotals(i);
+ if (wt.done === wt.total && wt.total > 0) tab.classList.add("complete");
+ else tab.classList.remove("complete");
+ });
+}
+
+function renderWeekTabs() {
+ const nav = document.getElementById("weeksNav");
+ nav.innerHTML = "";
+ PLAN.weeks.forEach((wk, i) => {
+ const btn = document.createElement("button");
+ btn.className = "week-tab" + (i === currentWeek ? " active" : "");
+ btn.innerHTML = `<span class="done-flag">✓</span><span class="num">${i + 1}</span><span class="label">${wk.title}</span>`;
+ btn.onclick = () => { currentWeek = i; renderAll(); };
+ nav.appendChild(btn);
+ });
+}
+
+function renderWeek() {
+ const wk = PLAN.weeks[currentWeek];
+ const container = document.getElementById("weekContent");
+ let html = `
+ <div class="week-header">
+ <h2>Week ${currentWeek + 1} — ${wk.title}</h2>
+ <div class="focus">${wk.focus}</div>
+ <div class="note">${wk.note}</div>
+ </div>
+ <div class="days">
+ `;
+ wk.days.forEach((day, di) => {
+ const dt = dayTotals(currentWeek, di);
+ const complete = dt.done === dt.total;
+ const kindLabel = day.kind === "gym" ? "PF GYM" : day.kind === "bw" ? "BODYWEIGHT" : "REST";
+ html += `
+ <div class="day ${complete ? 'complete' : ''}" data-day="${di}">
+ <div class="day-head" onclick="toggleDay(${di})">
+ <div class="day-tag ${day.kind}">${kindLabel}</div>
+ <div class="day-title">
+ <div class="name">${day.name}</div>
+ <div class="type">${day.type}</div>
+ </div>
+ <div class="day-count">${dt.done}/${dt.total}</div>
+ <div class="chev">▼</div>
+ </div>
+ <div class="day-body"><div class="tasks">
+ `;
+ let lastBlock = "";
+ day.tasks.forEach((task, ti) => {
+ if (task.b && task.b !== lastBlock) {
+ html += `<div class="block-label">${task.b}</div>`;
+ lastBlock = task.b;
+ }
+ const checked = !!state[taskKey(currentWeek, di, ti)];
+ const setsHtml = task.sets ? `<span class="sets">${task.sets}</span>` : "";
+ const cueHtml = task.cue ? `<span class="cue">${task.cue}</span>` : "";
+ html += `
+ <div class="task ${checked ? 'done' : ''}" onclick="toggleTask(${di}, ${ti})">
+ <div class="checkbox"></div>
+ <div class="task-text"><strong>${task.name}</strong>${setsHtml}${cueHtml}</div>
+ </div>
+ `;
+ });
+ html += `</div></div></div>`;
+ });
+ html += `</div>`;
+ container.innerHTML = html;
+}
+
+function toggleDay(di) {
+ const el = document.querySelector(`.day[data-day="${di}"]`);
+ if (el) el.classList.toggle("open");
+}
+
+function toggleTask(di, ti) {
+ const key = taskKey(currentWeek, di, ti);
+ state[key] = !state[key];
+
+ const dayEl = document.querySelector(`.day[data-day="${di}"]`);
+ const taskEl = dayEl.querySelectorAll(".task")[ti];
+ if (state[key]) taskEl.classList.add("done");
+ else taskEl.classList.remove("done");
+
+ const dt = dayTotals(currentWeek, di);
+ dayEl.querySelector(".day-count").textContent = `${dt.done}/${dt.total}`;
+ if (dt.done === dt.total) dayEl.classList.add("complete");
+ else dayEl.classList.remove("complete");
+
+ renderProgress();
+ saveState();
+}
+
+function renderAll() {
+ renderWeekTabs();
+ renderWeek();
+ renderProgress();
+}
+
+document.getElementById("resetBtn").onclick = () => {
+ if (!confirm("Reset all progress? This clears every checkmark.")) return;
+ state = {};
+ try { localStorage.removeItem(STORAGE_KEY); } catch (e) {}
+ renderAll();
+};
+
+window.toggleDay = toggleDay;
+window.toggleTask = toggleTask;
+
+loadState();
+renderAll();
+</script>
+</body>
+</html>

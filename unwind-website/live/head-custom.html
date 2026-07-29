@@ -1,0 +1,113 @@
+<!-- ============================================================
+     Unwind Vacations — custom HEAD code
+     Destination: OwnerRez → Settings → Hosted Websites →
+       "Unwind Vacations" (live, id 573931745) → Theme & Layout → HEAD tab
+     NOTE: On the live HEAD tab, a pre-existing Facebook Messenger Chat
+     plugin sits ABOVE this block (John's separate integration, not stored
+     here). Paste this block AFTER it. The last line must be </script>.
+     ============================================================ -->
+
+<!-- Google Fonts: Fraunces (headings) + Inter (body/UI) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+<!-- Bedroom quick-filter chips + exact-match filtering (Airbnb-style) -->
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  // Inject "Just browsing?" chips under the hero search bar
+  var searchBar = document.querySelector('.incarousel-search-bar');
+  var form = searchBar ? searchBar.querySelector('form[action="/properties"]') : null;
+  if (form) {
+    var chips = document.createElement('div'); chips.className = 'uw-chips';
+    chips.innerHTML = '<span class="uw-chips-label">Just browsing?</span>' +
+      '<button type="button" class="uw-chip" data-beds="1" data-exact="1">1 Bedroom</button>' +
+      '<button type="button" class="uw-chip" data-beds="2" data-exact="1">2 Bedrooms</button>' +
+      '<button type="button" class="uw-chip" data-beds="3" data-exact="1">3 Bedrooms</button>' +
+      '<button type="button" class="uw-chip" data-beds="4">4+ Bedrooms</button>';
+    searchBar.appendChild(chips);
+    chips.addEventListener('click', function (e) {
+      var b = e.target.getAttribute && e.target.getAttribute('data-beds'); if (!b) return;
+      // 1/2/3 = exact match (client-side filter); 4 = "4 or more" (native)
+      if (e.target.getAttribute('data-exact')) sessionStorage.setItem('uwExactBeds', b);
+      else sessionStorage.removeItem('uwExactBeds');
+      form.querySelectorAll('select[name="Bedrooms"], #Bedrooms').forEach(function(s){ s.value = b; });
+      form.submit();
+    });
+    form.addEventListener('submit', function(){ sessionStorage.removeItem('uwExactBeds'); });
+  }
+
+  // On /properties, if an exact-bedroom flag is set, show only exact matches.
+  // OwnerRez's Bedrooms filter is "N or more" and caps at 12/page, so we
+  // fetch every page of the full list in parallel and keep only exact matches.
+  var exact = sessionStorage.getItem('uwExactBeds');
+  if (exact && location.pathname.indexOf('/properties') === 0) { uwExactFilter(exact); }
+
+  function sizeBeds(card){
+    var sz = card.querySelector('.amenity-summary-size');
+    var t = sz ? sz.textContent : card.textContent;
+    var mm = t.match(/(\d) Bedroom/); return mm ? mm[1] : null;
+  }
+  function isCard(ch){ return ch.tagName === 'HR' || (ch.querySelector && ch.querySelector('h2[id^="pname-"]')); }
+  function uwNote(text, withBtn){
+    var n0 = document.querySelector('.row');
+    var note = document.querySelector('.uw-filter-note');
+    if (!note) {
+      note = document.createElement('div'); note.className = 'uw-filter-note';
+      var anchor = document.querySelector('h2[id^="pname-"]');
+      anchor = anchor ? anchor.closest('.row') : n0;
+      if (anchor && anchor.parentNode) anchor.parentNode.insertBefore(note, anchor);
+    }
+    note.innerHTML = '<span>' + text + '</span>' +
+      (withBtn ? ' <button type="button" class="uw-chip" id="uw-show-all">Show all homes</button>' : '');
+    var sa = document.getElementById('uw-show-all');
+    if (sa) sa.addEventListener('click', function(){ sessionStorage.removeItem('uwExactBeds'); location.href = '/properties'; });
+  }
+  async function uwExactFilter(n){
+    var names = document.querySelectorAll('h2[id^="pname-"]'); if (!names.length) return;
+    var container = names[0].closest('.row').parentNode;
+    [].slice.call(container.children).forEach(function(ch){ if (isCard(ch)) ch.style.display = 'none'; });
+    uwNote('Finding all ' + n + '-bedroom homes…', false);
+    try {
+      var first = await fetch('/properties?Page=1', {credentials: 'same-origin'}).then(function(r){ return r.text(); });
+      var d1 = new DOMParser().parseFromString(first, 'text/html');
+      var tm = (d1.body.textContent.match(/of\s+(\d+)\s+places/i) || d1.body.textContent.match(/(\d+)\s+properties/i));
+      var total = tm ? parseInt(tm[1], 10) : 56; var pages = Math.min(10, Math.ceil(total / 12));
+      var reqs = [Promise.resolve(d1)];
+      for (var p = 2; p <= pages; p++) {
+        reqs.push(fetch('/properties?Page=' + p, {credentials: 'same-origin'})
+          .then(function(r){ return r.text(); })
+          .then(function(t){ return new DOMParser().parseFromString(t, 'text/html'); })
+          .catch(function(){ return null; }));
+      }
+      var docs = await Promise.all(reqs);
+      var seen = {}, matches = [];
+      docs.forEach(function(doc){
+        if (!doc) return;
+        doc.querySelectorAll('h2[id^="pname-"]').forEach(function(h){
+          var card = h.closest('.row'); if (!card) return;
+          var a = card.querySelector('a[href^="/"]'); var key = a ? a.getAttribute('href') : h.id;
+          if (seen[key]) return;
+          if (sizeBeds(card) === n) { seen[key] = 1; matches.push(card); }
+        });
+      });
+      [].slice.call(container.children).forEach(function(ch){ if (isCard(ch)) ch.remove(); });
+      matches.forEach(function(c){ container.appendChild(document.importNode(c, true)); });
+      document.querySelectorAll('.pagination, ul.pagination').forEach(function(el){ el.style.display = 'none'; });
+      var hdr = [].slice.call(document.querySelectorAll('h1,h2,h3,h4,div,span,p')).find(function(el){
+        return el.children.length === 0 && /^\s*\d+\s+propert/i.test(el.textContent);
+      });
+      if (hdr) hdr.textContent = matches.length + ' ' + (matches.length === 1 ? 'property' : 'properties');
+      uwNote(matches.length
+        ? ('Showing all <strong>' + matches.length + '</strong> ' + n + '-bedroom homes')
+        : ('No ' + n + '-bedroom homes available right now'), true);
+    } catch (e) {
+      // Fallback: single-page hide if fetching fails
+      [].slice.call(container.children).forEach(function(ch){ if (isCard(ch)) ch.style.display = ''; });
+      var re = new RegExp('\\b' + n + ' Bedroom');
+      names.forEach(function(nm){ var c = nm.closest('.row'); if (c && !re.test(c.textContent)) c.style.display = 'none'; });
+      uwNote('Showing ' + n + '-bedroom homes', true);
+    }
+  }
+});
+</script>

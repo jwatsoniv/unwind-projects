@@ -1,0 +1,32 @@
+/* ============================================================
+   Unwind Vacations — custom SITE CSS (the parts added in this project)
+   Destination: OwnerRez → Settings → Hosted Websites →
+     "Unwind Vacations" (live, id 573931745) → Theme & Layout → CSS tab
+   These rules are APPENDED to the bottom of the CSS tab. The live CSS tab
+   also contains PRE-EXISTING OwnerRez custom styling (hero text sizing,
+   logo sizing, .property-item card styling) that predates this project and
+   is not reproduced here. Colors match the live theme: navy #1b4f6b,
+   sand #f4f1ea, gold #E8A33D.
+   ============================================================ */
+
+/* ---- Bedroom quick-filter chips (paired with head-custom.html) ---- */
+.uw-chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;align-items:center;padding:10px 12px 2px}
+.uw-chips-label{font-size:14px;color:#6b7280;margin-right:4px}
+.uw-chip{background:#fff;border:1.5px solid #1b4f6b;color:#1b4f6b;border-radius:999px;padding:8px 16px;font-size:14px;font-weight:600;cursor:pointer;line-height:1.2}
+.uw-chip:hover{background:#1b4f6b;color:#fff}
+.uw-filter-note{background:#f4f1ea;border-radius:12px;padding:12px 18px;margin:12px 0;display:flex;align-items:center;gap:14px;flex-wrap:wrap;font-size:15px}
+@media(max-width:767px){.uw-chip{padding:10px 14px}}
+
+/* ---- Guest-rating trust strip (homepage Intro) ---- */
+.uw-rating-strip{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:16px 20px;margin:22px 0;text-align:center;line-height:1.4}
+.uw-rating-strip .uw-stars{color:#E8A33D;font-size:18px;letter-spacing:2px;margin-right:6px}
+.uw-rating-strip strong{color:#1b4f6b;font-size:18px}
+.uw-rating-strip .sub{display:block;color:#6b7280;font-size:14px;margin-top:4px}
+
+/* ---- Book-Direct strip (styles retained; HTML currently removed from
+        the homepage per John's request — kept here for easy re-enable) ---- */
+.uw-bookdirect{display:flex;flex-wrap:wrap;gap:16px;margin:22px 0}
+.uw-bookdirect .col{flex:1 1 240px;background:#f4f1ea;border-radius:12px;padding:22px 20px;text-align:center}
+.uw-bookdirect .col .ic{color:#1b4f6b;font-size:26px;display:block;margin-bottom:10px}
+.uw-bookdirect .col h4{margin:0 0 6px;color:#1b4f6b;font-size:16px;font-weight:600}
+.uw-bookdirect .col p{margin:0;color:#4b5563;font-size:14px;line-height:1.5}

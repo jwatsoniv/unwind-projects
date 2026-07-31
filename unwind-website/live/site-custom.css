@@ -36,3 +36,13 @@
 .uw-bookdirect .col .ic{color:#1b4f6b;font-size:26px;display:block;margin-bottom:10px}
 .uw-bookdirect .col h4{margin:0 0 6px;color:#1b4f6b;font-size:16px;font-weight:600}
 .uw-bookdirect .col p{margin:0;color:#4b5563;font-size:14px;line-height:1.5}
+
+/* ---- Light & airy site background (replaces saturated royal-blue #2F4F90) ---- */
+body, html { background-color:#F6F1E7 !important; }
+.has-fullpage-background, .fullpage-background { background-color:#F6F1E7 !important; }
+/* Soft coastal placeholder so the hero image doesn't flash against a dark bg while loading */
+#carousel-hero, .hero-carousel { background-color:#e7edf0 !important; }
+
+/* ---- Cards float on the lighter background ---- */
+.property-item, .property-listing, .listing-item, .property-search-result, .thumbnail { box-shadow:0 4px 16px rgba(18,59,79,.09) !important; border-radius:12px !important; }
+/* Note: alternate background option considered was deep brand navy #1B4F6B. */

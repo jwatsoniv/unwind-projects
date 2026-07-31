@@ -111,3 +111,25 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 });
 </script>
+
+<!-- Location badges on property cards: surface "Oceanfront/Ocean View/Near Ocean"
+     from the card's existing amenities/title as a navy pill on the photo.
+     Handles both layouts: .thumbnail (results list) and .property-result-tile (home tiles). -->
+<script>
+(function(){
+  var order=[['oceanfront','Oceanfront'],['ocean front','Oceanfront'],['beachfront','Beachfront'],['waterfront','Waterfront'],['ocean view','Ocean View'],['oceanview','Ocean View'],['near ocean','Near Ocean'],['walk to','Walk to Beach']];
+  function badge(){
+    document.querySelectorAll('.thumbnail, .property-result-tile-image').forEach(function(wrap){
+      if(wrap.querySelector('.uw-loc-badge')) return;
+      var tile=wrap.classList.contains('property-result-tile-image'); var card, txt;
+      if(tile){ card=wrap.closest('.property-result-tile'); txt=card?card.textContent:''; }
+      else { card=wrap.closest('.row'); var amen=card?card.querySelector('.amenity-summary-amenities'):null; var title=card?card.querySelector('h2 a, .media-heading a'):null; txt=(amen?amen.textContent:'')+' '+(title?title.textContent:''); }
+      if(!card) return; txt=txt.toLowerCase();
+      var label=null; for(var i=0;i<order.length;i++){ if(txt.indexOf(order[i][0])>-1){label=order[i][1];break;} }
+      if(label){ wrap.style.position='relative'; var s=document.createElement('span'); s.className='uw-loc-badge'; s.textContent=label; wrap.appendChild(s); }
+    });
+  }
+  var t; function run(){ clearTimeout(t); t=setTimeout(badge,60); }
+  document.addEventListener('DOMContentLoaded', function(){ badge(); try{ new MutationObserver(run).observe(document.body,{childList:true,subtree:true}); }catch(e){} });
+})();
+</script>

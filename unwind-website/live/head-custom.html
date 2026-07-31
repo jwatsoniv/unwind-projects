@@ -117,16 +117,29 @@ document.addEventListener('DOMContentLoaded', function () {
      Handles both layouts: .thumbnail (results list) and .property-result-tile (home tiles). -->
 <script>
 (function(){
+  // Per-property label overrides (matched against the TITLE only, so descriptions
+  // mentioning e.g. "Barefoot Landing" don't cause false labels). First match wins.
+  var overrides=[['relaxing haven retreat','Barefoot Resort'],['barefoot','Barefoot Resort'],['anderson ocean club','Oceanfront'],['ocean lakes','Ocean View'],['retro','Ocean View'],['gated oceanfront','Near Ocean'],['emerald pointe','Near Ocean'],['charming 4br beach house','Near Ocean']];
   var order=[['oceanfront','Oceanfront'],['ocean front','Oceanfront'],['beachfront','Beachfront'],['waterfront','Waterfront'],['ocean view','Ocean View'],['oceanview','Ocean View'],['near ocean','Near Ocean'],['walk to','Walk to Beach']];
+  // Pet-friendly property title substrings (cards don't expose pet data as text, so
+  // this manual list catches ones without pet/dog in the title). Add John's list here.
+  var petProps=[];
+  function getTitle(card,tile){ if(!tile){ var t=card.querySelector('h2 a, .media-heading a'); return t?t.textContent:''; } var el=card.querySelector('.property-result-tile-title,.property-result-tile-name'); return el?el.textContent:card.textContent.split(/sleeps|\bbed/i)[0]; }
+  function pill(wrap,cls,text){ wrap.style.position='relative'; var s=document.createElement('span'); s.className=cls; s.textContent=text; wrap.appendChild(s); }
   function badge(){
     document.querySelectorAll('.thumbnail, .property-result-tile-image').forEach(function(wrap){
-      if(wrap.querySelector('.uw-loc-badge')) return;
-      var tile=wrap.classList.contains('property-result-tile-image'); var card, txt;
-      if(tile){ card=wrap.closest('.property-result-tile'); txt=card?card.textContent:''; }
-      else { card=wrap.closest('.row'); var amen=card?card.querySelector('.amenity-summary-amenities'):null; var title=card?card.querySelector('h2 a, .media-heading a'):null; txt=(amen?amen.textContent:'')+' '+(title?title.textContent:''); }
-      if(!card) return; txt=txt.toLowerCase();
-      var label=null; for(var i=0;i<order.length;i++){ if(txt.indexOf(order[i][0])>-1){label=order[i][1];break;} }
-      if(label){ wrap.style.position='relative'; var s=document.createElement('span'); s.className='uw-loc-badge'; s.textContent=label; wrap.appendChild(s); }
+      if(wrap.getAttribute('data-uwb')) return; wrap.setAttribute('data-uwb','1');
+      var tile=wrap.classList.contains('property-result-tile-image');
+      var card=tile?wrap.closest('.property-result-tile'):wrap.closest('.row'); if(!card){wrap.removeAttribute('data-uwb');return;}
+      var amen=card.querySelector('.amenity-summary-amenities');
+      var title=getTitle(card,tile).toLowerCase();
+      var label=null;
+      for(var j=0;j<overrides.length;j++){ if(title.indexOf(overrides[j][0])>-1){ label=overrides[j][1]; break; } }
+      if(!label){ var txt=tile?card.textContent.toLowerCase():((amen?amen.textContent:'')+' '+title).toLowerCase(); for(var i=0;i<order.length;i++){ if(txt.indexOf(order[i][0])>-1){label=order[i][1];break;} } }
+      if(label) pill(wrap,'uw-loc-badge',label);
+      var petText=(title+' '+(amen?amen.textContent:'')).toLowerCase();
+      var isPet=/dog stays free|pet[- ]friendly|pets welcome|dog friendly|pets allowed/.test(petText) || petProps.some(function(p){return title.indexOf(p)>-1;});
+      if(isPet) pill(wrap,'uw-pet-badge','Pet Friendly');
     });
   }
   var t; function run(){ clearTimeout(t); t=setTimeout(badge,60); }

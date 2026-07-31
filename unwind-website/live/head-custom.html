@@ -123,7 +123,7 @@ document.addEventListener('DOMContentLoaded', function () {
   var order=[['oceanfront','Oceanfront'],['ocean front','Oceanfront'],['beachfront','Beachfront'],['waterfront','Waterfront'],['ocean view','Ocean View'],['oceanview','Ocean View'],['near ocean','Near Ocean'],['walk to','Walk to Beach']];
   // Pet-friendly property title substrings (cards don't expose pet data as text, so
   // this manual list catches ones without pet/dog in the title). Add John's list here.
-  var petProps=[];
+  var petProps=['200 ft to beach','robbers roost','winds','luster','1225']; // Cherry Grove 4-plex, Robbers Roost (both), Winds Townhouse, Luster Leaf, Barefoot 1225
   function getTitle(card,tile){ if(!tile){ var t=card.querySelector('h2 a, .media-heading a'); return t?t.textContent:''; } var el=card.querySelector('.property-result-tile-title,.property-result-tile-name'); return el?el.textContent:card.textContent.split(/sleeps|\bbed/i)[0]; }
   function pill(wrap,cls,text){ wrap.style.position='relative'; var s=document.createElement('span'); s.className=cls; s.textContent=text; wrap.appendChild(s); }
   function badge(){

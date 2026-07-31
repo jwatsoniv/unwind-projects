@@ -17,6 +17,12 @@
 .uw-filter-note{background:#f4f1ea;border-radius:12px;padding:12px 18px;margin:12px 0;display:flex;align-items:center;gap:14px;flex-wrap:wrap;font-size:15px}
 @media(max-width:767px){.uw-chip{padding:10px 14px}}
 
+/* ---- Brand subtitle under the hero SEO headline (homepage) ---- */
+/* Keeps the big "Myrtle Beach Vacation Rentals" H1 for SEO and adds the
+   company brand name beneath it. Inherits white color + text-shadow from the h1. */
+.carousel-caption h1::after{ content:"Unwind Vacation Rentals"; display:block; font-family:'Inter',system-ui,sans-serif; font-size:0.3em; font-weight:600; letter-spacing:3px; text-transform:uppercase; margin-top:10px; }
+@media(max-width:767px){ .carousel-caption h1::after{ font-size:0.42em; letter-spacing:2px; margin-top:6px; } }
+
 /* ---- Guest-rating trust strip (homepage Intro) ---- */
 .uw-rating-strip{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:16px 20px;margin:22px 0;text-align:center;line-height:1.4}
 .uw-rating-strip .uw-stars{color:#E8A33D;font-size:18px;letter-spacing:2px;margin-right:6px}

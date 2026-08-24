@@ -1,0 +1,370 @@
+/* ============================================================
+   Unwind Vacations — custom ABOUT PAGE styles
+   Page: unwindvacations.com/about-573976021  (OwnerRez page id 573976021)
+   This <style> block lives inside the About page's custom HTML content
+   in OwnerRez (Hosted Websites → Pages → About). Captured 2026-08-24.
+   Brand palette on this page: deep teal #0F4C5C, aqua #4FD1C5,
+   serif headings 'Playfair Display', body 'Open Sans'.
+   ============================================================ */
+
+  /* Hide the default "About" page heading if it appears */
+  .uv-about-page h1.page-title,
+  .uv-about-page .page-heading {
+    display: none !important;
+  }
+
+  .uv-about-page {
+    font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    color: #1a1a1a;
+    line-height: 1.6;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  .uv-about-page * { box-sizing: border-box; }
+
+  /* ---------- HERO ---------- */
+  .uv-hero {
+    background: linear-gradient(135deg, #0F4C5C 0%, #1A6B7C 100%);
+    color: #ffffff;
+    border-radius: 12px;
+    padding: 70px 50px;
+    text-align: center;
+    margin: 30px 0 60px;
+    box-shadow: 0 10px 40px rgba(15, 76, 92, 0.15);
+  }
+  .uv-hero-eyebrow {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #4FD1C5;
+    margin-bottom: 18px;
+  }
+  .uv-hero h1 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 48px;
+    font-weight: 500;
+    line-height: 1.15;
+    margin: 0 0 20px;
+    color: #ffffff;
+  }
+  .uv-hero-subtitle {
+    font-size: 18px;
+    line-height: 1.6;
+    max-width: 680px;
+    margin: 0 auto;
+    color: rgba(255,255,255,0.9);
+    font-weight: 300;
+  }
+
+  /* ---------- SECTION BASE ---------- */
+  .uv-section {
+    margin: 70px 0;
+  }
+  .uv-section-label {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #4FD1C5;
+    text-align: center;
+    margin-bottom: 12px;
+  }
+  .uv-section-title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 36px;
+    font-weight: 500;
+    color: #0F4C5C;
+    text-align: center;
+    margin: 0 0 18px;
+    line-height: 1.2;
+  }
+  .uv-section-intro {
+    font-size: 17px;
+    color: #4a5568;
+    text-align: center;
+    max-width: 720px;
+    margin: 0 auto 50px;
+    line-height: 1.7;
+  }
+
+  /* ---------- OUR STORY ---------- */
+  .uv-story {
+    background: #F7FAFB;
+    border-radius: 12px;
+    padding: 55px 50px;
+    border-left: 4px solid #4FD1C5;
+  }
+  .uv-story p {
+    font-size: 17px;
+    color: #2d3748;
+    line-height: 1.8;
+    margin: 0 0 18px;
+  }
+  .uv-story p:last-child { margin-bottom: 0; }
+
+  /* ---------- MISSION CALLOUT ---------- */
+  .uv-mission {
+    background: #ffffff;
+    border: 2px solid #E6F4F4;
+    border-radius: 12px;
+    padding: 50px;
+    text-align: center;
+    position: relative;
+  }
+  .uv-mission-quote {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 28px;
+    font-style: italic;
+    color: #0F4C5C;
+    line-height: 1.4;
+    margin: 0;
+    font-weight: 400;
+  }
+  .uv-mission-divider {
+    width: 50px;
+    height: 3px;
+    background: #4FD1C5;
+    margin: 25px auto 0;
+    border-radius: 2px;
+  }
+
+  /* ---------- CORE VALUES ---------- */
+  .uv-values {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  .uv-value-card {
+    background: #ffffff;
+    border: 1px solid #E2E8F0;
+    border-radius: 12px;
+    padding: 30px 26px;
+    position: relative;
+    transition: all 0.25s ease;
+  }
+  .uv-value-card:hover {
+    border-color: #4FD1C5;
+    box-shadow: 0 8px 22px rgba(15, 76, 92, 0.08);
+    transform: translateY(-3px);
+  }
+  .uv-value-number {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 42px;
+    font-weight: 500;
+    color: #4FD1C5;
+    line-height: 1;
+    margin-bottom: 14px;
+    display: block;
+  }
+  .uv-value-card h3 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 20px;
+    font-weight: 500;
+    color: #0F4C5C;
+    margin: 0 0 12px;
+    line-height: 1.3;
+  }
+  .uv-value-card p {
+    font-size: 14.5px;
+    color: #4a5568;
+    line-height: 1.65;
+    margin: 0;
+  }
+
+  /* ---------- DIFFERENTIATORS ---------- */
+  .uv-pillars {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+  .uv-pillar {
+    background: #ffffff;
+    border: 1px solid #E2E8F0;
+    border-radius: 12px;
+    padding: 35px 30px;
+    transition: all 0.25s ease;
+  }
+  .uv-pillar:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 30px rgba(15, 76, 92, 0.1);
+    border-color: #4FD1C5;
+  }
+  .uv-pillar-icon {
+    width: 56px;
+    height: 56px;
+    background: linear-gradient(135deg, #4FD1C5, #0F4C5C);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 22px;
+    color: #ffffff;
+    font-size: 26px;
+  }
+  .uv-pillar h3 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 22px;
+    font-weight: 500;
+    color: #0F4C5C;
+    margin: 0 0 12px;
+  }
+  .uv-pillar p {
+    font-size: 15px;
+    color: #4a5568;
+    line-height: 1.7;
+    margin: 0;
+  }
+
+  /* ---------- LOCAL EXPERTISE ---------- */
+  .uv-local {
+    background: linear-gradient(135deg, #F7FAFB 0%, #E6F4F4 100%);
+    border-radius: 12px;
+    padding: 55px 50px;
+    text-align: center;
+  }
+  .uv-local p {
+    font-size: 17px;
+    color: #2d3748;
+    line-height: 1.8;
+    max-width: 780px;
+    margin: 0 auto 30px;
+  }
+  .uv-local-zones {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 30px;
+  }
+  .uv-zone-chip {
+    background: #ffffff;
+    border: 1.5px solid #4FD1C5;
+    color: #0F4C5C;
+    padding: 10px 22px;
+    border-radius: 30px;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+
+  /* ---------- TESTIMONIALS ---------- */
+  .uv-testimonials {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+  .uv-testimonial {
+    background: #ffffff;
+    border: 1px solid #E2E8F0;
+    border-radius: 12px;
+    padding: 32px 28px;
+    position: relative;
+  }
+  .uv-testimonial::before {
+    content: "\201C";
+    position: absolute;
+    top: 10px;
+    left: 22px;
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 70px;
+    color: #4FD1C5;
+    line-height: 1;
+    opacity: 0.4;
+  }
+  .uv-testimonial-stars {
+    color: #F6AD55;
+    font-size: 16px;
+    letter-spacing: 2px;
+    margin-bottom: 14px;
+    position: relative;
+    z-index: 1;
+  }
+  .uv-testimonial-text {
+    font-size: 15px;
+    color: #2d3748;
+    line-height: 1.7;
+    margin: 0 0 20px;
+    font-style: italic;
+    position: relative;
+    z-index: 1;
+  }
+  .uv-testimonial-author {
+    font-size: 14px;
+    color: #0F4C5C;
+    font-weight: 600;
+    border-top: 1px solid #E2E8F0;
+    padding-top: 14px;
+  }
+  .uv-testimonial-author span {
+    display: block;
+    color: #718096;
+    font-weight: 400;
+    font-size: 13px;
+    margin-top: 2px;
+  }
+
+  /* ---------- CTA ---------- */
+  .uv-cta {
+    background: linear-gradient(135deg, #0F4C5C 0%, #1A6B7C 100%);
+    border-radius: 12px;
+    padding: 60px 50px;
+    text-align: center;
+    color: #ffffff;
+    margin: 70px 0 40px;
+  }
+  .uv-cta h2 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 34px;
+    font-weight: 500;
+    margin: 0 0 14px;
+    color: #ffffff;
+  }
+  .uv-cta p {
+    font-size: 17px;
+    color: rgba(255,255,255,0.9);
+    max-width: 620px;
+    margin: 0 auto 32px;
+    line-height: 1.6;
+    font-weight: 300;
+  }
+  .uv-cta-button {
+    display: inline-block;
+    background: #4FD1C5;
+    color: #0F4C5C !important;
+    padding: 15px 36px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 700;
+    text-decoration: none !important;
+    letter-spacing: 0.03em;
+    transition: all 0.2s ease;
+  }
+  .uv-cta-button:hover {
+    background: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  }
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width: 900px) {
+    .uv-pillars,
+    .uv-testimonials,
+    .uv-values {
+      grid-template-columns: 1fr;
+    }
+    .uv-hero { padding: 50px 30px; }
+    .uv-hero h1 { font-size: 34px; }
+    .uv-hero-subtitle { font-size: 16px; }
+    .uv-section-title { font-size: 28px; }
+    .uv-story,
+    .uv-mission,
+    .uv-local,
+    .uv-cta {
+      padding: 40px 25px;
+    }
+    .uv-mission-quote { font-size: 22px; }
+    .uv-cta h2 { font-size: 26px; }
+  }

@@ -1,0 +1,1193 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Activities Page Preview — Unwind</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>body{margin:0;background:#fff;}
+/* ============================================================
+   Unwind Vacations — custom ACTIVITIES PAGE styles
+   Page: unwindvacations.com/activities-573980531 (OwnerRez page id 573980531)
+   Lives as the inline <style> block inside the Activities page's custom
+   HTML content in OwnerRez. Captured 2026-08-24. Same brand palette as
+   the About page: deep teal #0F4C5C, aqua #4FD1C5, 'Playfair Display' +
+   'Open Sans'. A small filter <script> (toggles .hidden on .uv-act-card
+   by data-tags) lives separately in the page/Head — not reproduced here.
+   ============================================================ */
+
+  /* Hide default "Activities" page heading if present */
+  .uv-activities-page h1.page-title,
+  .uv-activities-page .page-heading {
+    display: none !important;
+  }
+
+  .uv-activities-page {
+    font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    color: #1a1a1a;
+    line-height: 1.6;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  .uv-activities-page * { box-sizing: border-box; }
+
+  /* ---------- HERO ---------- */
+  .uv-act-hero {
+    background: linear-gradient(135deg, #0F4C5C 0%, #1A6B7C 100%);
+    color: #ffffff;
+    border-radius: 12px;
+    padding: 65px 50px;
+    text-align: center;
+    margin: 30px 0 50px;
+    box-shadow: 0 10px 40px rgba(15, 76, 92, 0.15);
+  }
+  .uv-act-hero-eyebrow {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #4FD1C5;
+    margin-bottom: 16px;
+  }
+  .uv-act-hero h1 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 46px;
+    font-weight: 500;
+    line-height: 1.15;
+    margin: 0 0 18px;
+    color: #ffffff;
+  }
+  .uv-act-hero-subtitle {
+    font-size: 18px;
+    line-height: 1.6;
+    max-width: 700px;
+    margin: 0 auto;
+    color: rgba(255,255,255,0.9);
+    font-weight: 300;
+  }
+
+  /* ---------- SECTION BASE ---------- */
+  .uv-act-section {
+    margin: 60px 0;
+  }
+  .uv-act-section-label {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #4FD1C5;
+    text-align: center;
+    margin-bottom: 10px;
+  }
+  .uv-act-section-title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 34px;
+    font-weight: 500;
+    color: #0F4C5C;
+    text-align: center;
+    margin: 0 0 14px;
+    line-height: 1.2;
+  }
+  .uv-act-section-intro {
+    font-size: 16px;
+    color: #4a5568;
+    text-align: center;
+    max-width: 720px;
+    margin: 0 auto 40px;
+    line-height: 1.7;
+  }
+
+  /* Category-level heading (inline with activities) */
+  .uv-cat-heading {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin: 50px 0 22px;
+    padding-bottom: 14px;
+    border-bottom: 2px solid #E6F4F4;
+  }
+  .uv-cat-icon {
+    width: 44px;
+    height: 44px;
+    background: linear-gradient(135deg, #4FD1C5, #0F4C5C);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 22px;
+    flex-shrink: 0;
+  }
+  .uv-cat-heading h2 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 26px;
+    font-weight: 500;
+    color: #0F4C5C;
+    margin: 0;
+  }
+
+  /* ---------- WHEN TO VISIT ---------- */
+  .uv-seasons {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+  }
+  .uv-season-card {
+    background: #ffffff;
+    border: 1px solid #E2E8F0;
+    border-radius: 12px;
+    padding: 26px 22px;
+    transition: all 0.25s ease;
+  }
+  .uv-season-card:hover {
+    border-color: #4FD1C5;
+    box-shadow: 0 8px 22px rgba(15, 76, 92, 0.08);
+    transform: translateY(-3px);
+  }
+  .uv-season-months {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #4FD1C5;
+    margin-bottom: 8px;
+  }
+  .uv-season-card h4 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 20px;
+    color: #0F4C5C;
+    margin: 0 0 10px;
+    font-weight: 500;
+  }
+  .uv-season-card p {
+    font-size: 14px;
+    color: #4a5568;
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* ---------- FILTER BAR ---------- */
+  .uv-filter-bar {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 30px 0 50px;
+    padding: 18px;
+    background: #F7FAFB;
+    border-radius: 12px;
+  }
+  .uv-filter-btn {
+    background: #ffffff;
+    border: 1.5px solid #E2E8F0;
+    color: #4a5568;
+    padding: 9px 20px;
+    border-radius: 30px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: inherit;
+    letter-spacing: 0.02em;
+  }
+  .uv-filter-btn:hover {
+    border-color: #4FD1C5;
+    color: #0F4C5C;
+  }
+  .uv-filter-btn.active {
+    background: #0F4C5C;
+    border-color: #0F4C5C;
+    color: #ffffff;
+  }
+
+  /* ---------- ACTIVITY GRID ---------- */
+  .uv-act-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  .uv-act-card {
+    background: #ffffff;
+    border: 1px solid #E2E8F0;
+    border-radius: 12px;
+    padding: 24px 22px;
+    transition: all 0.25s ease;
+    display: flex;
+    flex-direction: column;
+  }
+  .uv-act-card:hover {
+    border-color: #4FD1C5;
+    box-shadow: 0 8px 22px rgba(15, 76, 92, 0.08);
+    transform: translateY(-3px);
+  }
+  .uv-act-card.hidden {
+    display: none;
+  }
+  .uv-act-card h3 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 19px;
+    color: #0F4C5C;
+    margin: 0 0 10px;
+    font-weight: 500;
+    line-height: 1.3;
+  }
+  .uv-act-title-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+  .uv-act-title-row h3 {
+    margin: 0;
+    flex: 1;
+  }
+  .uv-act-title-link {
+    color: #0F4C5C !important;
+    text-decoration: none !important;
+    transition: color 0.15s ease;
+    border-bottom: 1px solid transparent;
+  }
+  .uv-act-title-link:hover {
+    color: #0F7988 !important;
+    border-bottom: 1px solid #4FD1C5;
+  }
+  .uv-map-pin {
+    width: 32px;
+    height: 32px;
+    background: #F7FAFB;
+    border: 1px solid #E2E8F0;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none !important;
+    color: #0F4C5C !important;
+    font-size: 15px;
+    flex-shrink: 0;
+    transition: all 0.2s ease;
+  }
+  .uv-map-pin:hover {
+    background: #4FD1C5;
+    border-color: #4FD1C5;
+    color: #ffffff !important;
+    transform: scale(1.08);
+  }
+  .uv-act-card p {
+    font-size: 14px;
+    color: #4a5568;
+    line-height: 1.65;
+    margin: 0 0 14px;
+    flex-grow: 1;
+  }
+  .uv-act-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: auto;
+  }
+  .uv-act-tag {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 20px;
+    letter-spacing: 0.03em;
+  }
+  .tag-family { background: #E6F4F4; color: #0F4C5C; }
+  .tag-adults { background: #F3E8F2; color: #6B2D5C; }
+  .tag-kids   { background: #FEF4E5; color: #8B5A00; }
+  .tag-outdoor { background: #E8F5E9; color: #2E5D34; }
+  .tag-indoor { background: #EEEFF4; color: #3C4A64; }
+
+  /* ---------- NEW FOR 2026 CALLOUT ---------- */
+  .uv-new-2026 {
+    background: linear-gradient(135deg, #0F4C5C 0%, #1A6B7C 100%);
+    border-radius: 12px;
+    padding: 45px 40px;
+    color: #ffffff;
+  }
+  .uv-new-2026 .uv-act-section-label {
+    color: #4FD1C5;
+    text-align: left;
+  }
+  .uv-new-2026 h2 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 30px;
+    font-weight: 500;
+    margin: 0 0 12px;
+    color: #fff;
+  }
+  .uv-new-2026 > p {
+    font-size: 16px;
+    line-height: 1.7;
+    color: rgba(255,255,255,0.9);
+    max-width: 700px;
+    margin: 0 0 30px;
+    font-weight: 300;
+  }
+  .uv-new-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+  }
+  .uv-new-card {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(79,209,197,0.3);
+    border-radius: 10px;
+    padding: 22px 20px;
+    backdrop-filter: blur(4px);
+  }
+  .uv-new-card h4 {
+    font-family: 'Playfair Display', Georgia, serif;
+    color: #4FD1C5;
+    font-size: 18px;
+    margin: 0 0 8px;
+    font-weight: 500;
+  }
+  .uv-new-badge {
+    display: inline-block;
+    background: #4FD1C5;
+    color: #0F4C5C;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 20px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .uv-new-card p {
+    font-size: 13.5px;
+    color: rgba(255,255,255,0.85);
+    line-height: 1.6;
+    margin: 0;
+    font-weight: 300;
+  }
+
+  /* ---------- CTA ---------- */
+  .uv-act-cta {
+    background: #F7FAFB;
+    border: 2px solid #E6F4F4;
+    border-radius: 12px;
+    padding: 50px 40px;
+    text-align: center;
+    margin: 70px 0 40px;
+  }
+  .uv-act-cta h2 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 30px;
+    font-weight: 500;
+    color: #0F4C5C;
+    margin: 0 0 12px;
+  }
+  .uv-act-cta p {
+    font-size: 16px;
+    color: #4a5568;
+    max-width: 600px;
+    margin: 0 auto 28px;
+    line-height: 1.6;
+  }
+  .uv-act-btn {
+    display: inline-block;
+    background: #4FD1C5;
+    color: #0F4C5C !important;
+    padding: 14px 32px;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 700;
+    text-decoration: none !important;
+    letter-spacing: 0.03em;
+    transition: all 0.2s ease;
+  }
+  .uv-act-btn:hover {
+    background: #0F4C5C;
+    color: #ffffff !important;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(15, 76, 92, 0.25);
+  }
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width: 900px) {
+    .uv-act-grid,
+    .uv-seasons,
+    .uv-new-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+    .uv-act-hero { padding: 50px 30px; }
+    .uv-act-hero h1 { font-size: 32px; }
+    .uv-act-hero-subtitle { font-size: 16px; }
+    .uv-act-section-title { font-size: 26px; }
+    .uv-cat-heading h2 { font-size: 22px; }
+    .uv-new-2026 { padding: 35px 25px; }
+    .uv-new-2026 h2 { font-size: 24px; }
+  }
+  @media (max-width: 600px) {
+    .uv-act-grid,
+    .uv-seasons,
+    .uv-new-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+</style></head><body>
+<div class="uv-activities-page">
+
+  <!-- ================ HERO ================ -->
+  <section class="uv-act-hero">
+    <div class="uv-act-hero-eyebrow">Explore the Grand Strand</div>
+    <h1>Your Insider's Guide to<br>Myrtle Beach</h1>
+    <p class="uv-act-hero-subtitle">
+      From hidden-gem beaches to the newest attractions of 2026 — here's everything our guests love most about our stretch of the South Carolina coast.
+    </p>
+  </section>
+
+  <!-- ================ WHEN TO VISIT ================ -->
+  <section class="uv-act-section">
+    <div class="uv-act-section-label">Plan Your Visit</div>
+    <h2 class="uv-act-section-title">Best Time to Come to Myrtle Beach</h2>
+    <p class="uv-act-section-intro">
+      The Grand Strand is a year-round destination — but each season offers something different. Here's what to expect when you visit.
+    </p>
+
+    <div class="uv-seasons">
+
+      <div class="uv-season-card">
+        <div class="uv-season-months">Mar – May</div>
+        <h4>Spring</h4>
+        <p>Mild temperatures (60s–70s), fewer crowds, and blooming flowers. Ideal for golf, outdoor dining, and beach walks without the summer heat.</p>
+      </div>
+
+      <div class="uv-season-card">
+        <div class="uv-season-months">Jun – Aug</div>
+        <h4>Summer</h4>
+        <p>Peak season. Warm ocean (80°F+), every attraction open, and the boardwalk in full swing. Book early — this is when families travel most.</p>
+      </div>
+
+      <div class="uv-season-card">
+        <div class="uv-season-months">Sep – Oct</div>
+        <h4>Fall</h4>
+        <p>The local favorite. Ocean is still warm through October, crowds thin out, rates drop, and the weather stays beautiful well into November.</p>
+      </div>
+
+      <div class="uv-season-card">
+        <div class="uv-season-months">Nov – Feb</div>
+        <h4>Winter</h4>
+        <p>Quiet and mild (50s–60s). Perfect for golf, holiday lights at Brookgreen Gardens, and a peaceful escape without the crowds.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================ NEW FOR 2026 ================ -->
+  <section class="uv-act-section">
+    <div class="uv-new-2026">
+      <div class="uv-act-section-label">Now Open</div>
+      <h2>New for 2026</h2>
+      <p>Myrtle Beach keeps getting better — and these headline additions are all open and ready for your visit right now.</p>
+
+      <div class="uv-new-grid">
+
+        <div class="uv-new-card">
+          <div class="uv-new-badge">Now Open</div>
+          <h4><a href="https://downtownflavortown.com/" target="_blank" rel="noopener" style="color:#4FD1C5; text-decoration:none; border-bottom:1px solid rgba(79,209,197,0.3); transition:border-color 0.15s;">Downtown Flavortown ↗</a></h4>
+          <p>Guy Fieri's 50,000 sq ft restaurant and entertainment complex is now open at Myrtle Beach Mall — scratch-made food, a tiki bar, duckpin bowling, and a massive arcade.</p>
+        </div>
+
+        <div class="uv-new-card">
+          <div class="uv-new-badge">Now Open</div>
+          <h4><a href="https://www.captainsquarters.com/" target="_blank" rel="noopener" style="color:#4FD1C5; text-decoration:none; border-bottom:1px solid rgba(79,209,197,0.3); transition:border-color 0.15s;">The District ↗</a></h4>
+          <p>A brand-new 17,000 sq ft oceanfront entertainment hub at Captain's Quarters with high-tech duckpin bowling, the Game On! arcade, and casual dining — open to the public.</p>
+        </div>
+
+        <div class="uv-new-card">
+          <div class="uv-new-badge">Now Open</div>
+          <h4><a href="https://www.broadwayatthebeach.com/" target="_blank" rel="noopener" style="color:#4FD1C5; text-decoration:none; border-bottom:1px solid rgba(79,209,197,0.3); transition:border-color 0.15s;">Ole Smoky &amp; Yee-Haw ↗</a></h4>
+          <p>A 30,000 sq ft distillery and brewery now open at Broadway at the Beach — moonshine and whiskey flights, craft beer, barbecue, and live music in a lakeside beer garden.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ================ MAIN ACTIVITIES SECTION ================ -->
+  <section class="uv-act-section">
+    <div class="uv-act-section-label">Things to Do</div>
+    <h2 class="uv-act-section-title">Our Favorite Local Activities</h2>
+    <p class="uv-act-section-intro">
+      Filter by who's traveling with you, or scroll through all of our handpicked recommendations below.
+    </p>
+
+    <!-- FILTER BAR -->
+    <div class="uv-filter-bar">
+      <button class="uv-filter-btn active" data-filter="all">All Activities</button>
+      <button class="uv-filter-btn" data-filter="family">Family-Friendly</button>
+      <button class="uv-filter-btn" data-filter="kids">Great for Kids</button>
+      <button class="uv-filter-btn" data-filter="adults">Adults</button>
+      <button class="uv-filter-btn" data-filter="outdoor">Outdoor</button>
+      <button class="uv-filter-btn" data-filter="indoor">Indoor / Rainy Day</button>
+    </div>
+
+    <!-- ============ BEACHES & OUTDOOR ============ -->
+    <div class="uv-cat-heading">
+      <div class="uv-cat-icon">🌊</div>
+      <h2>Beaches &amp; Outdoor</h2>
+    </div>
+    <div class="uv-act-grid">
+
+      <div class="uv-act-card" data-tags="family,outdoor,kids">
+        <div class="uv-act-title-row">
+          <h3><a href="https://www.visitmyrtlebeach.com/things-to-do/attractions/boardwalk" target="_blank" rel="noopener" class="uv-act-title-link">Myrtle Beach Boardwalk</a></h3>
+          <a href="https://www.google.com/maps/search/?api=1&query=Myrtle%20Beach%20Boardwalk%20Myrtle%20Beach%20SC" target="_blank" rel="noopener" class="uv-map-pin" aria-label="Open in Google Maps">📍</a>
+        </div>
+        <p>A 1.2-mile oceanfront promenade stretching from the 2nd Avenue Pier to Pier 14. Home to the SkyWheel, shops, restaurants, and live music all summer long.</p>
+        <div class="uv-act-tags">
+          <span class="uv-act-tag tag-family">Family</span>
+          <span class="uv-act-tag tag-outdoor">Outdoor</span>
+        </div>
+      </div>
+
+      <div class="uv-act-card" data-tags="family,outdoor,kids,adults">
+        <div class="uv-act-title-row">
+          <h3><a href="https://southcarolinaparks.com/myrtle-beach" target="_blank" rel="noopener" class="uv-act-title-link">Myrtle Beach State Park</a></h3>
+          <a href="https://www.google.com/maps/search/?api=1&query=Myrtle%20Beach%20State%20Park%20Myrtle%20Beach%20SC" target="_blank" rel="noopener" class="uv-map-pin" aria-label="Open in Google Maps">📍</a>
+        </div>
+        <p>312 acres of oceanfront maritime forest with nature trails, a free fishing pier, picnic facilities, and a mile of undeveloped beach. A peaceful alternative to the busy main beaches.</p>
+        <div class="uv-act-tags">
+          <span class="uv-act-tag tag-family">Family</span>
+          <span class="uv-act-tag tag-outdoor">Outdoor</span>
+        </div>
+      </div>
+
+      <div class="uv-act-card" data-tags="family,outdoor,adults">
+        <div class="uv-act-title-row">
+          <h3><a href="https://apachefamilycampground.com/apache-pier/" target="_blank" rel="noopener" class="uv-act-title-link">Apache Pier</a></h3>
+          <a href="https://www.google.com/maps/search/?api=1&query=Apache%20Pier%20Myrtle%20Beach%20SC" target="_blank" rel="noopener" class="uv-map-pin" aria-label="Open in Google Maps">📍</a>
+        </div>
+        <p>At 1,206 feet, Apache is the longest wooden pier on the East Coast. Fresh seafood, fishing, live music in summer, and incredible sunrise views over the Atlantic.</p>
+        <div class="uv-act-tags">
+          <span class="uv-act-tag tag-family">Family</span>
+          <span class="uv-act-tag tag-outdoor">Outdoor</span>
+        </div>
+      </div>
+
+      <div class="uv-act-card" data-tags="outdoor,adults,family">
+        <div class="uv-act-title-row">
+          <h3><a href="https://southcarolinaparks.com/huntington-beach" target="_blank" rel="noopener" class="uv-act-title-link">Huntington Beach State Park</a></h3>
+          <a href="https://www.google.com/maps/search/?api=1&query=Huntington%20Beach%20State%20Park%20Myrtle%20Beach%20SC" target="_blank" rel="noopener" class="uv-map-pin" aria-label="Open in Google Maps">📍</a>
+        </div>
+        <p>Just south in Murrells Inlet — a quiet, natural retreat with trails, wildlife viewing, and the iconic Atalaya Castle. A photographer's dream.</p>
+        <div class="uv-act-tags">
+          <span class="uv-act-tag tag-family">Family</span>
+          <span class="uv-act-tag tag-outdoor">Outdoor</span>
+        </div>
+      </div>
+
+      <div class="uv-act-card" data-tags="family,outdoor,kids">
+        <div class="uv-act-title-row">
+          <h3><a href="https://cherrygrovepier.com/" target="_blank" rel="noopener" class="uv-act-title-link">Cherry Grove Pier</a></h3>
+          <a href="https://www.google.com/maps/search/?api=1&query=Cherry%20Grove%20Pier%20Myrtle%20Beach%20SC" target="_blank" rel="noopener" class="uv-map-pin" aria-label="Open in Google Maps">📍</a>
+        </div>
+        <p>A North Myrtle Beach classic. Great for fishing, photos, and sunset strolls. Legendary for record-breaking catches — including the largest tiger shark ever landed from dry land.</p>
+        <div class="uv-act-tags">
+          <span class="uv-act-tag tag-family">Family</span>
+          <span class="uv-act-tag tag-outdoor">Outdoor</span>
+        </div>
+      </div>
+
+      <div class="uv-act-card" data-tags="family,kids,outdoor">
+        <div class="uv-act-title-row">
+          <h3><a href="https://www.facebook.com/spmyrtlebeach/" target="_blank" rel="noopener" class="uv-act-title-link">Savannah's Playground</a></h3>
+          <a href="https://www.google.com/maps/search/?api=1&query=Savannah%27s%20Playground%20Myrtle%20Beach%20SC" target="_blank" rel="noopener" class="uv-map-pin" aria-label="Open in Google Maps">📍</a>
+        </div>
+        <p>Located in Market Common, this all-inclusive playground combines splash pad features with play structures designed for kids of all abilities. Free and endlessly fun.</p>
+        <div class="uv-act-tags">
+          <span class="uv-act-tag tag-kids">Kids</span>
+          <span class="uv-act-tag tag-outdoor">Outdoor</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ============ FAMILY ATTRACTIONS ============ -->
+    <div class="uv-cat-heading">
+      <div class="uv-cat-icon">🎡</div>
+      <h2>Family Attractions</h2>
+    </div>
+    <div class="uv-act-grid">
+
+      <div class="uv-act-card" data-tags="family,kids,outdoor">
+        <div class="uv-act-title-row">
+          <h3><a href="https://skywheelmb.com/" target="_blank" rel="noopener" class="uv-act-title-link">SkyWheel Myrtle Beach</a></h3>
+          <a href="https://www.google.com/maps/search/?api=1&query=SkyWheel%20Myrtle%20Beach%20Myrtle%20Beach%20SC" target="_blank" rel="noopener" class="uv-map-pin" aria-label="Open in Google Maps">📍</a>
+        </div>
+        <p>A 187-foot observation wheel with 42 climate-controlled gondolas. Day or night, the views over the coastline are unforgettable — a Boardwalk must-do.</p>
+        <div class="uv-act-tags">
+          <span class="uv-act-tag tag-family">Family</span>
+          <span class="uv-act-tag tag-kids">Kids</span>
+        </div>
+      </div>
+
+      <div class="uv-act-card" data-tags="family,kids,indoor">
+        <div class="uv-act-title-row">
+          <h3><a href="https://www.ripleyaquariums.com/myrtlebeach/" target="_blank" rel="noopener" class="uv-act-title-link">Ripley's Aquarium</a></h3>
+          <a href="https://www.google.com/maps/search/?api=1&query=Ripley%27s%20Aquarium%20Myrtle%20Beach%20SC" target="_blank" rel="noopener" class="uv-map-pin" aria-label="Open in Google Maps">📍</a>
+        </div>
+        <p>A favorite rainy-day pick. Walk through the underwater tunnel surrounded by sharks, rays, and sea turtles. Located at Broadway at the Beach.</p>
+        <div class="uv-act-tags">
+          <span class="uv-act-tag tag-family">Family</span>
+          <span class="uv-act-tag tag-indoor">Indoor</span>
+        </div>
+      </div>
+
+      <div class="uv-act-card" data-tags="family,kids,indoor">
+        <div class="uv-act-title-row">
+          <h3><a href="https://www.wonderworksonline.com/myrtle-beach/" target="_blank" rel="noopener" class="uv-act-title-link">WonderWorks</a></h3>
+          <a href="https://www.google.com/maps/search/?api=1&query=WonderWorks%20Myrtle%20Beach%20SC" target="_blank" rel="noopener" class="uv-map-pin" aria-label="Open in Google Maps">📍</a>
+        </div>
+        <p>Over 100 hands-on exhibits inside an upside-down building. Laser tag, a glow-in-the-dark ropes course, 6D motion ride — a full afternoon of indoor fun for all ages.</p>
+        <div class="uv-act-tags">
+          <span class="uv-act-tag tag-family">Family</span>
+          <span class="uv-act-tag tag-indoor">Indoor</span>
+        </div>
+      </div>
+
+      <div class="uv-act-card" data-tags="family,kids,outdoor">
+        <div class="uv-act-title-row">
+          <h3><a href="https://familykingdomfun.com/" target="_blank" rel="noopener" class="uv-act-title-link">Family Kingdom Amusement Park</a></h3>
+          <a href="https://www.google.com/maps/search/?api=1&query=Family%20Kingdom%20Amusement%20Park%20Myrtle%20Beach%20SC" target="_blank" rel="noopener" class="uv-map-pin" aria-label="Open in Google Maps">📍</a>
+        </div>
+        <p>The only seaside amusement park in South Carolina. Home to the classic Swamp Fox wooden coaster plus new-for-2026 thrill rides — with a record-breaking single-rail Raptor coaster on the way.</p>
+        <div class="uv-act-tags">
+          <span class="uv-act-tag tag-family">Family</span>
+          <span class="uv-act-tag tag-outdoor">Outdoor</span>
+        </div>
+      </div>
+
+      <div class="uv-act-card" data-tags="family,kids,outdoor">
+        <div class="uv-act-title-row">
+          <h3><a href="https://www.broadwayatthebeach.com/" target="_blank" rel="noopener" class="uv-act-title-link">Broadway at the Beach</a></h3>
+          <a href="https://www.google.com/maps/search/?api=1&query=Broadway%20at%20the%20Beach%20Myrtle%20Beach%20SC" target="_blank" rel="noopener" class="uv-map-pin" aria-label="Open in Google Maps">📍</a>
+        </div>
+        <p>A 300+ acre entertainment complex with the SkyWheel, Ripley's, WonderWorks, dozens of restaurants, and live music venues. The hub of Myrtle Beach family fun.</p>
+        <div class="uv-act-tags">
+          <span class="uv-act-tag tag-family">Family</span>
+        </div>
+      </div>
+
+      <div class="uv-act-card" data-tags="family,kids,outdoor">
+        <div class="uv-act-title-row">
+          <h3><a href="https://www.alligatoradventure.com/" target="_blank" rel="noopener" class="uv-act-title-link">Alligator Adventure</a></h3>
+          <a href="https://www.google.com/maps/search/?api=1&query=Alligator%20Adventure%20Myrtle%20Beach%20SC" target="_blank" rel="noopener" class="uv-map-pin" aria-label="Open in Google Maps">📍</a>
+        </div>
+        <p>One of the largest reptile facilities in the world, with hundreds of alligators, crocodiles, and exotic animals. Live feeding shows and educational demos throughout the day.</p>
+        <div class="uv-act-tags">
+          <span class="uv-act-tag tag-family">Family</span>
+          <span class="uv-act-tag tag-outdoor">Outdoor</span>
+        </div>
+      </div>
+
+      <div class="uv-act-card" data-tags="family,kids,indoor,adults">
+        <div class="uv-act-title-row">
+          <h3><a href="https://downtownflavortown.com/" target="_blank" rel="noopener" class="uv-act-title-link">Downtown Flavortown</a></h3>
+          <a href="https://www.google.com/maps/search/?api=1&amp;query=Downtown%20Flavortown%20Myrtle%20Beach%20Mall%20SC" target="_blank" rel="noopener" class="uv-map-pin" aria-label="Open in Google Maps">📍</a>
+        </div>
+        <p>New in 2026: Guy Fieri's 50,000 sq ft restaurant and entertainment complex at Myrtle Beach Mall — scratch-made burgers and wings, a tiki bar, duckpin bowling, and a huge arcade. A perfect rainy-day pick.</p>
+        <div class="uv-act-tags">
+          <span class="uv-act-tag tag-family">Family</span>
+          <span class="uv-act-tag tag-indoor">Indoor</span>
+        </div>
+      </div>
+
+      <div class="uv-act-card" data-tags="family,kids,indoor">
+        <div class="uv-act-title-row">
+          <h3><a href="https://www.captainsquarters.com/" target="_blank" rel="noopener" class="uv-act-title-link">The District at Captain's Quarters</a></h3>
+          <a href="https://www.google.com/maps/search/?api=1&amp;query=Captain%27s%20Quarters%20Resort%20Myrtle%20Beach%20SC" target="_blank" rel="noopener" class="uv-map-pin" aria-label="Open in Google Maps">📍</a>
+        </div>
+        <p>New for 2026 — a 17,000 sq ft oceanfront entertainment hub with high-tech duckpin bowling, the Game On! arcade, and casual dining. Open to the public and another great rainy-day option.</p>
+        <div class="uv-act-tags">
+          <span class="uv-act-tag tag-family">Family</span>
+          <span class="uv-act-tag tag-indoor">Indoor</span>
+        </div>
+      </div>
+
+      <div class="uv-act-card" data-tags="family,adults,indoor">
+        <div class="uv-act-title-row">
+          <h3><a href="https://www.visitmyrtlebeach.com/list/new-attractions-in-myrtle-beach-openings-coming-soon" target="_blank" rel="noopener" class="uv-act-title-link">Pin Point Indoor Pickleball &amp; Golf</a></h3>
+          <a href="https://www.google.com/maps/search/?api=1&amp;query=Pin%20Point%20Indoor%20Pickleball%20Golf%20Little%20River%20SC" target="_blank" rel="noopener" class="uv-map-pin" aria-label="Open in Google Maps">📍</a>
+        </div>
+        <p>New in 2026 in Little River — nine indoor pickleball courts, seven golf simulators, and a full bar and restaurant. Climate-controlled play any time of year, rain or shine.</p>
+        <div class="uv-act-tags">
+          <span class="uv-act-tag tag-family">Family</span>
+          <span class="uv-act-tag tag-adults">Adults</span>
+          <span class="uv-act-tag tag-indoor">Indoor</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ============ WATER PARKS & WATERSPORTS ============ -->
+    <div class="uv-cat-heading">
+      <div class="uv-cat-icon">🏊</div>
+      <h2>Water Parks &amp; Watersports</h2>
+    </div>
+    <div class="uv-act-grid">
+
+      <div class="uv-act-card" data-tags="family,kids,outdoor">
+        <div class="uv-act-title-row">
+          <h3><a href="https://www.myrtlewaves.com/" target="_blank" rel="noopener" class="uv-act-title-link">Myrtle Waves Water Park</a></h3>
+          <a href="https://www.google.com/maps/search/?api=1&query=Myrtle%20Waves%20Water%20Park%20Myrtle%20Beach%20SC" target="_blank" rel="noopener" class="uv-map-pin" aria-label="Open in Google Maps">📍</a>
+        </div>
+        <p>South Carolina's largest water park — 24+ slides, a wave pool, a lazy river, and a dedicated kids' area. Private cabana rentals available for families who want shade and space.</p>
+        <div class="uv-act-tags">
+          <span class="uv-act-tag tag-family">Family</span>
+          <span class="uv-act-tag tag-outdoor">Outdoor</span>
+        </div>
+      </div>
+
+      <div class="uv-act-card" data-tags="family,outdoor,adults">
+        <div class="uv-act-title-row">
+          <h3><a href="https://www.myrtlebeachdolphincruises.com" target="_blank" rel="noopener" class="uv-act-title-link">Dolphin Watch Cruises</a></h3>
+          <a href="https://www.google.com/maps/search/?api=1&query=Dolphin%20Watch%20Cruises%20Myrtle%20Beach%20SC" target="_blank" rel="noopener" class="uv-map-pin" aria-label="Open in Google Maps">📍</a>
+        </div>
+        <p>Setting sail from Murrells Inlet, these cruises guarantee dolphin sightings in their natural habitat. One of the most peaceful and memorable ways to spend an afternoon on the water.</p>
+        <div class="uv-act-tags">
+          <span class="uv-act-tag tag-family">Family</span>
+          <span class="uv-act-tag tag-outdoor">Outdoor</span>
+        </div>
+      </div>
+
+      <div class="uv-act-card" data-tags="adults,outdoor,family">
+        <div class="uv-act-title-row">
+          <h3><a href="https://www.blackriveroutdoors.com/" target="_blank" rel="noopener" class="uv-act-title-link">Kayaking &amp; Paddleboarding</a></h3>
+          <a href="https://www.google.com/maps/search/?api=1&amp;query=Kayaking%20Paddleboarding%20Myrtle%20Beach%20SC" target="_blank" rel="noopener" class="uv-map-pin" aria-label="Open in Google Maps">📍</a>
+        </div>
+        <p>The Intracoastal Waterway is calm and ideal for beginners. Rent a tandem kayak to paddle with young kids, or take a guided eco-tour to spot herons, egrets, and dolphins.</p>
+        <div class="uv-act-tags">
+          <span class="uv-act-tag tag-family">Family</span>
+          <span class="uv-act-tag tag-outdoor">Outdoor</span>
+        </div>
+      </div>
+
+      <div class="uv-act-card" data-tags="adults,outdoor">
+        <div class="uv-act-title-row">
+          <h3><a href="https://www.downwindsailsmyrtlebeach.com" target="_blank" rel="noopener" class="uv-act-title-link">Parasailing</a></h3>
+          <a href="https://www.google.com/maps/search/?api=1&query=Parasailing%20Myrtle%20Beach%20SC" target="_blank" rel="noopener" class="uv-map-pin" aria-label="Open in Google Maps">📍</a>
+        </div>
+        <p>Soar 500+ feet above the Atlantic for an unforgettable view of the coastline. Most operators offer tandem and triple rides, so it's fun for groups too.</p>
+        <div class="uv-act-tags">
+          <span class="uv-act-tag tag-adults">Adults</span>
+          <span class="uv-act-tag tag-outdoor">Outdoor</span>
+        </div>
+      </div>
+
+      <div class="uv-act-card" data-tags="adults,outdoor,family">
+        <div class="uv-act-title-row">
+          <h3><a href="https://www.myrtlebeachwatersports.com/" target="_blank" rel="noopener" class="uv-act-title-link">Jet Ski Rentals</a></h3>
+          <a href="https://www.google.com/maps/search/?api=1&query=Jet%20Ski%20Rentals%20Myrtle%20Beach%20SC" target="_blank" rel="noopener" class="uv-map-pin" aria-label="Open in Google Maps">📍</a>
+        </div>
+        <p>Rentals available up and down the coast and along the Intracoastal. Explore at your own pace, or book a guided tour for dolphin spotting and cruising.</p>
+        <div class="uv-act-tags">
+          <span class="uv-act-tag tag-adults">Adults</span>
+          <span class="uv-act-tag tag-outdoor">Outdoor</span>
+        </div>
+      </div>
+
+      <div class="uv-act-card" data-tags="family,outdoor">
+        <div class="uv-act-title-row">
+          <h3><a href="https://voyagerdeepseafishing.com/" target="_blank" rel="noopener" class="uv-act-title-link">Deep Sea Fishing Charters</a></h3>
+          <a href="https://www.google.com/maps/search/?api=1&query=Deep%20Sea%20Fishing%20Charters%20Myrtle%20Beach%20SC" target="_blank" rel="noopener" class="uv-map-pin" aria-label="Open in Google Maps">📍</a>
+        </div>
+        <p>Half-day and full-day charters out of Murrells Inlet and Little River. Catch mahi, king mackerel, grouper, and more — the captain does the hard work so you can enjoy the ride.</p>
+        <div class="uv-act-tags">
+          <span class="uv-act-tag tag-family">Family</span>
+          <span class="uv-act-tag tag-outdoor">Outdoor</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ============ GOLF ============ -->
+    <div class="uv-cat-heading">
+      <div class="uv-cat-icon">⛳</div>
+      <h2>Golf on the Grand Strand</h2>
+    </div>
+    <div class="uv-act-grid">
+
+      <div class="uv-act-card" data-tags="adults,outdoor">
+        <div class="uv-act-title-row">
+          <h3><a href="https://www.caledoniagolfandfishclub.com/" target="_blank" rel="noopener" class="uv-act-title-link">Caledonia Golf &amp; Fish Club</a></h3>
+          <a href="https://www.google.com/maps/search/?api=1&amp;query=Caledonia%20Golf%20Fish%20Club%20Pawleys%20Island%20SC" target="_blank" rel="noopener" class="uv-map-pin" aria-label="Open in Google Maps">📍</a>
+        </div>
+        <p>Consistently ranked among the top public courses in the country. Set on a former rice plantation in Pawleys Island — moss-draped oaks, sweeping fairways, and a legendary back nine.</p>
+        <div class="uv-act-tags">
+          <span class="uv-act-tag tag-adults">Adults</span>
+          <span class="uv-act-tag tag-outdoor">Outdoor</span>
+        </div>
+      </div>
+
+      <div class="uv-act-card" data-tags="adults,outdoor">
+        <div class="uv-act-title-row">
+          <h3><a href="https://tpcmyrtlebeach.com/" target="_blank" rel="noopener" class="uv-act-title-link">TPC Myrtle Beach</a></h3>
+          <a href="https://www.google.com/maps/search/?api=1&query=TPC%20Myrtle%20Beach%20Myrtle%20Beach%20SC" target="_blank" rel="noopener" class="uv-map-pin" aria-label="Open in Google Maps">📍</a>
+        </div>
+        <p>A Tom Fazio–designed championship course and former host of the Senior Tour Championship. A must-play for serious golfers visiting the area.</p>
+        <div class="uv-act-tags">
+          <span class="uv-act-tag tag-adults">Adults</span>
+          <span class="uv-act-tag tag-outdoor">Outdoor</span>
+        </div>
+      </div>
+
+      <div class="uv-act-card" data-tags="adults,outdoor">
+        <div class="uv-act-title-row">
+          <h3><a href="https://www.barefootgolf.com/" target="_blank" rel="noopener" class="uv-act-title-link">Barefoot Resort (4 Courses)</a></h3>
+          <a href="https://www.google.com/maps/search/?api=1&query=Barefoot%20Resort%20Myrtle%20Beach%20SC" target="_blank" rel="noopener" class="uv-map-pin" aria-label="Open in Google Maps">📍</a>
+        </div>
+        <p>Four signature-designed courses by Davis Love III, Greg Norman, Pete Dye, and Tom Fazio — all at one resort. The most concentrated lineup of big-name designs in the area.</p>
+        <div class="uv-act-tags">
+          <span class="uv-act-tag tag-adults">Adults</span>
+          <span class="uv-act-tag tag-outdoor">Outdoor</span>
+        </div>
+      </div>
+
+      <div class="uv-act-card" data-tags="family,kids,outdoor">
+        <div class="uv-act-title-row">
+          <h3><a href="https://www.myrtlebeachminigolftrail.com/" target="_blank" rel="noopener" class="uv-act-title-link">Mini Golf Galore</a></h3>
+          <a href="https://www.google.com/maps/search/?api=1&query=Mini%20Golf%20Galore%20Myrtle%20Beach%20SC" target="_blank" rel="noopener" class="uv-map-pin" aria-label="Open in Google Maps">📍</a>
+        </div>
+        <p>Myrtle Beach is the mini golf capital of the country. Hawaiian Rumble, Mount Atlanticus, and Dragon's Lair are all highly themed, kid-approved classics worth a night out.</p>
+        <div class="uv-act-tags">
+          <span class="uv-act-tag tag-family">Family</span>
+          <span class="uv-act-tag tag-kids">Kids</span>
+        </div>
+      </div>
+
+      <div class="uv-act-card" data-tags="adults,outdoor">
+        <div class="uv-act-title-row">
+          <h3><a href="https://www.grandedunesgolf.com/" target="_blank" rel="noopener" class="uv-act-title-link">Grande Dunes Resort Club</a></h3>
+          <a href="https://www.google.com/maps/search/?api=1&query=Grande%20Dunes%20Resort%20Club%20Myrtle%20Beach%20SC" target="_blank" rel="noopener" class="uv-map-pin" aria-label="Open in Google Maps">📍</a>
+        </div>
+        <p>A links-style course along the Intracoastal Waterway. Known for its elevated tee boxes and dramatic water views on the back nine.</p>
+        <div class="uv-act-tags">
+          <span class="uv-act-tag tag-adults">Adults</span>
+          <span class="uv-act-tag tag-outdoor">Outdoor</span>
+        </div>
+      </div>
+
+      <div class="uv-act-card" data-tags="family,kids,outdoor">
+        <div class="uv-act-title-row">
+          <h3><a href="https://www.visitmyrtlebeach.com/golf" target="_blank" rel="noopener" class="uv-act-title-link">Kids Play Free Program</a></h3>
+          <a href="https://www.google.com/maps/search/?api=1&query=Kids%20Play%20Free%20Program%20Myrtle%20Beach%20SC" target="_blank" rel="noopener" class="uv-map-pin" aria-label="Open in Google Maps">📍</a>
+        </div>
+        <p>Dozens of Grand Strand courses let kids under 16 play free when accompanied by a paying adult. A surprisingly easy way to build a golfer in the family.</p>
+        <div class="uv-act-tags">
+          <span class="uv-act-tag tag-family">Family</span>
+          <span class="uv-act-tag tag-kids">Kids</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ============ SHOWS & ENTERTAINMENT ============ -->
+    <div class="uv-cat-heading">
+      <div class="uv-cat-icon">🎭</div>
+      <h2>Shows &amp; Entertainment</h2>
+    </div>
+    <div class="uv-act-grid">
+
+      <div class="uv-act-card" data-tags="family,indoor">
+        <div class="uv-act-title-row">
+          <h3><a href="https://www.thecarolinaopry.com/" target="_blank" rel="noopener" class="uv-act-title-link">The Carolina Opry</a></h3>
+          <a href="https://www.google.com/maps/search/?api=1&query=The%20Carolina%20Opry%20Myrtle%20Beach%20SC" target="_blank" rel="noopener" class="uv-map-pin" aria-label="Open in Google Maps">📍</a>
+        </div>
+        <p>The first theater in Myrtle Beach and still the most acclaimed. Family-friendly music, dance, and comedy — expect high production value and standing ovations.</p>
+        <div class="uv-act-tags">
+          <span class="uv-act-tag tag-family">Family</span>
+          <span class="uv-act-tag tag-indoor">Indoor</span>
+        </div>
+      </div>
+
+      <div class="uv-act-card" data-tags="family,kids,indoor">
+        <div class="uv-act-title-row">
+          <h3><a href="https://www.medievaltimes.com/myrtle-beach" target="_blank" rel="noopener" class="uv-act-title-link">Medieval Times</a></h3>
+          <a href="https://www.google.com/maps/search/?api=1&query=Medieval%20Times%20Myrtle%20Beach%20SC" target="_blank" rel="noopener" class="uv-map-pin" aria-label="Open in Google Maps">📍</a>
+        </div>
+        <p>A full four-course feast served while you cheer on your knight during sword fights, jousting, and falconry. The kids will love it — and honestly, so will you.</p>
+        <div class="uv-act-tags">
+          <span class="uv-act-tag tag-family">Family</span>
+          <span class="uv-act-tag tag-indoor">Indoor</span>
+        </div>
+      </div>
+
+      <div class="uv-act-card" data-tags="family,adults,indoor">
+        <div class="uv-act-title-row">
+          <h3><a href="https://alabama-theatre.com/" target="_blank" rel="noopener" class="uv-act-title-link">Alabama Theatre</a></h3>
+          <a href="https://www.google.com/maps/search/?api=1&query=Alabama%20Theatre%20Myrtle%20Beach%20SC" target="_blank" rel="noopener" class="uv-map-pin" aria-label="Open in Google Maps">📍</a>
+        </div>
+        <p>Located at Barefoot Landing, known for high-energy live music, seasonal shows, and a rotating lineup of national touring acts. A Grand Strand landmark since 1993.</p>
+        <div class="uv-act-tags">
+          <span class="uv-act-tag tag-family">Family</span>
+          <span class="uv-act-tag tag-indoor">Indoor</span>
+        </div>
+      </div>
+
+      <div class="uv-act-card" data-tags="family,kids,indoor">
+        <div class="uv-act-title-row">
+          <h3><a href="https://piratesvoyage.com/myrtle-beach/" target="_blank" rel="noopener" class="uv-act-title-link">Pirates Voyage Dinner Show</a></h3>
+          <a href="https://www.google.com/maps/search/?api=1&query=Pirates%20Voyage%20Dinner%20Show%20Myrtle%20Beach%20SC" target="_blank" rel="noopener" class="uv-map-pin" aria-label="Open in Google Maps">📍</a>
+        </div>
+        <p>Dolly Parton's take on dinner theater. Acrobatic pirates, sea lions, tropical birds, and mermaids — all while you eat a four-course meal. Unique to Myrtle Beach.</p>
+        <div class="uv-act-tags">
+          <span class="uv-act-tag tag-family">Family</span>
+          <span class="uv-act-tag tag-kids">Kids</span>
+        </div>
+      </div>
+
+      <div class="uv-act-card" data-tags="adults,outdoor">
+        <div class="uv-act-title-row">
+          <h3><a href="https://carolinacountrymusicfest.com/" target="_blank" rel="noopener" class="uv-act-title-link">Carolina Country Music Fest</a></h3>
+          <a href="https://www.google.com/maps/search/?api=1&query=Carolina%20Country%20Music%20Fest%20Myrtle%20Beach%20SC" target="_blank" rel="noopener" class="uv-map-pin" aria-label="Open in Google Maps">📍</a>
+        </div>
+        <p>A massive four-day country music festival every June right on the beach. National headliners, tens of thousands of fans, and unmatched energy in the Grand Strand.</p>
+        <div class="uv-act-tags">
+          <span class="uv-act-tag tag-adults">Adults</span>
+          <span class="uv-act-tag tag-outdoor">Outdoor</span>
+        </div>
+      </div>
+
+      <div class="uv-act-card" data-tags="family,adults,outdoor">
+        <div class="uv-act-title-row">
+          <h3><a href="https://www.milb.com/myrtle-beach" target="_blank" rel="noopener" class="uv-act-title-link">Myrtle Beach Pelicans Games</a></h3>
+          <a href="https://www.google.com/maps/search/?api=1&query=Myrtle%20Beach%20Pelicans%20Games%20Myrtle%20Beach%20SC" target="_blank" rel="noopener" class="uv-map-pin" aria-label="Open in Google Maps">📍</a>
+        </div>
+        <p>Minor-league baseball at TicketReturn.com Field. Cheap tickets, fireworks nights, and a laid-back family atmosphere — a classic summer evening out.</p>
+        <div class="uv-act-tags">
+          <span class="uv-act-tag tag-family">Family</span>
+          <span class="uv-act-tag tag-outdoor">Outdoor</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ============ NATURE & WILDLIFE ============ -->
+    <div class="uv-cat-heading">
+      <div class="uv-cat-icon">🌿</div>
+      <h2>Nature &amp; Wildlife</h2>
+    </div>
+    <div class="uv-act-grid">
+
+      <div class="uv-act-card" data-tags="family,adults,outdoor">
+        <div class="uv-act-title-row">
+          <h3><a href="https://www.brookgreen.org/" target="_blank" rel="noopener" class="uv-act-title-link">Brookgreen Gardens</a></h3>
+          <a href="https://www.google.com/maps/search/?api=1&query=Brookgreen%20Gardens%20Myrtle%20Beach%20SC" target="_blank" rel="noopener" class="uv-map-pin" aria-label="Open in Google Maps">📍</a>
+        </div>
+        <p>America's first public sculpture garden — over 2,000 sculptures spread across stunning grounds, plus a small zoo with native Lowcountry wildlife. A full-day visit you won't regret.</p>
+        <div class="uv-act-tags">
+          <span class="uv-act-tag tag-family">Family</span>
+          <span class="uv-act-tag tag-outdoor">Outdoor</span>
+        </div>
+      </div>
+
+      <div class="uv-act-card" data-tags="family,adults,outdoor">
+        <div class="uv-act-title-row">
+          <h3><a href="https://southcarolinaparks.com/huntington-beach/introduction" target="_blank" rel="noopener" class="uv-act-title-link">Atalaya Castle</a></h3>
+          <a href="https://www.google.com/maps/search/?api=1&query=Atalaya%20Castle%20Myrtle%20Beach%20SC" target="_blank" rel="noopener" class="uv-map-pin" aria-label="Open in Google Maps">📍</a>
+        </div>
+        <p>A Moorish-style castle built in the 1930s, tucked inside Huntington Beach State Park. Self-guided tours, open-air courtyards, and incredible photo opportunities.</p>
+        <div class="uv-act-tags">
+          <span class="uv-act-tag tag-family">Family</span>
+          <span class="uv-act-tag tag-outdoor">Outdoor</span>
+        </div>
+      </div>
+
+      <div class="uv-act-card" data-tags="family,kids,outdoor">
+        <div class="uv-act-title-row">
+          <h3><a href="https://marshwalk.com/" target="_blank" rel="noopener" class="uv-act-title-link">Murrells Inlet Marsh Walk</a></h3>
+          <a href="https://www.google.com/maps/search/?api=1&query=Murrells%20Inlet%20Marsh%20Walk%20Myrtle%20Beach%20SC" target="_blank" rel="noopener" class="uv-map-pin" aria-label="Open in Google Maps">📍</a>
+        </div>
+        <p>A half-mile wooden boardwalk running along the saltwater estuary, lined with some of the best seafood restaurants on the coast. Sunset here is unmatched.</p>
+        <div class="uv-act-tags">
+          <span class="uv-act-tag tag-family">Family</span>
+          <span class="uv-act-tag tag-outdoor">Outdoor</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ============ SHOPPING ============ -->
+    <div class="uv-cat-heading">
+      <div class="uv-cat-icon">🛍️</div>
+      <h2>Shopping</h2>
+    </div>
+    <div class="uv-act-grid">
+
+      <div class="uv-act-card" data-tags="family,adults">
+        <div class="uv-act-title-row">
+          <h3><a href="https://www.bflanding.com/" target="_blank" rel="noopener" class="uv-act-title-link">Barefoot Landing</a></h3>
+          <a href="https://www.google.com/maps/search/?api=1&query=Barefoot%20Landing%20Myrtle%20Beach%20SC" target="_blank" rel="noopener" class="uv-map-pin" aria-label="Open in Google Maps">📍</a>
+        </div>
+        <p>A waterfront shopping and dining complex in North Myrtle Beach with over 100 shops, specialty boutiques, restaurants, and live entertainment. A must-stop for visitors.</p>
+        <div class="uv-act-tags">
+          <span class="uv-act-tag tag-family">Family</span>
+        </div>
+      </div>
+
+      <div class="uv-act-card" data-tags="family,adults">
+        <div class="uv-act-title-row">
+          <h3><a href="https://www.tangeroutlet.com/myrtlebeach" target="_blank" rel="noopener" class="uv-act-title-link">Tanger Outlets (2 Locations)</a></h3>
+          <a href="https://www.google.com/maps/search/?api=1&query=Tanger%20Outlets%20Myrtle%20Beach%20SC" target="_blank" rel="noopener" class="uv-map-pin" aria-label="Open in Google Maps">📍</a>
+        </div>
+        <p>Over 170 brand-name stores across two locations on Highway 17 — Tanger Outlets Myrtle Beach and Tanger Outlets North. Serious shopping, serious savings.</p>
+        <div class="uv-act-tags">
+          <span class="uv-act-tag tag-family">Family</span>
+        </div>
+      </div>
+
+      <div class="uv-act-card" data-tags="family,adults">
+        <div class="uv-act-title-row">
+          <h3><a href="https://www.marketcommonmb.com/" target="_blank" rel="noopener" class="uv-act-title-link">Market Common</a></h3>
+          <a href="https://www.google.com/maps/search/?api=1&query=Market%20Common%20Myrtle%20Beach%20SC" target="_blank" rel="noopener" class="uv-map-pin" aria-label="Open in Google Maps">📍</a>
+        </div>
+        <p>An upscale outdoor lifestyle center with boutique shops, local cafés, and a movie theater. More sophisticated than the boardwalk, with a community feel locals love.</p>
+        <div class="uv-act-tags">
+          <span class="uv-act-tag tag-adults">Adults</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ============ DINING & NIGHTLIFE ============ -->
+    <div class="uv-cat-heading">
+      <div class="uv-cat-icon">🍽️</div>
+      <h2>Dining &amp; Nightlife</h2>
+    </div>
+    <div class="uv-act-grid">
+
+      <div class="uv-act-card" data-tags="family,adults">
+        <div class="uv-act-title-row">
+          <h3><a href="https://seacaptains.com/" target="_blank" rel="noopener" class="uv-act-title-link">Sea Captain's House</a></h3>
+          <a href="https://www.google.com/maps/search/?api=1&query=Sea%20Captain%27s%20House%20Myrtle%20Beach%20SC" target="_blank" rel="noopener" class="uv-map-pin" aria-label="Open in Google Maps">📍</a>
+        </div>
+        <p>A Myrtle Beach institution since 1962. Oceanfront dining in a converted 1930s beach cottage — the best shrimp and grits on the coast, period.</p>
+        <div class="uv-act-tags">
+          <span class="uv-act-tag tag-family">Family</span>
+        </div>
+      </div>
+
+      <div class="uv-act-card" data-tags="adults,family">
+        <div class="uv-act-title-row">
+          <h3><a href="https://drunkenjacks.com/" target="_blank" rel="noopener" class="uv-act-title-link">Drunken Jack's</a></h3>
+          <a href="https://www.google.com/maps/search/?api=1&query=Drunken%20Jack%27s%20Myrtle%20Beach%20SC" target="_blank" rel="noopener" class="uv-map-pin" aria-label="Open in Google Maps">📍</a>
+        </div>
+        <p>On the Murrells Inlet Marsh Walk. Known for fresh seafood, biscuits that arrive the moment you sit down, and one of the best sunset views in South Carolina.</p>
+        <div class="uv-act-tags">
+          <span class="uv-act-tag tag-family">Family</span>
+        </div>
+      </div>
+
+      <div class="uv-act-card" data-tags="adults">
+        <div class="uv-act-title-row">
+          <h3><a href="https://www.ruthschris.com/restaurant-locations/myrtle-beach/" target="_blank" rel="noopener" class="uv-act-title-link">Ruth's Chris Steakhouse</a></h3>
+          <a href="https://www.google.com/maps/search/?api=1&query=Ruth%27s%20Chris%20Steakhouse%20Myrtle%20Beach%20SC" target="_blank" rel="noopener" class="uv-map-pin" aria-label="Open in Google Maps">📍</a>
+        </div>
+        <p>An upscale dinner option for couples or special occasions. Located at Market Common — reservations strongly recommended on weekends.</p>
+        <div class="uv-act-tags">
+          <span class="uv-act-tag tag-adults">Adults</span>
+        </div>
+      </div>
+
+      <div class="uv-act-card" data-tags="family,kids">
+        <div class="uv-act-title-row">
+          <h3><a href="https://hotfishclub.com/" target="_blank" rel="noopener" class="uv-act-title-link">Hot Fish Club</a></h3>
+          <a href="https://www.google.com/maps/search/?api=1&query=Hot%20Fish%20Club%20Myrtle%20Beach%20SC" target="_blank" rel="noopener" class="uv-map-pin" aria-label="Open in Google Maps">📍</a>
+        </div>
+        <p>A casual waterfront spot in Murrells Inlet with live music, relaxed vibes, and fresh-off-the-boat seafood. Kids love watching the boats come in.</p>
+        <div class="uv-act-tags">
+          <span class="uv-act-tag tag-family">Family</span>
+          <span class="uv-act-tag tag-kids">Kids</span>
+        </div>
+      </div>
+
+      <div class="uv-act-card" data-tags="adults">
+        <div class="uv-act-title-row">
+          <h3><a href="https://riptydzmb.com/" target="_blank" rel="noopener" class="uv-act-title-link">Rip Tydz</a></h3>
+          <a href="https://www.google.com/maps/search/?api=1&query=Rip%20Tydz%20Myrtle%20Beach%20SC" target="_blank" rel="noopener" class="uv-map-pin" aria-label="Open in Google Maps">📍</a>
+        </div>
+        <p>Oceanfront rooftop bar right on the Boardwalk. Craft cocktails, live music, and some of the best sunset ocean views in Myrtle Beach. An adults-only favorite.</p>
+        <div class="uv-act-tags">
+          <span class="uv-act-tag tag-adults">Adults</span>
+        </div>
+      </div>
+
+      <div class="uv-act-card" data-tags="family,kids">
+        <div class="uv-act-title-row">
+          <h3><a href="https://rivercitycafe.com/" target="_blank" rel="noopener" class="uv-act-title-link">River City Café</a></h3>
+          <a href="https://www.google.com/maps/search/?api=1&query=River%20City%20Caf%C3%A9%20Myrtle%20Beach%20SC" target="_blank" rel="noopener" class="uv-map-pin" aria-label="Open in Google Maps">📍</a>
+        </div>
+        <p>Locally famous for oversized burgers and walls covered in thousands of guest signatures. Multiple Grand Strand locations. Kids get to draw on the walls — it's a thing.</p>
+        <div class="uv-act-tags">
+          <span class="uv-act-tag tag-family">Family</span>
+          <span class="uv-act-tag tag-kids">Kids</span>
+        </div>
+      </div>
+
+      <div class="uv-act-card" data-tags="adults,family">
+        <div class="uv-act-title-row">
+          <h3><a href="https://www.broadwayatthebeach.com/" target="_blank" rel="noopener" class="uv-act-title-link">Ole Smoky Distillery &amp; Yee-Haw Brewing</a></h3>
+          <a href="https://www.google.com/maps/search/?api=1&amp;query=Ole%20Smoky%20Distillery%20Yee-Haw%20Brewing%20Broadway%20at%20the%20Beach%20Myrtle%20Beach%20SC" target="_blank" rel="noopener" class="uv-map-pin" aria-label="Open in Google Maps">📍</a>
+        </div>
+        <p>New in 2026 at Broadway at the Beach — a 30,000 sq ft working distillery and brewery with moonshine and whiskey flights, Yee-Haw craft beers, barbecue, and live music in a lakeside beer garden.</p>
+        <div class="uv-act-tags">
+          <span class="uv-act-tag tag-adults">Adults</span>
+          <span class="uv-act-tag tag-family">Family</span>
+        </div>
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- ================ CTA ================ -->
+  <section class="uv-act-cta">
+    <h2>Ready to Plan Your Visit?</h2>
+    <p>Browse our collection of handpicked vacation rentals across Myrtle Beach, North Myrtle Beach, Surfside Beach, and Murrells Inlet.</p>
+    <a href="/properties" class="uv-act-btn">Browse Our Properties →</a>
+  </section>
+
+</div>
+<!-- Activities page filter script — toggles .hidden on .uv-act-card by data-tags.
+     Lives in the OwnerRez Activities page (page content or Head). Captured 2026-08-24. -->
+<script>
+(function() {
+  function initUVActivityFilters() {
+    var buttons = document.querySelectorAll('.uv-activities-page .uv-filter-btn');
+    var cards = document.querySelectorAll('.uv-activities-page .uv-act-card');
+    var categoryHeadings = document.querySelectorAll('.uv-activities-page .uv-cat-heading');
+    if (!buttons.length) return;
+    buttons.forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var filter = btn.getAttribute('data-filter');
+        buttons.forEach(function(b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+        cards.forEach(function(card) {
+          var tags = (card.getAttribute('data-tags') || '').split(',');
+          if (filter === 'all' || tags.indexOf(filter) !== -1) { card.classList.remove('hidden'); }
+          else { card.classList.add('hidden'); }
+        });
+        categoryHeadings.forEach(function(heading) {
+          var next = heading.nextElementSibling;
+          if (!next || !next.classList.contains('uv-act-grid')) return;
+          var visibleCards = next.querySelectorAll('.uv-act-card:not(.hidden)');
+          heading.style.display = visibleCards.length === 0 ? 'none' : 'flex';
+          next.style.display = visibleCards.length === 0 ? 'none' : 'grid';
+        });
+      });
+    });
+  }
+  if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', initUVActivityFilters); }
+  else { initUVActivityFilters(); }
+})();
+</script>
+
+</body></html>

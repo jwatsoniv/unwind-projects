@@ -1,0 +1,33 @@
+<!-- Activities page filter script — toggles .hidden on .uv-act-card by data-tags.
+     Lives in the OwnerRez Activities page (page content or Head). Captured 2026-08-24. -->
+<script>
+(function() {
+  function initUVActivityFilters() {
+    var buttons = document.querySelectorAll('.uv-activities-page .uv-filter-btn');
+    var cards = document.querySelectorAll('.uv-activities-page .uv-act-card');
+    var categoryHeadings = document.querySelectorAll('.uv-activities-page .uv-cat-heading');
+    if (!buttons.length) return;
+    buttons.forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var filter = btn.getAttribute('data-filter');
+        buttons.forEach(function(b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+        cards.forEach(function(card) {
+          var tags = (card.getAttribute('data-tags') || '').split(',');
+          if (filter === 'all' || tags.indexOf(filter) !== -1) { card.classList.remove('hidden'); }
+          else { card.classList.add('hidden'); }
+        });
+        categoryHeadings.forEach(function(heading) {
+          var next = heading.nextElementSibling;
+          if (!next || !next.classList.contains('uv-act-grid')) return;
+          var visibleCards = next.querySelectorAll('.uv-act-card:not(.hidden)');
+          heading.style.display = visibleCards.length === 0 ? 'none' : 'flex';
+          next.style.display = visibleCards.length === 0 ? 'none' : 'grid';
+        });
+      });
+    });
+  }
+  if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', initUVActivityFilters); }
+  else { initUVActivityFilters(); }
+})();
+</script>

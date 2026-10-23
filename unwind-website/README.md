@@ -57,3 +57,23 @@ unwind-website/
 
 - The pre-existing **Facebook Messenger** plugin in the HEAD tab (separate integration).
 - Pre-existing OwnerRez custom CSS (hero/logo/property-item sizing) that predates this work.
+
+## Live mirror (added 2026-10-23)
+
+`mirror/` is an exact copy of what is **live right now**, pulled from the public
+site by `scripts/mirror_live_site.py` (every non-listing page in the sitemap:
+full rendered page in `mirror/pages/`, our custom content block in
+`mirror/content/`, plus site-wide `site-custom.css` and `head-custom.html`).
+OwnerRez strips HTML comments on render, so `live/` keeps the annotated sources;
+when the two disagree, **`mirror/` is what's actually on the site.** Re-run the
+script after every OwnerRez edit and commit:
+
+    python3 unwind-website/scripts/mirror_live_site.py
+
+Other folders added 2026-10-23:
+- `live/winter-rentals/`, `live/pet-friendly/` — pages that previously lived only in OwnerRez.
+- `live/postcard-pages/` — Grande Cayman / Ocean Reef owner postcard QR pages (sources from
+  `~/Documents/unwind-grandecayman/`). **Those pages are no longer live** — `/grandecayman` and
+  `/oceanreef` returned 404 on 2026-10-23.
+- `drafts/` — built-but-unpublished injections (income estimator, owner portal, old winter draft).
+  `winter-rentals-inject.html` is a stale draft; the real page is `live/winter-rentals/`.

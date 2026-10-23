@@ -1,0 +1,40 @@
+<!-- /reviews split layout (2026-10-07). OwnerRez native portfolio Reviews widget is no longer hidden (Airbnb, Vrbo, OwnerRez direct reviews).
+     A labelled Reva section is moved below it: Google, Booking.com and direct guest feedback (Reva widget f35b45ac; excludes Vrbo + Expedia copies already in OwnerRez).
+     Former properties not in OwnerRez keep their Vrbo reviews via unit-scoped Reva widgets (Havens e78fae20, Caravelle 77375f1e).
+     Rollback: paste 2026-10-07_pre-split/reviewspage_IntroHtml_LIVE_before_split.html back into this field. -->
+<style>
+  .uw-rev-label{font-size:13px;color:#6b7280;margin:0 0 8px}
+  .uw-reva-section{margin-top:28px;padding-top:16px;border-top:1px solid #e5e7eb}
+  .uw-reva-section h2,.uw-reva-section h3{margin:0 0 4px}
+</style>
+<div id="uw-reva-portfolio" class="uw-reva-section">
+  <h2>Google, Booking.com and direct guest feedback</h2>
+  <p class="uw-rev-label">Google reviews of Unwind Vacations, Booking.com reviews and feedback guests sent us directly, collected through Reva. Airbnb and Vrbo reviews are shown above.</p>
+  <div id="reva-portfolio-reviews">
+    <iframe src="https://embed.joinreva.com/widgets/f35b45ac-b71b-4b1f-821c-2992978fd7f7" loading="lazy" width="100%" height="1400" frameborder="0" style="border:0" title="Google, Booking.com and direct guest feedback"></iframe>
+  </div>
+  <h3 style="margin-top:24px">Vrbo reviews for former Unwind properties</h3>
+  <p class="uw-rev-label">These properties are no longer managed by Unwind Vacations. Their Vrbo reviews are kept here under their own property names.</p>
+  <h4>Barefoot #1635 Havens</h4>
+  <iframe src="https://embed.joinreva.com/widgets/e78fae20-f054-474c-ba3a-9d2997ae98a1" loading="lazy" width="100%" height="1200" frameborder="0" style="border:0" title="Vrbo reviews: Barefoot #1635 Havens"></iframe>
+  <h4>Caravelle Resort #125</h4>
+  <iframe src="https://embed.joinreva.com/widgets/77375f1e-08f4-428a-8004-58116c18ac7b" loading="lazy" width="100%" height="800" frameborder="0" style="border:0" title="Vrbo reviews: Caravelle Resort #125"></iframe>
+</div>
+<script>
+(function () {
+  function place() {
+  var sec = document.getElementById("uw-reva-portfolio");
+  var orw = document.querySelector('.ownerrez-widget[data-widget-type="Reviews"]');
+  if (!sec || !orw) return;
+  var lab = document.createElement("p"); lab.className = "uw-rev-label";
+  lab.textContent = "Reviews from Airbnb, Vrbo and direct bookings.";
+  orw.parentNode.insertBefore(lab, orw);
+  orw.insertAdjacentElement("afterend", sec);
+  }
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", place); else place();
+})();
+</script>
+
+<!-- OwnerRez Reviews widget -->
+<div class="ownerrez-widget" data-widget-type="Reviews" data-widgetId="b80ae728193e4afd8f831b48010d3728"></div>
+<script src="https://app.ownerrez.com/widget.js"></script>

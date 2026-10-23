@@ -1,0 +1,845 @@
+<div id="uw-filter-banner" style="display:none;margin:0 0 14px;padding:10px 14px;border-radius:8px;background:#eef7f8;color:#1c4e55;font-size:15px;">
+  <strong id="uw-filter-label"></strong> &nbsp;·&nbsp; <a href="/properties" style="text-decoration:underline;">Show all properties</a>
+</div>
+<script>
+(function(){
+  var F = {
+    'oceanfront':        {label:'Oceanfront rentals',               amenities:['LocationTypeFeatures_OceanFront']},
+    'pet-friendly':      {label:'Pet-friendly rentals',             amenities:['SuitabilityFeatures_PetsAllowed']},
+    'large-groups':      {label:'Homes for large groups (4+ bedrooms)', bedrooms:'4'},
+    'north-myrtle-beach':{label:'North Myrtle Beach & Cherry Grove', location:'["USA","SC","NORTH MYRTLE BEACH"]'},
+    'myrtle-beach':      {label:'Myrtle Beach',                     location:'["USA","SC","MYRTLE BEACH"]'},
+    'surfside-beach':    {label:'Surfside Beach',                   location:'["USA","SC","SURFSIDE BEACH"]'},
+    'murrells-inlet':    {label:'Murrells Inlet',                   location:'["USA","SC","MURRELLS INLET"]'},
+    'little-river':      {label:'Little River',                     location:'["USA","SC","LITTLE RIVER"]'}
+  };
+  var KEY = 'uwFilterLabel';
+  function showBanner(t){
+    var b=document.getElementById('uw-filter-banner'), l=document.getElementById('uw-filter-label');
+    if(b&&l&&t){ l.textContent=t; b.style.display='block'; }
+  }
+  function run(){
+    var key=(location.hash||'').replace('#','').toLowerCase();
+    var f=F[key];
+    if(!f){
+      try{ var t=sessionStorage.getItem(KEY); if(t){ showBanner(t); sessionStorage.removeItem(KEY);} }catch(e){}
+      return;
+    }
+    var form=document.querySelector('form[action*="/properties"]');
+    if(!form) return;
+    var ok=false;
+    ['LocationString','Guests','Bedrooms','Bathrooms'].forEach(function(n){ var el=form.querySelector('select[name="'+n+'"]'); if(el) el.value=''; });
+    ['ArrivalDate','DepartureDate'].forEach(function(n){ var el=form.querySelector('input[name="'+n+'"]'); if(el) el.value=''; });
+    var am=form.querySelector('select[name="AmenityFilters"]'); if(am){ for(var q=0;q<am.options.length;q++) am.options[q].selected=false; }
+    if(f.location){ var s=form.querySelector('select[name="LocationString"]'); if(s){ s.value=f.location; ok=true; } }
+    if(f.bedrooms){ var bsel=form.querySelector('select[name="Bedrooms"]'); if(bsel){ bsel.value=f.bedrooms; ok=true; } }
+    if(f.amenities){
+      var a=form.querySelector('select[name="AmenityFilters"]');
+      if(a){
+        for(var i=0;i<a.options.length;i++){ a.options[i].selected = f.amenities.indexOf(a.options[i].value)>=0; }
+        for(var j=0;j<f.amenities.length;j++){
+          var v=f.amenities[j], found=false;
+          for(var k=0;k<a.options.length;k++){ if(a.options[k].value===v){ found=true; break; } }
+          if(!found){ var o=document.createElement('option'); o.value=v; o.text=v; o.selected=true; a.appendChild(o); }
+        }
+        ok=true;
+      }
+    }
+    if(!ok) return;
+    try{ sessionStorage.setItem(KEY, f.label); }catch(e){}
+    var pg=form.querySelector('input[name="Page"]'); if(pg) pg.value='1';
+    history.replaceState(null,'',location.pathname+location.search);
+    form.submit();
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',run); else run();
+  window.addEventListener('hashchange',run);
+})();
+</script>
+
+
+
+
+
+
+    <link rel="stylesheet" href="https://cdn.orez.io/sc/content/css/common/bootstrap-datepicker.css.29.0.0" />
+    <style>
+        .datepicker {
+            margin-bottom: 10px;
+            margin-left: 10px;
+        }
+    </style>
+    <form method="post" action="/properties">
+        
+    <input type="hidden" name="Page" id="Page" value="1" />
+<input data-val="true" data-val-required="The Sort field is required." id="Sort" name="Sort" type="hidden" value="Default" />    <div id="search-bar-widget" class="row search-bar">
+            <div class="col-sm-2 search-bar-field">
+<div class="form-group">
+
+<select aria-label="Location" class="form-control" id="LocationString" name="LocationString"><option selected="selected" value="">Any Location</option><option value="[&quot;USA&quot;,&quot;SC&quot;,&quot;LITTLE RIVER&quot;]">Little River</option><option value="[&quot;USA&quot;,&quot;SC&quot;,&quot;MURRELLS INLET&quot;]">Murrells Inlet</option><option value="[&quot;USA&quot;,&quot;SC&quot;,&quot;MYRTLE BEACH&quot;]">Myrtle Beach</option><option value="[&quot;USA&quot;,&quot;SC&quot;,&quot;NORTH MYRTLE BEACH&quot;]">North Myrtle Beach</option><option value="[&quot;USA&quot;,&quot;SC&quot;,&quot;SURFSIDE BEACH&quot;]">Surfside Beach</option></select>
+
+
+<span aria-live="polite" class="field-validation-valid help-block" data-valmsg-for="LocationString" data-valmsg-replace="true" id="LocationString-validation"></span></div>            </div>
+        <div class="col-sm-2 search-bar-field">
+<div class="form-group">                <div class="input-group date">
+                    <input aria-label="Arrival Date" class="form-control" data-val="true" data-val-date="The field Arrival Date must be a date." id="ArrivalDate" name="ArrivalDate" placeholder="Arrival" readonly="readonly" style="cursor:pointer;background:#fff" type="text" value="" />
+                    <span class="input-group-btn"><a class="btn btn-default"><i class="fa fa-calendar"></i></a></span>
+                </div>
+<span aria-live="polite" class="field-validation-valid help-block" data-valmsg-for="ArrivalDate" data-valmsg-replace="true" id="ArrivalDate-validation"></span></div>        </div>
+        <div class="col-sm-2 search-bar-field">
+<div class="form-group">                <div class="input-group date">
+                    <input aria-label="Departure Date" class="form-control" data-val="true" data-val-date="The field Departure Date must be a date." id="DepartureDate" name="DepartureDate" placeholder="Departure" readonly="readonly" style="cursor:pointer;background:#fff" type="text" value="" />
+                    <span class="input-group-btn"><a class="btn btn-default"><i class="fa fa-calendar"></i></a></span>
+                </div>
+<span aria-live="polite" class="field-validation-valid help-block" data-valmsg-for="DepartureDate" data-valmsg-replace="true" id="DepartureDate-validation"></span></div>        </div>
+            <div class="col-sm-2 search-bar-field">
+<div class="form-group">
+
+<select aria-label="Guests" class="form-control" data-val="true" data-val-number="The field Guests must be a number." id="Guests" name="Guests"><option selected="selected" value="">Any Guests</option><option value="1">1+ Guest</option><option value="2">2+ Guests</option><option value="3">3+ Guests</option><option value="4">4+ Guests</option><option value="5">5+ Guests</option><option value="6">6+ Guests</option><option value="7">7+ Guests</option><option value="8">8+ Guests</option><option value="9">9+ Guests</option><option value="10">10+ Guests</option><option value="11">11+ Guests</option><option value="12">12+ Guests</option><option value="13">13+ Guests</option><option value="14">14+ Guests</option><option value="15">15+ Guests</option><option value="16">16 Guests</option></select>
+
+
+<span aria-live="polite" class="field-validation-valid help-block" data-valmsg-for="Guests" data-valmsg-replace="true" id="Guests-validation"></span></div>            </div>
+                    <div class="col-sm-2 search-bar-field">
+<div class="form-group">
+
+<select aria-label="Bedrooms" class="form-control" data-val="true" data-val-number="The field Bedrooms must be a number." id="Bedrooms" name="Bedrooms"><option selected="selected" value="">Any Bedrooms</option><option value="1">1+ Bedroom</option><option value="2">2+ Bedrooms</option><option value="3">3+ Bedrooms</option><option value="4">4+ Bedrooms</option><option value="5">5+ Bedrooms</option><option value="6">6 Bedrooms</option></select>
+
+
+<span aria-live="polite" class="field-validation-valid help-block" data-valmsg-for="Bedrooms" data-valmsg-replace="true" id="Bedrooms-validation"></span></div>            </div>
+                    <div class="col-sm-2 search-bar-field">
+<div class="form-group">
+
+<select aria-label="Bathrooms" class="form-control" data-val="true" data-val-number="The field Bathrooms must be a number." id="Bathrooms" name="Bathrooms"><option selected="selected" value="">Any Bathrooms</option><option value="1">1+ Bathroom</option><option value="2">2+ Bathrooms</option><option value="3">3+ Bathrooms</option><option value="4">4+ Bathrooms</option><option value="5">5 Bathrooms</option></select>
+
+
+<span aria-live="polite" class="field-validation-valid help-block" data-valmsg-for="Bathrooms" data-valmsg-replace="true" id="Bathrooms-validation"></span></div>            </div>
+                            <div class="col-sm-2 search-bar-field dropdown-max-height dropdown-menu-right">
+<div class="form-group">
+
+<select aria-label="Amenities" class="form-control form-control" id="AmenityFilters" multiple="multiple" name="AmenityFilters">            <optgroup label="Accessibility Features">
+                <option value="AccessibilityFeatures_GettingHome_DisabledParkingSpot">Disabled Parking Spot</option><option value="AccessibilityFeatures_GettingHome_HomeStepFreeAccess">Home Step Free Access</option>
+            </optgroup>
+            <optgroup label="Entertainment Features">
+                <option value="EntertainmentFeatures_ArcadeMachine">Arcade Machine</option><option value="EntertainmentFeatures_ExerciseEquipment">Exercise Equipment</option><option value="EntertainmentFeatures_GameRoom">Game Room</option><option value="EntertainmentFeatures_Games">Games/Board Games</option><option value="EntertainmentFeatures_Gym">Gym</option><option value="EntertainmentFeatures_SmartTv">Smart TV</option>
+            </optgroup>
+            <optgroup label="Location Type Features">
+                <option value="LocationTypeFeatures_BayView">Bay View</option><option value="LocationTypeFeatures_Beach">Beach</option><option value="LocationTypeFeatures_BeachView">Beach View</option><option value="LocationTypeFeatures_BeachFront">Beachfront</option><option value="LocationTypeFeatures_City">City</option><option value="LocationTypeFeatures_GolfCourseFront">Golf Course Front</option><option value="LocationTypeFeatures_GolfCourseView">Golf Course View</option><option value="LocationTypeFeatures_HarborView">Harbor View</option><option value="LocationTypeFeatures_LakeView">Lake View</option><option value="LocationTypeFeatures_LakeFront">Lakefront</option><option value="LocationTypeFeatures_MarinaView">Marina View</option><option value="LocationTypeFeatures_NearOcean">Near Ocean</option><option value="LocationTypeFeatures_Ocean">Ocean</option><option value="LocationTypeFeatures_OceanView">Ocean View</option><option value="LocationTypeFeatures_OceanFront">Oceanfront</option><option value="LocationTypeFeatures_PoolView">Pool View</option><option value="LocationTypeFeatures_PrivateBeachAccess">Private Beach Access</option><option value="LocationTypeFeatures_Resort">Resort</option><option value="LocationTypeFeatures_ResortView">Resort View</option><option value="LocationTypeFeatures_SeaView">Sea View</option><option value="LocationTypeFeatures_SharedBeachAccess">Shared Beach Access</option><option value="LocationTypeFeatures_WaterView">Water View</option><option value="LocationTypeFeatures_WaterFront">Waterfront</option>
+            </optgroup>
+            <optgroup label="Outdoor Features">
+                <option value="OutdoorFeatures_Balcony">Balcony/Terrace</option><option value="OutdoorFeatures_BeachEssentials">Beach Essentials</option><option value="OutdoorFeatures_Bicycles">Bicycles</option><option value="OutdoorFeatures_DeckPatio">Deck/Patio (uncovered)</option><option value="OutdoorFeatures_OutdoorGrill">Outdoor Grill</option><option value="OutdoorFeatures_OutdoorSeating">Outdoor Seating</option><option value="OutdoorFeatures_Playground">Playground</option><option value="OutdoorFeatures_GolfNearby">Walkable to Golf</option><option value="OutdoorFeatures_WalkableToPark">Walkable to Park/Playground</option><option value="OutdoorFeatures_WaterSportsGear">Water Sports Gear</option>
+            </optgroup>
+            <optgroup label="Parking Features">
+                <option value="ParkingFeatures_FreeParking">Free Parking</option>
+            </optgroup>
+            <optgroup label="Pool &amp; Spa Features">
+                <option value="PoolSpaFeatures_CommunalPool">Communal Pool</option><option value="PoolSpaFeatures_HotTub">Hot Tub</option><option value="PoolSpaFeatures_Jacuzzi">Jacuzzi</option><option value="PoolSpaFeatures_PrivatePool">Private Pool</option>
+            </optgroup>
+            <optgroup label="Popular Amenity Features">
+                <option value="PopularAmenityFeatures_AirConditioning">Air Conditioning</option><option value="PopularAmenityFeatures_BasicSoaps">Basic Soaps</option><option value="PopularAmenityFeatures_BodySoap">Body Soap</option><option value="PopularAmenityFeatures_ExtraPillowsAndBlankets">Extra Pillows &amp; Blankets</option><option value="PopularAmenityFeatures_FitnessRoomEquipment">Fitness Room/Equipment</option><option value="PopularAmenityFeatures_Internet">Internet / Wifi</option>
+            </optgroup>
+</select>
+
+
+<span aria-live="polite" class="field-validation-valid help-block" data-valmsg-for="AmenityFilters" data-valmsg-replace="true" id="AmenityFilters-validation"></span></div>            </div>
+        <div class="col-sm-1 search-bar-button">
+            <button type="submit" class="btn btn-default"><i class="fas fa-search"></i> Search</button>
+        </div>
+        
+    </div>
+    <div class="row" id="search-results">
+        <div class="col-xs-12 col-12">
+                <h2>
+                    <span class="property-count">60  properties</span>
+                    &nbsp;<div class="btn-group sort-selector" style="margin-top:-10px">
+                        <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown">
+                            Sorted Featured <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu">
+                                <li role="menuitem" class="active"><a class="dropdown-item"  href="#" data-val="0">Featured</a></li>
+                            <li role="menuitem"><a class="dropdown-item" href="#" data-val="1">A-Z</a></li>
+                            <li role="menuitem"><a class="dropdown-item"  href="#" data-val="3">Number of Bedrooms</a></li>
+                            <li role="menuitem"><a class="dropdown-item" href="#" data-val="2">Random</a></li>
+                        </ul>
+                    </div>
+                </h2>
+
+<div class="property-result-list">
+            <div class="row">
+                <div class="col-sm-4">
+                            <h3 class="pull-right float-end visible-xs media-heading">
+            $95-742/night
+        </h3>
+
+                    <h2 class="visible-xs media-heading" id="pname-orp5b7080ex"><a href="/oceanfront-luxury-4br-sleeps-10-beach-club-ii-orp5b7080ex" target="_top">Oceanfront Luxury 4BR | Sleeps 10 | Beach Club II</a></h2>
+                    <a class="thumbnail" style="margin-bottom:0;width:100%" href="/oceanfront-luxury-4br-sleeps-10-beach-club-ii-orp5b7080ex" target="_top">
+                        <img class="media-object" src="https://uc.orez.io/i/6479e83ee07b4a93892c88c3562d1132-Medium" aria-labelledby="pname-orp5b7080ex" alt="OwnerRez"/>
+                    </a>
+                </div>
+                <div class="col-sm-8">
+                            <h3 class="pull-right float-end hidden-xs media-heading">
+            $95-742/night
+        </h3>
+
+                    <h2 class="media-heading hidden-xs"><a href="/oceanfront-luxury-4br-sleeps-10-beach-club-ii-orp5b7080ex" target="_top">Oceanfront Luxury 4BR | Sleeps 10 | Beach Club II</a></h2>
+<div class="amenity-summary-size" style="margin-bottom:10px">
+    <h4 style="display:inline" class="hidden-xs">Size &ndash; </h4>
+        4 Bedrooms
+             &bull; 
+            <span class="hidden-xs">3 Bathrooms </span>
+        <span class="visible-xs-inline">3 Baths </span>
+                 &bull; 
+        Sleeps 1-10
+</div>
+
+
+<div class="amenity-summary-amenities" style="line-height:2em;margin-bottom:10px">
+    <span class="h4 hidden-xs">Amenities &ndash; </span>
+
+    <span class="amenity-list-item" style="white-space:nowrap;margin-right:6px" title="Free">
+            <i class="fas fa-wifi"></i>
+        Internet    </span>
+    <span class="amenity-list-item" style="white-space:nowrap;margin-right:6px" title="Oceanfront, Ocean View, Near Ocean, Ocean, Beachfront, Beach View, Beach, Waterfront, Water View">
+            <i class="fas fa-water"></i>
+        Oceanfront    </span>
+    <span class="amenity-list-item" style="white-space:nowrap;margin-right:6px" title="Fenced / Childrens">
+            <i class="fas fa-swimming-pool"></i>
+        Pool    </span>
+    
+    </div> 
+Luxury 4BR/3BA oceanfront condo at Beach Club II &#127754;! Sleeps 10 with a king suite, queen room, full bed, and full-over-full bunk. Large oceanfront balcony, Smart TVs in all rooms, walk-in shower, and granite countertops. Kitchen includes wireless charging, toaster, blender, and coffee maker. Minutes to Barefoot Landing &amp; NMB Main Street. Perfect for families, golf trips, or beach escapes. Direct beach access, pool, and stunning ocean views from your private balcony.                    <p class="btn-group" style="margin-bottom:0">
+<p class="btn-group" style="margin-bottom:0">
+    <a class="btn btn-default" href="/oceanfront-luxury-4br-sleeps-10-beach-club-ii-orp5b7080ex#photos"><i class="far fa-image"></i> Photos</a>
+        <a class="btn btn-default hidden-xs" href="/oceanfront-luxury-4br-sleeps-10-beach-club-ii-orp5b7080ex#availability"><i class="far fa-credit-card"></i> Rates</a>
+    <a class="btn btn-default hidden-xs" href="/oceanfront-luxury-4br-sleeps-10-beach-club-ii-orp5b7080ex#availability"><i class="far fa-calendar-alt"></i> Availability</a>
+    <a class="btn btn-default" href="/oceanfront-luxury-4br-sleeps-10-beach-club-ii-orp5b7080ex"><i class="fas fa-suitcase"></i> Details</a>
+    <a class="btn btn-default" href="/oceanfront-luxury-4br-sleeps-10-beach-club-ii-orp5b7080ex#inquire"><i class="fas fa-envelope"></i> Inquire</a>
+</p>                    </p>
+                </div>
+            </div>
+                <hr />
+            <div class="row">
+                <div class="col-sm-4">
+                            <h3 class="pull-right float-end visible-xs media-heading">
+            $100-300/night
+        </h3>
+
+                    <h2 class="visible-xs media-heading" id="pname-orp5b6a14fx"><a href="/oceanview-5br-with-game-room-sleeps-17-orp5b6a14fx" target="_top">Oceanview 5BR with Game Room Sleeps 17</a></h2>
+                    <a class="thumbnail" style="margin-bottom:0;width:100%" href="/oceanview-5br-with-game-room-sleeps-17-orp5b6a14fx" target="_top">
+                        <img class="media-object" src="https://uc.orez.io/i/daf46cec377b4199bacb5a251199b0ee-Medium" aria-labelledby="pname-orp5b6a14fx" alt="OwnerRez"/>
+                    </a>
+                </div>
+                <div class="col-sm-8">
+                            <h3 class="pull-right float-end hidden-xs media-heading">
+            $100-300/night
+        </h3>
+
+                    <h2 class="media-heading hidden-xs"><a href="/oceanview-5br-with-game-room-sleeps-17-orp5b6a14fx" target="_top">Oceanview 5BR with Game Room Sleeps 17</a></h2>
+<div class="amenity-summary-size" style="margin-bottom:10px">
+    <h4 style="display:inline" class="hidden-xs">Size &ndash; </h4>
+        6 Bedrooms
+             &bull; 
+            <span class="hidden-xs">5 Bathrooms </span>
+        <span class="visible-xs-inline">5 Baths </span>
+                 &bull; 
+        Sleeps 1-16
+</div>
+
+
+<div class="amenity-summary-amenities" style="line-height:2em;margin-bottom:10px">
+    <span class="h4 hidden-xs">Amenities &ndash; </span>
+
+    <span class="amenity-list-item" style="white-space:nowrap;margin-right:6px" title="Elevator takes you to this floor.  Bedroom on main living area but the rest of the bedroms are upstairs with only access via stairs">
+            <i class="fas fa-wheelchair"></i>
+        Accessible    </span>
+    <span class="amenity-list-item" style="white-space:nowrap;margin-right:6px" title="100+ Mbps, Free">
+            <i class="fas fa-wifi"></i>
+        Internet    </span>
+    <span class="amenity-list-item" style="white-space:nowrap;margin-right:6px" title="Ocean View, Near Ocean, Ocean, Beach View, Beach, Water View">
+            <i class="fas fa-water"></i>
+        Ocean View    </span>
+    <span class="amenity-list-item" style="white-space:nowrap;margin-right:6px" title="Fenced">
+            <i class="fas fa-swimming-pool"></i>
+        Pool    </span>
+    
+    </div> 
+<p>&#127796; Welcome to your perfect Myrtle Beach group getaway! This spacious 5BR oceanview condo sleeps 14 &amp; offers the ideal mix of comfort, fun, and location across two floors and 2,800 sq ft.</p><p>• &#128719;️ Beds: 1 King Bed, 4 Queen Beds, 2 Twin Beds, Bunk Bed (Queen/Full size Bunk Bed) Game Room chair turns into a pull out sofa, sleeps 17<br/>• &#127918; Game room with arcade machines for all ages<br/>• &#127754; 2 balconies with stunning ocean views<br/>• &#128205; Steps from the beach &amp; close to Cherry Grove Pier, North Myrtle Beach Main St, Barefoot Landing<br/>• &#128246; Fast Wi-Fi, Smart TVs, full kitchen &amp; washer/dryer<br/>• &#128663; Free parking + professionally cleaned<br/>• &#127949;️ Please note: effective January 1, 2027, motorcycles are not permitted on the property (HOA rule).</p>                    <p class="btn-group" style="margin-bottom:0">
+<p class="btn-group" style="margin-bottom:0">
+    <a class="btn btn-default" href="/oceanview-5br-with-game-room-sleeps-17-orp5b6a14fx#photos"><i class="far fa-image"></i> Photos</a>
+        <a class="btn btn-default hidden-xs" href="/oceanview-5br-with-game-room-sleeps-17-orp5b6a14fx#availability"><i class="far fa-credit-card"></i> Rates</a>
+    <a class="btn btn-default hidden-xs" href="/oceanview-5br-with-game-room-sleeps-17-orp5b6a14fx#availability"><i class="far fa-calendar-alt"></i> Availability</a>
+    <a class="btn btn-default" href="/oceanview-5br-with-game-room-sleeps-17-orp5b6a14fx"><i class="fas fa-suitcase"></i> Details</a>
+    <a class="btn btn-default" href="/oceanview-5br-with-game-room-sleeps-17-orp5b6a14fx#inquire"><i class="fas fa-envelope"></i> Inquire</a>
+</p>                    </p>
+                </div>
+            </div>
+                <hr />
+            <div class="row">
+                <div class="col-sm-4">
+                            <h3 class="pull-right float-end visible-xs media-heading">
+            $143-600/night
+        </h3>
+
+                    <h2 class="visible-xs media-heading" id="pname-orp5b69800x"><a href="/prince-resort-oceanfront-3br-pools-lazy-river-orp5b69800x" target="_top">Prince Resort Oceanfront 3BR Pools Lazy River</a></h2>
+                    <a class="thumbnail" style="margin-bottom:0;width:100%" href="/prince-resort-oceanfront-3br-pools-lazy-river-orp5b69800x" target="_top">
+                        <img class="media-object" src="https://uc.orez.io/i/f3c4236fde964c1ba2728cc953ff25b6-Medium" aria-labelledby="pname-orp5b69800x" alt="OwnerRez"/>
+                    </a>
+                </div>
+                <div class="col-sm-8">
+                            <h3 class="pull-right float-end hidden-xs media-heading">
+            $143-600/night
+        </h3>
+
+                    <h2 class="media-heading hidden-xs"><a href="/prince-resort-oceanfront-3br-pools-lazy-river-orp5b69800x" target="_top">Prince Resort Oceanfront 3BR Pools Lazy River</a></h2>
+<div class="amenity-summary-size" style="margin-bottom:10px">
+    <h4 style="display:inline" class="hidden-xs">Size &ndash; </h4>
+        3 Bedrooms
+             &bull; 
+            <span class="hidden-xs">3 Bathrooms </span>
+        <span class="visible-xs-inline">3 Baths </span>
+                 &bull; 
+        Sleeps 1-8
+</div>
+
+
+<div class="amenity-summary-amenities" style="line-height:2em;margin-bottom:10px">
+    <span class="h4 hidden-xs">Amenities &ndash; </span>
+
+    <span class="amenity-list-item" style="white-space:nowrap;margin-right:6px">
+            <i class="fas fa-wheelchair"></i>
+        Accessible    </span>
+    <span class="amenity-list-item" style="white-space:nowrap;margin-right:6px" title="100+ Mbps, Free, Free WiFi">
+            <i class="fas fa-wifi"></i>
+        Internet    </span>
+    <span class="amenity-list-item" style="white-space:nowrap;margin-right:6px" title="Oceanfront, Ocean View, Near Ocean, Ocean, Beachfront, Beach View, Beach, Waterfront, Water View">
+            <i class="fas fa-water"></i>
+        Oceanfront    </span>
+    <span class="amenity-list-item" style="white-space:nowrap;margin-right:6px" title="Heated / Fenced / Childrens">
+            <i class="fas fa-swimming-pool"></i>
+        Pool    </span>
+    <span class="amenity-list-item" style="white-space:nowrap;margin-right:6px">
+            <i class="fas fa-hot-tub"></i>
+        Hot Tub    </span>
+    
+    </div> 
+✔ Oceanfront 12th-floor condo with breathtaking views of Cherry Grove Pier<br/>✔ Sleeps 8 – 3 bedrooms, 3 bathrooms for a spacious and comfortable stay<br/>✔ Resort perks – 2 pools, 2 kiddie pools, heated rooftop lazy river, 4 hot tubs, fitness center<br/>✔ Fully equipped kitchen + full-size washer &amp; dryer<br/>✔ 4 Smart TVs &amp; free Wi-Fi<br/>✔ Prime location – Walk to the pier &amp; beach, minutes to Barefoot Landing &amp; Main St. NMB<br/>✔ On-site oceanfront dining on the pier &amp; close to top attractions                    <p class="btn-group" style="margin-bottom:0">
+<p class="btn-group" style="margin-bottom:0">
+    <a class="btn btn-default" href="/prince-resort-oceanfront-3br-pools-lazy-river-orp5b69800x#photos"><i class="far fa-image"></i> Photos</a>
+        <a class="btn btn-default hidden-xs" href="/prince-resort-oceanfront-3br-pools-lazy-river-orp5b69800x#availability"><i class="far fa-credit-card"></i> Rates</a>
+    <a class="btn btn-default hidden-xs" href="/prince-resort-oceanfront-3br-pools-lazy-river-orp5b69800x#availability"><i class="far fa-calendar-alt"></i> Availability</a>
+    <a class="btn btn-default" href="/prince-resort-oceanfront-3br-pools-lazy-river-orp5b69800x"><i class="fas fa-suitcase"></i> Details</a>
+    <a class="btn btn-default" href="/prince-resort-oceanfront-3br-pools-lazy-river-orp5b69800x#inquire"><i class="fas fa-envelope"></i> Inquire</a>
+</p>                    </p>
+                </div>
+            </div>
+                <hr />
+            <div class="row">
+                <div class="col-sm-4">
+                            <h3 class="pull-right float-end visible-xs media-heading">
+            $155-1,064/night
+        </h3>
+
+                    <h2 class="visible-xs media-heading" id="pname-orp5b77663x"><a href="/22ndfloor-oceanfront-luxury-maisons-surmer-orp5b77663x" target="_top">22nd-Floor Oceanfront Luxury &#183; Maisons Sur-Mer</a></h2>
+                    <a class="thumbnail" style="margin-bottom:0;width:100%" href="/22ndfloor-oceanfront-luxury-maisons-surmer-orp5b77663x" target="_top">
+                        <img class="media-object" src="https://uc.orez.io/i/8d5d632c44bc4471a3a977bf26ab8cd2-Medium" aria-labelledby="pname-orp5b77663x" alt="OwnerRez"/>
+                    </a>
+                </div>
+                <div class="col-sm-8">
+                            <h3 class="pull-right float-end hidden-xs media-heading">
+            $155-1,064/night
+        </h3>
+
+                    <h2 class="media-heading hidden-xs"><a href="/22ndfloor-oceanfront-luxury-maisons-surmer-orp5b77663x" target="_top">22nd-Floor Oceanfront Luxury &#183; Maisons Sur-Mer</a></h2>
+<div class="amenity-summary-size" style="margin-bottom:10px">
+    <h4 style="display:inline" class="hidden-xs">Size &ndash; </h4>
+        2 Bedrooms
+             &bull; 
+            <span class="hidden-xs">2 Bathrooms </span>
+        <span class="visible-xs-inline">2 Baths </span>
+                 &bull; 
+        Sleeps 1-6
+</div>
+
+
+<div class="amenity-summary-amenities" style="line-height:2em;margin-bottom:10px">
+    <span class="h4 hidden-xs">Amenities &ndash; </span>
+
+    <span class="amenity-list-item" style="white-space:nowrap;margin-right:6px">
+            <i class="fas fa-wifi"></i>
+        Internet    </span>
+    <span class="amenity-list-item" style="white-space:nowrap;margin-right:6px" title="Oceanfront, Ocean View, Ocean, Beachfront, Beach View, Beach, Waterfront, Water View">
+            <i class="fas fa-water"></i>
+        Oceanfront    </span>
+    <span class="amenity-list-item" style="white-space:nowrap;margin-right:6px">
+            <i class="fas fa-swimming-pool"></i>
+        Pool    </span>
+    <span class="amenity-list-item" style="white-space:nowrap;margin-right:6px">
+            <i class="fas fa-hot-tub"></i>
+        Hot Tub    </span>
+    
+    </div> 
+Wake up on the 22nd floor above the Atlantic in this fully renovated 2BR/2BA luxury condo at Maisons Sur-Mer. Floor-to-ceiling windows, panoramic ocean views &amp; two private balconies. Gourmet island kitchen, wet bar, and spa-style ensuite baths in both bedrooms. Sleeps 6 — king, two fulls, queen sleeper. Resort perks: oceanfront pools, Tiki bar, hot tub, saunas, fitness center &amp; private beach access on the quiet Shore Drive stretch of Myrtle Beach.                    <p class="btn-group" style="margin-bottom:0">
+<p class="btn-group" style="margin-bottom:0">
+    <a class="btn btn-default" href="/22ndfloor-oceanfront-luxury-maisons-surmer-orp5b77663x#photos"><i class="far fa-image"></i> Photos</a>
+        <a class="btn btn-default hidden-xs" href="/22ndfloor-oceanfront-luxury-maisons-surmer-orp5b77663x#availability"><i class="far fa-credit-card"></i> Rates</a>
+    <a class="btn btn-default hidden-xs" href="/22ndfloor-oceanfront-luxury-maisons-surmer-orp5b77663x#availability"><i class="far fa-calendar-alt"></i> Availability</a>
+    <a class="btn btn-default" href="/22ndfloor-oceanfront-luxury-maisons-surmer-orp5b77663x"><i class="fas fa-suitcase"></i> Details</a>
+    <a class="btn btn-default" href="/22ndfloor-oceanfront-luxury-maisons-surmer-orp5b77663x#inquire"><i class="fas fa-envelope"></i> Inquire</a>
+</p>                    </p>
+                </div>
+            </div>
+                <hr />
+            <div class="row">
+                <div class="col-sm-4">
+                            <h3 class="pull-right float-end visible-xs media-heading">
+            $190-1,021/night
+        </h3>
+
+                    <h2 class="visible-xs media-heading" id="pname-orp5b6b774x"><a href="/charming-4br-beach-house-with-heated-pool-outdoor-grill-orp5b6b774x" target="_top">Charming 4BR Beach House with Heated Pool &amp; Outdoor Grill</a></h2>
+                    <a class="thumbnail" style="margin-bottom:0;width:100%" href="/charming-4br-beach-house-with-heated-pool-outdoor-grill-orp5b6b774x" target="_top">
+                        <img class="media-object" src="https://uc.orez.io/i/a80001a5a4494279a46b2ef9c7d66cdd-Medium" aria-labelledby="pname-orp5b6b774x" alt="OwnerRez"/>
+                    </a>
+                </div>
+                <div class="col-sm-8">
+                            <h3 class="pull-right float-end hidden-xs media-heading">
+            $190-1,021/night
+        </h3>
+
+                    <h2 class="media-heading hidden-xs"><a href="/charming-4br-beach-house-with-heated-pool-outdoor-grill-orp5b6b774x" target="_top">Charming 4BR Beach House with Heated Pool &amp; Outdoor Grill</a></h2>
+<div class="amenity-summary-size" style="margin-bottom:10px">
+    <h4 style="display:inline" class="hidden-xs">Size &ndash; </h4>
+        4 Bedrooms
+             &bull; 
+            <span class="hidden-xs">3 Bathrooms </span>
+        <span class="visible-xs-inline">3 Baths </span>
+                 &bull; 
+        Sleeps 1-10
+</div>
+
+
+<div class="amenity-summary-amenities" style="line-height:2em;margin-bottom:10px">
+    <span class="h4 hidden-xs">Amenities &ndash; </span>
+
+    <span class="amenity-list-item" style="white-space:nowrap;margin-right:6px" title="Free">
+            <i class="fas fa-wifi"></i>
+        Internet    </span>
+    <span class="amenity-list-item" style="white-space:nowrap;margin-right:6px" title="Near Ocean">
+            <i class="fas fa-water"></i>
+        Near Ocean    </span>
+    <span class="amenity-list-item" style="white-space:nowrap;margin-right:6px" title="Heated / Fenced">
+            <i class="fas fa-swimming-pool"></i>
+        Private Pool    </span>
+    
+    </div> 
+<p>Modern coastal living just steps from the beach! &#127754; This 4BR/3BA beach house (sleeps 8) features a private pool, open-concept design, and dreamy outdoor spaces. Walk or golf cart to the sand in minutes! &#127958;️</p><p>✔️ Pool + outdoor dining &amp; grill<br/>✔️ Sleeps 8 comfortably<br/>✔️ Prime North Myrtle Beach location<br/>✔️ 4BR, 3BA | Raised home w/ covered parking<br/>✔️ 10-min walk to beach, shops &amp; dining </p><p>Perfect for families or friends! &#127965;️</p>                    <p class="btn-group" style="margin-bottom:0">
+<p class="btn-group" style="margin-bottom:0">
+    <a class="btn btn-default" href="/charming-4br-beach-house-with-heated-pool-outdoor-grill-orp5b6b774x#photos"><i class="far fa-image"></i> Photos</a>
+        <a class="btn btn-default hidden-xs" href="/charming-4br-beach-house-with-heated-pool-outdoor-grill-orp5b6b774x#availability"><i class="far fa-credit-card"></i> Rates</a>
+    <a class="btn btn-default hidden-xs" href="/charming-4br-beach-house-with-heated-pool-outdoor-grill-orp5b6b774x#availability"><i class="far fa-calendar-alt"></i> Availability</a>
+    <a class="btn btn-default" href="/charming-4br-beach-house-with-heated-pool-outdoor-grill-orp5b6b774x"><i class="fas fa-suitcase"></i> Details</a>
+    <a class="btn btn-default" href="/charming-4br-beach-house-with-heated-pool-outdoor-grill-orp5b6b774x#inquire"><i class="fas fa-envelope"></i> Inquire</a>
+</p>                    </p>
+                </div>
+            </div>
+                <hr />
+            <div class="row">
+                <div class="col-sm-4">
+                            <h3 class="pull-right float-end visible-xs media-heading">
+            $243-1,067/night
+        </h3>
+
+                    <h2 class="visible-xs media-heading" id="pname-orp5b7a0f5x"><a href="/ocean-reef-4br-oceanfront-pools-lazy-river-orp5b7a0f5x" target="_top">Ocean Reef 4BR Oceanfront &#183; Pools &amp; Lazy River</a></h2>
+                    <a class="thumbnail" style="margin-bottom:0;width:100%" href="/ocean-reef-4br-oceanfront-pools-lazy-river-orp5b7a0f5x" target="_top">
+                        <img class="media-object" src="https://uc.orez.io/i/4672ce54d49d4413a1eb8e5f263dfd95-Medium" aria-labelledby="pname-orp5b7a0f5x" alt="OwnerRez"/>
+                    </a>
+                </div>
+                <div class="col-sm-8">
+                            <h3 class="pull-right float-end hidden-xs media-heading">
+            $243-1,067/night
+        </h3>
+
+                    <h2 class="media-heading hidden-xs"><a href="/ocean-reef-4br-oceanfront-pools-lazy-river-orp5b7a0f5x" target="_top">Ocean Reef 4BR Oceanfront &#183; Pools &amp; Lazy River</a></h2>
+<div class="amenity-summary-size" style="margin-bottom:10px">
+    <h4 style="display:inline" class="hidden-xs">Size &ndash; </h4>
+        4 Bedrooms
+             &bull; 
+            <span class="hidden-xs">3 Bathrooms </span>
+        <span class="visible-xs-inline">3 Baths </span>
+                 &bull; 
+        Sleeps 1-12
+</div>
+
+
+<div class="amenity-summary-amenities" style="line-height:2em;margin-bottom:10px">
+    <span class="h4 hidden-xs">Amenities &ndash; </span>
+
+    <span class="amenity-list-item" style="white-space:nowrap;margin-right:6px">
+            <i class="fas fa-wifi"></i>
+        Internet    </span>
+    <span class="amenity-list-item" style="white-space:nowrap;margin-right:6px" title="Oceanfront, Ocean View, Near Ocean, Ocean, Beachfront, Beach View, Beach, Waterfront, Water View">
+            <i class="fas fa-water"></i>
+        Oceanfront    </span>
+    <span class="amenity-list-item" style="white-space:nowrap;margin-right:6px">
+            <i class="fas fa-swimming-pool"></i>
+        Pool    </span>
+    <span class="amenity-list-item" style="white-space:nowrap;margin-right:6px">
+            <i class="fas fa-hot-tub"></i>
+        Hot Tub    </span>
+    
+    </div> 
+Wake up to Atlantic views from this 4BR/3BA oceanfront condo at Ocean Reef Resort on Myrtle Beach&#39;s Golden Mile. Sleeps 12 (king, queen, four queens, sleeper sofa) with TWO private oceanfront balconies, full kitchen, in-unit washer/dryer and fast WiFi. Downstairs: oceanfront and indoor pools, lazy river, waterslides, hot tubs, kids&#39; splash area and direct beach access. Minutes to Broadway at the Beach, Barefoot Landing, golf and dining.                    <p class="btn-group" style="margin-bottom:0">
+<p class="btn-group" style="margin-bottom:0">
+    <a class="btn btn-default" href="/ocean-reef-4br-oceanfront-pools-lazy-river-orp5b7a0f5x#photos"><i class="far fa-image"></i> Photos</a>
+        <a class="btn btn-default hidden-xs" href="/ocean-reef-4br-oceanfront-pools-lazy-river-orp5b7a0f5x#availability"><i class="far fa-credit-card"></i> Rates</a>
+    <a class="btn btn-default hidden-xs" href="/ocean-reef-4br-oceanfront-pools-lazy-river-orp5b7a0f5x#availability"><i class="far fa-calendar-alt"></i> Availability</a>
+    <a class="btn btn-default" href="/ocean-reef-4br-oceanfront-pools-lazy-river-orp5b7a0f5x"><i class="fas fa-suitcase"></i> Details</a>
+    <a class="btn btn-default" href="/ocean-reef-4br-oceanfront-pools-lazy-river-orp5b7a0f5x#inquire"><i class="fas fa-envelope"></i> Inquire</a>
+</p>                    </p>
+                </div>
+            </div>
+                <hr />
+            <div class="row">
+                <div class="col-sm-4">
+                            <h3 class="pull-right float-end visible-xs media-heading">
+            $181-1,043/night
+        </h3>
+
+                    <h2 class="visible-xs media-heading" id="pname-orp5b753fbx"><a href="/luxury-3br-oceanfront-penthouse-w-lazy-river-orp5b753fbx" target="_top">Luxury 3BR Oceanfront Penthouse w/ Lazy River</a></h2>
+                    <a class="thumbnail" style="margin-bottom:0;width:100%" href="/luxury-3br-oceanfront-penthouse-w-lazy-river-orp5b753fbx" target="_top">
+                        <img class="media-object" src="https://uc.orez.io/i/9b1c603729ea4466a4d01c78ca5a3457-Medium" aria-labelledby="pname-orp5b753fbx" alt="OwnerRez"/>
+                    </a>
+                </div>
+                <div class="col-sm-8">
+                            <h3 class="pull-right float-end hidden-xs media-heading">
+            $181-1,043/night
+        </h3>
+
+                    <h2 class="media-heading hidden-xs"><a href="/luxury-3br-oceanfront-penthouse-w-lazy-river-orp5b753fbx" target="_top">Luxury 3BR Oceanfront Penthouse w/ Lazy River</a></h2>
+<div class="amenity-summary-size" style="margin-bottom:10px">
+    <h4 style="display:inline" class="hidden-xs">Size &ndash; </h4>
+        3 Bedrooms
+             &bull; 
+            <span class="hidden-xs">3 Bathrooms </span>
+        <span class="visible-xs-inline">3 Baths </span>
+                 &bull; 
+        Sleeps 1-8
+</div>
+
+
+<div class="amenity-summary-amenities" style="line-height:2em;margin-bottom:10px">
+    <span class="h4 hidden-xs">Amenities &ndash; </span>
+
+    <span class="amenity-list-item" style="white-space:nowrap;margin-right:6px" title="Free">
+            <i class="fas fa-wifi"></i>
+        Internet    </span>
+    <span class="amenity-list-item" style="white-space:nowrap;margin-right:6px" title="Oceanfront, Ocean View, Near Ocean, Ocean, Beachfront, Beach View, Beach, Waterfront, Water View">
+            <i class="fas fa-water"></i>
+        Oceanfront    </span>
+    <span class="amenity-list-item" style="white-space:nowrap;margin-right:6px" title="Indoor, Fenced">
+            <i class="fas fa-swimming-pool"></i>
+        Pool    </span>
+    <span class="amenity-list-item" style="white-space:nowrap;margin-right:6px">
+            <i class="fas fa-hot-tub"></i>
+        Hot Tub    </span>
+    
+    </div> 
+Wake up to stunning ocean views from the Penthouse Suite at Bahama Sands in North Myrtle Beach. This oceanfront 3BR/3BA condo sleeps 8 with a king suite and balcony access, two queen beds in the 2nd bedroom and a queen bed in the third bedroom with three full bathrooms. Resort amenities include indoor &amp; outdoor pools, a lazy river, &amp; a hot tub — all just steps from the sand.  Watch the sunrise from your living room, all TV&#39;s are Samsung Smart TV&#39;s, everything is new &amp; has been updated.                     <p class="btn-group" style="margin-bottom:0">
+<p class="btn-group" style="margin-bottom:0">
+    <a class="btn btn-default" href="/luxury-3br-oceanfront-penthouse-w-lazy-river-orp5b753fbx#photos"><i class="far fa-image"></i> Photos</a>
+        <a class="btn btn-default hidden-xs" href="/luxury-3br-oceanfront-penthouse-w-lazy-river-orp5b753fbx#availability"><i class="far fa-credit-card"></i> Rates</a>
+    <a class="btn btn-default hidden-xs" href="/luxury-3br-oceanfront-penthouse-w-lazy-river-orp5b753fbx#availability"><i class="far fa-calendar-alt"></i> Availability</a>
+    <a class="btn btn-default" href="/luxury-3br-oceanfront-penthouse-w-lazy-river-orp5b753fbx"><i class="fas fa-suitcase"></i> Details</a>
+    <a class="btn btn-default" href="/luxury-3br-oceanfront-penthouse-w-lazy-river-orp5b753fbx#inquire"><i class="fas fa-envelope"></i> Inquire</a>
+</p>                    </p>
+                </div>
+            </div>
+                <hr />
+            <div class="row">
+                <div class="col-sm-4">
+                            <h3 class="pull-right float-end visible-xs media-heading">
+            $181-1,565/night
+        </h3>
+
+                    <h2 class="visible-xs media-heading" id="pname-orp5b6f464x"><a href="/anderson-ocean-club-3br-sleeps-8-w-pools-spa-orp5b6f464x" target="_top">Anderson Ocean Club 3BR - Sleeps 8 w/ Pools &amp; Spa</a></h2>
+                    <a class="thumbnail" style="margin-bottom:0;width:100%" href="/anderson-ocean-club-3br-sleeps-8-w-pools-spa-orp5b6f464x" target="_top">
+                        <img class="media-object" src="https://uc.orez.io/i/b314f768b5e448359519f45d03f7abb8-Medium" aria-labelledby="pname-orp5b6f464x" alt="OwnerRez"/>
+                    </a>
+                </div>
+                <div class="col-sm-8">
+                            <h3 class="pull-right float-end hidden-xs media-heading">
+            $181-1,565/night
+        </h3>
+
+                    <h2 class="media-heading hidden-xs"><a href="/anderson-ocean-club-3br-sleeps-8-w-pools-spa-orp5b6f464x" target="_top">Anderson Ocean Club 3BR - Sleeps 8 w/ Pools &amp; Spa</a></h2>
+<div class="amenity-summary-size" style="margin-bottom:10px">
+    <h4 style="display:inline" class="hidden-xs">Size &ndash; </h4>
+        3 Bedrooms
+             &bull; 
+            <span class="hidden-xs">3 Bathrooms </span>
+        <span class="visible-xs-inline">3 Baths </span>
+                 &bull; 
+        Sleeps 1-8
+</div>
+
+
+<div class="amenity-summary-amenities" style="line-height:2em;margin-bottom:10px">
+    <span class="h4 hidden-xs">Amenities &ndash; </span>
+
+    <span class="amenity-list-item" style="white-space:nowrap;margin-right:6px" title="Free">
+            <i class="fas fa-wifi"></i>
+        Internet    </span>
+    <span class="amenity-list-item" style="white-space:nowrap;margin-right:6px" title="Oceanfront, Ocean View, Ocean, Beachfront, Beach View, Beach, Waterfront, Water View">
+            <i class="fas fa-water"></i>
+        Oceanfront    </span>
+    <span class="amenity-list-item" style="white-space:nowrap;margin-right:6px" title="Indoor, Heated / Fenced">
+            <i class="fas fa-swimming-pool"></i>
+        Pool    </span>
+    
+    </div> 
+Fully updated oceanfront 3 bedroom /3 bathroom condo in Anderson Ocean Club, Myrtle Beach’s premier resort! New floors, stainless steel appliances, walk-in master shower &#128703; &amp; all new furniture. Enjoy pools, lazy river, hot tubs, full spa &#128134;‍♀️, gym, coffee bar &amp; oceanfront bar ☕&#127865;. Bedrooms: king suite, 2 queens, additional King suite. Sleeps 8 comfortably. Breathtaking ocean views from private balcony &#127754; Walk to Boardwalk, SkyWheel, &amp; attractions. Book your beach retreat today!<br/><br/>                    <p class="btn-group" style="margin-bottom:0">
+<p class="btn-group" style="margin-bottom:0">
+    <a class="btn btn-default" href="/anderson-ocean-club-3br-sleeps-8-w-pools-spa-orp5b6f464x#photos"><i class="far fa-image"></i> Photos</a>
+        <a class="btn btn-default hidden-xs" href="/anderson-ocean-club-3br-sleeps-8-w-pools-spa-orp5b6f464x#availability"><i class="far fa-credit-card"></i> Rates</a>
+    <a class="btn btn-default hidden-xs" href="/anderson-ocean-club-3br-sleeps-8-w-pools-spa-orp5b6f464x#availability"><i class="far fa-calendar-alt"></i> Availability</a>
+    <a class="btn btn-default" href="/anderson-ocean-club-3br-sleeps-8-w-pools-spa-orp5b6f464x"><i class="fas fa-suitcase"></i> Details</a>
+    <a class="btn btn-default" href="/anderson-ocean-club-3br-sleeps-8-w-pools-spa-orp5b6f464x#inquire"><i class="fas fa-envelope"></i> Inquire</a>
+</p>                    </p>
+                </div>
+            </div>
+                <hr />
+            <div class="row">
+                <div class="col-sm-4">
+                            <h3 class="pull-right float-end visible-xs media-heading">
+            $147-794/night
+        </h3>
+
+                    <h2 class="visible-xs media-heading" id="pname-orp5b761d4x"><a href="/4br-home-near-marshwalk-pro-golf-simulator-orp5b761d4x" target="_top">4BR Home Near MarshWalk + Pro Golf Simulator</a></h2>
+                    <a class="thumbnail" style="margin-bottom:0;width:100%" href="/4br-home-near-marshwalk-pro-golf-simulator-orp5b761d4x" target="_top">
+                        <img class="media-object" src="https://uc.orez.io/i/143161601f894ecfbdd9d5ce72c1d849-Medium" aria-labelledby="pname-orp5b761d4x" alt="OwnerRez"/>
+                    </a>
+                </div>
+                <div class="col-sm-8">
+                            <h3 class="pull-right float-end hidden-xs media-heading">
+            $147-794/night
+        </h3>
+
+                    <h2 class="media-heading hidden-xs"><a href="/4br-home-near-marshwalk-pro-golf-simulator-orp5b761d4x" target="_top">4BR Home Near MarshWalk + Pro Golf Simulator</a></h2>
+<div class="amenity-summary-size" style="margin-bottom:10px">
+    <h4 style="display:inline" class="hidden-xs">Size &ndash; </h4>
+        4 Bedrooms
+             &bull; 
+            <span class="hidden-xs">4 Bathrooms </span>
+        <span class="visible-xs-inline">4 Baths </span>
+                 &bull; 
+        Sleeps 1-10
+</div>
+
+
+<div class="amenity-summary-amenities" style="line-height:2em;margin-bottom:10px">
+    <span class="h4 hidden-xs">Amenities &ndash; </span>
+
+    <span class="amenity-list-item" style="white-space:nowrap;margin-right:6px" title="Free">
+            <i class="fas fa-wifi"></i>
+        Internet    </span>
+    
+    </div> 
+Tee off at Pebble Beach without leaving the house. This 4BR + office golf retreat features a pro-level ProTee VX simulator with 800+ courses, sleeps 10 across 4 bedrooms + an office with a queen bed and 4 full baths.  This house sits just over a mile from the nearest  golf course and 3 miles from the Murrells Inlet MarshWalk.  Rain day? Hit the simulator. Too hot at noon? Hit the simulator. Want to play 18 at Augusta in your pajamas with coffee in hand? You get the idea.                    <p class="btn-group" style="margin-bottom:0">
+<p class="btn-group" style="margin-bottom:0">
+    <a class="btn btn-default" href="/4br-home-near-marshwalk-pro-golf-simulator-orp5b761d4x#photos"><i class="far fa-image"></i> Photos</a>
+        <a class="btn btn-default hidden-xs" href="/4br-home-near-marshwalk-pro-golf-simulator-orp5b761d4x#availability"><i class="far fa-credit-card"></i> Rates</a>
+    <a class="btn btn-default hidden-xs" href="/4br-home-near-marshwalk-pro-golf-simulator-orp5b761d4x#availability"><i class="far fa-calendar-alt"></i> Availability</a>
+    <a class="btn btn-default" href="/4br-home-near-marshwalk-pro-golf-simulator-orp5b761d4x"><i class="fas fa-suitcase"></i> Details</a>
+    <a class="btn btn-default" href="/4br-home-near-marshwalk-pro-golf-simulator-orp5b761d4x#inquire"><i class="fas fa-envelope"></i> Inquire</a>
+</p>                    </p>
+                </div>
+            </div>
+                <hr />
+            <div class="row">
+                <div class="col-sm-4">
+                            <h3 class="pull-right float-end visible-xs media-heading">
+            $135-1,107/night
+        </h3>
+
+                    <h2 class="visible-xs media-heading" id="pname-orp5b6474fx"><a href="/oceanfront-luxury-3-bedroom-condo-at-palms-resort-orp5b6474fx" target="_top">Oceanfront Luxury: 3 Bedroom Condo at Palms Resort</a></h2>
+                    <a class="thumbnail" style="margin-bottom:0;width:100%" href="/oceanfront-luxury-3-bedroom-condo-at-palms-resort-orp5b6474fx" target="_top">
+                        <img class="media-object" src="https://uc.orez.io/i/88e642fd201740ada5e84873e440c658-Medium" aria-labelledby="pname-orp5b6474fx" alt="OwnerRez"/>
+                    </a>
+                </div>
+                <div class="col-sm-8">
+                            <h3 class="pull-right float-end hidden-xs media-heading">
+            $135-1,107/night
+        </h3>
+
+                    <h2 class="media-heading hidden-xs"><a href="/oceanfront-luxury-3-bedroom-condo-at-palms-resort-orp5b6474fx" target="_top">Oceanfront Luxury: 3 Bedroom Condo at Palms Resort</a></h2>
+<div class="amenity-summary-size" style="margin-bottom:10px">
+    <h4 style="display:inline" class="hidden-xs">Size &ndash; </h4>
+        3 Bedrooms
+             &bull; 
+            <span class="hidden-xs">2 Bathrooms </span>
+        <span class="visible-xs-inline">2 Baths </span>
+                 &bull; 
+        Sleeps 1-10
+</div>
+
+
+<div class="amenity-summary-amenities" style="line-height:2em;margin-bottom:10px">
+    <span class="h4 hidden-xs">Amenities &ndash; </span>
+
+    <span class="amenity-list-item" style="white-space:nowrap;margin-right:6px" title="Free">
+            <i class="fas fa-wifi"></i>
+        Internet    </span>
+    <span class="amenity-list-item" style="white-space:nowrap;margin-right:6px" title="Oceanfront, Ocean View, Ocean, Beachfront, Beach View, Beach, Waterfront, Water View">
+            <i class="fas fa-water"></i>
+        Oceanfront    </span>
+    <span class="amenity-list-item" style="white-space:nowrap;margin-right:6px" title="Indoor">
+            <i class="fas fa-swimming-pool"></i>
+        Pool    </span>
+    <span class="amenity-list-item" style="white-space:nowrap;margin-right:6px">
+            <i class="fas fa-hot-tub"></i>
+        Hot Tub    </span>
+    
+    </div> 
+Experience luxurious coastal living at our oceanfront retreat featuring 3 spacious bedrooms, 2 modern bathrooms, and a fully-equipped kitchen with stainless steel appliances. Unwind in a bright living room with a dedicated workspace and high-speed WiFi, then step onto your private balcony for breathtaking waterfront views. Enjoy direct beach access, resort amenities including a pool, hot tub, and gym, plus complimentary beach essentials. This coastal haven blends comfort, style, and convenience.                    <p class="btn-group" style="margin-bottom:0">
+<p class="btn-group" style="margin-bottom:0">
+    <a class="btn btn-default" href="/oceanfront-luxury-3-bedroom-condo-at-palms-resort-orp5b6474fx#photos"><i class="far fa-image"></i> Photos</a>
+        <a class="btn btn-default hidden-xs" href="/oceanfront-luxury-3-bedroom-condo-at-palms-resort-orp5b6474fx#availability"><i class="far fa-credit-card"></i> Rates</a>
+    <a class="btn btn-default hidden-xs" href="/oceanfront-luxury-3-bedroom-condo-at-palms-resort-orp5b6474fx#availability"><i class="far fa-calendar-alt"></i> Availability</a>
+    <a class="btn btn-default" href="/oceanfront-luxury-3-bedroom-condo-at-palms-resort-orp5b6474fx"><i class="fas fa-suitcase"></i> Details</a>
+    <a class="btn btn-default" href="/oceanfront-luxury-3-bedroom-condo-at-palms-resort-orp5b6474fx#inquire"><i class="fas fa-envelope"></i> Inquire</a>
+</p>                    </p>
+                </div>
+            </div>
+                <hr />
+            <div class="row">
+                <div class="col-sm-4">
+                            <h3 class="pull-right float-end visible-xs media-heading">
+            $122-720/night
+        </h3>
+
+                    <h2 class="visible-xs media-heading" id="pname-orp5b79ba6x"><a href="/forest-dunes-1702-penthouse-3br-ocean-view-orp5b79ba6x" target="_top">Forest Dunes 1702 Penthouse &#183; 3BR Ocean View</a></h2>
+                    <a class="thumbnail" style="margin-bottom:0;width:100%" href="/forest-dunes-1702-penthouse-3br-ocean-view-orp5b79ba6x" target="_top">
+                        <img class="media-object" src="https://uc.orez.io/i/3fcf0570345c4a04b6ee0549130f3f6d-Medium" aria-labelledby="pname-orp5b79ba6x" alt="OwnerRez"/>
+                    </a>
+                </div>
+                <div class="col-sm-8">
+                            <h3 class="pull-right float-end hidden-xs media-heading">
+            $122-720/night
+        </h3>
+
+                    <h2 class="media-heading hidden-xs"><a href="/forest-dunes-1702-penthouse-3br-ocean-view-orp5b79ba6x" target="_top">Forest Dunes 1702 Penthouse &#183; 3BR Ocean View</a></h2>
+<div class="amenity-summary-size" style="margin-bottom:10px">
+    <h4 style="display:inline" class="hidden-xs">Size &ndash; </h4>
+        3 Bedrooms
+             &bull; 
+            <span class="hidden-xs">2 Bathrooms </span>
+        <span class="visible-xs-inline">2 Baths </span>
+                 &bull; 
+        Sleeps 1-8
+</div>
+
+
+<div class="amenity-summary-amenities" style="line-height:2em;margin-bottom:10px">
+    <span class="h4 hidden-xs">Amenities &ndash; </span>
+
+    <span class="amenity-list-item" style="white-space:nowrap;margin-right:6px">
+            <i class="fas fa-wifi"></i>
+        Internet    </span>
+    <span class="amenity-list-item" style="white-space:nowrap;margin-right:6px" title="Ocean View, Near Ocean, Ocean">
+            <i class="fas fa-water"></i>
+        Ocean View    </span>
+    <span class="amenity-list-item" style="white-space:nowrap;margin-right:6px">
+            <i class="fas fa-swimming-pool"></i>
+        Pool    </span>
+    <span class="amenity-list-item" style="white-space:nowrap;margin-right:6px">
+            <i class="fas fa-hot-tub"></i>
+        Hot Tub    </span>
+    
+    </div> 
+Welcome to the Forest Dunes 1702 Penthouse, a 17th-floor, 3-bedroom, 2-bath condo on Myrtle Beach&#39;s Golden Mile. Floor-to-ceiling windows and a covered balcony off the living room and king primary suite look out over the Atlantic. Inside: a full kitchen, wet bar, Wi-Fi, smart TVs, beach chairs and an in-unit washer and dryer. Resort amenities include an outdoor pool, lazy river, hot tub, indoor pool, kiddie pool and sun deck. Sleeps 8.                    <p class="btn-group" style="margin-bottom:0">
+<p class="btn-group" style="margin-bottom:0">
+    <a class="btn btn-default" href="/forest-dunes-1702-penthouse-3br-ocean-view-orp5b79ba6x#photos"><i class="far fa-image"></i> Photos</a>
+        <a class="btn btn-default hidden-xs" href="/forest-dunes-1702-penthouse-3br-ocean-view-orp5b79ba6x#availability"><i class="far fa-credit-card"></i> Rates</a>
+    <a class="btn btn-default hidden-xs" href="/forest-dunes-1702-penthouse-3br-ocean-view-orp5b79ba6x#availability"><i class="far fa-calendar-alt"></i> Availability</a>
+    <a class="btn btn-default" href="/forest-dunes-1702-penthouse-3br-ocean-view-orp5b79ba6x"><i class="fas fa-suitcase"></i> Details</a>
+    <a class="btn btn-default" href="/forest-dunes-1702-penthouse-3br-ocean-view-orp5b79ba6x#inquire"><i class="fas fa-envelope"></i> Inquire</a>
+</p>                    </p>
+                </div>
+            </div>
+                <hr />
+            <div class="row">
+                <div class="col-sm-4">
+                            <h3 class="pull-right float-end visible-xs media-heading">
+            $162-972/night
+        </h3>
+
+                    <h2 class="visible-xs media-heading" id="pname-orp5b76bf5x"><a href="/ocean-lakes-4br-house-pools-water-park-sleeps-12-orp5b76bf5x" target="_top">Ocean Lakes 4BR House Pools &amp; Water Park Sleeps 12</a></h2>
+                    <a class="thumbnail" style="margin-bottom:0;width:100%" href="/ocean-lakes-4br-house-pools-water-park-sleeps-12-orp5b76bf5x" target="_top">
+                        <img class="media-object" src="https://uc.orez.io/i/d30d03487a95492ba6d50af797a81e99-Medium" aria-labelledby="pname-orp5b76bf5x" alt="OwnerRez"/>
+                    </a>
+                </div>
+                <div class="col-sm-8">
+                            <h3 class="pull-right float-end hidden-xs media-heading">
+            $162-972/night
+        </h3>
+
+                    <h2 class="media-heading hidden-xs"><a href="/ocean-lakes-4br-house-pools-water-park-sleeps-12-orp5b76bf5x" target="_top">Ocean Lakes 4BR House Pools &amp; Water Park Sleeps 12</a></h2>
+<div class="amenity-summary-size" style="margin-bottom:10px">
+    <h4 style="display:inline" class="hidden-xs">Size &ndash; </h4>
+        4 Bedrooms
+             &bull; 
+            <span class="hidden-xs">3 Bathrooms </span>
+        <span class="visible-xs-inline">3 Baths </span>
+                 &bull; 
+        Sleeps 1-12
+</div>
+
+
+<div class="amenity-summary-amenities" style="line-height:2em;margin-bottom:10px">
+    <span class="h4 hidden-xs">Amenities &ndash; </span>
+
+    <span class="amenity-list-item" style="white-space:nowrap;margin-right:6px" title="Ethernet, Free">
+            <i class="fas fa-wifi"></i>
+        Internet    </span>
+    <span class="amenity-list-item" style="white-space:nowrap;margin-right:6px" title="Ocean View, Near Ocean, Ocean">
+            <i class="fas fa-water"></i>
+        Ocean View    </span>
+    <span class="amenity-list-item" style="white-space:nowrap;margin-right:6px" title="Heated / Fenced / Childrens">
+            <i class="fas fa-swimming-pool"></i>
+        Pool    </span>
+    <span class="amenity-list-item" style="white-space:nowrap;margin-right:6px">
+            <i class="fas fa-hot-tub"></i>
+        Hot Tub    </span>
+    
+    </div> 
+Freshly renovated 4BR beach house inside gated Ocean Lakes — just 9 rows from the beautiful ocean. New deck, fresh paint, granite countertops and stainless steel appliances, &amp; Smart TVs are available in every room, except one bedroom. Sleeps 12 across 4 bedrooms &amp; 3 full baths. Step out to private beach access, the Sandy Harbor Water Park, lazy river, outdoor pools, mini golf, arcade, playgrounds, &amp; a full grocery store — a true vacation without ever leaving the gate. Close to so many other activities when you do venture out.                    <p class="btn-group" style="margin-bottom:0">
+<p class="btn-group" style="margin-bottom:0">
+    <a class="btn btn-default" href="/ocean-lakes-4br-house-pools-water-park-sleeps-12-orp5b76bf5x#photos"><i class="far fa-image"></i> Photos</a>
+        <a class="btn btn-default hidden-xs" href="/ocean-lakes-4br-house-pools-water-park-sleeps-12-orp5b76bf5x#availability"><i class="far fa-credit-card"></i> Rates</a>
+    <a class="btn btn-default hidden-xs" href="/ocean-lakes-4br-house-pools-water-park-sleeps-12-orp5b76bf5x#availability"><i class="far fa-calendar-alt"></i> Availability</a>
+    <a class="btn btn-default" href="/ocean-lakes-4br-house-pools-water-park-sleeps-12-orp5b76bf5x"><i class="fas fa-suitcase"></i> Details</a>
+    <a class="btn btn-default" href="/ocean-lakes-4br-house-pools-water-park-sleeps-12-orp5b76bf5x#inquire"><i class="fas fa-envelope"></i> Inquire</a>
+</p>                    </p>
+                </div>
+            </div>
+</div>
+
+
+
+
+                            <div class="result-pages text-center" aria-label="Page navigation">
+                    <ul class="pagination">
+                        <li class="disabled"><a href="#" aria-label="Previous" class="result-page result-page-prev" data-page="0"><i class="fa fa-chevron-left"></i></a></li>
+                            <li class="active"><a href="#" class="result-page" data-page="1">1</a></li>
+                            <li><a href="#" class="result-page" data-page="2">2</a></li>
+                            <li><a href="#" class="result-page" data-page="3">3</a></li>
+                            <li><a href="#" class="result-page" data-page="4">4</a></li>
+                            <li><a href="#" class="result-page" data-page="5">5</a></li>
+                        <li><a href="#" aria-label="Next" class="result-page result-page-next" data-page="2"><i class="fa fa-chevron-right"></i></a></li>
+                    </ul>
+                    <div class="result-pages-summary">
+                        1 &ndash; 12 of 60 places to stay
+                    </div>
+                </div>
+        </div>
+    </div>
+
+
+    </form>

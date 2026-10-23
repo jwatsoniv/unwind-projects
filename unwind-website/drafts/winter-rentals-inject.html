@@ -1,0 +1,545 @@
+<!-- ========================================================== -->
+<!-- UNWIND VACATION RENTALS &#8212; WINTER RENTALS PAGE INJECTION    -->
+<!--                                                            -->
+<!-- SETUP (one time, in OwnerRez):                             -->
+<!--   1. Website > Pages > Add Page. Title: "Winter Rentals"   -->
+<!--      URL slug: /winter-rentals                             -->
+<!--   2. Paste this ENTIRE block into the page's custom HTML   -->
+<!--      area.                                                 -->
+<!--   3. Website > Menu: add a "Winter Rentals" link pointing  -->
+<!--      to /winter-rentals so it shows in the main nav.       -->
+<!--                                                            -->
+<!-- UPDATING DEALS each season: edit ONLY the UV_WINTER_DEALS  -->
+<!-- array in the script block near the bottom &#8212; no HTML edits  -->
+<!-- needed. Delete all entries to show the "ask us" fallback.  -->
+<!-- ========================================================== -->
+
+<script>
+  (function () {
+    if (!document.getElementById('uv-fonts')) {
+      var f = document.createElement('link');
+      f.id = 'uv-fonts';
+      f.rel = 'stylesheet';
+      f.href = 'https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=Open+Sans:wght@300;400;600;700&display=swap';
+      document.head.appendChild(f);
+    }
+  })();
+</script>
+
+<style>
+  /* Hide default page heading if present */
+  .uv-winter-page h1.page-title,
+  .uv-winter-page .page-heading {
+    display: none !important;
+  }
+
+  .uv-winter-page {
+    font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    color: #1a1a1a;
+    line-height: 1.6;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+  .uv-winter-page * { box-sizing: border-box; }
+
+  /* ---------- HERO ---------- */
+  .uv-win-hero {
+    background: linear-gradient(135deg, #0F4C5C 0%, #1A6B7C 100%);
+    color: #ffffff;
+    border-radius: 12px;
+    padding: 65px 50px;
+    text-align: center;
+    margin: 30px 0 24px;
+    box-shadow: 0 10px 40px rgba(15, 76, 92, 0.15);
+  }
+  .uv-win-hero-eyebrow {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #4FD1C5;
+    margin-bottom: 16px;
+  }
+  .uv-win-hero h1 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 46px;
+    font-weight: 500;
+    line-height: 1.15;
+    margin: 0 0 18px;
+    color: #ffffff;
+  }
+  .uv-win-hero-subtitle {
+    font-size: 18px;
+    line-height: 1.6;
+    max-width: 720px;
+    margin: 0 auto;
+    color: rgba(255,255,255,0.9);
+    font-weight: 300;
+  }
+  @media (max-width: 640px) {
+    .uv-win-hero { padding: 45px 24px; }
+    .uv-win-hero h1 { font-size: 32px; }
+  }
+
+  /* ---------- TRUST STRIP ---------- */
+  .uv-win-trust {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px 28px;
+    padding: 14px 20px;
+    margin: 0 0 50px;
+    background: #F4F8F9;
+    border: 1px solid #d8e4e6;
+    border-radius: 10px;
+    font-size: 14px;
+    color: #425c65;
+    text-align: center;
+  }
+  .uv-win-trust b { color: #0F4C5C; }
+  .uv-win-trust .uv-star { color: #E8B54D; }
+
+  /* ---------- SECTION BASE ---------- */
+  .uv-win-section { margin: 0 0 56px; }
+  .uv-win-section-eyebrow {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #1A6B7C;
+    text-align: center;
+    margin-bottom: 8px;
+  }
+  .uv-win-section h2 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 34px;
+    font-weight: 500;
+    color: #0F4C5C;
+    text-align: center;
+    margin: 0 0 14px;
+  }
+  .uv-win-section-sub {
+    text-align: center;
+    max-width: 680px;
+    margin: 0 auto 36px;
+    color: #555;
+    font-size: 16px;
+  }
+
+  /* ---------- BENEFITS GRID ---------- */
+  .uv-win-benefits {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+  }
+  @media (max-width: 900px) { .uv-win-benefits { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 560px) { .uv-win-benefits { grid-template-columns: 1fr; } }
+  .uv-win-benefit {
+    background: #ffffff;
+    border: 1px solid #e5edee;
+    border-radius: 12px;
+    padding: 24px 22px;
+    box-shadow: 0 4px 16px rgba(15, 76, 92, 0.06);
+  }
+  .uv-win-benefit .uv-ico {
+    font-size: 26px;
+    line-height: 1;
+    margin-bottom: 12px;
+    display: block;
+  }
+  .uv-win-benefit h3 {
+    font-size: 17px;
+    font-weight: 700;
+    color: #0F4C5C;
+    margin: 0 0 6px;
+  }
+  .uv-win-benefit p {
+    font-size: 14px;
+    color: #555;
+    margin: 0;
+    line-height: 1.55;
+  }
+
+  /* ---------- DEALS GRID ---------- */
+  .uv-win-deals {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  @media (max-width: 900px) { .uv-win-deals { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 560px) { .uv-win-deals { grid-template-columns: 1fr; } }
+  .uv-win-deal {
+    background: #ffffff;
+    border: 1px solid #e5edee;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 16px rgba(15, 76, 92, 0.06);
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+  .uv-win-deal:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 28px rgba(15, 76, 92, 0.12);
+  }
+  .uv-win-deal-img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    display: block;
+    background: #d8e4e6;
+  }
+  .uv-win-deal-body { padding: 18px 18px 20px; display: flex; flex-direction: column; flex: 1; }
+  .uv-win-deal-area {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #1A6B7C;
+    margin-bottom: 4px;
+  }
+  .uv-win-deal h3 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 20px;
+    font-weight: 600;
+    color: #0F4C5C;
+    margin: 0 0 6px;
+  }
+  .uv-win-deal-specs { font-size: 13px; color: #777; margin: 0 0 10px; }
+  .uv-win-deal-note { font-size: 14px; color: #555; margin: 0 0 14px; line-height: 1.5; }
+  .uv-win-deal-rate {
+    font-size: 15px;
+    color: #0F4C5C;
+    margin: auto 0 14px;
+  }
+  .uv-win-deal-rate b { font-size: 22px; font-weight: 700; }
+  .uv-win-deal-rate span { font-size: 13px; color: #777; }
+  .uv-win-deal-btn {
+    display: inline-block;
+    background: #0F4C5C;
+    color: #ffffff !important;
+    text-decoration: none !important;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 11px 20px;
+    border-radius: 8px;
+    text-align: center;
+    transition: background 0.15s;
+  }
+  .uv-win-deal-btn:hover { background: #1A6B7C; }
+
+  .uv-win-deals-empty {
+    text-align: center;
+    background: #F4F8F9;
+    border: 1px dashed #b9d0d4;
+    border-radius: 12px;
+    padding: 40px 24px;
+    color: #425c65;
+    font-size: 16px;
+  }
+
+  /* ---------- HOW IT WORKS ---------- */
+  .uv-win-steps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+  }
+  @media (max-width: 720px) { .uv-win-steps { grid-template-columns: 1fr; } }
+  .uv-win-step {
+    text-align: center;
+    padding: 26px 20px;
+    background: #F4F8F9;
+    border-radius: 12px;
+  }
+  .uv-win-step .uv-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    background: #0F4C5C;
+    color: #4FD1C5;
+    font-weight: 700;
+    font-size: 18px;
+    margin-bottom: 12px;
+  }
+  .uv-win-step h3 { font-size: 17px; font-weight: 700; color: #0F4C5C; margin: 0 0 6px; }
+  .uv-win-step p { font-size: 14px; color: #555; margin: 0; }
+
+  /* ---------- FAQ ---------- */
+  .uv-win-faq { max-width: 780px; margin: 0 auto; }
+  .uv-win-faq details {
+    background: #ffffff;
+    border: 1px solid #e5edee;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    padding: 0 20px;
+  }
+  .uv-win-faq summary {
+    font-size: 16px;
+    font-weight: 600;
+    color: #0F4C5C;
+    padding: 16px 0;
+    cursor: pointer;
+    list-style: none;
+    position: relative;
+    padding-right: 28px;
+  }
+  .uv-win-faq summary::-webkit-details-marker { display: none; }
+  .uv-win-faq summary::after {
+    content: "+";
+    position: absolute;
+    right: 0; top: 14px;
+    font-size: 20px;
+    color: #4FD1C5;
+  }
+  .uv-win-faq details[open] summary::after { content: "&#8211;"; }
+  .uv-win-faq details p { font-size: 15px; color: #555; margin: 0 0 16px; }
+
+  /* ---------- CTA ---------- */
+  .uv-win-cta {
+    background: linear-gradient(135deg, #0F4C5C 0%, #1A6B7C 100%);
+    color: #ffffff;
+    border-radius: 12px;
+    padding: 55px 40px;
+    text-align: center;
+    margin: 0 0 40px;
+  }
+  .uv-win-cta h2 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 32px;
+    font-weight: 500;
+    margin: 0 0 12px;
+    color: #ffffff;
+  }
+  .uv-win-cta p {
+    font-size: 16px;
+    color: rgba(255,255,255,0.9);
+    max-width: 620px;
+    margin: 0 auto 24px;
+  }
+  .uv-win-btn {
+    display: inline-block;
+    background: #4FD1C5;
+    color: #0F4C5C !important;
+    text-decoration: none !important;
+    font-size: 16px;
+    font-weight: 700;
+    padding: 14px 32px;
+    border-radius: 8px;
+    margin: 0 8px 10px;
+    transition: background 0.15s;
+  }
+  .uv-win-btn:hover { background: #6FE0D5; }
+  .uv-win-btn.uv-ghost {
+    background: transparent;
+    color: #ffffff !important;
+    border: 2px solid rgba(255,255,255,0.5);
+  }
+  .uv-win-btn.uv-ghost:hover { border-color: #4FD1C5; color: #4FD1C5 !important; }
+</style>
+
+<div class="uv-winter-page">
+
+  <!-- HERO -->
+  <section class="uv-win-hero">
+    <div class="uv-win-hero-eyebrow">Monthly Winter Rentals &#183; Nov &#8211; Mar</div>
+    <h1>Spend the Winter at the Beach</h1>
+    <p class="uv-win-hero-subtitle">Escape the snow and settle into a fully furnished home on the Grand Strand. Monthly rates at a fraction of summer pricing, keyless self check-in, and a local team that's here all winter &#8212; not a call center.</p>
+  </section>
+
+  <!-- TRUST STRIP -->
+  <div class="uv-win-trust">
+    <span><span class="uv-star">&#9733;</span> <b>4.86</b> average across <b>1,723</b> guest reviews</span>
+    <span>Airbnb <b>Superhost</b></span>
+    <span>Vrbo <b>Premier Host</b></span>
+    <span>Booking.com <b>Preferred Plus</b></span>
+  </div>
+
+  <!-- WHY WINTER HERE -->
+  <section class="uv-win-section">
+    <div class="uv-win-section-eyebrow">Why Snowbirds Love It Here</div>
+    <h2>Mild Winters, Empty Beaches, Endless Golf</h2>
+    <p class="uv-win-section-sub">The Grand Strand in winter is a different place &#8212; quiet, warm enough for a daily beach walk, and dramatically more affordable than staying south in Florida.</p>
+    <div class="uv-win-benefits">
+      <div class="uv-win-benefit">
+        <span class="uv-ico">&#9728;&#65039;</span>
+        <h3>Mild Coastal Winters</h3>
+        <p>Daytime highs typically in the 50s and 60s &#8212; mild enough for beach walks, patio coffee, and being outside year-round.</p>
+      </div>
+      <div class="uv-win-benefit">
+        <span class="uv-ico">&#9971;</span>
+        <h3>Golf Capital Rates</h3>
+        <p>80+ courses within a short drive, and winter is when tee times are cheapest and easiest to get.</p>
+      </div>
+      <div class="uv-win-benefit">
+        <span class="uv-ico">&#128181;</span>
+        <h3>Monthly Rates</h3>
+        <p>Stay 28 nights or more and pay a monthly rate that's a fraction of peak-season pricing &#8212; often less than a week costs in July.</p>
+      </div>
+      <div class="uv-win-benefit">
+        <span class="uv-ico">&#128715;&#65039;</span>
+        <h3>Truly Move-In Ready</h3>
+        <p>Fully furnished with full kitchens, linens, fast Wi-Fi, and smart TVs. Bring your suitcase &#8212; everything else is here.</p>
+      </div>
+      <div class="uv-win-benefit">
+        <span class="uv-ico">&#128273;</span>
+        <h3>Keyless Self Check-In</h3>
+        <p>No office visit, no key pickup. Your door code arrives before you do, and check-in takes as long as walking to the door.</p>
+      </div>
+      <div class="uv-win-benefit">
+        <span class="uv-ico">&#129309;</span>
+        <h3>A Local Team, All Winter</h3>
+        <p>We live and work here. If anything comes up during your stay, a real local person handles it &#8212; usually the same day.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CURRENT DEALS -->
+  <section class="uv-win-section">
+    <div class="uv-win-section-eyebrow">This Season's Availability</div>
+    <h2>Current Winter Deals</h2>
+    <p class="uv-win-section-sub">Homes with open winter calendars and special monthly pricing. Updated throughout the season &#8212; if you don't see what you need, ask us. We manage 50+ properties across the Grand Strand.</p>
+    <div class="uv-win-deals" id="uv-win-deals"></div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="uv-win-section">
+    <div class="uv-win-section-eyebrow">Simple by Design</div>
+    <h2>How Monthly Booking Works</h2>
+    <div class="uv-win-steps">
+      <div class="uv-win-step">
+        <span class="uv-num">1</span>
+        <h3>Pick Your Home &amp; Dates</h3>
+        <p>Choose from the deals above or browse all properties. Monthly stays are 28+ nights, any arrival day.</p>
+      </div>
+      <div class="uv-win-step">
+        <span class="uv-num">2</span>
+        <h3>Book Direct With Us</h3>
+        <p>Booking direct gets you the monthly rate &#8212; no platform service fees. We'll confirm details and payment by email or phone.</p>
+      </div>
+      <div class="uv-win-step">
+        <span class="uv-num">3</span>
+        <h3>Move In With a Code</h3>
+        <p>Keyless entry means no office stop. Settle in, and our local team is a text away all season.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="uv-win-section">
+    <div class="uv-win-section-eyebrow">Good to Know</div>
+    <h2>Winter Rental FAQs</h2>
+    <div class="uv-win-faq">
+      <details>
+        <summary>What counts as a monthly rental?</summary>
+        <p>Any stay of 28 nights or longer between November and March qualifies for monthly pricing. Many guests stay two or three months &#8212; the longer the stay, the better the rate we can usually offer.</p>
+      </details>
+      <details>
+        <summary>What's included in the monthly rate?</summary>
+        <p>The home is fully furnished with linens, towels, a stocked kitchen, Wi-Fi, and streaming-ready TVs. Utilities are included in most homes for standard usage. We'll spell out exactly what's included before you book.</p>
+      </details>
+      <details>
+        <summary>Do you allow pets?</summary>
+        <p>Many of our homes are pet friendly. Tell us about your pet when you inquire and we'll point you to the right homes.</p>
+      </details>
+      <details>
+        <summary>Are there tax savings on longer stays?</summary>
+        <p>In South Carolina, stays of 90 or more consecutive days are generally exempt from accommodations taxes, which can meaningfully lower the cost of a full-season stay. Ask us for a quote with and without the exemption applied.</p>
+      </details>
+      <details>
+        <summary>Why book direct instead of Airbnb or Vrbo?</summary>
+        <p>Monthly winter rates are only available booking direct &#8212; the platforms add service fees and aren't built for long stays. Direct also means you're talking to the local team that actually manages the home.</p>
+      </details>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="uv-win-cta">
+    <h2>Your Winter Home Is Waiting</h2>
+    <p>Tell us your dates, party size, and budget, and we'll match you with the right home &#8212; usually within one business day.</p>
+    <a href="/contact" class="uv-win-btn">Ask About Winter Availability &#8594;</a>
+    <a href="/properties" class="uv-win-btn uv-ghost">Browse All Properties</a>
+  </section>
+
+</div>
+
+<script>
+(function() {
+  /* ========================================================
+     EDIT THIS ARRAY EACH SEASON \u2014 nothing else needs to change.
+     Each entry: name, area, beds, sleeps, monthly (number, $/mo),
+     note (one selling line), img (photo URL), link (property page URL).
+     Set monthly to 0 to show "Call for rate" instead of a price.
+     Delete every entry to show the "ask us" fallback message.
+
+     The entries below are EXAMPLES \u2014 replace with real properties
+     and real winter rates before publishing.
+     ======================================================== */
+  var UV_WINTER_DEALS = [
+    {
+      name: "EXAMPLE \u2014 Oceanfront 2BR Condo",
+      area: "North Myrtle Beach",
+      beds: 2, sleeps: 6,
+      monthly: 1800,
+      note: "Oceanfront balcony, indoor pool, walk to Main Street.",
+      img: "",
+      link: "/properties"
+    },
+    {
+      name: "EXAMPLE \u2014 Golf Villa at Barefoot",
+      area: "Barefoot Resort",
+      beds: 3, sleeps: 8,
+      monthly: 0,
+      note: "Steps from the fairway, garage parking, pet friendly.",
+      img: "",
+      link: "/properties"
+    }
+  ];
+
+  function money(n) { return "$" + Number(n).toLocaleString("en-US"); }
+
+  function render() {
+    var grid = document.getElementById("uv-win-deals");
+    if (!grid) return;
+
+    if (!UV_WINTER_DEALS.length) {
+      grid.outerHTML = '<div class="uv-win-deals-empty">Winter calendars are opening now \u2014 <a href="/contact" style="color:#0F4C5C;font-weight:700;">contact us</a> for current monthly availability and rates.</div>';
+      return;
+    }
+
+    UV_WINTER_DEALS.forEach(function(d) {
+      var card = document.createElement("div");
+      card.className = "uv-win-deal";
+      var imgHtml = d.img
+        ? '<img class="uv-win-deal-img" src="' + d.img + '" alt="' + d.name + '" loading="lazy">'
+        : '<div class="uv-win-deal-img"></div>';
+      var rateHtml = d.monthly > 0
+        ? '<b>' + money(d.monthly) + '</b> / month <span>\u00b7 28+ night stays</span>'
+        : '<b>Call for rate</b> <span>\u00b7 28+ night stays</span>';
+      card.innerHTML =
+        imgHtml +
+        '<div class="uv-win-deal-body">' +
+          '<div class="uv-win-deal-area">' + d.area + '</div>' +
+          '<h3>' + d.name + '</h3>' +
+          '<p class="uv-win-deal-specs">' + d.beds + ' BR \u00b7 Sleeps ' + d.sleeps + '</p>' +
+          '<p class="uv-win-deal-note">' + d.note + '</p>' +
+          '<p class="uv-win-deal-rate">' + rateHtml + '</p>' +
+          '<a class="uv-win-deal-btn" href="' + d.link + '">View This Home \u2192</a>' +
+        '</div>';
+      grid.appendChild(card);
+    });
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", render);
+  } else {
+    render();
+  }
+})();
+</script>
+
+<!-- ========================================================== -->
+<!-- END OF WINTER RENTALS PAGE INJECTION                        -->
+<!-- ========================================================== -->

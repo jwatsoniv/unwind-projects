@@ -1,0 +1,501 @@
+<!-- ========================================================== -->
+<!-- UNWIND VACATION RENTALS &#8212; OWNER INCOME ESTIMATOR INJECTION -->
+<!--                                                            -->
+<!-- SETUP (one time, in OwnerRez):                             -->
+<!--   1. Website > Pages > Add Page. Title: "What Could My     -->
+<!--      Home Earn?"  URL slug: /income-estimator              -->
+<!--   2. Paste this ENTIRE block into the page's custom HTML   -->
+<!--      area. (It can also be pasted onto the existing        -->
+<!--      Property Management page below its current content.)  -->
+<!--   3. Link to it from the Property Management page and the  -->
+<!--      main menu ("Free Income Estimate").                   -->
+<!--                                                            -->
+<!-- The estimate runs entirely in the visitor's browser &#8212; no   -->
+<!-- server, no waiting for a callback. The model is fitted on  -->
+<!-- Unwind's own OwnerRez booking data (39 full-year props,    -->
+<!-- arrivals Aug 2025 &#8211; Jul 2026, R&#178; 0.715). To refresh it,    -->
+<!-- refit per ~/Documents/unwind-leadgen/README.md and update  -->
+<!-- the UV_MODEL object below.                                 -->
+<!-- ========================================================== -->
+
+<script>
+  (function () {
+    if (!document.getElementById('uv-fonts')) {
+      var f = document.createElement('link');
+      f.id = 'uv-fonts';
+      f.rel = 'stylesheet';
+      f.href = 'https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=Open+Sans:wght@300;400;600;700&display=swap';
+      document.head.appendChild(f);
+    }
+  })();
+</script>
+
+<style>
+  .uv-est-page h1.page-title,
+  .uv-est-page .page-heading {
+    display: none !important;
+  }
+
+  .uv-est-page {
+    font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    color: #1a1a1a;
+    line-height: 1.6;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+  .uv-est-page * { box-sizing: border-box; }
+
+  /* ---------- HERO ---------- */
+  .uv-est-hero {
+    background: linear-gradient(135deg, #0F4C5C 0%, #1A6B7C 100%);
+    color: #ffffff;
+    border-radius: 12px;
+    padding: 60px 50px;
+    text-align: center;
+    margin: 30px 0 40px;
+    box-shadow: 0 10px 40px rgba(15, 76, 92, 0.15);
+  }
+  .uv-est-hero-eyebrow {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #4FD1C5;
+    margin-bottom: 16px;
+  }
+  .uv-est-hero h1 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 44px;
+    font-weight: 500;
+    line-height: 1.15;
+    margin: 0 0 18px;
+    color: #ffffff;
+  }
+  .uv-est-hero-subtitle {
+    font-size: 18px;
+    line-height: 1.6;
+    max-width: 700px;
+    margin: 0 auto;
+    color: rgba(255,255,255,0.9);
+    font-weight: 300;
+  }
+  @media (max-width: 640px) {
+    .uv-est-hero { padding: 45px 24px; }
+    .uv-est-hero h1 { font-size: 30px; }
+  }
+
+  /* ---------- CALCULATOR LAYOUT ---------- */
+  .uv-est-calc {
+    display: grid;
+    grid-template-columns: 5fr 6fr;
+    gap: 24px;
+    margin-bottom: 50px;
+    align-items: start;
+  }
+  @media (max-width: 860px) { .uv-est-calc { grid-template-columns: 1fr; } }
+
+  .uv-est-form,
+  .uv-est-result {
+    background: #ffffff;
+    border: 1px solid #e5edee;
+    border-radius: 12px;
+    padding: 28px 26px;
+    box-shadow: 0 4px 16px rgba(15, 76, 92, 0.06);
+  }
+  .uv-est-form h2, .uv-est-result h2 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 24px;
+    font-weight: 600;
+    color: #0F4C5C;
+    margin: 0 0 18px;
+  }
+
+  .uv-est-field { margin-bottom: 18px; }
+  .uv-est-field label {
+    display: block;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #425c65;
+    margin-bottom: 6px;
+  }
+  .uv-est-field select {
+    width: 100%;
+    font-family: inherit;
+    font-size: 16px;
+    color: #1a1a1a;
+    padding: 11px 12px;
+    border: 1px solid #c9dadd;
+    border-radius: 8px;
+    background: #ffffff;
+    appearance: auto;
+  }
+  .uv-est-field select:focus {
+    outline: none;
+    border-color: #1A6B7C;
+    box-shadow: 0 0 0 3px rgba(79, 209, 197, 0.25);
+  }
+  .uv-est-hint { font-size: 12px; color: #7c959c; margin-top: 5px; }
+
+  .uv-est-checks { display: flex; flex-direction: column; gap: 9px; }
+  .uv-est-checks label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 15px;
+    color: #1a1a1a;
+    font-weight: 400;
+    text-transform: none;
+    letter-spacing: 0;
+    cursor: pointer;
+    margin: 0;
+  }
+  .uv-est-checks input {
+    width: 18px; height: 18px;
+    accent-color: #0F4C5C;
+    cursor: pointer;
+  }
+
+  /* ---------- RESULT PANEL ---------- */
+  .uv-est-range-label {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #425c65;
+    margin: 0 0 4px;
+  }
+  .uv-est-range {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 42px;
+    font-weight: 600;
+    color: #0F4C5C;
+    line-height: 1.1;
+    margin: 0 0 4px;
+    font-variant-numeric: tabular-nums;
+  }
+  @media (max-width: 480px) { .uv-est-range { font-size: 30px; } }
+  .uv-est-per-year { font-size: 15px; color: #777; margin: 0 0 18px; }
+
+  .uv-est-substats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 18px;
+  }
+  .uv-est-substat {
+    background: #F4F8F9;
+    border-radius: 10px;
+    padding: 14px 16px;
+  }
+  .uv-est-substat .n {
+    font-size: 22px;
+    font-weight: 700;
+    color: #0F4C5C;
+    font-variant-numeric: tabular-nums;
+  }
+  .uv-est-substat .l { font-size: 12.5px; color: #425c65; margin-top: 2px; }
+
+  .uv-est-basis {
+    font-size: 13.5px;
+    color: #555;
+    background: #F4F8F9;
+    border-left: 3px solid #4FD1C5;
+    border-radius: 0 8px 8px 0;
+    padding: 12px 14px;
+    margin: 0 0 20px;
+    line-height: 1.55;
+  }
+
+  .uv-est-cta-btn {
+    display: block;
+    background: #0F4C5C;
+    color: #ffffff !important;
+    text-decoration: none !important;
+    font-size: 16px;
+    font-weight: 700;
+    padding: 15px 20px;
+    border-radius: 8px;
+    text-align: center;
+    transition: background 0.15s;
+  }
+  .uv-est-cta-btn:hover { background: #1A6B7C; }
+  .uv-est-cta-sub {
+    text-align: center;
+    font-size: 13px;
+    color: #7c959c;
+    margin: 10px 0 0;
+  }
+  .uv-est-cta-sub a { color: #1A6B7C; }
+
+  /* ---------- PROOF STATS ---------- */
+  .uv-est-proof { margin-bottom: 50px; }
+  .uv-est-proof h2 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 30px;
+    font-weight: 500;
+    color: #0F4C5C;
+    text-align: center;
+    margin: 0 0 8px;
+  }
+  .uv-est-proof-sub {
+    text-align: center;
+    color: #555;
+    font-size: 15px;
+    max-width: 640px;
+    margin: 0 auto 28px;
+  }
+  .uv-est-proof-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+  }
+  @media (max-width: 860px) { .uv-est-proof-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 480px) { .uv-est-proof-grid { grid-template-columns: 1fr; } }
+  .uv-est-proof-card {
+    background: #ffffff;
+    border: 1px solid #e5edee;
+    border-radius: 12px;
+    padding: 22px 18px;
+    text-align: center;
+    box-shadow: 0 4px 16px rgba(15, 76, 92, 0.06);
+  }
+  .uv-est-proof-card .n {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 32px;
+    font-weight: 600;
+    color: #0F4C5C;
+    line-height: 1;
+  }
+  .uv-est-proof-card .n small { font-size: 16px; color: #7c959c; }
+  .uv-est-proof-card .l { font-size: 13.5px; color: #555; margin-top: 8px; line-height: 1.45; }
+
+  /* ---------- DISCLAIMER ---------- */
+  .uv-est-disclaimer {
+    font-size: 12.5px;
+    color: #7c959c;
+    max-width: 820px;
+    margin: 0 auto 40px;
+    text-align: center;
+    line-height: 1.6;
+  }
+</style>
+
+<div class="uv-est-page">
+
+  <!-- HERO -->
+  <section class="uv-est-hero">
+    <div class="uv-est-hero-eyebrow">For Homeowners &#183; Free &amp; Instant</div>
+    <h1>What Could Your Home Earn?</h1>
+    <p class="uv-est-hero-subtitle">No lead form, no callback, no sales pitch. Answer three questions and see a projection built from the actual booking performance of the homes we already manage on the Grand Strand.</p>
+  </section>
+
+  <!-- CALCULATOR -->
+  <section class="uv-est-calc">
+    <div class="uv-est-form">
+      <h2>Your Property</h2>
+      <div class="uv-est-field">
+        <label for="uv-est-beds">Bedrooms</label>
+        <select id="uv-est-beds">
+          <option value="1">1 bedroom</option>
+          <option value="2">2 bedrooms</option>
+          <option value="3" selected>3 bedrooms</option>
+          <option value="4">4 bedrooms</option>
+          <option value="5">5 bedrooms</option>
+          <option value="6">6 bedrooms</option>
+          <option value="7">7 bedrooms</option>
+          <option value="8">8 bedrooms</option>
+        </select>
+      </div>
+      <div class="uv-est-field">
+        <label for="uv-est-sleeps">Sleeps</label>
+        <select id="uv-est-sleeps"></select>
+        <div class="uv-est-hint">Total guests the home comfortably sleeps, counting sofa beds and bunks.</div>
+      </div>
+      <div class="uv-est-field">
+        <label for="uv-est-tier">Location</label>
+        <select id="uv-est-tier">
+          <option value="oceanfront">Oceanfront</option>
+          <option value="oceanview" selected>Ocean view / walk to beach</option>
+          <option value="resort">Resort or golf community</option>
+          <option value="inland">Inland / residential</option>
+        </select>
+        <div class="uv-est-hint">Location matters more than size &#8212; oceanfront homes gross roughly 2.5&#215; inland homes per bedroom.</div>
+      </div>
+      <div class="uv-est-field">
+        <label>Extras</label>
+        <div class="uv-est-checks">
+          <label><input type="checkbox" id="uv-est-pool"> Private pool</label>
+          <label><input type="checkbox" id="uv-est-reno"> Renovated in the last 2 years</label>
+          <label><input type="checkbox" id="uv-est-pets"> Pet friendly</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="uv-est-result">
+      <h2>Projected Gross Rental Income</h2>
+      <p class="uv-est-range-label">Typical range for a home like yours</p>
+      <p class="uv-est-range" id="uv-est-range">$&#8212;</p>
+      <p class="uv-est-per-year">per year, gross booking revenue</p>
+      <div class="uv-est-substats">
+        <div class="uv-est-substat">
+          <div class="n" id="uv-est-point">$&#8212;</div>
+          <div class="l">Midpoint estimate</div>
+        </div>
+        <div class="uv-est-substat">
+          <div class="n" id="uv-est-monthly">$&#8212;</div>
+          <div class="l">Average per month</div>
+        </div>
+      </div>
+      <p class="uv-est-basis" id="uv-est-basis">Based on the real 12-month performance of comparable Unwind-managed properties &#8212; not market averages.</p>
+      <a class="uv-est-cta-btn" href="/contact">Get My Custom Projection &#8594;</a>
+      <p class="uv-est-cta-sub">We'll review your exact property and comps &#8212; no obligation. Or email <a href="mailto:jwatson@unwindvacations.com">jwatson@unwindvacations.com</a>.</p>
+    </div>
+  </section>
+
+  <!-- PROOF -->
+  <section class="uv-est-proof">
+    <h2>Why You Can Trust These Numbers</h2>
+    <p class="uv-est-proof-sub">Most companies hide the answer behind a lead form and a callback. We'd rather show you the math &#8212; it's built on our own portfolio's results.</p>
+    <div class="uv-est-proof-grid">
+      <div class="uv-est-proof-card">
+        <div class="n">$1.9M</div>
+        <div class="l">Gross booking revenue across our portfolio in the last 12 months</div>
+      </div>
+      <div class="uv-est-proof-card">
+        <div class="n">4.86 <small>/ 1,723</small></div>
+        <div class="l">Average guest rating across all platforms, all reviews counted</div>
+      </div>
+      <div class="uv-est-proof-card">
+        <div class="n">+22%</div>
+        <div class="l">More nights booked than the local market average</div>
+      </div>
+      <div class="uv-est-proof-card">
+        <div class="n">+17%</div>
+        <div class="l">Higher average nightly rate than competing properties</div>
+      </div>
+    </div>
+  </section>
+
+  <p class="uv-est-disclaimer">Projections are estimates based on the historical performance of properties managed by Unwind Vacation Rentals and reasonable statistical modeling. Actual results vary with property condition, furnishings, pricing strategy, seasonality, and market conditions, and are not a guarantee of future income.</p>
+
+</div>
+
+<script>
+(function() {
+  /* ========================================================
+     REVENUE MODEL \u2014 fitted on Unwind's own OwnerRez data.
+     39 full-year properties, arrivals Aug 2025 \u2013 Jul 2026.
+     ln(annual gross) = b0 + b1\u00b7ln(bedrooms) + b2\u00b7ln(sleeps) + tier effect
+     R\u00b2 = 0.715 (log scale), median absolute error 16.6%.
+     Refresh every ~6 months per unwind-leadgen/README.md,
+     then update this object.
+     ======================================================== */
+  var UV_MODEL = {
+    beta: [10.155054467240014, 0.6906749398544871, 0.03727937562924454,
+           -0.2765962718904247, -0.5653141483235502, -0.813133310663725],
+    tiers: ["oceanfront", "oceanview", "resort", "inland"],
+    sd: 0.2424809975584461
+  };
+  /* Amenity multipliers are judgment calls, not regression output \u2014
+     see unwind-leadgen/src/model.js for the reasoning. */
+  var UV_AMENITIES = { pool: 1.30, reno: 1.08, pets: 1.05 };
+
+  var TIER_PROSE = {
+    oceanfront: "oceanfront",
+    oceanview: "ocean-view",
+    resort: "resort-community",
+    inland: "inland"
+  };
+
+  function clamp(v, lo, hi) { return Math.min(hi, Math.max(lo, v)); }
+  function money(n) { return "$" + Number(n).toLocaleString("en-US"); }
+
+  function estimate(bedrooms, sleeps, tier, amenities) {
+    var bd = clamp(Number(bedrooms) || 1, 1, 8);
+    var sl = clamp(Number(sleeps) || bd * 2 + 2, 2, 20);
+    var t = UV_MODEL.tiers.indexOf(tier) !== -1 ? tier : "oceanview";
+
+    var b = UV_MODEL.beta;
+    var idx = UV_MODEL.tiers.indexOf(t);
+    var tierEffect = idx === 0 ? 0 : b[2 + idx];
+
+    var point = Math.exp(b[0] + b[1] * Math.log(bd) + b[2] * Math.log(sl) + tierEffect);
+    amenities.forEach(function(k) { if (UV_AMENITIES[k]) point *= UV_AMENITIES[k]; });
+
+    /* Middle 50% of observed variation, widened 15% for unseen properties. */
+    var z = 0.6745 * UV_MODEL.sd * 1.15;
+    /* Round to $100 / $25 so every input change is visible on screen —
+       $500 rounding swallowed the (small but real) sleeps effect. */
+    var round100 = function(n) { return Math.round(n / 100) * 100; };
+    return {
+      point: round100(point),
+      low: round100(point * Math.exp(-z)),
+      high: round100(point * Math.exp(z)),
+      monthly: Math.round(point / 12 / 25) * 25,
+      tier: t
+    };
+  }
+
+  /* Rebuilds the sleeps dropdown and always snaps it to the sensible
+     default for the bedroom count (2 per bedroom + 2). Called on load
+     and whenever bedrooms changes, so a 2BR can never claim "sleeps 20"
+     left over from a previous selection. */
+  function fillSleeps(beds) {
+    var sel = document.getElementById("uv-est-sleeps");
+    sel.innerHTML = "";
+    var def = clamp(beds * 2 + 2, 2, 20);
+    for (var i = 2; i <= 20; i++) {
+      var opt = document.createElement("option");
+      opt.value = i;
+      opt.textContent = "Sleeps " + i;
+      if (i === def) opt.selected = true;
+      sel.appendChild(opt);
+    }
+    sel.value = def;
+  }
+
+  function update() {
+    var beds = Number(document.getElementById("uv-est-beds").value);
+    var sleeps = Number(document.getElementById("uv-est-sleeps").value);
+    var tier = document.getElementById("uv-est-tier").value;
+    var amenities = [];
+    if (document.getElementById("uv-est-pool").checked) amenities.push("pool");
+    if (document.getElementById("uv-est-reno").checked) amenities.push("reno");
+    if (document.getElementById("uv-est-pets").checked) amenities.push("pets");
+
+    var e = estimate(beds, sleeps, tier, amenities);
+    document.getElementById("uv-est-range").textContent = money(e.low) + " \u2013 " + money(e.high);
+    document.getElementById("uv-est-point").textContent = money(e.point);
+    document.getElementById("uv-est-monthly").textContent = money(e.monthly);
+    document.getElementById("uv-est-basis").textContent =
+      "Based on the real 12-month performance of our own " + beds + "-bedroom and comparable " +
+      TIER_PROSE[e.tier] + " properties \u2014 not market averages.";
+  }
+
+  function init() {
+    var bedsSel = document.getElementById("uv-est-beds");
+    fillSleeps(Number(bedsSel.value));
+    bedsSel.addEventListener("change", function() {
+      fillSleeps(Number(bedsSel.value));
+      update();
+    });
+    ["uv-est-sleeps", "uv-est-tier", "uv-est-pool", "uv-est-reno", "uv-est-pets"].forEach(function(id) {
+      document.getElementById(id).addEventListener("change", update);
+    });
+    update();
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init);
+  } else {
+    init();
+  }
+})();
+</script>
+
+<!-- ========================================================== -->
+<!-- END OF INCOME ESTIMATOR PAGE INJECTION                      -->
+<!-- ========================================================== -->

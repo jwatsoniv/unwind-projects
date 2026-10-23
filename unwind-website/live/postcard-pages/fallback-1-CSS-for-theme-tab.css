@@ -1,0 +1,245 @@
+/* Unwind — Grande Cayman landing page styles.
+   Paste into: Hosted Websites > your site > Theme & Layout > CSS tab.
+   Every rule is scoped under .uwgc so this cannot affect any other page. */
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Lato:wght@400;700&display=swap');
+
+/* Everything is scoped to .uwgc so this can be pasted into the OwnerRez
+   hosted site without colliding with their Bootstrap bundle. */
+.uwgc{
+  --uw-navy:#0e3purple;           /* placeholder-overwritten below */
+}
+.uwgc{
+  --uw-navy:#0e3446;
+  --uw-navy-2:#1b4f6b;
+  --uw-navy-3:#16556e;
+  --uw-teal:#4bbfbf;
+  --uw-teal-deep:#1f7f82;
+  --uw-sand:#f6f3ed;
+  --uw-sand-2:#ebe5d9;
+  --uw-ink:#0f2430;
+  --uw-ink-soft:#4a6472;
+  --uw-line:#d9d2c4;
+  --uw-white:#ffffff;
+  --uw-err:#b3402f;
+
+  color-scheme: only light;
+  font-family:'Lato',-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;
+  color:var(--uw-ink);
+  background:var(--uw-sand);
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  text-size-adjust:100%;
+}
+.uwgc *,.uwgc *::before,.uwgc *::after{box-sizing:border-box;}
+.uwgc p,.uwgc h1,.uwgc h2,.uwgc h3,.uwgc ul,.uwgc li,.uwgc figure{margin:0;padding:0;}
+.uwgc ul{list-style:none;}
+.uwgc img{max-width:100%;display:block;}
+.uwgc a{color:var(--uw-teal-deep);}
+
+.uwgc-wrap{max-width:660px;margin:0 auto;padding-inline:16px;}
+
+/* ---------------- hero ---------------- */
+.uwgc-hero{
+  position:relative;
+  background:var(--uw-navy);
+  padding-block:30px 86px;
+  overflow:hidden;
+  isolation:isolate;
+}
+.uwgc-hero-bg{
+  position:absolute;inset:0;z-index:-2;
+  background-size:cover;background-position:center 62%;
+  opacity:.30;
+}
+.uwgc-hero::after{
+  content:"";position:absolute;inset:0;z-index:-1;
+  background:linear-gradient(176deg,rgba(14,52,70,.80) 0%,rgba(14,52,70,.90) 46%,var(--uw-navy) 100%);
+}
+.uwgc-brandrow{display:flex;align-items:center;gap:12px;margin-bottom:26px;}
+.uwgc-brandrow img{width:58px;height:auto;flex:none;}
+.uwgc-brandrow span{
+  font-family:'Poppins',sans-serif;font-weight:600;font-size:12px;letter-spacing:.14em;
+  text-transform:uppercase;color:rgba(255,255,255,.72);line-height:1.35;
+}
+.uwgc-eyebrow{
+  font-family:'Poppins',sans-serif;font-weight:600;font-size:11.5px;letter-spacing:.17em;
+  text-transform:uppercase;color:var(--uw-teal);margin-bottom:14px;
+}
+.uwgc-figure{
+  font-family:'Poppins',sans-serif;font-weight:800;color:var(--uw-white);
+  font-size:clamp(60px,17vw,104px);line-height:.92;letter-spacing:-.025em;
+  font-variant-numeric:tabular-nums;margin-bottom:14px;
+}
+.uwgc-figure sup{
+  font-size:.26em;font-weight:600;vertical-align:super;color:var(--uw-teal);
+  letter-spacing:0;margin-left:.12em;
+}
+.uwgc-lede{
+  font-size:clamp(17px,4.4vw,21px);color:rgba(255,255,255,.93);max-width:34ch;
+  text-wrap:balance;
+}
+.uwgc-lede b{font-family:'Poppins',sans-serif;font-weight:600;color:var(--uw-white);}
+.uwgc-rule{height:3px;width:62px;background:var(--uw-teal);margin-block:24px 20px;border-radius:2px;}
+.uwgc-ask{
+  font-family:'Poppins',sans-serif;font-weight:600;font-size:clamp(16px,4.2vw,19px);
+  color:var(--uw-teal);text-wrap:balance;
+}
+
+/* ---------------- form card ---------------- */
+.uwgc-cardzone{background:var(--uw-sand);padding-bottom:44px;}
+.uwgc-card{
+  background:var(--uw-white);border:1px solid var(--uw-line);border-radius:14px;
+  margin-top:-58px;padding:26px 20px 24px;
+  box-shadow:0 18px 44px -20px rgba(14,52,70,.42);
+  position:relative;
+}
+.uwgc-card h2{
+  font-family:'Poppins',sans-serif;font-weight:700;font-size:clamp(21px,5.4vw,26px);
+  line-height:1.22;color:var(--uw-navy-2);text-wrap:balance;margin-bottom:8px;
+}
+.uwgc-card-sub{font-size:15px;color:var(--uw-ink-soft);margin-bottom:6px;}
+.uwgc-note{
+  font-size:13.5px;color:var(--uw-ink-soft);background:var(--uw-sand);
+  border-left:3px solid var(--uw-teal);border-radius:0 7px 7px 0;
+  padding:11px 13px;margin-block:16px 20px;line-height:1.5;
+}
+.uwgc-fields{display:grid;gap:14px;}
+.uwgc-f{display:grid;gap:5px;}
+.uwgc-f label{
+  font-family:'Poppins',sans-serif;font-weight:600;font-size:12px;letter-spacing:.055em;
+  text-transform:uppercase;color:var(--uw-navy-2);
+}
+.uwgc-f .uwgc-opt{font-weight:400;text-transform:none;letter-spacing:0;color:var(--uw-ink-soft);font-size:11.5px;}
+.uwgc-f input,.uwgc-f select,.uwgc-f textarea{
+  font-family:'Lato',sans-serif;font-size:16px;color:var(--uw-ink);
+  background:var(--uw-white);border:1.5px solid var(--uw-line);border-radius:9px;
+  padding:12px 13px;width:100%;line-height:1.4;
+  transition:border-color .15s ease,box-shadow .15s ease;
+}
+.uwgc-f textarea{min-height:76px;resize:vertical;}
+.uwgc-f select{
+  appearance:none;-webkit-appearance:none;cursor:pointer;
+  background-image:url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath fill='%231b4f6b' d='M1 1.6 6 6.4l5-4.8'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 13px center;background-size:12px;
+  padding-right:36px;
+}
+.uwgc-f input:focus-visible,.uwgc-f select:focus-visible,.uwgc-f textarea:focus-visible{
+  outline:none;border-color:var(--uw-teal);box-shadow:0 0 0 3px rgba(75,191,191,.26);
+}
+.uwgc-row{display:grid;gap:14px;grid-template-columns:1fr 1fr;}
+.uwgc-f.is-bad input,.uwgc-f.is-bad select{border-color:var(--uw-err);}
+.uwgc-err{color:var(--uw-err);font-size:12.5px;font-family:'Poppins',sans-serif;font-weight:600;}
+
+.uwgc-more{margin-top:15px;border-top:1px solid var(--uw-line);padding-top:15px;}
+.uwgc-more summary{
+  font-family:'Poppins',sans-serif;font-weight:600;font-size:13.5px;color:var(--uw-teal-deep);
+  cursor:pointer;list-style:none;display:flex;align-items:center;gap:7px;
+}
+.uwgc-more summary::-webkit-details-marker{display:none;}
+.uwgc-more summary::before{content:"+";font-size:16px;line-height:1;}
+.uwgc-more[open] summary::before{content:"\2013";}
+.uwgc-more summary:focus-visible{outline:2px solid var(--uw-teal);outline-offset:3px;border-radius:4px;}
+.uwgc-more .uwgc-fields{margin-top:15px;}
+
+.uwgc-consent{display:flex;gap:10px;align-items:flex-start;margin-top:17px;}
+.uwgc-consent input{
+  width:19px;height:19px;flex:none;margin-top:2px;accent-color:var(--uw-teal-deep);cursor:pointer;
+}
+.uwgc-consent label{font-size:13px;color:var(--uw-ink-soft);line-height:1.5;cursor:pointer;}
+
+.uwgc-submit{
+  font-family:'Poppins',sans-serif;font-weight:700;font-size:17px;color:var(--uw-white);
+  background:var(--uw-teal-deep);border:none;border-radius:10px;
+  padding:16px 20px;width:100%;margin-top:20px;cursor:pointer;
+  transition:background .15s ease,transform .1s ease;
+}
+.uwgc-submit:hover{background:#186a6d;}
+.uwgc-submit:active{transform:translateY(1px);}
+.uwgc-submit:focus-visible{outline:3px solid var(--uw-teal);outline-offset:3px;}
+.uwgc-submit[disabled]{opacity:.62;cursor:wait;}
+.uwgc-orcall{text-align:center;font-size:14px;color:var(--uw-ink-soft);margin-top:13px;}
+.uwgc-orcall a{font-family:'Poppins',sans-serif;font-weight:700;text-decoration:none;white-space:nowrap;}
+.uwgc-orcall a:hover{text-decoration:underline;}
+.uwgc-hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden;}
+
+/* embedded Jotform */
+.uwgc-formbox{margin-top:4px;}
+.uwgc-formbox iframe{
+  width:1px;min-width:100%;max-width:100%;
+  min-height:1000px;border:none;display:block;
+}
+.uwgc-nojs{font-size:15px;color:var(--uw-ink-soft);padding:18px 0;}
+
+/* success state */
+.uwgc-done{text-align:center;padding-block:14px 8px;}
+.uwgc-done-mark{
+  width:52px;height:52px;border-radius:50%;background:var(--uw-teal);
+  display:flex;align-items:center;justify-content:center;margin:0 auto 16px;
+}
+.uwgc-done-mark svg{width:26px;height:26px;display:block;}
+.uwgc-done h2{margin-bottom:10px;}
+.uwgc-done p{font-size:15.5px;color:var(--uw-ink-soft);margin-bottom:12px;}
+
+/* ---------------- proof ---------------- */
+.uwgc-proof{background:var(--uw-white);border-block:1px solid var(--uw-line);padding-block:34px;}
+.uwgc-h3{
+  font-family:'Poppins',sans-serif;font-weight:600;font-size:11.5px;letter-spacing:.17em;
+  text-transform:uppercase;color:var(--uw-teal-deep);margin-bottom:20px;
+}
+.uwgc-stats{display:grid;gap:20px;}
+.uwgc-stat{display:grid;gap:3px;}
+.uwgc-stat b{
+  font-family:'Poppins',sans-serif;font-weight:700;font-size:28px;color:var(--uw-navy-2);
+  line-height:1.1;font-variant-numeric:tabular-nums;
+}
+.uwgc-stat span{font-size:14.5px;color:var(--uw-ink-soft);line-height:1.45;}
+
+/* ---------------- what we do ---------------- */
+.uwgc-does{padding-block:36px;}
+.uwgc-does h2{
+  font-family:'Poppins',sans-serif;font-weight:700;font-size:clamp(20px,5vw,25px);
+  color:var(--uw-navy-2);line-height:1.25;text-wrap:balance;margin-bottom:18px;
+}
+.uwgc-list{display:grid;gap:15px;}
+.uwgc-list li{display:grid;grid-template-columns:auto 1fr;gap:11px;align-items:start;}
+.uwgc-tick{
+  width:20px;height:20px;border-radius:50%;background:var(--uw-teal);flex:none;margin-top:3px;
+  display:flex;align-items:center;justify-content:center;
+}
+.uwgc-tick svg{width:11px;height:11px;display:block;}
+.uwgc-list b{font-family:'Poppins',sans-serif;font-weight:600;color:var(--uw-ink);display:block;font-size:15.5px;}
+.uwgc-list span{font-size:14.5px;color:var(--uw-ink-soft);}
+.uwgc-perks{
+  display:flex;flex-wrap:wrap;gap:8px;margin-top:22px;
+}
+.uwgc-perk{
+  font-family:'Poppins',sans-serif;font-weight:600;font-size:12px;letter-spacing:.04em;
+  background:var(--uw-sand-2);color:var(--uw-navy-2);border-radius:99px;padding:7px 14px;
+}
+
+/* ---------------- footer ---------------- */
+.uwgc-foot{background:var(--uw-navy);color:rgba(255,255,255,.82);padding-block:32px 28px;}
+.uwgc-foot h2{
+  font-family:'Poppins',sans-serif;font-weight:700;font-size:20px;color:var(--uw-white);margin-bottom:14px;
+}
+.uwgc-contact{display:grid;gap:9px;margin-bottom:22px;}
+.uwgc-contact a{
+  font-family:'Poppins',sans-serif;font-weight:600;font-size:17px;color:var(--uw-teal);
+  text-decoration:none;
+}
+.uwgc-contact a:hover{text-decoration:underline;}
+.uwgc-fine{font-size:11.5px;line-height:1.55;color:rgba(255,255,255,.52);border-top:1px solid rgba(255,255,255,.15);padding-top:16px;}
+
+@media (min-width:560px){
+  .uwgc-hero{padding-block:38px 92px;}
+  .uwgc-card{padding:30px 28px 28px;}
+  .uwgc-stats{grid-template-columns:repeat(3,1fr);gap:22px;}
+  .uwgc-proof,.uwgc-does{padding-block:42px;}
+}
+@media (prefers-reduced-motion:reduce){
+  .uwgc *{transition:none!important;animation:none!important;}
+}
+
+/* NOTE: if using this file in the site-wide CSS tab, scope these to the
+   Grande Cayman page only - they would otherwise hide every page title. */

@@ -63,21 +63,90 @@ div.incarousel-search-bar.container { height: auto !important; min-height: 0 !im
 .uw-bookdirect .col .ic{color:#1b4f6b;font-size:26px;display:block;margin-bottom:10px}
 .uw-bookdirect .col h4{margin:0 0 6px;color:#1b4f6b;font-size:16px;font-weight:600}
 .uw-bookdirect .col p{margin:0;color:#4b5563;font-size:14px;line-height:1.5}
+
+/* Brand subtitle under hero SEO headline (added by Claude) */
+.carousel-caption h1::after{ content:"Unwind Vacation Rentals"; display:block; font-family:'Inter',system-ui,sans-serif; font-size:0.3em; font-weight:600; letter-spacing:3px; text-transform:uppercase; margin-top:10px; }
+@media(max-width:767px){ .carousel-caption h1::after{ font-size:0.42em; letter-spacing:2px; margin-top:6px; } }
+
+/* Light & airy background (replaces saturated royal-blue #2F4F90) */
+body, html { background-color:#F6F1E7 !important; }
+.has-fullpage-background, .fullpage-background { background-color:#F6F1E7 !important; }
+/* Soft coastal placeholder so the hero image doesn't flash against a dark bg while loading */
+#carousel-hero, .hero-carousel { background-color:#e7edf0 !important; }
+
+/* Cards float on the lighter background */
+.property-item, .property-listing, .listing-item, .property-search-result, .thumbnail { box-shadow:0 4px 16px rgba(18,59,79,.09) !important; border-radius:12px !important; }
+
+/* Location badge on property card photos (added by Claude) */
+.uw-loc-badge{position:absolute;top:10px;left:10px;background:rgba(18,59,79,.92);color:#fff;font-size:12px;font-weight:600;letter-spacing:.3px;padding:5px 11px;border-radius:999px;z-index:3;box-shadow:0 2px 6px rgba(0,0,0,.25);pointer-events:none}
+.uw-pet-badge{position:absolute;top:10px;right:10px;background:rgba(14,124,134,.94);color:#fff;font-size:12px;font-weight:600;letter-spacing:.3px;padding:5px 11px;border-radius:999px;z-index:3;box-shadow:0 2px 6px rgba(0,0,0,.25);pointer-events:none}
+
+/* ===== Snowbird Rentals page (fully self-contained: defines its own color
+   tokens + shared classes, since the live CSS tab doesn't have the
+   --uw-* design-system tokens from the site-redesign doc) ===== */
+:root{
+  --uw-navy:#123B4F; --uw-teal:#0E7C86; --uw-coral:#E76F51; --uw-coral-dark:#D45A3D;
+  --uw-sand:#F6F1E7; --uw-ink:#1F2937; --uw-gray:#6B7280; --uw-line:#E5E7EB;
+}
+.uw-strip{display:flex;gap:24px;flex-wrap:wrap;justify-content:center;
+  background:var(--uw-sand);border-radius:12px;padding:28px 24px;margin:24px 0}
+.uw-strip-item{flex:1 1 260px;max-width:340px;text-align:center}
+.uw-strip-item h3{font-size:17px;font-weight:600;color:var(--uw-navy);margin:0 0 6px}
+.uw-strip-item p{font-size:14.5px;color:var(--uw-gray);margin:0}
+.uw-owner-strip{background:var(--uw-navy);border-radius:12px;padding:36px 28px;
+  text-align:center;color:#fff;margin:32px 0}
+.uw-owner-strip h2{font-family:'Fraunces',Georgia,serif;color:#fff;font-size:26px;margin:0 0 8px}
+.uw-owner-strip p{color:#cfe6ea;max-width:560px;margin:0 auto 18px}
+.uw-cta-row{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin:18px 0}
+.uw-btn-primary{background:var(--uw-coral);color:#fff;border-radius:8px;padding:12px 20px;
+  font-weight:600;border:0;display:inline-block;text-decoration:none;font-size:15px}
+.uw-btn-primary:hover{background:var(--uw-coral-dark);color:#fff}
+.uw-btn-secondary{background:#fff;color:var(--uw-teal);border:1.5px solid var(--uw-teal);
+  border-radius:8px;padding:10.5px 20px;font-weight:600;display:inline-block;
+  text-decoration:none;font-size:15px}
+.uw-badge{display:inline-block;background:var(--uw-sand);color:var(--uw-navy);
+  border-radius:999px;padding:4px 12px;font-size:13px;font-weight:500}
+
+.uw-winter-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin:20px 0 40px}
+@media(max-width:991px){.uw-winter-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:599px){.uw-winter-grid{grid-template-columns:1fr}}
+.uw-winter-card{background:#fff;border:1px solid var(--uw-line);border-radius:12px;
+  overflow:hidden;display:flex;flex-direction:column;box-shadow:0 2px 12px rgba(0,0,0,0.05);
+  transition:box-shadow .15s,transform .15s}
+.uw-winter-card:hover{box-shadow:0 8px 24px rgba(0,0,0,0.12);transform:translateY(-2px)}
+.uw-winter-photo-link{display:block;position:relative;text-decoration:none}
+.uw-winter-photo{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;background:var(--uw-sand)}
+.uw-badge-overlay{position:absolute;top:12px;left:12px;background:var(--uw-navy);
+  color:#fff;box-shadow:0 2px 6px rgba(0,0,0,0.25)}
+.uw-winter-card-body{padding:16px}
+.uw-winter-card h3{margin:0;font-size:17px}
+.uw-winter-card h3 a{color:var(--uw-navy);text-decoration:none;font-family:'Inter',sans-serif;font-weight:600}
+.uw-winter-card h3 a:hover{color:var(--uw-teal)}
+.uw-winter-attrs{color:var(--uw-gray);font-size:14px;margin:4px 0 0}
+.uw-winter-price{font-size:20px;font-weight:700;color:var(--uw-navy);margin:4px 0 0}
+.uw-winter-price span{font-size:13px;font-weight:500;color:var(--uw-gray)}
+.uw-count{color:var(--uw-gray);font-size:16px;font-weight:400;font-family:'Inter',sans-serif}
+/* ===== Snowbird Rentals page: center the intro heading + copy ===== */
+html.page-574060765 .body-content > .row:first-child{text-align:center !important}
+html.page-574060765 .body-content > p:first-of-type{text-align:center !important;margin-left:auto !important;margin-right:auto !important}
+
+/* Amenities multiselect: scroll inside the panel instead of spilling over page content (2026-10-22) */
+.multiselect-container.dropdown-menu{max-height:420px;overflow-y:auto;background:#fff;box-shadow:0 6px 20px rgba(0,0,0,.15)}
         </style>
 
-        <link rel="canonical" href="https://www.unwindvacations.com/" />
-        <meta property="og:url" content="https://www.unwindvacations.com/" />
+        <link rel="canonical" href="https://www.unwindvacations.com/?cb=gh1794256169" />
+        <meta property="og:url" content="https://www.unwindvacations.com/?cb=gh1794256169" />
 
-            <meta property="og:image" content="https://uc.orez.io/f/e18d8ab4f58f464d9758aa5027f5bca6" />
+            <meta property="og:image" content="https://uc.orez.io/f/6eb28c3621a3482fb5777ba11cfcd52e" />
             <meta property="og:image:type" content="image/jpeg" />
-            <meta property="og:image:width" content="1362" />
-            <meta property="og:image:height" content="938" />
-            <meta name="description" content="Browse 47+ Myrtle Beach vacation rentals — oceanfront condos, beach homes, pools and more on the Grand Strand. Book direct with free linens and 24/7 guest care." />
-        <meta property="og:description" content="Browse 47+ Myrtle Beach vacation rentals — oceanfront condos, beach homes, pools and more on the Grand Strand. Book direct with free linens and 24/7 guest care." />
+            <meta property="og:image:width" content="2048" />
+            <meta property="og:image:height" content="1365" />
+            <meta name="description" content="Browse 60+ Myrtle Beach vacation rentals — oceanfront condos, beach homes, pools and more on the Grand Strand. Book direct with free linens and 24/7 guest care." />
+        <meta property="og:description" content="Browse 60+ Myrtle Beach vacation rentals — oceanfront condos, beach homes, pools and more on the Grand Strand. Book direct with free linens and 24/7 guest care." />
 
         <script type="application/ld+json">
             {
-  "logo": "https://uc.orez.io/f/ddaa9d44668a4f67a62620f4ae018fe9",
+  "logo": "https://uc.orez.io/f/a2de6297a16844d39af0e2eeb9081c0d",
   "url": "https://www.unwindvacations.com",
   "@context": "https://schema.org/",
   "@type": [
@@ -86,8 +155,8 @@ div.incarousel-search-bar.container { height: auto !important; min-height: 0 !im
   "name": "Unwind Vacations",
   "aggregateRating": {
     "@type": "AggregateRating",
-    "ratingValue": 4.996,
-    "reviewCount": 1059,
+    "ratingValue": 4.993,
+    "reviewCount": 1197,
     "bestRating": 5,
     "worstRating": 0
   }
@@ -102,9 +171,9 @@ window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
 gtag('set', 'linker', { 'accept_incoming': true });
 gtag('js', new Date());
-gtag('config', 'G-96L4KV3KEJ', { 'cookie_flags': 'SameSite=None;Secure','send_page_view': true, 'debug_mode':true });
+gtag('config', 'G-5PZHSEFLY3', { 'cookie_flags': 'SameSite=None;Secure','send_page_view': true });
 </script>
-<script async src="//www.googletagmanager.com/gtag/js?id=G-96L4KV3KEJ"></script>
+<script async src="//www.googletagmanager.com/gtag/js?id=G-5PZHSEFLY3"></script>
     <!-- Messenger Chat plugin Code -->
     <div id="fb-root"></div>
 
@@ -188,6 +257,78 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 });
 </script>
+
+<!-- Location badges on property cards (added by Claude) -->
+<script>
+(function(){
+  var overrides=[['relaxing haven retreat','Barefoot Resort'],['barefoot','Barefoot Resort'],['anderson ocean club','Oceanfront'],['ocean lakes','Ocean View'],['retro','Ocean View'],['gated oceanfront','Near Ocean'],['emerald pointe','Near Ocean'],['charming 4br beach house','Near Ocean']];
+  var order=[['oceanfront','Oceanfront'],['ocean front','Oceanfront'],['beachfront','Beachfront'],['waterfront','Waterfront'],['ocean view','Ocean View'],['oceanview','Ocean View'],['near ocean','Near Ocean'],['walk to','Walk to Beach']];
+  var petProps=['200 ft to beach','robbers roost','winds','luster','1225'];
+  function getTitle(card,tile){ if(!tile){ var t=card.querySelector('h2 a, .media-heading a'); return t?t.textContent:''; } var el=card.querySelector('.property-result-tile-title,.property-result-tile-name'); return el?el.textContent:card.textContent.split(/sleeps|\bbed/i)[0]; }
+  function pill(wrap,cls,text){ wrap.style.position='relative'; var s=document.createElement('span'); s.className=cls; s.textContent=text; wrap.appendChild(s); }
+  function badge(){
+    document.querySelectorAll('.thumbnail, .property-result-tile-image').forEach(function(wrap){
+      if(wrap.getAttribute('data-uwb')) return; wrap.setAttribute('data-uwb','1');
+      var tile=wrap.classList.contains('property-result-tile-image');
+      var card=tile?wrap.closest('.property-result-tile'):wrap.closest('.row'); if(!card){wrap.removeAttribute('data-uwb');return;}
+      var amen=card.querySelector('.amenity-summary-amenities');
+      var title=getTitle(card,tile).toLowerCase();
+      var label=null;
+      for(var j=0;j<overrides.length;j++){ if(title.indexOf(overrides[j][0])>-1){ label=overrides[j][1]; break; } }
+      if(!label){ var txt=tile?card.textContent.toLowerCase():((amen?amen.textContent:'')+' '+title).toLowerCase(); for(var i=0;i<order.length;i++){ if(txt.indexOf(order[i][0])>-1){label=order[i][1];break;} } }
+      if(label) pill(wrap,'uw-loc-badge',label);
+      var petText=(title+' '+(amen?amen.textContent:'')).toLowerCase();
+      var isPet=/dog stays free|pet[- ]friendly|pets welcome|dog friendly|pets allowed/.test(petText) || petProps.some(function(p){return title.indexOf(p)>-1;});
+      if(isPet) pill(wrap,'uw-pet-badge','Pet Friendly');
+    });
+  }
+  var t; function run(){ clearTimeout(t); t=setTimeout(badge,60); }
+  document.addEventListener('DOMContentLoaded', function(){ badge(); try{ new MutationObserver(run).observe(document.body,{childList:true,subtree:true}); }catch(e){} });
+})();
+</script>
+<script type="text/javascript" async="true" src="https://beacon.beyondpricing.com/payload.js"></script>
+
+<!-- Unwind - per-property guest-rating chips on cards (homepage + /properties).
+     Data = visible OwnerRez reviews (Airbnb/Vrbo/direct) pulled 2026-10-17; slug -> ["avg1dp", count].
+     Refresh periodically (re-run rev_pull.py). Theme-level (Head tab); pairs with the badge script. -->
+<style>
+.uw-rate{display:inline-flex;align-items:center;gap:5px;margin:6px 10px 2px;padding:3px 9px;background:#fff;border:1px solid #e5e7eb;border-radius:999px;font-size:13px;line-height:1.2;font-weight:600;color:#123b4f;box-shadow:0 1px 3px rgba(18,59,79,.08);vertical-align:middle}
+.uw-rate .st{color:#E8A33D;font-size:13px;margin-right:1px}
+.uw-rate .av{color:#123b4f}
+.uw-rate .ct{color:#6b7280;font-weight:500}
+@media(max-width:767px){.uw-rate{font-size:12px;margin:5px 8px 2px}}
+</style>
+<script>
+(function(){
+  var R={"cherry-grove-coastal-escape-2br-steps-to-beach-orp5b77bebx":["5.0",2],"seaside-escape-2br-steps-to-cherry-grove-beach-orp5b77bd2x":["5.0",1],"salt-sand-ocean-view-2br-cherry-grove-orp5b77820x":["5.0",1],"beach-please-ocean-view-2br-cherry-grove-orp5b77806x":["4.5",2],"22ndfloor-oceanfront-luxury-maisons-surmer-orp5b77663x":["5.0",4],"tilghman-shores-2br-pool-3min-to-the-ocean-orp5b77662x":["5.0",2],"magnolia-place-2br-pool-pets-stay-free-orp5b77569x":["5.0",5],"ocean-lakes-4br-house-pools-water-park-sleeps-12-orp5b76bf5x":["5.0",6],"arcadian-dunes-2br-pool-walk-to-ocean-orp5b767aax":["5.0",10],"robbers-roost-829-orp5b764edx":["5.0",5],"4br-home-near-marshwalk-pro-golf-simulator-orp5b761d4x":["5.0",11],"forest-dunes-1br-oceanview-retreat-orp5b761aax":["5.0",2],"winds-townhouse-2br-private-yard-beach-walk-orp5b75aebx":["4.9",13],"grande-dunes-2br-intracoastal-views-pools-orp5b7599ex":["5.0",7],"luxury-3br-oceanfront-penthouse-w-lazy-river-orp5b753fbx":["5.0",9],"ocean-inlet-views-cherry-grove-condo-orp5b74c48x":["5.0",7],"coastal-comfort-4br-north-myrtle-beach-orp5b7330fx":["5.0",19],"beach-days-at-covewind-4br-north-myrtle-beach-orp5b7330ex":["5.0",12],"north-myrtle-beach-escape-spacious-4br-home-orp5b72c24x":["5.0",10],"lakeview-luxury-magnolia-pointe-3br-petfriendly-pools-orp5b72962x":["5.0",15],"holiday-pavilion-210-orp5b7273ax":["5.0",8],"barefoot-1532-willow-bend-orp5b716e9x":["5.0",10],"oceanfront-luxury-4br-sleeps-10-beach-club-ii-orp5b7080ex":["5.0",31],"gated-oceanfront-2br-w-pools-lazy-river-beach-orp5b6fcfbx":["5.0",17],"stylish-2br-retreat-at-kingston-walk-to-beach-orp5b6f671x":["5.0",15],"anderson-ocean-club-3br-sleeps-8-w-pools-spa-orp5b6f464x":["5.0",30],"emerald-pointe-3b-orp5b6eee3x":["5.0",20],"2br-townhouse-1-mile-to-beach-dog-stays-free-orp5b6e21ax":["5.0",12],"luxury-oceanfront-escape-3br-at-brigadune-orp5b6c058x":["5.0",9],"retrothemed-condo-2br-perfect-location-orp5b6bbfdx":["5.0",25],"charming-4br-beach-house-with-heated-pool-outdoor-grill-orp5b6b774x":["5.0",31],"cozy-3br-barefoot-sleeps-8-w-pool-orp5b6b4d8x":["5.0",17],"cozy-3br-w-private-balcony-dog-stays-free-orp5b6abb2x":["5.0",27],"cozy-oceanfront-2-br-have-w-mesmerising-balcony-views-orp5b6a667x":["5.0",34],"oceanview-5br-with-game-room-sleeps-17-orp5b6a14fx":["5.0",39],"ocean-villas-g2-orp5b69c71x":["5.0",23],"prince-resort-oceanfront-3br-pools-lazy-river-orp5b69800x":["5.0",42],"sand-dunes-resort-2527-orp5b67924x":["5.0",19],"3br-oceanfront-condo-at-grande-cayman-resort-orp5b665adx":["5.0",51],"barefoot-resort-willow-bend-3br-condo-orp5b66060x":["5.0",42],"cypress-bay-101-orp5b66032x":["5.0",37],"updated-2-br-oceanview-condo-in-north-myrtle-beach-orp5b65f1dx":["5.0",28],"oceanfront-oasis-luxury-1-bedroom-orp5b64ee0x":["5.0",39],"oceanfront-luxury-3-bedroom-condo-at-palms-resort-orp5b6474fx":["5.0",55],"beachside-luxury-1-bedroom-myrtle-beach-resort-condo-orp5b64607x":["5.0",36],"ground-floor-2br-barefoot-resort-condo-in-ironwood-orp5b643d1x":["5.0",18],"relaxing-haven-retreat-2-bedroom-condo-with-golf-course-views-orp5b63cedx":["5.0",57],"tranquil-waves-retreat-oceanfront-1bedroom-condo-orp5b6362ax":["5.0",60],"oceanfront-paradise-3-bedroom-condo-at-ocean-reef-resort-orp5b622c7x":["5.0",45],"pirate-paradise-oceanview-2br-unique-family-getaway-orp5b61023x":["5.0",47],"oceanfront-oasis-2-bedroom-condo-orp5b6012bx":["5.0",56],"relaxing-1br-condo-with-stunning-views-resort-amenities-orp5b5fd96x":["5.0",36]};
+  function slugOf(href){ if(!href) return null; href=(''+href).split('#')[0].split('?')[0]; var p=href.replace(/\/+$/,'').split('/'); return p[p.length-1]||null; }
+  function chip(av,ct){ var s=document.createElement('span'); s.className='uw-rate'; s.setAttribute('data-uwr','1');
+    s.innerHTML='<span class="st">★</span><span class="av">'+av+'</span><span class="ct">('+ct+')</span>'; return s; }
+  function run(){
+    document.querySelectorAll('a.property-result-tile, .property-result-tile').forEach(function(tile){
+      if(tile.getAttribute('data-uwr-done')) return;
+      var d=R[slugOf(tile.getAttribute('href')||tile.href)]; if(!d) return;
+      var titleEl=tile.querySelector('.h3.media-heading, [id^="pname-"]'); if(!titleEl||!titleEl.parentNode) return;
+      titleEl.parentNode.insertBefore(chip(d[0],d[1]), titleEl.nextSibling); tile.setAttribute('data-uwr-done','1');
+    });
+    document.querySelectorAll('.row, .thumbnail').forEach(function(card){
+      if(card.getAttribute('data-uwr-done')) return;
+      var a=card.querySelector('h2 a.media-heading, h2 a, .media-heading a'); if(!a) return;
+      var d=R[slugOf(a.getAttribute('href')||a.href)]; if(!d) return;
+      var titleEl=a.closest('h2')||a; if(!titleEl.parentNode) return;
+      titleEl.parentNode.insertBefore(chip(d[0],d[1]), titleEl.nextSibling); card.setAttribute('data-uwr-done','1');
+    });
+  }
+  var t; function deb(){ clearTimeout(t); t=setTimeout(run,80); }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',run); else run();
+  try{ new MutationObserver(deb).observe(document.body,{childList:true,subtree:true}); }catch(e){}
+
+})();
+</script>
+
+<!-- Desktop menu fit (2026-11-09): wider header row + scaled nav text so all items fit -->
+<style id="uw-nav-fit">.header-desktop .header-line-container>.container{width:auto!important;max-width:1480px!important;margin:0 auto;padding-left:16px;padding-right:16px}.header-links .list-inline>li.header-links-menu{margin:0 1px!important;padding:0 4px!important}.header-links .list-inline>li.header-links-menu>a{letter-spacing:.3px!important;font-size:clamp(11px,1.02vw,16px)!important}</style>
+
 </head>
 <body style="background: #2f4f90 ">
     <div class="header-container navbar-fixed-top" id="header-bar">
@@ -229,7 +370,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         <div class="header-line-section section-center">
 
 <div class="header-logo">
-    <a href="/" class="navbar-brand has-brand-image" title="Unwind Vacations" style="background-image:url(&#39;https://uc.orez.io/f/ddaa9d44668a4f67a62620f4ae018fe9&#39;)">
+    <a href="/" class="navbar-brand has-brand-image" title="Unwind Vacations" style="background-image:url(&#39;https://uc.orez.io/f/a2de6297a16844d39af0e2eeb9081c0d&#39;)">
     </a>
 </div>    </div>
                                     </div>
@@ -262,69 +403,61 @@ Contact
                     </a>
                 <ul class="dropdown-menu">
 
-                                <li><a href="/oceanfront-luxury-4br-sleeps-10-beach-club-ii-orp5b7080ex">Oceanfront Luxury 4BR | Sleeps 10 | Beach Club II</a></li>
-                                <li><a href="/oceanview-5br-with-game-room-sleeps-17-orp5b6a14fx">Oceanview 5BR with Game Room Sleeps 17</a></li>
-                                <li><a href="/prince-resort-oceanfront-3br-pools-lazy-river-orp5b69800x">Prince Resort Oceanfront 3BR Pools Lazy River</a></li>
-                                <li><a href="/2ndfloor-oceanfront-luxury-maisons-surmer-orp5b77663x">2nd-Floor Oceanfront Luxury &#183; Maisons Sur-Mer</a></li>
-                                <li><a href="/charming-4br-beach-house-with-heated-pool-outdoor-grill-orp5b6b774x">Charming 4BR Beach House with Heated Pool &amp; Outdoor Grill</a></li>
-                                <li><a href="/anderson-ocean-club-3br-sleeps-8-w-pools-spa-orp5b6f464x">Anderson Ocean Club 3BR - Sleeps 8 w/ Pools &amp; Spa</a></li>
-                                <li><a href="/4br-home-near-marshwalk-pro-golf-simulator-orp5b761d4x">4BR Home Near MarshWalk + Pro Golf Simulator</a></li>
-                                <li><a href="/oceanfront-luxury-3-bedroom-condo-at-palms-resort-orp5b6474fx">Oceanfront Luxury: 3 Bedroom Condo at Palms Resort</a></li>
-                                <li><a href="/luxury-3br-oceanfront-penthouse-w-lazy-river-orp5b753fbx">Luxury 3BR Oceanfront Penthouse w/ Lazy River</a></li>
-                                <li><a href="/ocean-lakes-4br-house-pools-water-park-sleeps-12-orp5b76bf5x">Ocean Lakes 4BR House Pools &amp; Water Park Sleeps 12</a></li>
-                                <li><a href="/3br-oceanfront-condo-at-grande-cayman-resort-orp5b665adx">3BR Oceanfront Condo at Grande Cayman Resort!</a></li>
-                                <li><a href="/covewind-1535-orp5b7330fx">Covewind 1535</a></li>
-                                <li><a href="/covewind-1522-orp5b7330ex">Covewind 1522</a></li>
-                                <li><a href="/luxury-oceanfront-escape-3br-at-brigadune-orp5b6c058x">Luxury oceanfront escape 3BR at Brigadune</a></li>
-                                <li><a href="/covewind-1518-orp5b72c24x">Covewind 1518</a></li>
-                                <li><a href="/retrothemed-condo-2br-perfect-location-orp5b6bbfdx">Retro-Themed Condo | 2BR | Perfect Location</a></li>
-                                <li><a href="/relaxing-1br-condo-with-stunning-views-resort-amenities-orp5b5fd96x">Relaxing 1BR Condo with Stunning Views &amp; Resort Amenities</a></li>
-                                <li><a href="/tranquil-waves-retreat-oceanfront-1bedroom-condo-orp5b6362ax">Tranquil Waves Retreat: Oceanfront 1Bedroom Condo</a></li>
-                                <li><a href="/pirate-paradise-oceanview-2br-unique-family-getaway-orp5b61023x">Pirate Paradise | Oceanview 2BR | Unique Family Getaway!</a></li>
-                                <li><a href="/beachside-luxury-1-bedroom-myrtle-beach-resort-condo-orp5b64607x">Beachside  Luxury: 1 Bedroom Myrtle Beach Resort Condo</a></li>
-                                <li><a href="/ground-floor-2br-barefoot-resort-condo-in-ironwood-orp5b643d1x">Ground Floor 2BR Barefoot Resort Condo in Ironwood</a></li>
-                                <li><a href="/oceanfront-oasis-2-bedroom-condo-orp5b6012bx">Oceanfront Oasis: 2 Bedroom Condo</a></li>
-                                <li><a href="/arcadian-dunes-2br-pool-walk-to-ocean-orp5b767aax">Arcadian Dunes 2BR | Pool + Walk to Ocean</a></li>
-                                <li><a href="/oceanfront-oasis-luxury-1-bedroom-orp5b64ee0x">Oceanfront Oasis: Luxury 1 Bedroom</a></li>
-                                <li><a href="/oceanfront-paradise-3-bedroom-condo-at-ocean-reef-resort-orp5b622c7x">Oceanfront Paradise: 3 Bedroom Condo at Ocean Reef Resort</a></li>
-                                <li><a href="/relaxing-haven-retreat-3-bedroom-condo-with-golf-course-views-orp5b62dbex">Relaxing Haven Retreat : 3 Bedroom Condo with Golf Course Views</a></li>
-                                <li><a href="/relaxing-haven-retreat-2-bedroom-condo-with-golf-course-views-orp5b63cedx">Relaxing Haven Retreat: 2 Bedroom Condo with Golf Course Views</a></li>
-                                <li><a href="/barefoot-resort-willow-bend-3br-condo-orp5b66060x">Barefoot Resort Willow Bend 3BR Condo</a></li>
-                                <li><a href="/cypress-bay-101-orp5b66032x">Cypress Bay #101</a></li>
-                                <li><a href="/beachfront-bliss-2-oceanfront-studio-condo-orp5b66b2fx">Beachfront Bliss 2: Oceanfront Studio Condo</a></li>
-                                <li><a href="/updated-2-br-oceanview-condo-in-north-myrtle-beach-orp5b65f1dx">Updated 2 BR Oceanview Condo in North Myrtle Beach</a></li>
-                                <li><a href="/cozy-3br-barefoot-sleeps-8-w-pool-orp5b6b4d8x">Cozy 3BR @ Barefoot Sleeps 8 W/ Pool</a></li>
-                                <li><a href="/cozy-oceanfront-2-br-have-w-mesmerising-balcony-views-orp5b6a667x">Cozy Oceanfront 2 BR Have w/ Mesmerising Balcony Views</a></li>
-                                <li><a href="/cozy-3br-w-private-balcony-dog-stays-free-orp5b6abb2x">Cozy 3BR w/ Private Balcony - Dog Stays Free</a></li>
-                                <li><a href="/ocean-villas-g2-orp5b69c71x">Ocean villas #G2</a></li>
-                                <li><a href="/sand-dunes-resort-2527-orp5b67924x">Sand Dunes Resort 2527</a></li>
-                                <li><a href="/barefoot-1532-willow-bend-orp5b716e9x">Barefoot #1532 Willow Bend</a></li>
-                                <li><a href="/emerald-pointe-3b-orp5b6eee3x">Emerald Pointe #3B</a></li>
-                                <li><a href="/first-floor-2br-oceanview-condo-on-shore-dr-orp5b73390x">First Floor 2BR Oceanview Condo on Shore Dr</a></li>
-                                <li><a href="/forest-dunes-1br-oceanview-retreat-orp5b761aax">Forest Dunes 1BR Oceanview Retreat</a></li>
-                                <li><a href="/gated-oceanfront-2br-w-pools-lazy-river-beach-orp5b6fcfbx">Gated Oceanfront 2BR w/ Pools, Lazy River + Beach!</a></li>
-                                <li><a href="/grande-dunes-2br-intracoastal-views-pools-orp5b7599ex">Grande Dunes 2BR &#183; Intracoastal Views &#183; Pools</a></li>
-                                <li><a href="/tilghman-shores-2br-pool-3min-to-the-ocean-orp5b77662x">Tilghman Shores 2BR &#183; Pool &#183; 3-Min to the Ocean</a></li>
-                                <li><a href="/hillside-beach-house-orp5b6f662x">Hillside Beach House</a></li>
-                                <li><a href="/holiday-pavilion-210-orp5b7273ax">Holiday Pavilion #210</a></li>
-                                <li><a href="/kingston-arrow-head-court-unit-215-orp5b6f671x">Kingston - Arrow Head Court Unit #215</a></li>
-                                <li><a href="/lakeview-luxury-magnolia-pointe-3br-petfriendly-pools-orp5b72962x">Lakeview Luxury | Magnolia Pointe 3BR | Pet-Friendly + Pools</a></li>
-                                <li><a href="/magnolia-place-2br-pool-pets-stay-free-orp5b77569x">Magnolia Place 2BR &#183; Pool &#183; Pets Stay Free</a></li>
-                                <li><a href="/ocean-inlet-views-cherry-grove-condo-orp5b74c48x">Ocean &amp; Inlet Views | Cherry Grove Condo</a></li>
-                                <li><a href="/ocean-view-2br-200-ft-to-beach-cherry-grove-orp5b77806x">Ocean View 2BR &#183; 200 Ft to Beach &#183; Cherry Grove</a></li>
-                                <li><a href="/ocean-view-2br-200-ft-to-beach-cherry-grove-orp5b77820x">Ocean View 2BR &#183; 200 Ft to Beach &#183; Cherry Grove</a></li>
-                                <li><a href="/ocean-view-2br-200-ft-to-beach-cherry-grove-orp5b77bebx">Ocean View 2BR &#183; 200 Ft to Beach &#183; Cherry Grove</a></li>
-                                <li><a href="/ocean-view-2br-200-ft-to-beach-cherry-grove-orp5b77bd2x">Ocean View 2BR &#183; 200 Ft to Beach &#183; Cherry Grove</a></li>
-                                <li><a href="/2br-townhouse-1-mile-to-beach-dog-stays-free-orp5b6e21ax">&#127965;️ 2BR Townhouse 1 Mile to Beach - Dog Stays FREE&#127948;️‍♂️</a></li>
-                                <li><a href="/robbers-roost-829-orp5b764edx">Robbers Roost 829</a></li>
-                                <li><a href="/winds-townhouse-2br-private-yard-beach-walk-orp5b75aebx">Winds Townhouse 2BR Private Yard &amp; Beach Walk</a></li>
+                            <li>
+                                <a href="https://www.unwindvacations.com/properties">All Properties</a>
+                            </li>
+                            <li>
+                                <a href="https://www.unwindvacations.com/properties#oceanfront">Oceanfront</a>
+                            </li>
+                            <li>
+                                <a href="/pet-friendly-rentals-574064657">Pet-Friendly</a>
+                            </li>
+                            <li>
+                                <a href="https://www.unwindvacations.com/properties#large-groups">Large Groups (4+ BR)</a>
+                            </li>
+                            <li>
+                                <a href="https://www.unwindvacations.com/properties#north-myrtle-beach">North Myrtle Beach &amp; Cherry Grove</a>
+                            </li>
+                            <li>
+                                <a href="https://www.unwindvacations.com/properties#myrtle-beach">Myrtle Beach</a>
+                            </li>
+                            <li>
+                                <a href="https://www.unwindvacations.com/properties#surfside-beach">Surfside Beach</a>
+                            </li>
+                            <li>
+                                <a href="https://www.unwindvacations.com/properties#murrells-inlet">Murrells Inlet</a>
+                            </li>
+                            <li>
+                                <a href="https://www.unwindvacations.com/properties#little-river">Little River</a>
+                            </li>
+                </ul>
+            </li>
+            <li class="dropdown header-links-menu">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Resorts <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+
+                            <li>
+                                <a href="/grande-cayman-resort-574064265">Grande Cayman</a>
+                            </li>
+                            <li>
+                                <a href="/ocean-reef-resort-574064646">Ocean Reef</a>
+                            </li>
+                            <li>
+                                <a href="/prince-resort-574064266">Prince Resort</a>
+                            </li>
+                            <li>
+                                <a href="/kingston-plantation-574064267">Kingston Plantation</a>
+                            </li>
+                            <li>
+                                <a href="/north-beach-plantation-resort-574066709">North Beach Plantation</a>
+                            </li>
                 </ul>
             </li>
                 <li class="header-links-menu">
-                    <a href="/map">Map</a>
+                    <a target="_blank" href="https://owners.unwindvacations.com">Property Management</a>
                 </li>
                 <li class="header-links-menu">
-                    <a target="_blank" href="https://join.unwindvacations.com">Property Management</a>
+                    <a href="/winter-rentals-574060765">Snowbird Rentals</a>
                 </li>
                 <li class="header-links-menu">
                     <a href="/reviews">Reviews</a>
@@ -335,8 +468,11 @@ Contact
                 <li class="header-links-menu">
                     <a target="_blank" href="/https-secure-ownerrez-com-login-returnurl--574004280">Owner Portal</a>
                 </li>
+                <li class="header-links-menu">
+                    <a href="/map">Map</a>
+                </li>
                 <li class="header-links-menu last">
-                    <a href="/privacy-574012795">.</a>
+                    <a href="https://rentals.unwindvacations.com">Long Term Rentals</a>
                 </li>
     </ul>
 </div>
@@ -400,69 +536,61 @@ Contact
                     </a>
                 <ul class="dropdown-menu">
 
-                                <li><a href="/oceanfront-luxury-4br-sleeps-10-beach-club-ii-orp5b7080ex">Oceanfront Luxury 4BR | Sleeps 10 | Beach Club II</a></li>
-                                <li><a href="/oceanview-5br-with-game-room-sleeps-17-orp5b6a14fx">Oceanview 5BR with Game Room Sleeps 17</a></li>
-                                <li><a href="/prince-resort-oceanfront-3br-pools-lazy-river-orp5b69800x">Prince Resort Oceanfront 3BR Pools Lazy River</a></li>
-                                <li><a href="/2ndfloor-oceanfront-luxury-maisons-surmer-orp5b77663x">2nd-Floor Oceanfront Luxury &#183; Maisons Sur-Mer</a></li>
-                                <li><a href="/charming-4br-beach-house-with-heated-pool-outdoor-grill-orp5b6b774x">Charming 4BR Beach House with Heated Pool &amp; Outdoor Grill</a></li>
-                                <li><a href="/anderson-ocean-club-3br-sleeps-8-w-pools-spa-orp5b6f464x">Anderson Ocean Club 3BR - Sleeps 8 w/ Pools &amp; Spa</a></li>
-                                <li><a href="/4br-home-near-marshwalk-pro-golf-simulator-orp5b761d4x">4BR Home Near MarshWalk + Pro Golf Simulator</a></li>
-                                <li><a href="/oceanfront-luxury-3-bedroom-condo-at-palms-resort-orp5b6474fx">Oceanfront Luxury: 3 Bedroom Condo at Palms Resort</a></li>
-                                <li><a href="/luxury-3br-oceanfront-penthouse-w-lazy-river-orp5b753fbx">Luxury 3BR Oceanfront Penthouse w/ Lazy River</a></li>
-                                <li><a href="/ocean-lakes-4br-house-pools-water-park-sleeps-12-orp5b76bf5x">Ocean Lakes 4BR House Pools &amp; Water Park Sleeps 12</a></li>
-                                <li><a href="/3br-oceanfront-condo-at-grande-cayman-resort-orp5b665adx">3BR Oceanfront Condo at Grande Cayman Resort!</a></li>
-                                <li><a href="/covewind-1535-orp5b7330fx">Covewind 1535</a></li>
-                                <li><a href="/covewind-1522-orp5b7330ex">Covewind 1522</a></li>
-                                <li><a href="/luxury-oceanfront-escape-3br-at-brigadune-orp5b6c058x">Luxury oceanfront escape 3BR at Brigadune</a></li>
-                                <li><a href="/covewind-1518-orp5b72c24x">Covewind 1518</a></li>
-                                <li><a href="/retrothemed-condo-2br-perfect-location-orp5b6bbfdx">Retro-Themed Condo | 2BR | Perfect Location</a></li>
-                                <li><a href="/relaxing-1br-condo-with-stunning-views-resort-amenities-orp5b5fd96x">Relaxing 1BR Condo with Stunning Views &amp; Resort Amenities</a></li>
-                                <li><a href="/tranquil-waves-retreat-oceanfront-1bedroom-condo-orp5b6362ax">Tranquil Waves Retreat: Oceanfront 1Bedroom Condo</a></li>
-                                <li><a href="/pirate-paradise-oceanview-2br-unique-family-getaway-orp5b61023x">Pirate Paradise | Oceanview 2BR | Unique Family Getaway!</a></li>
-                                <li><a href="/beachside-luxury-1-bedroom-myrtle-beach-resort-condo-orp5b64607x">Beachside  Luxury: 1 Bedroom Myrtle Beach Resort Condo</a></li>
-                                <li><a href="/ground-floor-2br-barefoot-resort-condo-in-ironwood-orp5b643d1x">Ground Floor 2BR Barefoot Resort Condo in Ironwood</a></li>
-                                <li><a href="/oceanfront-oasis-2-bedroom-condo-orp5b6012bx">Oceanfront Oasis: 2 Bedroom Condo</a></li>
-                                <li><a href="/arcadian-dunes-2br-pool-walk-to-ocean-orp5b767aax">Arcadian Dunes 2BR | Pool + Walk to Ocean</a></li>
-                                <li><a href="/oceanfront-oasis-luxury-1-bedroom-orp5b64ee0x">Oceanfront Oasis: Luxury 1 Bedroom</a></li>
-                                <li><a href="/oceanfront-paradise-3-bedroom-condo-at-ocean-reef-resort-orp5b622c7x">Oceanfront Paradise: 3 Bedroom Condo at Ocean Reef Resort</a></li>
-                                <li><a href="/relaxing-haven-retreat-3-bedroom-condo-with-golf-course-views-orp5b62dbex">Relaxing Haven Retreat : 3 Bedroom Condo with Golf Course Views</a></li>
-                                <li><a href="/relaxing-haven-retreat-2-bedroom-condo-with-golf-course-views-orp5b63cedx">Relaxing Haven Retreat: 2 Bedroom Condo with Golf Course Views</a></li>
-                                <li><a href="/barefoot-resort-willow-bend-3br-condo-orp5b66060x">Barefoot Resort Willow Bend 3BR Condo</a></li>
-                                <li><a href="/cypress-bay-101-orp5b66032x">Cypress Bay #101</a></li>
-                                <li><a href="/beachfront-bliss-2-oceanfront-studio-condo-orp5b66b2fx">Beachfront Bliss 2: Oceanfront Studio Condo</a></li>
-                                <li><a href="/updated-2-br-oceanview-condo-in-north-myrtle-beach-orp5b65f1dx">Updated 2 BR Oceanview Condo in North Myrtle Beach</a></li>
-                                <li><a href="/cozy-3br-barefoot-sleeps-8-w-pool-orp5b6b4d8x">Cozy 3BR @ Barefoot Sleeps 8 W/ Pool</a></li>
-                                <li><a href="/cozy-oceanfront-2-br-have-w-mesmerising-balcony-views-orp5b6a667x">Cozy Oceanfront 2 BR Have w/ Mesmerising Balcony Views</a></li>
-                                <li><a href="/cozy-3br-w-private-balcony-dog-stays-free-orp5b6abb2x">Cozy 3BR w/ Private Balcony - Dog Stays Free</a></li>
-                                <li><a href="/ocean-villas-g2-orp5b69c71x">Ocean villas #G2</a></li>
-                                <li><a href="/sand-dunes-resort-2527-orp5b67924x">Sand Dunes Resort 2527</a></li>
-                                <li><a href="/barefoot-1532-willow-bend-orp5b716e9x">Barefoot #1532 Willow Bend</a></li>
-                                <li><a href="/emerald-pointe-3b-orp5b6eee3x">Emerald Pointe #3B</a></li>
-                                <li><a href="/first-floor-2br-oceanview-condo-on-shore-dr-orp5b73390x">First Floor 2BR Oceanview Condo on Shore Dr</a></li>
-                                <li><a href="/forest-dunes-1br-oceanview-retreat-orp5b761aax">Forest Dunes 1BR Oceanview Retreat</a></li>
-                                <li><a href="/gated-oceanfront-2br-w-pools-lazy-river-beach-orp5b6fcfbx">Gated Oceanfront 2BR w/ Pools, Lazy River + Beach!</a></li>
-                                <li><a href="/grande-dunes-2br-intracoastal-views-pools-orp5b7599ex">Grande Dunes 2BR &#183; Intracoastal Views &#183; Pools</a></li>
-                                <li><a href="/tilghman-shores-2br-pool-3min-to-the-ocean-orp5b77662x">Tilghman Shores 2BR &#183; Pool &#183; 3-Min to the Ocean</a></li>
-                                <li><a href="/hillside-beach-house-orp5b6f662x">Hillside Beach House</a></li>
-                                <li><a href="/holiday-pavilion-210-orp5b7273ax">Holiday Pavilion #210</a></li>
-                                <li><a href="/kingston-arrow-head-court-unit-215-orp5b6f671x">Kingston - Arrow Head Court Unit #215</a></li>
-                                <li><a href="/lakeview-luxury-magnolia-pointe-3br-petfriendly-pools-orp5b72962x">Lakeview Luxury | Magnolia Pointe 3BR | Pet-Friendly + Pools</a></li>
-                                <li><a href="/magnolia-place-2br-pool-pets-stay-free-orp5b77569x">Magnolia Place 2BR &#183; Pool &#183; Pets Stay Free</a></li>
-                                <li><a href="/ocean-inlet-views-cherry-grove-condo-orp5b74c48x">Ocean &amp; Inlet Views | Cherry Grove Condo</a></li>
-                                <li><a href="/ocean-view-2br-200-ft-to-beach-cherry-grove-orp5b77806x">Ocean View 2BR &#183; 200 Ft to Beach &#183; Cherry Grove</a></li>
-                                <li><a href="/ocean-view-2br-200-ft-to-beach-cherry-grove-orp5b77820x">Ocean View 2BR &#183; 200 Ft to Beach &#183; Cherry Grove</a></li>
-                                <li><a href="/ocean-view-2br-200-ft-to-beach-cherry-grove-orp5b77bebx">Ocean View 2BR &#183; 200 Ft to Beach &#183; Cherry Grove</a></li>
-                                <li><a href="/ocean-view-2br-200-ft-to-beach-cherry-grove-orp5b77bd2x">Ocean View 2BR &#183; 200 Ft to Beach &#183; Cherry Grove</a></li>
-                                <li><a href="/2br-townhouse-1-mile-to-beach-dog-stays-free-orp5b6e21ax">&#127965;️ 2BR Townhouse 1 Mile to Beach - Dog Stays FREE&#127948;️‍♂️</a></li>
-                                <li><a href="/robbers-roost-829-orp5b764edx">Robbers Roost 829</a></li>
-                                <li><a href="/winds-townhouse-2br-private-yard-beach-walk-orp5b75aebx">Winds Townhouse 2BR Private Yard &amp; Beach Walk</a></li>
+                            <li>
+                                <a href="https://www.unwindvacations.com/properties">All Properties</a>
+                            </li>
+                            <li>
+                                <a href="https://www.unwindvacations.com/properties#oceanfront">Oceanfront</a>
+                            </li>
+                            <li>
+                                <a href="/pet-friendly-rentals-574064657">Pet-Friendly</a>
+                            </li>
+                            <li>
+                                <a href="https://www.unwindvacations.com/properties#large-groups">Large Groups (4+ BR)</a>
+                            </li>
+                            <li>
+                                <a href="https://www.unwindvacations.com/properties#north-myrtle-beach">North Myrtle Beach &amp; Cherry Grove</a>
+                            </li>
+                            <li>
+                                <a href="https://www.unwindvacations.com/properties#myrtle-beach">Myrtle Beach</a>
+                            </li>
+                            <li>
+                                <a href="https://www.unwindvacations.com/properties#surfside-beach">Surfside Beach</a>
+                            </li>
+                            <li>
+                                <a href="https://www.unwindvacations.com/properties#murrells-inlet">Murrells Inlet</a>
+                            </li>
+                            <li>
+                                <a href="https://www.unwindvacations.com/properties#little-river">Little River</a>
+                            </li>
+                </ul>
+            </li>
+            <li class="dropdown header-links-menu">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Resorts <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+
+                            <li>
+                                <a href="/grande-cayman-resort-574064265">Grande Cayman</a>
+                            </li>
+                            <li>
+                                <a href="/ocean-reef-resort-574064646">Ocean Reef</a>
+                            </li>
+                            <li>
+                                <a href="/prince-resort-574064266">Prince Resort</a>
+                            </li>
+                            <li>
+                                <a href="/kingston-plantation-574064267">Kingston Plantation</a>
+                            </li>
+                            <li>
+                                <a href="/north-beach-plantation-resort-574066709">North Beach Plantation</a>
+                            </li>
                 </ul>
             </li>
                 <li class="header-links-menu">
-                    <a href="/map">Map</a>
+                    <a target="_blank" href="https://owners.unwindvacations.com">Property Management</a>
                 </li>
                 <li class="header-links-menu">
-                    <a target="_blank" href="https://join.unwindvacations.com">Property Management</a>
+                    <a href="/winter-rentals-574060765">Snowbird Rentals</a>
                 </li>
                 <li class="header-links-menu">
                     <a href="/reviews">Reviews</a>
@@ -473,8 +601,11 @@ Contact
                 <li class="header-links-menu">
                     <a target="_blank" href="/https-secure-ownerrez-com-login-returnurl--574004280">Owner Portal</a>
                 </li>
+                <li class="header-links-menu">
+                    <a href="/map">Map</a>
+                </li>
                 <li class="header-links-menu last">
-                    <a href="/privacy-574012795">.</a>
+                    <a href="https://rentals.unwindvacations.com">Long Term Rentals</a>
                 </li>
 
                                 </ul>
@@ -492,7 +623,7 @@ Contact
                                             <div class="header-line-section section-right spill">
 
 <div class="header-logo">
-    <a href="/" class="navbar-brand has-brand-image" title="Unwind Vacations" style="background-image:url(&#39;https://uc.orez.io/f/ddaa9d44668a4f67a62620f4ae018fe9&#39;)">
+    <a href="/" class="navbar-brand has-brand-image" title="Unwind Vacations" style="background-image:url(&#39;https://uc.orez.io/f/a2de6297a16844d39af0e2eeb9081c0d&#39;)">
     </a>
 </div>    </div>
                 </div>
@@ -544,43 +675,43 @@ Contact
             <div class="col-sm-2 search-bar-field">
 <div class="form-group">
 
-<select aria-label="Location" class="form-control" id="LocationString" name="LocationString"><option selected="selected" value="">Any Location</option><option value="[&quot;USA&quot;,&quot;SC&quot;,&quot;LITTLE RIVER&quot;]">Little River</option><option value="[&quot;USA&quot;,&quot;SC&quot;,&quot;MURRELLS INLET&quot;]">Murrells Inlet</option><option value="[&quot;USA&quot;,&quot;SC&quot;,&quot;MYRTLE BEACH&quot;]">Myrtle Beach</option><option value="[&quot;USA&quot;,&quot;SC&quot;,&quot;NORTH MYRTLE BEACH&quot;]">North Myrtle Beach</option></select>
+<select aria-label="Location" class="form-control" id="LocationString" name="LocationString"><option selected="selected" value="">Any Location</option><option value="[&quot;USA&quot;,&quot;SC&quot;,&quot;LITTLE RIVER&quot;]">Little River</option><option value="[&quot;USA&quot;,&quot;SC&quot;,&quot;MURRELLS INLET&quot;]">Murrells Inlet</option><option value="[&quot;USA&quot;,&quot;SC&quot;,&quot;MYRTLE BEACH&quot;]">Myrtle Beach</option><option value="[&quot;USA&quot;,&quot;SC&quot;,&quot;NORTH MYRTLE BEACH&quot;]">North Myrtle Beach</option><option value="[&quot;USA&quot;,&quot;SC&quot;,&quot;SURFSIDE BEACH&quot;]">Surfside Beach</option></select>
 
 
-<span class="field-validation-valid help-block" data-valmsg-for="LocationString" data-valmsg-replace="true"></span></div>            </div>
+<span aria-live="polite" class="field-validation-valid help-block" data-valmsg-for="LocationString" data-valmsg-replace="true" id="LocationString-validation"></span></div>            </div>
         <div class="col-sm-2 search-bar-field">
 <div class="form-group">                <div class="input-group date">
                     <input aria-label="Arrival Date" class="form-control" data-val="true" data-val-date="The field Arrival Date must be a date." id="ArrivalDate" name="ArrivalDate" placeholder="Arrival" readonly="readonly" style="cursor:pointer;background:#fff" type="text" value="" />
                     <span class="input-group-btn"><a class="btn btn-default"><i class="fa fa-calendar"></i></a></span>
                 </div>
-<span class="field-validation-valid help-block" data-valmsg-for="ArrivalDate" data-valmsg-replace="true"></span></div>        </div>
+<span aria-live="polite" class="field-validation-valid help-block" data-valmsg-for="ArrivalDate" data-valmsg-replace="true" id="ArrivalDate-validation"></span></div>        </div>
         <div class="col-sm-2 search-bar-field">
 <div class="form-group">                <div class="input-group date">
                     <input aria-label="Departure Date" class="form-control" data-val="true" data-val-date="The field Departure Date must be a date." id="DepartureDate" name="DepartureDate" placeholder="Departure" readonly="readonly" style="cursor:pointer;background:#fff" type="text" value="" />
                     <span class="input-group-btn"><a class="btn btn-default"><i class="fa fa-calendar"></i></a></span>
                 </div>
-<span class="field-validation-valid help-block" data-valmsg-for="DepartureDate" data-valmsg-replace="true"></span></div>        </div>
+<span aria-live="polite" class="field-validation-valid help-block" data-valmsg-for="DepartureDate" data-valmsg-replace="true" id="DepartureDate-validation"></span></div>        </div>
             <div class="col-sm-2 search-bar-field">
 <div class="form-group">
 
 <select aria-label="Guests" class="form-control" data-val="true" data-val-number="The field Guests must be a number." id="Guests" name="Guests"><option selected="selected" value="">Any Guests</option><option value="1">1+ Guest</option><option value="2">2+ Guests</option><option value="3">3+ Guests</option><option value="4">4+ Guests</option><option value="5">5+ Guests</option><option value="6">6+ Guests</option><option value="7">7+ Guests</option><option value="8">8+ Guests</option><option value="9">9+ Guests</option><option value="10">10+ Guests</option><option value="11">11+ Guests</option><option value="12">12+ Guests</option><option value="13">13+ Guests</option><option value="14">14+ Guests</option><option value="15">15+ Guests</option><option value="16">16 Guests</option></select>
 
 
-<span class="field-validation-valid help-block" data-valmsg-for="Guests" data-valmsg-replace="true"></span></div>            </div>
+<span aria-live="polite" class="field-validation-valid help-block" data-valmsg-for="Guests" data-valmsg-replace="true" id="Guests-validation"></span></div>            </div>
                     <div class="col-sm-2 search-bar-field">
 <div class="form-group">
 
 <select aria-label="Bedrooms" class="form-control" data-val="true" data-val-number="The field Bedrooms must be a number." id="Bedrooms" name="Bedrooms"><option selected="selected" value="">Any Bedrooms</option><option value="1">1+ Bedroom</option><option value="2">2+ Bedrooms</option><option value="3">3+ Bedrooms</option><option value="4">4+ Bedrooms</option><option value="5">5+ Bedrooms</option><option value="6">6 Bedrooms</option></select>
 
 
-<span class="field-validation-valid help-block" data-valmsg-for="Bedrooms" data-valmsg-replace="true"></span></div>            </div>
+<span aria-live="polite" class="field-validation-valid help-block" data-valmsg-for="Bedrooms" data-valmsg-replace="true" id="Bedrooms-validation"></span></div>            </div>
                     <div class="col-sm-2 search-bar-field">
 <div class="form-group">
 
-<select aria-label="Bathrooms" class="form-control" data-val="true" data-val-number="The field Bathrooms must be a number." id="Bathrooms" name="Bathrooms"><option selected="selected" value="">Any Bathrooms</option><option value="1">1+ Bathroom</option><option value="2">2+ Bathrooms</option><option value="3">3+ Bathrooms</option><option value="4">4+ Bathrooms</option><option value="5">5 Bathrooms</option></select>
+<select aria-label="Bathrooms" class="form-control" data-val="true" data-val-number="The field Bathrooms must be a number." id="Bathrooms" name="Bathrooms"><option selected="selected" value="">Any Bathrooms</option><option value="1">1+ Bathroom</option><option value="2">2+ Bathrooms</option><option value="3">3+ Bathrooms</option><option value="4">4+ Bathrooms</option><option value="5">5+ Bathrooms</option><option value="6">6 Bathrooms</option></select>
 
 
-<span class="field-validation-valid help-block" data-valmsg-for="Bathrooms" data-valmsg-replace="true"></span></div>            </div>
+<span aria-live="polite" class="field-validation-valid help-block" data-valmsg-for="Bathrooms" data-valmsg-replace="true" id="Bathrooms-validation"></span></div>            </div>
                             <div class="col-sm-2 search-bar-field dropdown-max-height dropdown-menu-right">
 <div class="form-group">
 
@@ -599,7 +730,7 @@ Contact
 </select>
 
 
-<span class="field-validation-valid help-block" data-valmsg-for="AmenityFilters" data-valmsg-replace="true"></span></div>            </div>
+<span aria-live="polite" class="field-validation-valid help-block" data-valmsg-for="AmenityFilters" data-valmsg-replace="true" id="AmenityFilters-validation"></span></div>            </div>
         <div class="col-sm-1 search-bar-button">
             <button type="submit" class="btn btn-default"><i class="fas fa-search"></i> Search</button>
         </div>
@@ -620,14 +751,30 @@ Contact
 
 
 <div class="uw-rating-strip">
-  <span class="uw-stars">★★★★★</span> <strong>4.86 average</strong> across 1,723 guest reviews
-  <div style="margin-top:4px">
-    <span style="display:inline-block;background:#1b4f6b;color:#fff;border-radius:999px;padding:4px 13px;font-size:12.5px;font-weight:600;margin:5px 4px 0;vertical-align:middle">&#9733; Airbnb Superhost</span>
-    <span style="display:inline-block;background:#1b4f6b;color:#fff;border-radius:999px;padding:4px 13px;font-size:12.5px;font-weight:600;margin:5px 4px 0;vertical-align:middle">Vrbo Premier Host</span>
-    <span style="display:inline-block;background:#1b4f6b;color:#fff;border-radius:999px;padding:4px 13px;font-size:12.5px;font-weight:600;margin:5px 4px 0;vertical-align:middle">Booking.com Preferred Plus</span>
+  <strong><a href="/reviews" style="color:#1b4f6b;text-decoration:none">Read our guest reviews</a></strong>
+  <div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap;justify-content:center">
+    <span class="uw-badge">&#9733; Airbnb Superhost</span>
+    <span class="uw-badge">Vrbo Premier Host</span>
+    <span class="uw-badge">Booking.com Preferred Plus</span>
   </div>
   <span class="sub">Every home is managed by our local Grand Strand team.</span>
 </div>
+<!-- Why book direct strip (2026-10-22) -->
+<style>
+.uw-bd{margin:14px auto 6px;max-width:1100px;display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.uw-bd div{background:#fff;border:1px solid #e3e8ea;border-radius:10px;padding:12px 14px;display:flex;gap:10px;align-items:flex-start;font-size:14px;line-height:1.35;color:#2b3a3e}
+.uw-bd div b{display:block;color:#1c4e55;font-size:15px;margin-bottom:2px}
+.uw-bd .ic{font-size:20px;line-height:1;flex:none}
+@media (max-width:900px){.uw-bd{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:480px){.uw-bd{grid-template-columns:1fr}}
+</style>
+<div class="uw-bd">
+  <div><span class="ic">💸</span><span><b>No booking-site service fees</b>Book direct and skip the extra traveler fees charged on Airbnb and Vrbo.</span></div>
+  <div><span class="ic">🛏️</span><span><b>Free linens &amp; towels</b>Beds made and towels ready in every home — nothing extra to rent or pack.</span></div>
+  <div><span class="ic">📞</span><span><b>Local team, 24/7 support</b>Real people on the Grand Strand, by call or text, before and during your stay.</span></div>
+  <div><span class="ic">🗓️</span><span><b>Pay 50% now, the rest later</b>Balance due 30 days before arrival. Keyless self check-in, no office stop.</span></div>
+</div>
+
 
 
 
@@ -642,10 +789,10 @@ Contact
     </style>
     <form method="post" action="/properties">
         
-    <div class="row">
+    <div class="row" id="search-results">
         <div class="col-xs-12 col-12">
                 <h2>
-                    <span class="property-count">56  properties</span>
+                    <span class="property-count">63  properties</span>
                     &nbsp;<div class="btn-group sort-selector" style="margin-top:-10px">
                         <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown">
                             Sorted Featured <span class="caret"></span>
@@ -662,11 +809,11 @@ Contact
 <div class="property-result-list property-result-tiles">
             <a class="property-result-tile" href="/oceanfront-luxury-4br-sleeps-10-beach-club-ii-orp5b7080ex" target="_top">
                 <span class="property-result-tile-image">
-                    <img class="media-object" src="https://uc.orez.io/i/50b860d430b6447a921bdf780025b00b-Medium" aria-labelledby="pname-orp5b7080ex" alt="OwnerRez">
+                    <img class="media-object" src="https://uc.orez.io/i/6479e83ee07b4a93892c88c3562d1132-Medium" aria-labelledby="pname-orp5b7080ex" alt="OwnerRez">
                 </span>
                 <span class="property-result-tile-content">
                             <span class="pull-right float-end media-heading">
-            $191-900/night
+            $121-591/night
         </span>
 
                     <span class="h3 media-heading" id="pname-orp5b7080ex" style="display:block">Oceanfront Luxury 4BR | Sleeps 10 | Beach Club II</span>
@@ -697,7 +844,7 @@ Contact
             </a>
             <a class="property-result-tile" href="/oceanview-5br-with-game-room-sleeps-17-orp5b6a14fx" target="_top">
                 <span class="property-result-tile-image">
-                    <img class="media-object" src="https://uc.orez.io/i/c3051a106c2a45eda3020852789276af-Medium" aria-labelledby="pname-orp5b6a14fx" alt="OwnerRez">
+                    <img class="media-object" src="https://uc.orez.io/i/daf46cec377b4199bacb5a251199b0ee-Medium" aria-labelledby="pname-orp5b6a14fx" alt="OwnerRez">
                 </span>
                 <span class="property-result-tile-content">
                             <span class="pull-right float-end media-heading">
@@ -739,7 +886,7 @@ Contact
                 </span>
                 <span class="property-result-tile-content">
                             <span class="pull-right float-end media-heading">
-            $159-600/night
+            $116-600/night
         </span>
 
                     <span class="h3 media-heading" id="pname-orp5b69800x" style="display:block">Prince Resort Oceanfront 3BR Pools Lazy River</span>
@@ -774,16 +921,16 @@ Contact
                         </span>
                 </span>
             </a>
-            <a class="property-result-tile" href="/2ndfloor-oceanfront-luxury-maisons-surmer-orp5b77663x" target="_top">
+            <a class="property-result-tile" href="/22ndfloor-oceanfront-luxury-maisons-surmer-orp5b77663x" target="_top">
                 <span class="property-result-tile-image">
                     <img class="media-object" src="https://uc.orez.io/i/8d5d632c44bc4471a3a977bf26ab8cd2-Medium" aria-labelledby="pname-orp5b77663x" alt="OwnerRez">
                 </span>
                 <span class="property-result-tile-content">
                             <span class="pull-right float-end media-heading">
-            $189-940/night
+            $176-1,077/night
         </span>
 
-                    <span class="h3 media-heading" id="pname-orp5b77663x" style="display:block">2nd-Floor Oceanfront Luxury &#183; Maisons Sur-Mer</span>
+                    <span class="h3 media-heading" id="pname-orp5b77663x" style="display:block">22nd-Floor Oceanfront Luxury &#183; Maisons Sur-Mer</span>
 
                         <span class="tile-amenities-details">
                             <span class="caption">
@@ -814,11 +961,11 @@ Contact
             </a>
             <a class="property-result-tile" href="/charming-4br-beach-house-with-heated-pool-outdoor-grill-orp5b6b774x" target="_top">
                 <span class="property-result-tile-image">
-                    <img class="media-object" src="https://uc.orez.io/i/3adcfe1255784979b8f6db91d1b890df-Medium" aria-labelledby="pname-orp5b6b774x" alt="OwnerRez">
+                    <img class="media-object" src="https://uc.orez.io/i/a80001a5a4494279a46b2ef9c7d66cdd-Medium" aria-labelledby="pname-orp5b6b774x" alt="OwnerRez">
                 </span>
                 <span class="property-result-tile-content">
                             <span class="pull-right float-end media-heading">
-            $222-964/night
+            $151-1,024/night
         </span>
 
                     <span class="h3 media-heading" id="pname-orp5b6b774x" style="display:block">Charming 4BR Beach House with Heated Pool &amp; Outdoor Grill</span>
@@ -847,13 +994,165 @@ Contact
                         </span>
                 </span>
             </a>
-            <a class="property-result-tile" href="/anderson-ocean-club-3br-sleeps-8-w-pools-spa-orp5b6f464x" target="_top">
+            <a class="property-result-tile" href="/north-beach-plantation-resort-3br-home-sleeps-10-orp5b7a8b1x" target="_top">
                 <span class="property-result-tile-image">
-                    <img class="media-object" src="https://uc.orez.io/i/b314f768b5e448359519f45d03f7abb8-Medium" aria-labelledby="pname-orp5b6f464x" alt="OwnerRez">
+                    <img class="media-object" src="https://uc.orez.io/i/6df74c8bb68947d48fe7cf62bb5ef89c-Medium" aria-labelledby="pname-orp5b7a8b1x" alt="OwnerRez">
                 </span>
                 <span class="property-result-tile-content">
                             <span class="pull-right float-end media-heading">
-            $172-714/night
+            $216-847/night
+        </span>
+
+                    <span class="h3 media-heading" id="pname-orp5b7a8b1x" style="display:block">North Beach Plantation Resort | 3BR Home, Sleeps 10</span>
+
+                        <span class="tile-amenities-details">
+                            <span class="caption">
+                                Sleeps 10
+
+                                    <span style="display: block;">3 bedrooms, 4 baths (3 full, 1 half)</span>
+                            </span>
+                            <span class="">
+                                
+
+    <span class="amenity-list-item" style="white-space:nowrap;margin-right:6px" title="Free">
+            <i class="fas fa-wifi"></i>
+            </span>
+    <span class="amenity-list-item" style="white-space:nowrap;margin-right:6px" title="Near Ocean">
+            <i class="fas fa-water"></i>
+            </span>
+    <span class="amenity-list-item" style="white-space:nowrap;margin-right:6px" title="Free, Access to North Beach Plantation Resort shared indoor and outdoor pools and indoor lazy river is included with this home. Shared resort facilities, a short walk from the house. Subject to resort hours and availability.">
+            <i class="fas fa-swimming-pool"></i>
+            </span>
+    <span class="amenity-list-item" style="white-space:nowrap;margin-right:6px" title="Shared, Free, Shared hot tubs at North Beach Plantation Resort; resort amenity access is included with this home. Not a private hot tub at the house. Subject to resort hours and availability.">
+            <i class="fas fa-hot-tub"></i>
+            </span>
+    
+
+                            </span>
+                        </span>
+                </span>
+            </a>
+            <a class="property-result-tile" href="/north-beach-plantation-resort-5br-private-pool-elevator-orp5b7a8afx" target="_top">
+                <span class="property-result-tile-image">
+                    <img class="media-object" src="https://uc.orez.io/i/196fbd3acf3d4ac3ad4794281ecfe379-Medium" aria-labelledby="pname-orp5b7a8afx" alt="OwnerRez">
+                </span>
+                <span class="property-result-tile-content">
+                            <span class="pull-right float-end media-heading">
+            $475-2,019/night
+        </span>
+
+                    <span class="h3 media-heading" id="pname-orp5b7a8afx" style="display:block">North Beach Plantation Resort | 5BR, Private Pool &amp; Elevator</span>
+
+                        <span class="tile-amenities-details">
+                            <span class="caption">
+                                Sleeps 14
+
+                                    <span style="display: block;">5 bedrooms, 6 baths (5 full, 1 half)</span>
+                            </span>
+                            <span class="">
+                                
+
+    <span class="amenity-list-item" style="white-space:nowrap;margin-right:6px" title="Free">
+            <i class="fas fa-wifi"></i>
+            </span>
+    <span class="amenity-list-item" style="white-space:nowrap;margin-right:6px" title="Near Ocean">
+            <i class="fas fa-water"></i>
+            </span>
+    <span class="amenity-list-item" style="white-space:nowrap;margin-right:6px" title="Heated / Fenced">
+            <i class="fas fa-swimming-pool"></i>
+            </span>
+    <span class="amenity-list-item" style="white-space:nowrap;margin-right:6px" title="Shared, Free, Shared hot tubs at North Beach Plantation Resort; resort amenity access is included with this home. Not a private hot tub at the house. Subject to resort hours and availability.">
+            <i class="fas fa-hot-tub"></i>
+            </span>
+    
+
+                            </span>
+                        </span>
+                </span>
+            </a>
+            <a class="property-result-tile" href="/ocean-reef-resort-426-ocean-view-orp5b7a0f5x" target="_top">
+                <span class="property-result-tile-image">
+                    <img class="media-object" src="https://uc.orez.io/i/4672ce54d49d4413a1eb8e5f263dfd95-Medium" aria-labelledby="pname-orp5b7a0f5x" alt="OwnerRez">
+                </span>
+                <span class="property-result-tile-content">
+                            <span class="pull-right float-end media-heading">
+            $186-1,358/night
+        </span>
+
+                    <span class="h3 media-heading" id="pname-orp5b7a0f5x" style="display:block">Ocean Reef Resort #426 Ocean View</span>
+
+                        <span class="tile-amenities-details">
+                            <span class="caption">
+                                Sleeps 12
+
+                                    <span style="display: block;">4 bedrooms, 3 baths</span>
+                            </span>
+                            <span class="">
+                                
+
+    <span class="amenity-list-item" style="white-space:nowrap;margin-right:6px" title="Internet">
+            <i class="fas fa-wifi"></i>
+            </span>
+    <span class="amenity-list-item" style="white-space:nowrap;margin-right:6px" title="Oceanfront, Ocean View, Near Ocean, Ocean, Beachfront, Beach View, Beach, Waterfront, Water View">
+            <i class="fas fa-water"></i>
+            </span>
+    <span class="amenity-list-item" style="white-space:nowrap;margin-right:6px" title="Pool">
+            <i class="fas fa-swimming-pool"></i>
+            </span>
+    <span class="amenity-list-item" style="white-space:nowrap;margin-right:6px" title="Hot Tub">
+            <i class="fas fa-hot-tub"></i>
+            </span>
+    
+
+                            </span>
+                        </span>
+                </span>
+            </a>
+            <a class="property-result-tile" href="/luxury-3br-oceanfront-penthouse-w-lazy-river-orp5b753fbx" target="_top">
+                <span class="property-result-tile-image">
+                    <img class="media-object" src="https://uc.orez.io/i/9b1c603729ea4466a4d01c78ca5a3457-Medium" aria-labelledby="pname-orp5b753fbx" alt="OwnerRez">
+                </span>
+                <span class="property-result-tile-content">
+                            <span class="pull-right float-end media-heading">
+            $182-854/night
+        </span>
+
+                    <span class="h3 media-heading" id="pname-orp5b753fbx" style="display:block">Luxury 3BR Oceanfront Penthouse w/ Lazy River</span>
+
+                        <span class="tile-amenities-details">
+                            <span class="caption">
+                                Sleeps 8
+
+                                    <span style="display: block;">3 bedrooms, 3 baths</span>
+                            </span>
+                            <span class="">
+                                
+
+    <span class="amenity-list-item" style="white-space:nowrap;margin-right:6px" title="Free">
+            <i class="fas fa-wifi"></i>
+            </span>
+    <span class="amenity-list-item" style="white-space:nowrap;margin-right:6px" title="Oceanfront, Ocean View, Near Ocean, Ocean, Beachfront, Beach View, Beach, Waterfront, Water View">
+            <i class="fas fa-water"></i>
+            </span>
+    <span class="amenity-list-item" style="white-space:nowrap;margin-right:6px" title="Indoor, Fenced">
+            <i class="fas fa-swimming-pool"></i>
+            </span>
+    <span class="amenity-list-item" style="white-space:nowrap;margin-right:6px" title="Hot Tub">
+            <i class="fas fa-hot-tub"></i>
+            </span>
+    
+
+                            </span>
+                        </span>
+                </span>
+            </a>
+            <a class="property-result-tile" href="/anderson-ocean-club-3br-sleeps-8-w-pools-spa-orp5b6f464x" target="_top">
+                <span class="property-result-tile-image">
+                    <img class="media-object" src="https://uc.orez.io/i/84e92c23ba164b82af387beff366a0cc-Medium" aria-labelledby="pname-orp5b6f464x" alt="OwnerRez">
+                </span>
+                <span class="property-result-tile-content">
+                            <span class="pull-right float-end media-heading">
+            $182-1,607/night
         </span>
 
                     <span class="h3 media-heading" id="pname-orp5b6f464x" style="display:block">Anderson Ocean Club 3BR - Sleeps 8 w/ Pools &amp; Spa</span>
@@ -888,7 +1187,7 @@ Contact
                 </span>
                 <span class="property-result-tile-content">
                             <span class="pull-right float-end media-heading">
-            $140-505/night
+            $148-857/night
         </span>
 
                     <span class="h3 media-heading" id="pname-orp5b761d4x" style="display:block">4BR Home Near MarshWalk + Pro Golf Simulator</span>
@@ -917,7 +1216,7 @@ Contact
                 </span>
                 <span class="property-result-tile-content">
                             <span class="pull-right float-end media-heading">
-            $105-649/night
+            $136-1,136/night
         </span>
 
                     <span class="h3 media-heading" id="pname-orp5b6474fx" style="display:block">Oceanfront Luxury: 3 Bedroom Condo at Palms Resort</span>
@@ -949,155 +1248,6 @@ Contact
                         </span>
                 </span>
             </a>
-            <a class="property-result-tile" href="/luxury-3br-oceanfront-penthouse-w-lazy-river-orp5b753fbx" target="_top">
-                <span class="property-result-tile-image">
-                    <img class="media-object" src="https://uc.orez.io/i/9b1c603729ea4466a4d01c78ca5a3457-Medium" aria-labelledby="pname-orp5b753fbx" alt="OwnerRez">
-                </span>
-                <span class="property-result-tile-content">
-                            <span class="pull-right float-end media-heading">
-            $211-862/night
-        </span>
-
-                    <span class="h3 media-heading" id="pname-orp5b753fbx" style="display:block">Luxury 3BR Oceanfront Penthouse w/ Lazy River</span>
-
-                        <span class="tile-amenities-details">
-                            <span class="caption">
-                                Sleeps 8
-
-                                    <span style="display: block;">3 bedrooms, 3 baths</span>
-                            </span>
-                            <span class="">
-                                
-
-    <span class="amenity-list-item" style="white-space:nowrap;margin-right:6px" title="Free">
-            <i class="fas fa-wifi"></i>
-            </span>
-    <span class="amenity-list-item" style="white-space:nowrap;margin-right:6px" title="Oceanfront, Ocean View, Near Ocean, Ocean, Beachfront, Beach View, Beach, Waterfront, Water View">
-            <i class="fas fa-water"></i>
-            </span>
-    <span class="amenity-list-item" style="white-space:nowrap;margin-right:6px" title="Indoor, Fenced">
-            <i class="fas fa-swimming-pool"></i>
-            </span>
-    <span class="amenity-list-item" style="white-space:nowrap;margin-right:6px" title="Hot Tub">
-            <i class="fas fa-hot-tub"></i>
-            </span>
-    
-
-                            </span>
-                        </span>
-                </span>
-            </a>
-            <a class="property-result-tile" href="/ocean-lakes-4br-house-pools-water-park-sleeps-12-orp5b76bf5x" target="_top">
-                <span class="property-result-tile-image">
-                    <img class="media-object" src="https://uc.orez.io/i/d30d03487a95492ba6d50af797a81e99-Medium" aria-labelledby="pname-orp5b76bf5x" alt="OwnerRez">
-                </span>
-                <span class="property-result-tile-content">
-                            <span class="pull-right float-end media-heading">
-            $180-712/night
-        </span>
-
-                    <span class="h3 media-heading" id="pname-orp5b76bf5x" style="display:block">Ocean Lakes 4BR House Pools &amp; Water Park Sleeps 12</span>
-
-                        <span class="tile-amenities-details">
-                            <span class="caption">
-                                Sleeps 12
-
-                                    <span style="display: block;">4 bedrooms, 3 baths</span>
-                            </span>
-                            <span class="">
-                                
-
-    <span class="amenity-list-item" style="white-space:nowrap;margin-right:6px" title="Ethernet, Free">
-            <i class="fas fa-wifi"></i>
-            </span>
-    <span class="amenity-list-item" style="white-space:nowrap;margin-right:6px" title="Ocean View, Near Ocean, Ocean">
-            <i class="fas fa-water"></i>
-            </span>
-    <span class="amenity-list-item" style="white-space:nowrap;margin-right:6px" title="Heated / Fenced / Childrens">
-            <i class="fas fa-swimming-pool"></i>
-            </span>
-    <span class="amenity-list-item" style="white-space:nowrap;margin-right:6px" title="Hot Tub">
-            <i class="fas fa-hot-tub"></i>
-            </span>
-    
-
-                            </span>
-                        </span>
-                </span>
-            </a>
-            <a class="property-result-tile" href="/3br-oceanfront-condo-at-grande-cayman-resort-orp5b665adx" target="_top">
-                <span class="property-result-tile-image">
-                    <img class="media-object" src="https://uc.orez.io/i/c49288992cf3403fac30d0ac60995240-Medium" aria-labelledby="pname-orp5b665adx" alt="OwnerRez">
-                </span>
-                <span class="property-result-tile-content">
-                            <span class="pull-right float-end media-heading">
-            $124-635/night
-        </span>
-
-                    <span class="h3 media-heading" id="pname-orp5b665adx" style="display:block">3BR Oceanfront Condo at Grande Cayman Resort!</span>
-
-                        <span class="tile-amenities-details">
-                            <span class="caption">
-                                Sleeps 10
-
-                                    <span style="display: block;">3 bedrooms, 2 baths</span>
-                            </span>
-                            <span class="">
-                                
-
-    <span class="amenity-list-item" style="white-space:nowrap;margin-right:6px" title="Accessible">
-            <i class="fas fa-wheelchair"></i>
-            </span>
-    <span class="amenity-list-item" style="white-space:nowrap;margin-right:6px" title="100+ Mbps, Free">
-            <i class="fas fa-wifi"></i>
-            </span>
-    <span class="amenity-list-item" style="white-space:nowrap;margin-right:6px" title="Oceanfront, Ocean View, Near Ocean, Ocean, Beachfront, Beach View, Beach, Waterfront, Water View">
-            <i class="fas fa-water"></i>
-            </span>
-    <span class="amenity-list-item" style="white-space:nowrap;margin-right:6px" title="Indoor, Heated / Fenced">
-            <i class="fas fa-swimming-pool"></i>
-            </span>
-    <span class="amenity-list-item" style="white-space:nowrap;margin-right:6px" title="Hot Tub">
-            <i class="fas fa-hot-tub"></i>
-            </span>
-    
-
-                            </span>
-                        </span>
-                </span>
-            </a>
-            <a class="property-result-tile" href="/covewind-1535-orp5b7330fx" target="_top">
-                <span class="property-result-tile-image">
-                    <img class="media-object" src="https://uc.orez.io/i/f12579a04b84484a8c60ddce4ab27351-Medium" aria-labelledby="pname-orp5b7330fx" alt="OwnerRez">
-                </span>
-                <span class="property-result-tile-content">
-                            <span class="pull-right float-end media-heading">
-            $90-706/night
-        </span>
-
-                    <span class="h3 media-heading" id="pname-orp5b7330fx" style="display:block">Covewind 1535</span>
-
-                        <span class="tile-amenities-details">
-                            <span class="caption">
-                                Sleeps 10
-
-                                    <span style="display: block;">4 bedrooms, 3 baths</span>
-                            </span>
-                            <span class="">
-                                
-
-    <span class="amenity-list-item" style="white-space:nowrap;margin-right:6px" title="Free">
-            <i class="fas fa-wifi"></i>
-            </span>
-    <span class="amenity-list-item" style="white-space:nowrap;margin-right:6px" title="Near Ocean">
-            <i class="fas fa-water"></i>
-            </span>
-    
-
-                            </span>
-                        </span>
-                </span>
-            </a>
 </div>
 
 
@@ -1111,10 +1261,11 @@ Contact
                             <li><a href="#" class="result-page" data-page="3">3</a></li>
                             <li><a href="#" class="result-page" data-page="4">4</a></li>
                             <li><a href="#" class="result-page" data-page="5">5</a></li>
+                            <li><a href="#" class="result-page" data-page="6">6</a></li>
                         <li><a href="#" aria-label="Next" class="result-page result-page-next" data-page="2"><i class="fa fa-chevron-right"></i></a></li>
                     </ul>
                     <div class="result-pages-summary">
-                        1 &ndash; 12 of 56 places to stay
+                        1 &ndash; 12 of 63 places to stay
                     </div>
                 </div>
         </div>
@@ -1124,14 +1275,101 @@ Contact
     </form>
 
 
+<div class="uw-owner-strip" style="background:var(--uw-teal)">
+  <h2>Staying the winter? We've got you.</h2>
+  <p>Handpicked Grand Strand homes are available as monthly winter &amp; snowbird
+  rentals this off-season, at a fraction of the nightly rate.</p>
+  <a class="uw-btn-primary" href="/winter-rentals-574060765">See winter rental homes &amp; prices</a>
+</div>
+
+<!-- Owner lead panel -->
+<style>
+.uw-owner-rail{position:fixed;right:0;top:50%;transform:translateY(-50%);z-index:900;width:250px;background:#fff;border:1px solid var(--uw-line);border-left:5px solid var(--uw-coral);border-radius:10px 0 0 10px;box-shadow:0 10px 30px rgba(18,59,79,.18);padding:20px 18px 16px;text-align:left}
+.uw-owner-rail .eyebrow{display:block;font-size:11px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--uw-teal);margin:0 0 6px}
+.uw-owner-rail h3{font-family:'Fraunces',Georgia,serif;font-size:19px;line-height:1.25;color:var(--uw-navy);margin:0 0 8px}
+.uw-owner-rail p{font-size:13.5px;line-height:1.5;color:var(--uw-gray);margin:0 0 14px}
+.uw-owner-rail .uw-btn-primary{display:block;text-align:center;padding:11px 14px;font-size:14px}
+.uw-owner-rail .fine{display:block;text-align:center;font-size:11.5px;color:var(--uw-gray);margin-top:8px}
+.uw-owner-rail-close{position:absolute;top:5px;right:8px;border:0;background:none;color:#9aa3ad;font-size:18px;line-height:1;cursor:pointer;padding:2px 4px}
+.uw-owner-rail-close:hover{color:var(--uw-navy)}
+@media(max-width:1199px){
+.uw-owner-rail{position:static;transform:none;width:auto;max-width:620px;margin:28px auto;border:1px solid var(--uw-line);border-top:5px solid var(--uw-coral);border-radius:12px;box-shadow:0 4px 16px rgba(18,59,79,.09);text-align:center;padding:26px 22px}
+.uw-owner-rail p{max-width:420px;margin:0 auto 16px}
+.uw-owner-rail .uw-btn-primary{display:inline-block}
+.uw-owner-rail-close{display:none}
+}
+</style>
+<aside class="uw-owner-rail" id="uwOwnerRail">
+  <button type="button" class="uw-owner-rail-close" id="uwOwnerRailClose" aria-label="Dismiss">&times;</button>
+  <span class="eyebrow">Own a rental here?</span>
+  <h3>See what your property could earn</h3>
+  <p>A free estimate built from real Grand Strand booking data.</p>
+  <a class="uw-btn-primary" href="https://owners.unwindvacations.com/#start">Get my projection &rarr;</a>
+  <span class="fine">About a minute &middot; No obligation</span>
+</aside>
+<script>
+(function(){var r=document.getElementById('uwOwnerRail');if(!r)return;
+try{if(localStorage.getItem('uwOwnerRailHidden')==='1'){r.style.display='none';return;}}catch(e){}
+var b=document.getElementById('uwOwnerRailClose');if(b)b.onclick=function(){r.style.display='none';try{localStorage.setItem('uwOwnerRailHidden','1')}catch(e){}};})();
+</script>
 
 
 
         </div>
             <footer>
                 <hr />
-                <p style="text-align: center;">&copy; 2026 Unwind Vacations &bull; <a href="tel:(843) 438-9992">(843) 438-9992</a> &bull; <a href="mailto:info@unwindvacations.com">info@unwindvacations.com</a> <br /><a rel="noopener" href="https://www.facebook.com/unwindvacationsmb" target="_blank">Facebook</a> &bull; <a rel="noopener" href="https://www.instagram.com/unwindvacationsmb" target="_blank">Instagram</a>&nbsp;</p>
-<p style="text-align: center;"><a rel="noopener" href="https://www.unwindvacations.net/privacy-574012795" target="_blank">Privacy Policy</a></p>
+                <p style="text-align: center;">Unwind Vacations &bull; <a href="tel:(843) 438-9992">(843) 438-9992</a> &bull; <a href="mailto:info@unwindvacations.com">info@unwindvacations.com</a> <br /><a rel="noopener" href="https://www.facebook.com/unwindvacationsmb" target="_blank">Facebook</a> &bull; <a rel="noopener" href="https://www.instagram.com/unwindvacationsmb" target="_blank">Instagram</a>&nbsp;</p>
+<p style="text-align: center;"><a rel="noopener" href="/privacy-574012795" target="_blank">Privacy Policy</a></p>
+<!-- Sticky contact buttons (replaces HostBuddy chat widget, 2026-10-22) -->
+<style>
+.uw-fab{position:fixed;right:18px;bottom:18px;z-index:9990;display:flex;flex-direction:column;align-items:flex-end;gap:8px;font-family:inherit}
+.uw-fab a{display:inline-flex;align-items:center;gap:8px;text-decoration:none!important;border-radius:999px;padding:11px 16px;font-size:15px;font-weight:600;line-height:1;box-shadow:0 6px 18px rgba(0,0,0,.18);transition:transform .15s}
+.uw-fab a:hover{transform:translateY(-1px)}
+.uw-fab .uw-fab-call{background:#2f8a94;color:#fff!important}
+.uw-fab .uw-fab-msg{background:#fff;color:#1c4e55!important;border:1px solid #cfdcdf}
+.uw-fab .uw-fab-text{display:none;background:#1c4e55;color:#fff!important}
+.uw-fab svg{width:17px;height:17px;flex:none}
+@media (max-width:700px){
+  .uw-fab{right:12px;bottom:12px}
+  .uw-fab .uw-fab-text{display:inline-flex}
+  .uw-fab a{padding:11px 14px;font-size:14px}
+  .uw-fab .uw-fab-call span,.uw-fab .uw-fab-text span,.uw-fab .uw-fab-msg span{display:none}
+  .uw-fab a{width:46px;height:46px;justify-content:center;padding:0}
+}
+body.uw-fab-admin .uw-fab{bottom:64px}
+</style>
+<div class="uw-fab" aria-label="Contact Unwind Vacations">
+  <a class="uw-fab-msg" href="/book" title="Send us a message"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span>Message us</span></a>
+  <a class="uw-fab-text" href="sms:+18434389992" title="Text us"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12" y2="18"/></svg><span>Text</span></a>
+  <a class="uw-fab-call" href="tel:+18434389992" title="Call or text (843) 438-9992"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.37 1.9.72 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.35 1.85.59 2.81.72A2 2 0 0 1 22 16.92z"/></svg><span>Call or text (843) 438-9992</span></a>
+</div>
+<script>
+(function(){ function chk(){ var b=document.querySelector('.requires-login.show-if-login'); if(b && b.getBoundingClientRect().height>0) document.body.classList.add('uw-fab-admin'); } chk(); setTimeout(chk,800); setTimeout(chk,2500); })();
+</script>
+
+<!-- Winter cancellation note: shows only on listings with the 14-day policy; auto-hides after 3/15/2027 (added 2026-10-29) -->
+<script>
+(function(){
+  if (new Date() >= new Date(2027, 2, 16)) return;
+  function addWinterNote(){
+    if (document.querySelector(".uw-winter-note")) return;
+    var strongs = document.querySelectorAll("p > strong");
+    for (var i = 0; i < strongs.length; i++) {
+      var p = strongs[i].parentElement;
+      if (/^\s*Cancellation Policy/i.test(strongs[i].textContent) && /more than 14 days prior/i.test(p.textContent)) {
+        var n = document.createElement("p");
+        n.className = "uw-winter-note";
+        n.innerHTML = "<strong>Winter flexibility:</strong> for stays arriving on or before March 15, 2027, you'll receive a full refund if you cancel at least 5 days before arrival.";
+        p.parentNode.insertBefore(n, p.nextSibling);
+        return;
+      }
+    }
+  }
+  if (document.readyState !== "loading") addWinterNote(); else document.addEventListener("DOMContentLoaded", addWinterNote);
+  window.addEventListener("load", addWinterNote);
+})();
+</script>
+
             </footer>
     </div>
     
